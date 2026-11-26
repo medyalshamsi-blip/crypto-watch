@@ -1,0 +1,33 @@
+{
+ "about": "Written by engine/alarms.js on GitHub Actions. Read by the dashboard and by the Claude alarm relay. Not financial advice.",
+ "heartbeat": "2026-11-26T23:35:02.517Z",
+ "ok": true,
+ "scanned": 43,
+ "of": 44,
+ "source": "data-api.binance.vision",
+ "failed": {
+  "POPCAT": "not on Binance spot"
+ },
+ "alerts": [],
+ "fired": {
+  "INIT|touch-up|2026-11-26": 1795736102517,
+  "ORDI|spike|2026-11-25": 1795736102517,
+  "ORDI|brk-up|2026-11-25": 1795736102517,
+  "FET|touch-up|2026-11-26": 1795736102517,
+  "IO|brk-up|2026-11-25": 1795736102517,
+  "TIA|touch-up|2026-11-26": 1795736102517,
+  "TRB|touch-up|2026-11-26": 1795736102517,
+  "KERNEL|brk-up|2026-11-25": 1795736102517,
+  "NEWT|touch-up|2026-11-26": 1795736102517,
+  "SAHARA|spike|2026-11-25": 1795736102517,
+  "SUI|brk-up|2026-11-25": 1795736102517,
+  "GRT|brk-up|2026-11-25": 1795736102517,
+  "AIXBT|close-up|2026-11-25": 1795736102517,
+  "AIXBT|spike|2026-11-25": 1795736102517,
+  "MAGIC|brk-up|2026-11-25": 1795736102517,
+  "ZEC|touch-down|2026-11-26": 1795736102517,
+  "DASH|brk-up|2026-11-25": 1795736102517,
+  "CFX|touch-up|2026-11-26": 1795736102517
+ },
+ "lastSuccess": "2026-11-26T23:35:02.517Z"
+}
