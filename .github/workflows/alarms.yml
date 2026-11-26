@@ -1,0 +1,32 @@
+name: alarms
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency:
+  group: alarms
+  cancel-in-progress: false
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check the watchlist on Binance
+        run: node engine/alarms.js
+      - name: Save new alarms
+        if: always()
+        run: |
+          if [ -n "$(git status --porcelain -- data)" ]; then
+            git config user.name "crypto-watch alarms"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data
+            git commit -q -m "alarms $(date -u +%Y-%m-%dT%H:%MZ)"
+            git pull -q --rebase
+            git push -q
+          fi
