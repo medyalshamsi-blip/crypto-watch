@@ -1642,15 +1642,16 @@ async function rdStart() {
   try {
     const tk = await bn('/api/v3/ticker/24hr');
     RD.tick = Object.fromEntries(tk.map(x => [x.symbol, { ch: +x.priceChangePercent / 100, qv: +x.quoteVolume }]));
-    const list = tk.filter(x => x.symbol.endsWith('USDT') && !RD_SKIP.test(x.symbol) && !rdStable(x) && (RD.stocks || !rdStock(x.symbol)) && +x.quoteVolume >= RD.minVol && +x.count > 0).sort((a, b) => b.quoteVolume - a.quoteVolume);
+    const list = tk.filter(x => x.symbol.endsWith('USDT') && !RD_SKIP.test(x.symbol) && !rdStable(x) && (RD.stocks || !rdStock(x.symbol)) && +x.quoteVolume >= RD.minVol && +x.count > 0 && (x.closeTime == null || +x.closeTime > Date.now() - 3 * 3600e3)).sort((a, b) => b.quoteVolume - a.quoteVolume);
     RD.syms = ['BTCUSDT', ...list.map(x => x.symbol).filter(s => s !== 'BTCUSDT')].slice(0, 400);
     const todo = RD.syms.filter(s => !RD.d15[s]);
     for (let i = 0; i < todo.length; i += 8) {
       const part = todo.slice(i, i + 8), res = await Promise.allSettled(part.map(s => klines(s, '15m', 672)));
-      res.forEach((r, j) => { if (r.status === 'fulfilled' && r.value.c.length > 120) RD.d15[part[j]] = r.value; });
+      res.forEach((r, j) => { const d = r.status === 'fulfilled' && r.value; if (d && d.c.length > 120 && Date.now() - d.t[d.t.length - 1] < 3 * 3600e3) RD.d15[part[j]] = d; });   // halted pairs keep stale 24h stats
       if (i % 48 === 0) renderRadar();
     }
-    for (const s of RD.syms) if (RD.d15[s]) RD.d1h[s] = RADAR.toHours(RD.d15[s]);
+    RD.syms = RD.syms.filter(s => RD.d15[s]);
+    for (const s of RD.syms) RD.d1h[s] = RADAR.toHours(RD.d15[s]);
     RD.on = true; RD.at = Date.now(); RD.pools = {}; rdScanAll(); rdWS(); setTimeout(rdTrack, 50);
   } catch (e) { RD.err = 'Binance did not answer (' + e.message + ')'; }
   RD.busy = false; renderRadar(); renderSimOptions();
