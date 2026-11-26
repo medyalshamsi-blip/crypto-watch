@@ -319,6 +319,7 @@ dialog form{padding:18px;display:grid;gap:12px;overflow:auto;max-height:88vh}
     <div class="head"><h2>Radar: early moves across Binance</h2><p class="note" id="rdStatus"></p></div>
     <div class="tools rdtools"><label>24-hour volume at least <select id="rdMinVol"><option value="1000000">$1M</option><option value="2000000">$2M</option><option value="5000000">$5M</option><option value="20000000">$20M</option></select></label>
       <label>Show <select id="rdDir"><option value="up">Bullish hits</option><option value="all">All hits</option><option value="down">Bearish hits</option></select></label>
+      <label class="check"><input type="checkbox" id="rdStocks"> Stock tokens</label>
       <button class="btn" id="rdScan" type="button">Scan now</button></div>
     <div class="rdbrief" id="rdBrief" aria-live="polite"></div>
     <div class="scroll"><table class="board stack" id="rdTable"></table></div>
@@ -1628,7 +1629,11 @@ function banner(text, action) {
 let queued = false;
 function later() { if (queued) return; queued = true; requestAnimationFrame(() => { queued = false; renderAll(); }); }
 // ---------------------------------------------------------------- Radar tab: every Binance USDT pair, early moves, and the 20,000-path simulator
-const RD = { on: false, busy: false, syms: [], d15: {}, d1h: {}, tick: {}, hits: [], track: null, ws: null, wsAt: 0, at: 0, err: '', pools: {}, minVol: store.get('rdMinVol', 2e6), dir: store.get('rdDir', 'up') };
+const RD = { on: false, busy: false, syms: [], d15: {}, d1h: {}, tick: {}, hits: [], track: null, ws: null, wsAt: 0, at: 0, err: '', pools: {}, minVol: store.get('rdMinVol', 1e6), dir: store.get('rdDir', 'up'), stocks: store.get('rdStocks', false) };
+// Binance stock tokens (NVDAB, MSTRB, QQQB…) end in B; these crypto coins do too
+const RD_CRYPTO_B = new Set(['BNB', 'DGB', 'TRB', 'CKB', 'ARB', 'SHIB', 'BB', 'YB']);
+const rdStock = sym => { const b = sym.replace(/USDT$/, ''); return /B$/.test(b) && b.length >= 3 && !RD_CRYPTO_B.has(b); };
+const rdStable = x => Math.abs(+x.lastPrice - 1) < 0.01 && +x.lowPrice > 0 && +x.highPrice / +x.lowPrice < 1.01;
 const RD_SKIP = /^(USDC|FDUSD|TUSD|USDP|DAI|BUSD|EUR|AEUR|USD1|XUSD|PAXG|WBTC|WBETH|BFUSD|RLUSD|USDE|EURI|USDS|USDJ|XAUT)USDT$|^[A-Z0-9]+(UP|DOWN|BULL|BEAR)USDT$/;
 const rdBase = s => s.replace(/USDT$/, '');
 async function rdStart() {
@@ -1637,7 +1642,7 @@ async function rdStart() {
   try {
     const tk = await bn('/api/v3/ticker/24hr');
     RD.tick = Object.fromEntries(tk.map(x => [x.symbol, { ch: +x.priceChangePercent / 100, qv: +x.quoteVolume }]));
-    const list = tk.filter(x => x.symbol.endsWith('USDT') && !RD_SKIP.test(x.symbol) && +x.quoteVolume >= RD.minVol && +x.count > 0).sort((a, b) => b.quoteVolume - a.quoteVolume);
+    const list = tk.filter(x => x.symbol.endsWith('USDT') && !RD_SKIP.test(x.symbol) && !rdStable(x) && (RD.stocks || !rdStock(x.symbol)) && +x.quoteVolume >= RD.minVol && +x.count > 0).sort((a, b) => b.quoteVolume - a.quoteVolume);
     RD.syms = ['BTCUSDT', ...list.map(x => x.symbol).filter(s => s !== 'BTCUSDT')].slice(0, 400);
     const todo = RD.syms.filter(s => !RD.d15[s]);
     for (let i = 0; i < todo.length; i += 8) {
@@ -1814,7 +1819,8 @@ $('#p-radar').addEventListener('click', e => {
   const s = e.target.closest('[data-sim]'); if (s) { SM.coin = rdBase(s.dataset.sim); SM.tf = s.dataset.tf || SM.tf; store.set('smCoin', SM.coin); store.set('smTf', SM.tf); renderSimOptions(); $('#smCard').scrollIntoView({ behavior: 'smooth', block: 'start' }); smRun(); return; }
   const l = e.target.closest('[data-look]'); if (l) lookCoin(l.dataset.look, true);
 });
-$('#rdMinVol').value = String(RD.minVol); $('#rdDir').value = RD.dir;
+$('#rdMinVol').value = String(RD.minVol); $('#rdDir').value = RD.dir; $('#rdStocks').checked = RD.stocks;
+$('#rdStocks').addEventListener('change', e => { RD.stocks = e.target.checked; store.set('rdStocks', RD.stocks); RD.on = false; RD.hits = []; RD.track = null; rdStart(); });
 $('#rdMinVol').addEventListener('change', e => { RD.minVol = +e.target.value; store.set('rdMinVol', RD.minVol); RD.on = false; RD.hits = []; RD.track = null; rdStart(); });
 $('#rdDir').addEventListener('change', e => { RD.dir = e.target.value; store.set('rdDir', RD.dir); renderRadar(); });
 $('#rdScan').addEventListener('click', async () => {
