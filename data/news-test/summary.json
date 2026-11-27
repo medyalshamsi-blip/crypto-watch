@@ -1,63 +1,63 @@
 {
  "about": "Replay of the breaking-news price check. Confirmed/faded/muted as in news.js; baseline = the same coins at random times 1–8 days earlier.",
- "ran": "2026-11-27T20:47:17.008Z",
+ "ran": "2026-11-27T21:00:49.577Z",
  "groups": {
   "binance-delist": {
    "headlines": {
-    "n": 90,
-    "confirmed": 52.2,
-    "faded": 10,
-    "muted": 37.8,
-    "medMove": 1.03,
-    "medX": 3.05
+    "n": 55,
+    "confirmed": 76.4,
+    "faded": 9.1,
+    "muted": 14.5,
+    "medMove": 9.69,
+    "medX": 18.85
    },
    "baseline": {
-    "n": 360,
-    "confirmed": 14.2,
-    "faded": 9.2,
-    "muted": 76.7,
-    "medMove": 0.31,
-    "medX": 1
+    "n": 220,
+    "confirmed": 11.8,
+    "faded": 5.9,
+    "muted": 82.3,
+    "medMove": 0.32,
+    "medX": 0.99
    },
-   "directionRight": 87.2,
-   "directionN": 47
+   "directionRight": 88.1,
+   "directionN": 42
   },
   "binance-list": {
    "headlines": {
-    "n": 124,
-    "confirmed": 17.7,
-    "faded": 3.2,
-    "muted": 79,
-    "medMove": 0.24,
-    "medX": 1.06
+    "n": 8,
+    "confirmed": 25,
+    "faded": 25,
+    "muted": 50,
+    "medMove": 0.53,
+    "medX": 1.05
    },
    "baseline": {
-    "n": 494,
-    "confirmed": 9.1,
-    "faded": 5.1,
-    "muted": 85.8,
-    "medMove": 0.17,
-    "medX": 0.83
+    "n": 30,
+    "confirmed": 3.3,
+    "faded": 6.7,
+    "muted": 90,
+    "medMove": 0.43,
+    "medX": 0.91
    },
-   "directionRight": 47.6,
-   "directionN": 21
+   "directionRight": 0,
+   "directionN": 1
   },
   "feeds w0 coin": {
    "headlines": {
-    "n": 28,
-    "confirmed": 25,
-    "faded": 3.6,
-    "muted": 71.4,
-    "medMove": 0.27,
-    "medX": 1.08
+    "n": 29,
+    "confirmed": 24.1,
+    "faded": 3.4,
+    "muted": 72.4,
+    "medMove": 0.24,
+    "medX": 0.86
    },
    "baseline": {
-    "n": 84,
-    "confirmed": 15.5,
-    "faded": 7.1,
-    "muted": 77.4,
-    "medMove": 0.33,
-    "medX": 0.89
+    "n": 87,
+    "confirmed": 21.8,
+    "faded": 8,
+    "muted": 70.1,
+    "medMove": 0.44,
+    "medX": 1.22
    },
    "directionRight": null,
    "directionN": 0
@@ -73,31 +73,31 @@
    },
    "baseline": {
     "n": 12,
-    "confirmed": 16.7,
-    "faded": 0,
+    "confirmed": 8.3,
+    "faded": 8.3,
     "muted": 83.3,
-    "medMove": 0.34,
-    "medX": 0.64
+    "medMove": 0.41,
+    "medX": 1.12
    },
    "directionRight": null,
    "directionN": 0
   },
   "feeds w1 market": {
    "headlines": {
-    "n": 4,
-    "confirmed": 0,
+    "n": 6,
+    "confirmed": 16.7,
     "faded": 0,
-    "muted": 100,
+    "muted": 83.3,
     "medMove": 0.35,
     "medX": 1.36
    },
    "baseline": {
-    "n": 12,
-    "confirmed": 8.3,
-    "faded": 8.3,
+    "n": 18,
+    "confirmed": 5.6,
+    "faded": 11.1,
     "muted": 83.3,
-    "medMove": 0.19,
-    "medX": 0.94
+    "medMove": 0.16,
+    "medX": 0.47
    },
    "directionRight": null,
    "directionN": 0
@@ -113,71 +113,51 @@
    },
    "baseline": {
     "n": 21,
-    "confirmed": 28.6,
-    "faded": 9.5,
+    "confirmed": 19,
+    "faded": 19,
     "muted": 61.9,
-    "medMove": 0.23,
-    "medX": 0.66
+    "medMove": 0.36,
+    "medX": 1.06
    },
    "directionRight": null,
    "directionN": 0
   },
   "feeds w2 market": {
    "headlines": {
-    "n": 73,
-    "confirmed": 9.6,
-    "faded": 17.8,
-    "muted": 72.6,
-    "medMove": 0.23,
-    "medX": 0.98
+    "n": 69,
+    "confirmed": 8.7,
+    "faded": 18.8,
+    "muted": 72.5,
+    "medMove": 0.24,
+    "medX": 1
    },
    "baseline": {
-    "n": 219,
-    "confirmed": 17.4,
-    "faded": 7.3,
-    "muted": 75.3,
-    "medMove": 0.21,
-    "medX": 0.89
-   },
-   "directionRight": null,
-   "directionN": 0
-  },
-  "feeds w3 coin": {
-   "headlines": {
-    "n": 1,
-    "confirmed": 0,
-    "faded": 0,
-    "muted": 100,
-    "medMove": 0,
-    "medX": 0.02
-   },
-   "baseline": {
-    "n": 3,
-    "confirmed": 0,
-    "faded": 0,
-    "muted": 100,
-    "medMove": 0.36,
-    "medX": 1.12
+    "n": 207,
+    "confirmed": 16.9,
+    "faded": 7.2,
+    "muted": 75.8,
+    "medMove": 0.26,
+    "medX": 1
    },
    "directionRight": null,
    "directionN": 0
   },
   "feeds w3 market": {
    "headlines": {
-    "n": 9,
-    "confirmed": 22.2,
-    "faded": 33.3,
-    "muted": 44.4,
+    "n": 8,
+    "confirmed": 25,
+    "faded": 37.5,
+    "muted": 37.5,
     "medMove": 0.19,
-    "medX": 1.02
+    "medX": 1.25
    },
    "baseline": {
-    "n": 27,
-    "confirmed": 22.2,
-    "faded": 11.1,
-    "muted": 66.7,
-    "medMove": 0.23,
-    "medX": 1.05
+    "n": 24,
+    "confirmed": 8.3,
+    "faded": 12.5,
+    "muted": 79.2,
+    "medMove": 0.26,
+    "medX": 1.11
    },
    "directionRight": null,
    "directionN": 0
@@ -262,6 +242,6 @@
  },
  "counts": {
   "events": 570,
-  "checked": 340
+  "checked": 186
  }
 }
