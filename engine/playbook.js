@@ -228,6 +228,36 @@
     const tUp = above.length ? Math.min(...above) : NaN, tDn = below.length ? Math.max(...below) : NaN;
     const stopL = slLv - .5 * a0, stopS = shLv + .5 * a0;
     const rrL = c0 > stopL ? (tUp - c0) / (c0 - stopL) : NaN, rrS = stopS > c0 ? (c0 - tDn) / (stopS - c0) : NaN;
+    // 10 book checks from the diagrams (rebuild of 27 Nov 2026)
+    // a) tests of each trigger since it formed [TAD p98-99, SMC p69]: 1st test strongest, 3+ tests wear the level out
+    const tests = (i, hi) => {
+      if (i === null || i === undefined) return 0;
+      const lv = hi ? h[i] : l[i]; let cnt = 0, touching = false;
+      for (let q = i + 3; q < n; q++) { const t = hi ? (h[q] >= lv - .25 * a0 && c[q] < lv) : (l[q] <= lv + .25 * a0 && c[q] > lv); if (t && !touching) cnt++; touching = t; }
+      return cnt;
+    };
+    const nUp = tests(S.sh, true), nDn = tests(S.sl, false);
+    notes.push(`bull trigger tested ${nUp}x, bear trigger tested ${nDn}x since they formed (1st test strongest, 3+ wears a level out)`);
+    if (up && nUp >= 3) vote(1, `resistance worn by ${nUp} tests in an uptrend, so a break up is more likely`);
+    if (tr === 'down' && nDn >= 3) vote(-1, `support worn by ${nDn} tests in a downtrend, so a break down is more likely`);
+    // b) effort on the approach to the nearest trigger, last 3 bars [TAD p21, p25, p107-108] (ours: thresholds)
+    const eRv = (rv[n - 3] + rv[n - 2] + rv[n - 1]) / 3, eRr = (rr[n - 3] + rr[n - 2] + rr[n - 1]) / 3;
+    for (const [lv, side] of [[shLv, 1], [slLv, -1]]) {
+      if ((side > 0 && lv - c0 >= 0 && lv - c0 <= a0) || (side < 0 && c0 - lv >= 0 && c0 - lv <= a0)) {
+        const what = side > 0 ? 'resistance' : 'support';
+        if (eRv >= 1.2 && eRr >= 1) vote(side, `high-effort approach to ${what} ${g5(lv)} (volume ${eRv.toFixed(1)}x, range ${eRr.toFixed(1)}x), so a break is expected`);
+        else if (eRv < .8 && eRr < .8) vote(-side, `low-effort approach to ${what} ${g5(lv)} (volume ${eRv.toFixed(1)}x, range ${eRr.toFixed(1)}x), so the level should hold`);
+      }
+    }
+    // c) quality of a fresh structure break, last 3 bars [SMC p10, DT p64/p114, TAD p44] (ours: thresholds)
+    if (last && last.t >= n - 3) {
+      const t = last.t, bu = last.kind.endsWith('up'), r_ = (h[t] - l[t]) || 1e-12;
+      const clean = Math.abs(c[t] - o[t]) / r_ >= .5 && (bu ? clv[t] > 2 / 3 : clv[t] < 1 / 3) && rv[t] >= 1.2;
+      const weak = rr[t] < .6 || rv[t] < .8;
+      if (clean) vote(bu ? 1 : -1, `clean ${last.kind} bar: full body, closes at the ${bu ? 'high' : 'low'}, volume ${rv[t].toFixed(1)}x`);
+      else if (weak) vote(bu ? -1 : 1, `weak ${last.kind} bar (range ${rr[t].toFixed(1)}x, volume ${rv[t].toFixed(1)}x), so failure risk`);
+    }
+
     const net = pts.reduce((s, p) => s + p[0], 0);
     const verdict = net >= 3 ? 'Bullish' : net <= -3 ? 'Bearish' : 'Mixed';
     const atLevel = !!(near || gz);

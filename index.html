@@ -651,6 +651,36 @@ dialog form{padding:18px;display:grid;gap:12px;overflow:auto;max-height:88vh}
     const tUp = above.length ? Math.min(...above) : NaN, tDn = below.length ? Math.max(...below) : NaN;
     const stopL = slLv - .5 * a0, stopS = shLv + .5 * a0;
     const rrL = c0 > stopL ? (tUp - c0) / (c0 - stopL) : NaN, rrS = stopS > c0 ? (c0 - tDn) / (stopS - c0) : NaN;
+    // 10 book checks from the diagrams (rebuild of 27 Nov 2026)
+    // a) tests of each trigger since it formed [TAD p98-99, SMC p69]: 1st test strongest, 3+ tests wear the level out
+    const tests = (i, hi) => {
+      if (i === null || i === undefined) return 0;
+      const lv = hi ? h[i] : l[i]; let cnt = 0, touching = false;
+      for (let q = i + 3; q < n; q++) { const t = hi ? (h[q] >= lv - .25 * a0 && c[q] < lv) : (l[q] <= lv + .25 * a0 && c[q] > lv); if (t && !touching) cnt++; touching = t; }
+      return cnt;
+    };
+    const nUp = tests(S.sh, true), nDn = tests(S.sl, false);
+    notes.push(`bull trigger tested ${nUp}x, bear trigger tested ${nDn}x since they formed (1st test strongest, 3+ wears a level out)`);
+    if (up && nUp >= 3) vote(1, `resistance worn by ${nUp} tests in an uptrend, so a break up is more likely`);
+    if (tr === 'down' && nDn >= 3) vote(-1, `support worn by ${nDn} tests in a downtrend, so a break down is more likely`);
+    // b) effort on the approach to the nearest trigger, last 3 bars [TAD p21, p25, p107-108] (ours: thresholds)
+    const eRv = (rv[n - 3] + rv[n - 2] + rv[n - 1]) / 3, eRr = (rr[n - 3] + rr[n - 2] + rr[n - 1]) / 3;
+    for (const [lv, side] of [[shLv, 1], [slLv, -1]]) {
+      if ((side > 0 && lv - c0 >= 0 && lv - c0 <= a0) || (side < 0 && c0 - lv >= 0 && c0 - lv <= a0)) {
+        const what = side > 0 ? 'resistance' : 'support';
+        if (eRv >= 1.2 && eRr >= 1) vote(side, `high-effort approach to ${what} ${g5(lv)} (volume ${eRv.toFixed(1)}x, range ${eRr.toFixed(1)}x), so a break is expected`);
+        else if (eRv < .8 && eRr < .8) vote(-side, `low-effort approach to ${what} ${g5(lv)} (volume ${eRv.toFixed(1)}x, range ${eRr.toFixed(1)}x), so the level should hold`);
+      }
+    }
+    // c) quality of a fresh structure break, last 3 bars [SMC p10, DT p64/p114, TAD p44] (ours: thresholds)
+    if (last && last.t >= n - 3) {
+      const t = last.t, bu = last.kind.endsWith('up'), r_ = (h[t] - l[t]) || 1e-12;
+      const clean = Math.abs(c[t] - o[t]) / r_ >= .5 && (bu ? clv[t] > 2 / 3 : clv[t] < 1 / 3) && rv[t] >= 1.2;
+      const weak = rr[t] < .6 || rv[t] < .8;
+      if (clean) vote(bu ? 1 : -1, `clean ${last.kind} bar: full body, closes at the ${bu ? 'high' : 'low'}, volume ${rv[t].toFixed(1)}x`);
+      else if (weak) vote(bu ? -1 : 1, `weak ${last.kind} bar (range ${rr[t].toFixed(1)}x, volume ${rv[t].toFixed(1)}x), so failure risk`);
+    }
+
     const net = pts.reduce((s, p) => s + p[0], 0);
     const verdict = net >= 3 ? 'Bullish' : net <= -3 ? 'Bearish' : 'Mixed';
     const atLevel = !!(near || gz);
@@ -831,6 +861,13 @@ const SETUPS = ((R) => {
     stopBuf: 0.25,       // stop 0.25 × ATR14 (15m) below the retest low
     fee: 0.001, slip: 0.0005,                                 // per side: Binance spot taker fee 0.10%, slippage and half the spread 0.05%
     minR: 2, targetR: 2,
+    squeezeLook: 1,      // variant: a squeeze on any of the last N 4H readings (1 = the latest only, as written)
+    volFloor: false,     // variant: breakout volume against max(average of 20, median of 96 bars), and at least $25,000 traded in the bar
+    noEntry: null,       // variant: function (time) → true to skip a new paper entry (session filter)
+    // book variants (playbook rebuild, 27 Nov 2026), all off = as written
+    cleanBreak: false,   // [SMC p10, DT p64/p110/p114] the breakout bar closes in the top third of its range with a body of at least half the range
+    quietRetest: false,  // [DT p64/p111, SMC p66, TAD p72] the retest bar trades less volume than the breakout bar and than its own 20-bar average
+    baseStop: false,     // [SMC p36/p57-58/p101, DT p44] stop below the 4-hour base before the breakout (and the retest low), not just under the retest
   };
   const ok = x => x != null && Number.isFinite(x);
   const sma = (a, i, n) => { let s = 0; for (let k = i - n + 1; k <= i; k++) s += a[k]; return s / n; };
@@ -883,7 +920,9 @@ const SETUPS = ((R) => {
       const k4 = K - 1, atr4 = I.A[k4];
       // 1) a close above the ceiling known at the previous close is a breakout of that level
       if (ceil && c[j] > ceil.lv) {
-        let vs = 0; for (let q = j - o.brkLook; q < j; q++) vs += m.v[q]; const vm = m.v[j] / (vs / o.brkLook);
+        let vs = 0; for (let q = j - o.brkLook; q < j; q++) vs += m.v[q]; let den = vs / o.brkLook;
+        if (o.volFloor) { const w = m.v.slice(Math.max(0, j - 96), j).sort((a, b) => a - b); den = Math.max(den, w[w.length >> 1] || 0); }
+        let vm = den > 0 ? m.v[j] / den : Infinity; if (o.volFloor && m.v[j] * c[j] < 25000) vm = Math.min(vm, 1);
         const fw = firstW[ceil.id] || {}, inWin = t => t != null && t <= T && t >= T - o.within * M15;
         brks.push({ j, t: T, lv: ceil.lv, id: ceil.id, close: c[j], atr4: ceil.atr4 || atr4, vm, tb: m.v[j] > 0 ? m.tb[j] / m.v[j] : NaN,
           base: inWin(fw.base) ? fw.base : null, full: inWin(fw.full) ? fw.full : null });
@@ -895,7 +934,8 @@ const SETUPS = ((R) => {
       // 3) early-warning checks on this close
       const lows = lowsBefore(K), hl = lows.length >= 2 && lows[lows.length - 1].lv > lows[lows.length - 2].lv;
       const near = !!ceil && c[j] < ceil.lv && ceil.lv - c[j] <= o.atrK * atr4, dist = ceil ? (ceil.lv - c[j]) / atr4 : NaN;
-      const squeeze = ok(I.pct[k4]) && I.pct[k4] <= o.bwPct, vol = ok(RV.rv[j]) && RV.rv[j] >= o.rvMin, full = near && hl && squeeze && vol;
+      let squeeze = false; for (let q = 0; q < o.squeezeLook && k4 - q >= 0; q++) if (ok(I.pct[k4 - q]) && I.pct[k4 - q] <= o.bwPct) { squeeze = true; break; }
+      const vol = ok(RV.rv[j]) && RV.rv[j] >= o.rvMin, full = near && hl && squeeze && vol;
       if (near) { const f = firstW[ceil.id] = firstW[ceil.id] || {}; if (f.base == null) { f.base = T; alerts.push({ v: 'base', t: T, j, lv: ceil.lv, id: ceil.id, dist }); } if (full && f.full == null) { f.full = T; alerts.push({ v: 'full', t: T, j, lv: ceil.lv, id: ceil.id, dist }); } }
       if (j === n - 1) last = { j, T, price: c[j], ceil, dist, near, hl, lows: lows.slice(-2).map(p => p.lv), squeeze, bwPct: I.pct[k4], rv: RV.rv[j], rvDays: RV.days[j], vol, full,
         atr4, rsi4: I.RS[k4], rsiReclaim: I.RS[k4] >= 50 && Math.min(I.RS[k4 - 1], I.RS[k4 - 2]) < 50, hist: I.hist[k4], histUp: I.hist[k4] > I.hist[k4 - 1] && I.hist[k4 - 1] > I.hist[k4 - 2], vwap: VW[j], atr15: A15[j], t4: d4.t[k4] };
@@ -907,6 +947,7 @@ const SETUPS = ((R) => {
     for (const b of brks) {
       const end = Math.min(n - 1, b.j + o.within);
       b.spike = false; for (let q = b.j + 1; q <= end; q++) if (m.h[q] >= b.lv + b.atr4) { b.spike = true; b.spikeT = m.t[q] + M15; break; }
+      b.spike3 = false; for (let q = b.j + 1; q <= end; q++) if (m.h[q] >= b.lv + 3 * b.atr4) { b.spike3 = true; break; }
       b.spikeOpen = !b.spike && b.j + o.within > n - 1;           // still inside its 24 hours
       b.ran = false; b.state = 'await';
       for (let q = b.j + 1; q <= end; q++) {
@@ -916,19 +957,24 @@ const SETUPS = ((R) => {
       if (b.state === 'await' && b.j + o.within <= n - 1) b.state = b.ran ? 'extended' : 'expired';
       if (b.state !== 'retest') continue;
       const q = b.rq, Tq = m.t[q] + M15; let Kq = 0; while (Kq < d4.t.length && d4.t[Kq] + H4 <= Tq) Kq++;
-      const entry = q + 1 < n ? m.o[q + 1] : c[q], stop = m.l[q] - o.stopBuf * A15[q], Eb = entry * (1 + cost), risk = Eb - stop * (1 - cost);
+      let lowB = m.l[q]; if (o.baseStop) for (let k = Math.max(0, b.j - 16); k < b.j; k++) lowB = Math.min(lowB, m.l[k]);
+      const entry = q + 1 < n ? m.o[q + 1] : c[q], stop = lowB - o.stopBuf * A15[q], Eb = entry * (1 + cost), risk = Eb - stop * (1 - cost);
+      const rgB = m.h[b.j] - m.l[b.j], weakBar = o.cleanBreak && !(rgB > 0 && (c[b.j] - m.l[b.j]) / rgB >= 2 / 3 && (c[b.j] - m.o[b.j]) / rgB >= 0.5);
+      let loud = false; if (o.quietRetest) { let s20 = 0; for (let k = q - 20; k < q; k++) s20 += m.v[k]; loud = !(m.v[q] < m.v[b.j] && m.v[q] < s20 / 20); }
       const res = resistAbove(entry, Kq, b.id, b.t - M15), rr = res ? (res.lv * (1 - cost) - Eb) / risk : Infinity;
       const tgt = (Eb + o.targetR * risk) / (1 - cost);
       b.trade = { q, t: Tq, entry, pending: q + 1 >= n, stop, target: tgt, risk, costR: (entry + stop) * cost / risk, res, rr, vwap: VW[q], aboveVwap: c[q] > VW[q] };
-      const plainOk = risk > 0 && rr >= o.minR, fullOk = plainOk && b.full != null && b.vm >= o.brkVol && c[q] > VW[q];
+      const plainOk = risk > 0 && rr >= o.minR && !weakBar && !loud, fullOk = plainOk && b.full != null && b.vm >= o.brkVol && c[q] > VW[q];
       b.trade.plain = plainOk; b.trade.fullOk = fullOk;
-      b.trade.skip = !(risk > 0) ? 'no risk' : rr < o.minR ? `R:R ${rr.toFixed(1)} to the ${res.src}` : q < busyUntil ? 'a trade was already open' : null;
+      const sess = o.noEntry ? o.noEntry(Tq) : false;
+      b.trade.skip = !(risk > 0) ? 'no risk' : weakBar ? 'weak breakout bar' : loud ? 'loud retest' : rr < o.minR ? `R:R ${rr.toFixed(1)} to the ${res.src}` : q < busyUntil ? 'a trade was already open' : sess ? 'session filter' : null;
+      if (sess && plainOk) { b.trade.plain = b.trade.fullOk = false; continue; }
       if (!plainOk || q < busyUntil) { if (q < busyUntil) b.trade.plain = b.trade.fullOk = false; continue; }
       // simulate: entry at the next open; stop first when both are touched in one candle; time exit 24 hours after entry
       let out = null;
       for (let k = q + 1; k < n && k <= q + o.within; k++) {
         const hitS = m.l[k] <= stop, hitT = m.h[k] >= tgt;
-        if (hitS) { const px = Math.min(stop, m.o[k]); out = { why: 'stop', k, px }; break; }
+        if (hitS) { const px = Math.min(stop, m.o[k]); out = { why: 'stop', k, px, ambig: hitT }; break; }
         if (hitT) { const px = Math.max(tgt, m.o[k]); out = { why: 'target', k, px }; break; }
       }
       if (!out && q + 1 + o.within < n) out = { why: 'time', k: q + 1 + o.within, px: m.o[q + 1 + o.within] };

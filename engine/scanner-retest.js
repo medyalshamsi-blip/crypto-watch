@@ -2,7 +2,7 @@
 // Each coin is scanned on its last 400 closed daily bars as of each test day (every 7th day, so 7-day windows do not overlap within a coin);
 // the call is scored on the close 7 days later. Calls on the same day across coins move together, so intervals are bootstrapped by day.
 const fs = require('fs'), path = require('path');
-const OLD = require('./playbook.js'), NEW = require('./playbook.next.js');
+const OLD = require('./playbook.v1.js'), NEW = require('./playbook.js');   // v1 = the rules before the book rebuild
 const OUT = path.join(__dirname, '..', 'data', 'backtest', 'scanner');
 const HOSTS = ['https://data-api.binance.vision', 'https://api.binance.com', 'https://api1.binance.com'];
 const COINS = JSON.parse(fs.readFileSync(path.join(__dirname, 'coins.json'), 'utf8'));
