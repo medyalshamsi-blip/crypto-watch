@@ -1,0 +1,1501 @@
+{
+ "about": "Replay of the crypto spike radar prompt, rules frozen 27 Nov 2026 (see engine/spike-radar-test.js). Paper only. Not financial advice.",
+ "ran": "2026-11-27T14:54:10.282Z",
+ "source": "https://data-api.binance.vision",
+ "blocks": {
+  "unseen": [
+   "2026-05-01T00:00:00Z",
+   "2026-09-01T00:00:00Z"
+  ],
+  "build": [
+   "2026-09-01T00:00:00Z",
+   "2026-11-27T00:00:00Z"
+  ]
+ },
+ "coins": 130,
+ "named": [
+  "ETHFIUSDT",
+  "ENAUSDT",
+  "FETUSDT",
+  "ZECUSDT",
+  "ORDIUSDT",
+  "MUBARAKUSDT",
+  "INITUSDT",
+  "ORCAUSDT",
+  "KERNELUSDT"
+ ],
+ "failed": {},
+ "coverage": {
+  "ETHFIUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "named": true,
+   "watchlist": true
+  },
+  "ENAUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "named": true,
+   "watchlist": true
+  },
+  "FETUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "named": true,
+   "watchlist": true
+  },
+  "ZECUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "named": true,
+   "watchlist": true
+  },
+  "ORDIUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "named": true,
+   "watchlist": true
+  },
+  "MUBARAKUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "named": true
+  },
+  "INITUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "named": true,
+   "watchlist": true
+  },
+  "ORCAUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "named": true,
+   "watchlist": true
+  },
+  "KERNELUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "named": true,
+   "watchlist": true
+  },
+  "BTCUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "ETHUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "FLOKIUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "JASMYUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "PEPEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "ZROUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "TRUMPUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "ILVUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "SOLUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "XRPUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "NOTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "TAOUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "IOUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "DOTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "LDOUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "TIAUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "KAITOUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "TRBUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "DOGEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "FTTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "NEIROUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "BONKUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "NEWTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "SAHARAUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "SUIUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "GRTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "AIXBTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "MAGICUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "ZENUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "DASHUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "CFXUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "ONDOUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "CGPTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "PUMPUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "VIRTUALUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "NEARUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "BNBUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "HYPEUSDT": {
+   "from": "2026-09-24T11:00:00Z",
+   "candles": 6100
+  },
+  "UNIUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "MMTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "PORTALUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "TRXUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "HAEDALUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "LINKUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "LTCUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "ADAUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "WLDUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "BLURUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "SEIUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "AAVEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "SSVUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "INJUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "BCHUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "LISTAUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "CFGUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "AVAXUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "ONEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "HBARUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "SKYUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "GRAMUSDT": {
+   "from": "2026-07-02T08:00:00Z",
+   "candles": 14176
+  },
+  "XLMUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "BIGTIMEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "QNTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "NIGHTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "JSTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "ARBUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "MANTRAUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "ICPUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "FILUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "SOPHUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "MEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "WLFIUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "KAVAUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "牛来USDT": {
+   "from": "2026-09-09T14:30:00Z",
+   "candles": 7526
+  },
+  "ASTERUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "YBUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "WUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "SENTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "OPGUSDT": {
+   "from": "2026-05-22T12:00:00Z",
+   "candles": 18096
+  },
+  "LUNCUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "SPKUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "XPLUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "2ZUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "WIFUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "ATOMUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "APTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "DODOUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "STRKUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "PROMUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "HUMAUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "MOVEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "POLUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "RENDERUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "RIFUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "MARSCOINUSDT": {
+   "from": "2026-09-04T13:00:00Z",
+   "candles": 8012
+  },
+  "ZAMAUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "SAGAUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "AEROUSDT": {
+   "from": "2026-07-17T16:00:00Z",
+   "candles": 12704
+  },
+  "REZUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "PENDLEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "RAYUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "PENGUUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "ALGOUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "SANDUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "ATUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "RUNEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "OPUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "HYPERUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "0GUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "CAKEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "QIUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "SHIBUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "KITEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "CRVUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "CHIPUSDT": {
+   "from": "2026-04-21T13:30:00Z",
+   "candles": 21066
+  },
+  "STXUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "PLUMEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "ALICEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "USUALUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "AIGENSYNUSDT": {
+   "from": "2026-05-14T17:00:00Z",
+   "candles": 18844
+  },
+  "PYTHUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  }
+ },
+ "summary": {
+  "unseen|all": {
+   "spikes": 942,
+   "chanceAtRandom": {
+    "spikeWithin2h": 0.005,
+    "spikeWithin24h": 0.061,
+    "avg24hReturn": 0
+   },
+   "watch": {
+    "alerts": 4140,
+    "followedBySpike": 0.119,
+    "falseAlerts": 3646,
+    "spikesCaught": 0.362,
+    "medianLeadMin": 690
+   },
+   "moving": {
+    "alerts": 21363,
+    "followedBySpike": 0.034,
+    "falseAlerts": 20644,
+    "spikesCaught": 0.656,
+    "medianLeadMin": 30
+   },
+   "confirmed": {
+    "alerts": 8866,
+    "followedBySpike": 0.042,
+    "falseAlerts": 8491,
+    "spikesCaught": 0.364,
+    "medianLeadMin": 30
+   },
+   "afterConfirmed": {
+    "n": 8866,
+    "avgNext1h": -0.00105,
+    "avgNext4h": -0.00158,
+    "next1hUp": 0.407,
+    "btcUp": {
+     "n": 1827,
+     "avgNext1h": -0.00068,
+     "avgNext4h": -0.00204
+    },
+    "btcNotUp": {
+     "n": 7039,
+     "avgNext1h": -0.00114,
+     "avgNext4h": -0.00146
+    },
+    "firstRetest": {
+     "entry": 0.368,
+     "failed": 0.531,
+     "none": 0.1
+    },
+    "fadeWithin24h": 0.75
+   },
+   "firstHourAfterBreakout": {
+    "held": {
+     "n": 5529,
+     "avg4h": -0.00001,
+     "avg24h": -0.00044
+    },
+    "notHeld": {
+     "n": 3338,
+     "avg4h": 0.00011,
+     "avg24h": 0.00021
+    }
+   },
+   "fadeSignal": {
+    "n": 6642,
+    "avg4h": 0.00058,
+    "avg24h": 0.0009,
+    "lowerAfter24h": 0.531
+   },
+   "trades": {
+    "retest": {
+     "n": 702,
+     "avgR": -0.33,
+     "ci90": [
+      -0.408,
+      -0.252
+     ],
+     "totalR": -231.47,
+     "maxDrawdownR": 233.47,
+     "totalWithoutBestR": -233.51,
+     "win": 0.228,
+     "verdict": "negative",
+     "doubleSlippage": -0.391,
+     "exits": {
+      "stop": 540,
+      "target": 157,
+      "time": 5
+     },
+     "medianStopPct": 0.63,
+     "medianCostR": 0.323
+    },
+    "retestFade": {
+     "n": 702,
+     "avgR": -0.327,
+     "ci90": [
+      -0.405,
+      -0.248
+     ],
+     "totalR": -229.6,
+     "maxDrawdownR": 231.6,
+     "totalWithoutBestR": -231.64,
+     "win": 0.228,
+     "verdict": "negative",
+     "doubleSlippage": -0.388,
+     "exits": {
+      "stop": 532,
+      "target": 157,
+      "fade exit": 9,
+      "time": 4
+     },
+     "medianStopPct": 0.63,
+     "medianCostR": 0.323
+    },
+    "hold1h": {
+     "n": 867,
+     "avgR": -0.288,
+     "ci90": [
+      -0.36,
+      -0.214
+     ],
+     "totalR": -249.88,
+     "maxDrawdownR": 252.88,
+     "totalWithoutBestR": -252.55,
+     "win": 0.247,
+     "verdict": "negative",
+     "doubleSlippage": -0.34,
+     "exits": {
+      "target": 200,
+      "stop": 651,
+      "time": 16
+     },
+     "medianStopPct": 0.88,
+     "medianCostR": 0.253
+    },
+    "hold1hBase": {
+     "n": 256,
+     "avgR": -0.102,
+     "ci90": [
+      -0.201,
+      -0.003
+     ],
+     "totalR": -26.22,
+     "maxDrawdownR": 33.14,
+     "totalWithoutBestR": -28.22,
+     "win": 0.41,
+     "verdict": "negative",
+     "doubleSlippage": -0.121,
+     "exits": {
+      "target": 27,
+      "stop": 92,
+      "time": 137
+     },
+     "medianStopPct": 4.88,
+     "medianCostR": 0.057
+    }
+   },
+   "skipped": {
+    "retest: under 2R to resistance": 2554,
+    "retestFade: under 2R to resistance": 2554,
+    "hold1h: under 2R to resistance": 4606,
+    "hold1hBase: under 2R to resistance": 5164,
+    "hold1hBase: a trade was already open": 109,
+    "hold1h: a trade was already open": 55,
+    "retest: a trade was already open": 10,
+    "retestFade: a trade was already open": 10,
+    "hold1h: no risk": 1
+   }
+  },
+  "unseen|named": {
+   "spikes": 98,
+   "chanceAtRandom": {
+    "spikeWithin2h": 0.007,
+    "spikeWithin24h": 0.089,
+    "avg24hReturn": 0.00169
+   },
+   "watch": {
+    "alerts": 296,
+    "followedBySpike": 0.199,
+    "falseAlerts": 237,
+    "spikesCaught": 0.408,
+    "medianLeadMin": 825
+   },
+   "moving": {
+    "alerts": 1839,
+    "followedBySpike": 0.041,
+    "falseAlerts": 1763,
+    "spikesCaught": 0.653,
+    "medianLeadMin": 45
+   },
+   "confirmed": {
+    "alerts": 824,
+    "followedBySpike": 0.049,
+    "falseAlerts": 784,
+    "spikesCaught": 0.378,
+    "medianLeadMin": 30
+   },
+   "afterConfirmed": {
+    "n": 824,
+    "avgNext1h": 0.0002,
+    "avgNext4h": -0.00006,
+    "next1hUp": 0.415,
+    "btcUp": {
+     "n": 160,
+     "avgNext1h": 0.00057,
+     "avgNext4h": -0.00216
+    },
+    "btcNotUp": {
+     "n": 664,
+     "avgNext1h": 0.00011,
+     "avgNext4h": 0.00045
+    },
+    "firstRetest": {
+     "entry": 0.385,
+     "failed": 0.507,
+     "none": 0.108
+    },
+    "fadeWithin24h": 0.738
+   },
+   "firstHourAfterBreakout": {
+    "held": {
+     "n": 519,
+     "avg4h": -0.00052,
+     "avg24h": 0.00175
+    },
+    "notHeld": {
+     "n": 306,
+     "avg4h": -0.00065,
+     "avg24h": 0.00145
+    }
+   },
+   "fadeSignal": {
+    "n": 609,
+    "avg4h": 0.00102,
+    "avg24h": 0.00208,
+    "lowerAfter24h": 0.519
+   },
+   "trades": {
+    "retest": {
+     "n": 71,
+     "avgR": -0.409,
+     "ci90": [
+      -0.626,
+      -0.155
+     ],
+     "totalR": -29.04,
+     "maxDrawdownR": 32.04,
+     "totalWithoutBestR": -31.04,
+     "win": 0.197,
+     "verdict": "negative",
+     "doubleSlippage": -0.464,
+     "exits": {
+      "stop": 56,
+      "target": 14,
+      "time": 1
+     },
+     "medianStopPct": 0.66,
+     "medianCostR": 0.312
+    },
+    "retestFade": {
+     "n": 71,
+     "avgR": -0.409,
+     "ci90": [
+      -0.626,
+      -0.157
+     ],
+     "totalR": -29.07,
+     "maxDrawdownR": 32.07,
+     "totalWithoutBestR": -31.07,
+     "win": 0.197,
+     "verdict": "negative",
+     "doubleSlippage": -0.464,
+     "exits": {
+      "stop": 55,
+      "target": 14,
+      "fade exit": 2
+     },
+     "medianStopPct": 0.66,
+     "medianCostR": 0.312
+    },
+    "hold1h": {
+     "n": 75,
+     "avgR": -0.387,
+     "ci90": [
+      -0.61,
+      -0.145
+     ],
+     "totalR": -29.01,
+     "maxDrawdownR": 33.01,
+     "totalWithoutBestR": -31.01,
+     "win": 0.213,
+     "verdict": "negative",
+     "doubleSlippage": -0.43,
+     "exits": {
+      "target": 15,
+      "stop": 59,
+      "time": 1
+     },
+     "medianStopPct": 0.91,
+     "medianCostR": 0.246
+    },
+    "hold1hBase": {
+     "n": 24,
+     "avgR": 0.032,
+     "ci90": [
+      -0.339,
+      0.413
+     ],
+     "totalR": 0.76,
+     "maxDrawdownR": 4.2,
+     "totalWithoutBestR": -1.24,
+     "win": 0.417,
+     "verdict": "inconclusive (under 30 trades)",
+     "doubleSlippage": 0.009,
+     "exits": {
+      "target": 4,
+      "stop": 10,
+      "time": 10
+     },
+     "medianStopPct": 6.09,
+     "medianCostR": 0.059
+    }
+   },
+   "skipped": {
+    "retest: under 2R to resistance": 244,
+    "retestFade: under 2R to resistance": 244,
+    "hold1h: under 2R to resistance": 437,
+    "hold1hBase: under 2R to resistance": 482,
+    "hold1hBase: a trade was already open": 13,
+    "hold1h: a trade was already open": 7,
+    "retest: a trade was already open": 2,
+    "retestFade: a trade was already open": 2
+   }
+  },
+  "build|all": {
+   "spikes": 1052,
+   "chanceAtRandom": {
+    "spikeWithin2h": 0.008,
+    "spikeWithin24h": 0.093,
+    "avg24hReturn": -0.00088
+   },
+   "watch": {
+    "alerts": 2840,
+    "followedBySpike": 0.161,
+    "falseAlerts": 2382,
+    "spikesCaught": 0.31,
+    "medianLeadMin": 675
+   },
+   "moving": {
+    "alerts": 15564,
+    "followedBySpike": 0.053,
+    "falseAlerts": 14740,
+    "spikesCaught": 0.686,
+    "medianLeadMin": 30
+   },
+   "confirmed": {
+    "alerts": 6586,
+    "followedBySpike": 0.067,
+    "falseAlerts": 6144,
+    "spikesCaught": 0.389,
+    "medianLeadMin": 30
+   },
+   "afterConfirmed": {
+    "n": 6586,
+    "avgNext1h": -0.00069,
+    "avgNext4h": -0.00062,
+    "next1hUp": 0.412,
+    "btcUp": {
+     "n": 1204,
+     "avgNext1h": -0.00012,
+     "avgNext4h": -0.00232
+    },
+    "btcNotUp": {
+     "n": 5382,
+     "avgNext1h": -0.00082,
+     "avgNext4h": -0.00024
+    },
+    "firstRetest": {
+     "entry": 0.4,
+     "failed": 0.502,
+     "none": 0.097
+    },
+    "fadeWithin24h": 0.748
+   },
+   "firstHourAfterBreakout": {
+    "held": {
+     "n": 4043,
+     "avg4h": -0.00056,
+     "avg24h": -0.00088
+    },
+    "notHeld": {
+     "n": 2541,
+     "avg4h": 0.00021,
+     "avg24h": -0.00054
+    }
+   },
+   "fadeSignal": {
+    "n": 4939,
+    "avg4h": -0.00035,
+    "avg24h": -0.00143,
+    "lowerAfter24h": 0.545
+   },
+   "trades": {
+    "retest": {
+     "n": 449,
+     "avgR": -0.286,
+     "ci90": [
+      -0.386,
+      -0.188
+     ],
+     "totalR": -128.3,
+     "maxDrawdownR": 133.3,
+     "totalWithoutBestR": -130.3,
+     "win": 0.241,
+     "verdict": "negative",
+     "doubleSlippage": -0.35,
+     "exits": {
+      "target": 106,
+      "stop": 341,
+      "time": 2
+     },
+     "medianStopPct": 0.71,
+     "medianCostR": 0.297
+    },
+    "retestFade": {
+     "n": 450,
+     "avgR": -0.288,
+     "ci90": [
+      -0.381,
+      -0.186
+     ],
+     "totalR": -129.64,
+     "maxDrawdownR": 134.64,
+     "totalWithoutBestR": -131.64,
+     "win": 0.238,
+     "verdict": "negative",
+     "doubleSlippage": -0.352,
+     "exits": {
+      "target": 106,
+      "stop": 338,
+      "fade exit": 5,
+      "time": 1
+     },
+     "medianStopPct": 0.71,
+     "medianCostR": 0.297
+    },
+    "hold1h": {
+     "n": 470,
+     "avgR": -0.339,
+     "ci90": [
+      -0.429,
+      -0.243
+     ],
+     "totalR": -159.1,
+     "maxDrawdownR": 166.1,
+     "totalWithoutBestR": -161.1,
+     "win": 0.23,
+     "verdict": "negative",
+     "doubleSlippage": -0.375,
+     "exits": {
+      "target": 98,
+      "stop": 355,
+      "time": 17
+     },
+     "medianStopPct": 1.1,
+     "medianCostR": 0.213
+    },
+    "hold1hBase": {
+     "n": 137,
+     "avgR": -0.124,
+     "ci90": [
+      -0.256,
+      0.007
+     ],
+     "totalR": -17.01,
+     "maxDrawdownR": 23.48,
+     "totalWithoutBestR": -19.01,
+     "win": 0.35,
+     "verdict": "inconclusive (interval includes zero)",
+     "doubleSlippage": -0.139,
+     "exits": {
+      "time": 78,
+      "stop": 46,
+      "target": 13
+     },
+     "medianStopPct": 6.06,
+     "medianCostR": 0.046
+    }
+   },
+   "skipped": {
+    "retest: under 2R to resistance": 2182,
+    "retestFade: under 2R to resistance": 2182,
+    "hold1h: under 2R to resistance": 3528,
+    "hold1hBase: under 2R to resistance": 3848,
+    "hold1h: a trade was already open": 45,
+    "retest: a trade was already open": 6,
+    "retestFade: a trade was already open": 5,
+    "hold1hBase: a trade was already open": 58
+   }
+  },
+  "build|named": {
+   "spikes": 119,
+   "chanceAtRandom": {
+    "spikeWithin2h": 0.013,
+    "spikeWithin24h": 0.153,
+    "avg24hReturn": 0.00198
+   },
+   "watch": {
+    "alerts": 216,
+    "followedBySpike": 0.218,
+    "falseAlerts": 169,
+    "spikesCaught": 0.277,
+    "medianLeadMin": 735
+   },
+   "moving": {
+    "alerts": 1325,
+    "followedBySpike": 0.077,
+    "falseAlerts": 1223,
+    "spikesCaught": 0.706,
+    "medianLeadMin": 45
+   },
+   "confirmed": {
+    "alerts": 533,
+    "followedBySpike": 0.094,
+    "falseAlerts": 483,
+    "spikesCaught": 0.345,
+    "medianLeadMin": 45
+   },
+   "afterConfirmed": {
+    "n": 533,
+    "avgNext1h": 0.00089,
+    "avgNext4h": -0.00118,
+    "next1hUp": 0.465,
+    "btcUp": {
+     "n": 90,
+     "avgNext1h": 0.00168,
+     "avgNext4h": -0.00171
+    },
+    "btcNotUp": {
+     "n": 443,
+     "avgNext1h": 0.00074,
+     "avgNext4h": -0.00107
+    },
+    "firstRetest": {
+     "entry": 0.409,
+     "failed": 0.486,
+     "none": 0.105
+    },
+    "fadeWithin24h": 0.735
+   },
+   "firstHourAfterBreakout": {
+    "held": {
+     "n": 322,
+     "avg4h": -0.00296,
+     "avg24h": -0.00051
+    },
+    "notHeld": {
+     "n": 211,
+     "avg4h": 0.00233,
+     "avg24h": 0.00255
+    }
+   },
+   "fadeSignal": {
+    "n": 393,
+    "avg4h": 0.00215,
+    "avg24h": 0.00061,
+    "lowerAfter24h": 0.515
+   },
+   "trades": {
+    "retest": {
+     "n": 50,
+     "avgR": -0.161,
+     "ci90": [
+      -0.461,
+      0.14
+     ],
+     "totalR": -8.05,
+     "maxDrawdownR": 14,
+     "totalWithoutBestR": -10.05,
+     "win": 0.28,
+     "verdict": "inconclusive (interval includes zero)",
+     "doubleSlippage": -0.227,
+     "exits": {
+      "target": 14,
+      "stop": 36
+     },
+     "medianStopPct": 0.75,
+     "medianCostR": 0.295
+    },
+    "retestFade": {
+     "n": 50,
+     "avgR": -0.161,
+     "ci90": [
+      -0.461,
+      0.14
+     ],
+     "totalR": -8.05,
+     "maxDrawdownR": 14,
+     "totalWithoutBestR": -10.05,
+     "win": 0.28,
+     "verdict": "inconclusive (interval includes zero)",
+     "doubleSlippage": -0.227,
+     "exits": {
+      "target": 14,
+      "stop": 36
+     },
+     "medianStopPct": 0.75,
+     "medianCostR": 0.295
+    },
+    "hold1h": {
+     "n": 43,
+     "avgR": -0.566,
+     "ci90": [
+      -0.798,
+      -0.287
+     ],
+     "totalR": -24.33,
+     "maxDrawdownR": 27.33,
+     "totalWithoutBestR": -26.33,
+     "win": 0.14,
+     "verdict": "negative",
+     "doubleSlippage": -0.585,
+     "exits": {
+      "target": 6,
+      "stop": 36,
+      "time": 1
+     },
+     "medianStopPct": 1.27,
+     "medianCostR": 0.19
+    },
+    "hold1hBase": {
+     "n": 9,
+     "avgR": -0.154,
+     "ci90": [
+      -0.585,
+      0.341
+     ],
+     "totalR": -1.38,
+     "maxDrawdownR": 3.35,
+     "totalWithoutBestR": -3.38,
+     "win": 0.222,
+     "verdict": "inconclusive (under 30 trades)",
+     "doubleSlippage": -0.162,
+     "exits": {
+      "time": 6,
+      "stop": 2,
+      "target": 1
+     },
+     "medianStopPct": 10.07,
+     "medianCostR": 0.028
+    }
+   },
+   "skipped": {
+    "retest: under 2R to resistance": 167,
+    "retestFade: under 2R to resistance": 167,
+    "hold1h: under 2R to resistance": 273,
+    "hold1hBase: under 2R to resistance": 307,
+    "hold1h: a trade was already open": 6,
+    "retest: a trade was already open": 1,
+    "retestFade: a trade was already open": 1,
+    "hold1hBase: a trade was already open": 6
+   }
+  }
+ },
+ "perCoin": {
+  "ETHFIUSDT": {
+   "spikes": 22,
+   "conf": 163,
+   "confFollowed": 8,
+   "fadeShare": 0.761,
+   "heldShare": 0.632,
+   "trades": {
+    "retest": {
+     "n": 21,
+     "avgR": -0.14286
+    },
+    "retestFade": {
+     "n": 21,
+     "avgR": -0.14286
+    },
+    "hold1h": {
+     "n": 19,
+     "avgR": -0.36842
+    },
+    "hold1hBase": {
+     "n": 6,
+     "avgR": -0.043
+    }
+   },
+   "confirmedBreakouts": 163
+  },
+  "ENAUSDT": {
+   "spikes": 29,
+   "conf": 147,
+   "confFollowed": 9,
+   "fadeShare": 0.755,
+   "heldShare": 0.626,
+   "trades": {
+    "hold1h": {
+     "n": 15,
+     "avgR": -0.6
+    },
+    "hold1hBase": {
+     "n": 3,
+     "avgR": -0.82767
+    },
+    "retest": {
+     "n": 14,
+     "avgR": -0.35714
+    },
+    "retestFade": {
+     "n": 14,
+     "avgR": -0.35714
+    }
+   },
+   "confirmedBreakouts": 147
+  },
+  "FETUSDT": {
+   "spikes": 12,
+   "conf": 129,
+   "confFollowed": 10,
+   "fadeShare": 0.659,
+   "heldShare": 0.713,
+   "trades": {
+    "retest": {
+     "n": 9,
+     "avgR": -0.33333
+    },
+    "retestFade": {
+     "n": 9,
+     "avgR": -0.32344
+    },
+    "hold1h": {
+     "n": 6,
+     "avgR": 0.19367
+    },
+    "hold1hBase": {
+     "n": 1,
+     "avgR": 0.075
+    }
+   },
+   "confirmedBreakouts": 129
+  },
+  "ZECUSDT": {
+   "spikes": 30,
+   "conf": 196,
+   "confFollowed": 16,
+   "fadeShare": 0.694,
+   "heldShare": 0.704,
+   "trades": {
+    "hold1h": {
+     "n": 25,
+     "avgR": -0.25316
+    },
+    "hold1hBase": {
+     "n": 7,
+     "avgR": 0.20429
+    },
+    "retest": {
+     "n": 22,
+     "avgR": -0.31818
+    },
+    "retestFade": {
+     "n": 22,
+     "avgR": -0.31818
+    }
+   },
+   "confirmedBreakouts": 196
+  },
+  "ORDIUSDT": {
+   "spikes": 16,
+   "conf": 133,
+   "confFollowed": 11,
+   "fadeShare": 0.774,
+   "heldShare": 0.647,
+   "trades": {
+    "hold1h": {
+     "n": 8,
+     "avgR": -0.25
+    },
+    "hold1hBase": {
+     "n": 1,
+     "avgR": -0.546
+    },
+    "retest": {
+     "n": 9,
+     "avgR": -0.28933
+    },
+    "retestFade": {
+     "n": 9,
+     "avgR": -0.30233
+    }
+   },
+   "confirmedBreakouts": 133
+  },
+  "MUBARAKUSDT": {
+   "spikes": 39,
+   "conf": 164,
+   "confFollowed": 14,
+   "fadeShare": 0.744,
+   "heldShare": 0.573,
+   "trades": {
+    "retest": {
+     "n": 22,
+     "avgR": -0.31818
+    },
+    "retestFade": {
+     "n": 22,
+     "avgR": -0.31818
+    },
+    "hold1h": {
+     "n": 14,
+     "avgR": -0.57143
+    },
+    "hold1hBase": {
+     "n": 4,
+     "avgR": -0.02775
+    }
+   },
+   "confirmedBreakouts": 164
+  },
+  "INITUSDT": {
+   "spikes": 36,
+   "conf": 183,
+   "confFollowed": 9,
+   "fadeShare": 0.765,
+   "heldShare": 0.552,
+   "trades": {
+    "retest": {
+     "n": 15,
+     "avgR": -0.42893
+    },
+    "retestFade": {
+     "n": 15,
+     "avgR": -0.42893
+    },
+    "hold1h": {
+     "n": 14,
+     "avgR": -0.577
+    },
+    "hold1hBase": {
+     "n": 6,
+     "avgR": 0.15683
+    }
+   },
+   "confirmedBreakouts": 183
+  },
+  "ORCAUSDT": {
+   "spikes": 19,
+   "conf": 110,
+   "confFollowed": 7,
+   "fadeShare": 0.755,
+   "heldShare": 0.568,
+   "trades": {
+    "retest": {
+     "n": 5,
+     "avgR": -0.4
+    },
+    "retestFade": {
+     "n": 5,
+     "avgR": -0.4
+    },
+    "hold1h": {
+     "n": 10,
+     "avgR": -1
+    },
+    "hold1hBase": {
+     "n": 4,
+     "avgR": 0.33275
+    }
+   },
+   "confirmedBreakouts": 110
+  },
+  "KERNELUSDT": {
+   "spikes": 14,
+   "conf": 132,
+   "confFollowed": 6,
+   "fadeShare": 0.727,
+   "heldShare": 0.545,
+   "trades": {
+    "retest": {
+     "n": 4,
+     "avgR": -0.263
+    },
+    "retestFade": {
+     "n": 4,
+     "avgR": -0.263
+    },
+    "hold1h": {
+     "n": 7,
+     "avgR": -0.58514
+    },
+    "hold1hBase": {
+     "n": 1,
+     "avgR": -1
+    }
+   },
+   "confirmedBreakouts": 132
+  }
+ }
+}
