@@ -3099,7 +3099,7 @@ async function newsLive() {                       // fresh price checks for head
   const now = Date.now(), list = (NW.j.items || []).filter(it => now - it.at < 3 * 3600e3 && !(it.reacts && it.reacts.length && it.reacts.every(r => r.done)));
   const bars = {};
   for (const it of list) {
-    const cs = it.reacts && it.reacts.length ? it.reacts.map(r => r.c) : it.coins.length ? it.coins.slice(0, 3) : (it.market || it.w >= 2) ? ['BTC'] : [];
+    const cs = it.reacts && it.reacts.length ? it.reacts.map(r => r.c) : it.coins.length ? it.coins.slice(0, 3) : it.market ? ['BTC'] : [];
     const out = [];
     for (const c of cs) {
       if (!(c in bars)) { try { const d = await klines(c + 'USDT', '15m', 130); bars[c] = d.t.map((t, i) => [t, d.o[i], d.h[i], d.l[i], d.c[i], d.v[i]]); } catch (e) { bars[c] = null; } }

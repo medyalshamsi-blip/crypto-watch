@@ -76,6 +76,7 @@ async function main() {
     const cs = NEWS.coins(it.title, prev.universe ? new Set(prev.universe) : null);
     for (const a of it.also || []) { /* repeats keep the lead's tags */ }
     Object.assign(it, { type: cls.type, label: cls.label, w: cls.w, dir: cls.dir, coins: cs.length ? cs : it.coins, market: NEWS.isMarket(cls, cs) });
+    if (!it.market && !it.coins.length && it.reacts) { delete it.reacts; it.react = null; }
   }
 
   // Coins that trade against USDT on Binance.
@@ -130,7 +131,7 @@ async function main() {
   for (const it of items) {
     if (now - it.at > CHECK_H * 3600e3 || (it.reacts && it.reacts.length && it.reacts.every(r => r.done))) continue;
     const cs = it.coins.filter(c => universe.has(c)).slice(0, 3);
-    it.check = cs.length ? cs : (it.market || it.w >= 2) ? ['BTC'] : [];
+    it.check = cs.length ? cs : it.market ? ['BTC'] : [];   // coin news with no Binance coin gets no check
     for (const c of it.check) want.set(c, Math.min(want.get(c) || Infinity, it.at));
   }
   const bars = {};

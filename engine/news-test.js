@@ -75,7 +75,7 @@ async function main() {
   for (const ev of events) {
     if (!Number.isFinite(ev.at) || now - ev.at < 75 * 6e4) continue;
     const cls = NEWS.classify(ev.title, '', ev), cs = NEWS.coins(ev.title, universe).slice(0, 3);
-    const tgt = cs.length ? cs : (NEWS.isMarket(cls, cs) || cls.w >= 2) ? ['BTC'] : [];
+    const tgt = cs.length ? cs : NEWS.isMarket(cls, cs) ? ['BTC'] : [];
     for (const c of tgt) {
       const r = await check(c, ev.at); if (!r || !r.done) continue;
       const g = ev.group === 'feeds' ? 'feeds w' + cls.w + (cs.length ? ' coin' : ' market') : ev.group;
