@@ -1942,7 +1942,10 @@ function banner(text, action) {
   if (action) $('#bannerAct').onclick = tvAllow;
 }
 let queued = false;
-function later() { if (queued) return; queued = true; requestAnimationFrame(() => { queued = false; renderAll(); }); }
+function later() {                          // redraw on the next frame, or after 250 ms where frames are throttled (phones, hidden panes)
+  if (queued) return; queued = true; let done = false; const run = () => { if (done) return; done = true; queued = false; renderAll(); };
+  requestAnimationFrame(run); setTimeout(run, 250);
+}
 // ---------------------------------------------------------------- Radar tab: every Binance USDT pair, early moves, and the 20,000-path simulator
 const RD = { on: false, busy: false, syms: [], d15: {}, d1h: {}, tick: {}, hits: [], track: null, ws: null, wsAt: 0, at: 0, err: '', pools: {}, minVol: store.get('rdMinVol', 1e6), dir: store.get('rdDir', 'up'), stocks: store.get('rdStocks', false), su: {}, pg: {}, pgSeen: {}, back: 'idle', suShow: store.get('suShow', 'active'), wl: new Set() };
 // Binance stock tokens (NVDAB, MSTRB, QQQB…) end in B; these crypto coins do too
@@ -2213,7 +2216,8 @@ function rcLoop() {
   for (const id of ['#rcCan', '#sumRc']) { const cv = $(id); if (cv && cv.offsetParent && cv.clientWidth) { rcDraw(cv, now); any = true; } }
   if (any && !document.hidden && !RC.reduce && RC.blips.length) RC.raf = requestAnimationFrame(rcLoop);
 }
-function rcKick() { if (!RC.raf) RC.raf = requestAnimationFrame(rcLoop); }
+function rcKick() { if (!RC.raf) { RC.raf = requestAnimationFrame(rcLoop); clearTimeout(RC.kt); RC.kt = setTimeout(() => { if (RC.raf) { cancelAnimationFrame(RC.raf); rcLoop(); } }, 400); } }
+setInterval(() => { if (tab === 'summary' && !document.hidden) { try { renderSumTab(); } catch (e) { console.error('summary', e); } } }, 5000);
 function renderRC() {
   const st = $('#rcStatus'); if (!st) return;
   for (const id of ['#rcCard', '#rhCard']) $(id).hidden = mode === 'tv';
@@ -3544,7 +3548,7 @@ function selectCoin(c, scroll) {
   if (wo) { forcedTv = forcedTv || view !== 'tv'; setView('tv'); } else if (forcedTv) { forcedTv = false; setView('mine'); }
   if (view === 'tv' && !wo) tvWidget();
   later();
-  if (scroll) { if (tab !== 'chart') setTab('chart', true); requestAnimationFrame(() => $('#p-chart').scrollIntoView({ block: 'start' })); }
+  if (scroll) { if (tab !== 'chart') setTab('chart', true); setTimeout(() => $('#p-chart').scrollIntoView({ block: 'start' }), 30); }
 }
 
 // ---------------------------------------------------------------- holdings and risk
