@@ -3,11 +3,11 @@ on:
   workflow_dispatch:
     inputs:
       set:
-        description: "Which variants: pre (first four) or book (book rules)"
+        description: "pre (first four variants), book (book variants) or scanner (daily playbook scanner, live vs book rules)"
         required: false
         default: pre
         type: choice
-        options: [pre, book]
+        options: [pre, book, scanner]
 permissions:
   contents: write
 concurrency:
@@ -25,7 +25,7 @@ jobs:
       - name: Walk-forward backtest of the breakout strategy
         env:
           BT_SET: ${{ inputs.set }}
-        run: node engine/backtest.js
+        run: if [ "$BT_SET" = scanner ]; then node engine/scanner-retest.js; else node engine/backtest.js; fi
       - name: Save the results
         if: always()
         run: |
