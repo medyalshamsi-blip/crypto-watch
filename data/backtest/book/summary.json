@@ -1,0 +1,2406 @@
+{
+ "about": "Walk-forward backtest of the breakout-and-retest strategy, book variants, rules frozen 27 Nov 2026 (see engine/backtest.js). Paper trades only. Not financial advice.",
+ "set": "book",
+ "ran": "2026-11-27T14:19:24.362Z",
+ "source": "https://data-api.binance.vision",
+ "blocks": {
+  "unseen": [
+   "2026-05-01T00:00:00Z",
+   "2026-09-01T00:00:00Z"
+  ],
+  "build": [
+   "2026-09-01T00:00:00Z",
+   "2026-11-27T00:00:00Z"
+  ]
+ },
+ "rules": {
+  "swing": 2,
+  "look4": 60,
+  "atrK": 1,
+  "bwLen": 20,
+  "bwK": 2,
+  "bwPct": 0.2,
+  "bwLook": 100,
+  "bwMin": 50,
+  "rvDays": 20,
+  "rvMinDays": 10,
+  "rvMin": 1.3,
+  "brkVol": 1.5,
+  "brkLook": 20,
+  "within": 96,
+  "tol": 0.1,
+  "stopBuf": 0.25,
+  "fee": 0.001,
+  "slip": 0.0005,
+  "minR": 2,
+  "targetR": 2,
+  "squeezeLook": 1,
+  "volFloor": false,
+  "cleanBreak": false,
+  "quietRetest": false,
+  "baseStop": false
+ },
+ "versions": [
+  "asWritten",
+  "cleanBreak",
+  "quietRetest",
+  "baseStop",
+  "bookAll"
+ ],
+ "coins": 127,
+ "failed": {},
+ "coverage": {
+  "ETHUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "FLOKIUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "JASMYUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "PEPEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "INITUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "ENAUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "ETHFIUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "ZROUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "TRUMPUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "ORDIUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "ILVUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "SOLUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "XRPUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "NOTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "FETUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "TAOUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "IOUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "DOTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "LDOUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "TIAUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "KAITOUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "TRBUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "DOGEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "FTTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "KERNELUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "NEIROUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "BONKUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "NEWTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "SAHARAUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "SUIUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "GRTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "AIXBTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "MAGICUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "ORCAUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "ZENUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "ZECUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "DASHUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "CFXUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "ONDOUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "CGPTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "PUMPUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "VIRTUALUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040,
+   "watchlist": true
+  },
+  "NEARUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "BNBUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "HYPEUSDT": {
+   "from": "2026-09-24T11:00:00Z",
+   "candles": 6100
+  },
+  "UNIUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "MMTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "TRXUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "PORTALUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "HAEDALUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "LINKUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "LTCUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "ADAUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "SEIUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "BLURUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "WLDUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "AAVEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "SSVUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "INJUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "BCHUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "CFGUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "LISTAUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "ONEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "AVAXUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "SKYUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "HBARUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "XLMUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "GRAMUSDT": {
+   "from": "2026-07-02T08:00:00Z",
+   "candles": 14176
+  },
+  "BIGTIMEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "QNTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "JSTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "NIGHTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "MANTRAUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "MEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "ICPUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "ARBUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "SOPHUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "KAVAUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "FILUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "牛来USDT": {
+   "from": "2026-09-09T14:30:00Z",
+   "candles": 7526
+  },
+  "YBUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "ASTERUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "WUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "OPGUSDT": {
+   "from": "2026-05-22T12:00:00Z",
+   "candles": 18096
+  },
+  "SENTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "WLFIUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "2ZUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "SPKUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "WIFUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "LUNCUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "XPLUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "ATOMUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "DODOUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "PROMUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "HUMAUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "MOVEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "APTUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "STRKUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "RIFUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "SAGAUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "POLUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "ZAMAUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "MARSCOINUSDT": {
+   "from": "2026-09-04T13:00:00Z",
+   "candles": 8012
+  },
+  "AEROUSDT": {
+   "from": "2026-07-17T16:00:00Z",
+   "candles": 12704
+  },
+  "REZUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "RENDERUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "PENDLEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "SANDUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "RAYUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "ALGOUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "PENGUUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "0GUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "HYPERUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "ATUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "QIUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "RUNEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "KITEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "OPUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "CHIPUSDT": {
+   "from": "2026-04-21T13:30:00Z",
+   "candles": 21066
+  },
+  "CRVUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "CAKEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "SHIBUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "PLUMEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "ALICEUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "USUALUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "STXUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  },
+  "MUBARAKUSDT": {
+   "from": "2026-04-01T00:00:00Z",
+   "candles": 23040
+  }
+ },
+ "summary": {
+  "asWritten|unseen|all": {
+   "scanner": {
+    "simple": {
+     "alerts": 1906,
+     "ledToSpike": 0.372,
+     "spikesWarned": 0.731,
+     "medianLeadH": 3.75
+    },
+    "full": {
+     "alerts": 71,
+     "ledToSpike": 0.38,
+     "spikesWarned": 0.028,
+     "medianLeadH": 2.5
+    }
+   },
+   "breakouts": 1291,
+   "spikes": 968,
+   "spikes3atr": 461,
+   "failedRetests": 538,
+   "extended": 81,
+   "skipped": {
+    "under 2R to resistance": 447,
+    "a trade was already open": 1
+   },
+   "trade": {
+    "plain": {
+     "n": 224,
+     "avgR": -0.284,
+     "ci90": [
+      -0.416,
+      -0.146
+     ],
+     "totalR": -63.57,
+     "maxDrawdownR": 63.57,
+     "totalWithoutBestR": -65.57,
+     "verdict": "negative"
+    },
+    "full": {
+     "n": 6,
+     "avgR": 0,
+     "ci90": [
+      -1,
+      1
+     ],
+     "totalR": 0,
+     "maxDrawdownR": 4,
+     "totalWithoutBestR": -2,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "plainDoubleSlippage": {
+     "n": 224,
+     "avgR": -0.325,
+     "ci90": [
+      -0.455,
+      -0.195
+     ],
+     "totalR": -72.69,
+     "maxDrawdownR": 72.69,
+     "totalWithoutBestR": -74.69,
+     "verdict": "negative"
+    },
+    "fullDoubleSlippage": {
+     "n": 6,
+     "avgR": 0,
+     "ci90": [
+      -1,
+      1
+     ],
+     "totalR": 0,
+     "maxDrawdownR": 4,
+     "totalWithoutBestR": -2,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "plainByBtcTrend": {
+     "BTC under 50-day": {
+      "n": 78,
+      "avgR": -0.269,
+      "ci90": [
+       -0.5,
+       -0.038
+      ],
+      "totalR": -21,
+      "maxDrawdownR": 26,
+      "totalWithoutBestR": -23,
+      "verdict": "negative"
+     },
+     "BTC over 50-day": {
+      "n": 146,
+      "avgR": -0.292,
+      "ci90": [
+       -0.459,
+       -0.122
+      ],
+      "totalR": -42.57,
+      "maxDrawdownR": 43.57,
+      "totalWithoutBestR": -44.57,
+      "verdict": "negative"
+     }
+    }
+   }
+  },
+  "asWritten|build|all": {
+   "scanner": {
+    "simple": {
+     "alerts": 1284,
+     "ledToSpike": 0.356,
+     "spikesWarned": 0.702,
+     "medianLeadH": 4
+    },
+    "full": {
+     "alerts": 54,
+     "ledToSpike": 0.278,
+     "spikesWarned": 0.023,
+     "medianLeadH": 2
+    }
+   },
+   "breakouts": 906,
+   "spikes": 652,
+   "spikes3atr": 268,
+   "failedRetests": 404,
+   "extended": 84,
+   "skipped": {
+    "under 2R to resistance": 301
+   },
+   "trade": {
+    "plain": {
+     "n": 117,
+     "avgR": -0.437,
+     "ci90": [
+      -0.616,
+      -0.257
+     ],
+     "totalR": -51.12,
+     "maxDrawdownR": 52.12,
+     "totalWithoutBestR": -53.12,
+     "verdict": "negative"
+    },
+    "full": {
+     "n": 2,
+     "avgR": -1,
+     "ci90": [
+      -1,
+      -1
+     ],
+     "totalR": -2,
+     "maxDrawdownR": 2,
+     "totalWithoutBestR": -1,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "plainDoubleSlippage": {
+     "n": 117,
+     "avgR": -0.462,
+     "ci90": [
+      -0.641,
+      -0.283
+     ],
+     "totalR": -54.11,
+     "maxDrawdownR": 55.11,
+     "totalWithoutBestR": -56.11,
+     "verdict": "negative"
+    },
+    "fullDoubleSlippage": {
+     "n": 2,
+     "avgR": -1,
+     "ci90": [
+      -1,
+      -1
+     ],
+     "totalR": -2,
+     "maxDrawdownR": 2,
+     "totalWithoutBestR": -1,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "plainByBtcTrend": {
+     "BTC under 50-day": {
+      "n": 13,
+      "avgR": -0.308,
+      "ci90": [
+       -0.769,
+       0.385
+      ],
+      "totalR": -4,
+      "maxDrawdownR": 5,
+      "totalWithoutBestR": -6,
+      "verdict": "inconclusive (under 30 trades)"
+     },
+     "BTC over 50-day": {
+      "n": 104,
+      "avgR": -0.453,
+      "ci90": [
+       -0.629,
+       -0.251
+      ],
+      "totalR": -47.12,
+      "maxDrawdownR": 49.12,
+      "totalWithoutBestR": -49.12,
+      "verdict": "negative"
+     }
+    }
+   }
+  },
+  "asWritten|unseen|watchlist": {
+   "scanner": {
+    "simple": {
+     "alerts": 666,
+     "ledToSpike": 0.369,
+     "spikesWarned": 0.739,
+     "medianLeadH": 3.75
+    },
+    "full": {
+     "alerts": 24,
+     "ledToSpike": 0.333,
+     "spikesWarned": 0.024,
+     "medianLeadH": 2.5
+    }
+   },
+   "breakouts": 451,
+   "spikes": 333,
+   "spikes3atr": 164,
+   "failedRetests": 166,
+   "extended": 39,
+   "skipped": {
+    "under 2R to resistance": 164,
+    "a trade was already open": 1
+   },
+   "trade": {
+    "plain": {
+     "n": 81,
+     "avgR": -0.234,
+     "ci90": [
+      -0.458,
+      0.012
+     ],
+     "totalR": -18.99,
+     "maxDrawdownR": 21.99,
+     "totalWithoutBestR": -20.99,
+     "verdict": "inconclusive (interval includes zero)"
+    },
+    "full": {
+     "n": 2,
+     "avgR": 0.5,
+     "ci90": [
+      -1,
+      2
+     ],
+     "totalR": 1,
+     "maxDrawdownR": 1,
+     "totalWithoutBestR": -1,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "plainDoubleSlippage": {
+     "n": 81,
+     "avgR": -0.272,
+     "ci90": [
+      -0.494,
+      -0.026
+     ],
+     "totalR": -22.05,
+     "maxDrawdownR": 25.05,
+     "totalWithoutBestR": -24.05,
+     "verdict": "negative"
+    },
+    "fullDoubleSlippage": {
+     "n": 2,
+     "avgR": 0.5,
+     "ci90": [
+      -1,
+      2
+     ],
+     "totalR": 1,
+     "maxDrawdownR": 1,
+     "totalWithoutBestR": -1,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "plainByBtcTrend": {
+     "BTC under 50-day": {
+      "n": 28,
+      "avgR": -0.143,
+      "ci90": [
+       -0.571,
+       0.286
+      ],
+      "totalR": -4,
+      "maxDrawdownR": 6,
+      "totalWithoutBestR": -6,
+      "verdict": "inconclusive (under 30 trades)"
+     },
+     "BTC over 50-day": {
+      "n": 53,
+      "avgR": -0.283,
+      "ci90": [
+       -0.566,
+       0.018
+      ],
+      "totalR": -14.99,
+      "maxDrawdownR": 20.99,
+      "totalWithoutBestR": -16.99,
+      "verdict": "inconclusive (interval includes zero)"
+     }
+    }
+   }
+  },
+  "asWritten|build|watchlist": {
+   "scanner": {
+    "simple": {
+     "alerts": 386,
+     "ledToSpike": 0.37,
+     "spikesWarned": 0.715,
+     "medianLeadH": 4.75
+    },
+    "full": {
+     "alerts": 14,
+     "ledToSpike": 0.214,
+     "spikesWarned": 0.015,
+     "medianLeadH": 15.25
+    }
+   },
+   "breakouts": 276,
+   "spikes": 200,
+   "spikes3atr": 76,
+   "failedRetests": 131,
+   "extended": 23,
+   "skipped": {
+    "under 2R to resistance": 101
+   },
+   "trade": {
+    "plain": {
+     "n": 21,
+     "avgR": -0.429,
+     "ci90": [
+      -0.857,
+      0
+     ],
+     "totalR": -9,
+     "maxDrawdownR": 10,
+     "totalWithoutBestR": -11,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "full": {
+     "n": 0
+    },
+    "plainDoubleSlippage": {
+     "n": 21,
+     "avgR": -0.429,
+     "ci90": [
+      -0.857,
+      0
+     ],
+     "totalR": -9,
+     "maxDrawdownR": 10,
+     "totalWithoutBestR": -11,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "fullDoubleSlippage": {
+     "n": 0
+    },
+    "plainByBtcTrend": {
+     "BTC under 50-day": {
+      "n": 2,
+      "avgR": -1,
+      "ci90": [
+       -1,
+       -1
+      ],
+      "totalR": -2,
+      "maxDrawdownR": 2,
+      "totalWithoutBestR": -1,
+      "verdict": "inconclusive (under 30 trades)"
+     },
+     "BTC over 50-day": {
+      "n": 19,
+      "avgR": -0.368,
+      "ci90": [
+       -0.842,
+       0.105
+      ],
+      "totalR": -7,
+      "maxDrawdownR": 9,
+      "totalWithoutBestR": -9,
+      "verdict": "inconclusive (under 30 trades)"
+     }
+    }
+   }
+  },
+  "cleanBreak|unseen|all": {
+   "scanner": {
+    "simple": {
+     "alerts": 1906,
+     "ledToSpike": 0.372,
+     "spikesWarned": 0.731,
+     "medianLeadH": 3.75
+    },
+    "full": {
+     "alerts": 71,
+     "ledToSpike": 0.38,
+     "spikesWarned": 0.028,
+     "medianLeadH": 2.5
+    }
+   },
+   "breakouts": 1291,
+   "spikes": 968,
+   "spikes3atr": 461,
+   "failedRetests": 538,
+   "extended": 81,
+   "skipped": {
+    "under 2R to resistance": 350,
+    "weak breakout bar": 162
+   },
+   "trade": {
+    "plain": {
+     "n": 160,
+     "avgR": -0.241,
+     "ci90": [
+      -0.399,
+      -0.073
+     ],
+     "totalR": -38.57,
+     "maxDrawdownR": 41.57,
+     "totalWithoutBestR": -40.57,
+     "verdict": "negative"
+    },
+    "full": {
+     "n": 4,
+     "avgR": -0.25,
+     "ci90": [
+      -1,
+      0.5
+     ],
+     "totalR": -1,
+     "maxDrawdownR": 3,
+     "totalWithoutBestR": -3,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "plainDoubleSlippage": {
+     "n": 160,
+     "avgR": -0.279,
+     "ci90": [
+      -0.432,
+      -0.117
+     ],
+     "totalR": -44.69,
+     "maxDrawdownR": 47.69,
+     "totalWithoutBestR": -46.69,
+     "verdict": "negative"
+    },
+    "fullDoubleSlippage": {
+     "n": 4,
+     "avgR": -0.25,
+     "ci90": [
+      -1,
+      0.5
+     ],
+     "totalR": -1,
+     "maxDrawdownR": 3,
+     "totalWithoutBestR": -3,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "plainByBtcTrend": {
+     "BTC over 50-day": {
+      "n": 110,
+      "avgR": -0.196,
+      "ci90": [
+       -0.39,
+       0.009
+      ],
+      "totalR": -21.57,
+      "maxDrawdownR": 24.57,
+      "totalWithoutBestR": -23.57,
+      "verdict": "inconclusive (interval includes zero)"
+     },
+     "BTC under 50-day": {
+      "n": 50,
+      "avgR": -0.34,
+      "ci90": [
+       -0.64,
+       -0.04
+      ],
+      "totalR": -17,
+      "maxDrawdownR": 21,
+      "totalWithoutBestR": -19,
+      "verdict": "negative"
+     }
+    }
+   }
+  },
+  "cleanBreak|build|all": {
+   "scanner": {
+    "simple": {
+     "alerts": 1284,
+     "ledToSpike": 0.356,
+     "spikesWarned": 0.702,
+     "medianLeadH": 4
+    },
+    "full": {
+     "alerts": 54,
+     "ledToSpike": 0.278,
+     "spikesWarned": 0.023,
+     "medianLeadH": 2
+    }
+   },
+   "breakouts": 906,
+   "spikes": 652,
+   "spikes3atr": 268,
+   "failedRetests": 404,
+   "extended": 84,
+   "skipped": {
+    "under 2R to resistance": 228,
+    "weak breakout bar": 100
+   },
+   "trade": {
+    "plain": {
+     "n": 90,
+     "avgR": -0.468,
+     "ci90": [
+      -0.667,
+      -0.267
+     ],
+     "totalR": -42.12,
+     "maxDrawdownR": 44.12,
+     "totalWithoutBestR": -44.12,
+     "verdict": "negative"
+    },
+    "full": {
+     "n": 0
+    },
+    "plainDoubleSlippage": {
+     "n": 90,
+     "avgR": -0.468,
+     "ci90": [
+      -0.667,
+      -0.267
+     ],
+     "totalR": -42.11,
+     "maxDrawdownR": 44.11,
+     "totalWithoutBestR": -44.11,
+     "verdict": "negative"
+    },
+    "fullDoubleSlippage": {
+     "n": 0
+    },
+    "plainByBtcTrend": {
+     "BTC under 50-day": {
+      "n": 11,
+      "avgR": -0.455,
+      "ci90": [
+       -1,
+       0.091
+      ],
+      "totalR": -5,
+      "maxDrawdownR": 5,
+      "totalWithoutBestR": -7,
+      "verdict": "inconclusive (under 30 trades)"
+     },
+     "BTC over 50-day": {
+      "n": 79,
+      "avgR": -0.47,
+      "ci90": [
+       -0.661,
+       -0.244
+      ],
+      "totalR": -37.12,
+      "maxDrawdownR": 40.12,
+      "totalWithoutBestR": -39.12,
+      "verdict": "negative"
+     }
+    }
+   }
+  },
+  "cleanBreak|unseen|watchlist": {
+   "scanner": {
+    "simple": {
+     "alerts": 666,
+     "ledToSpike": 0.369,
+     "spikesWarned": 0.739,
+     "medianLeadH": 3.75
+    },
+    "full": {
+     "alerts": 24,
+     "ledToSpike": 0.333,
+     "spikesWarned": 0.024,
+     "medianLeadH": 2.5
+    }
+   },
+   "breakouts": 451,
+   "spikes": 333,
+   "spikes3atr": 164,
+   "failedRetests": 166,
+   "extended": 39,
+   "skipped": {
+    "under 2R to resistance": 129,
+    "weak breakout bar": 59
+   },
+   "trade": {
+    "plain": {
+     "n": 58,
+     "avgR": -0.086,
+     "ci90": [
+      -0.363,
+      0.208
+     ],
+     "totalR": -4.99,
+     "maxDrawdownR": 11.99,
+     "totalWithoutBestR": -6.99,
+     "verdict": "inconclusive (interval includes zero)"
+    },
+    "full": {
+     "n": 0
+    },
+    "plainDoubleSlippage": {
+     "n": 58,
+     "avgR": -0.139,
+     "ci90": [
+      -0.413,
+      0.153
+     ],
+     "totalR": -8.05,
+     "maxDrawdownR": 15.05,
+     "totalWithoutBestR": -10.05,
+     "verdict": "inconclusive (interval includes zero)"
+    },
+    "fullDoubleSlippage": {
+     "n": 0
+    },
+    "plainByBtcTrend": {
+     "BTC over 50-day": {
+      "n": 41,
+      "avgR": -0.073,
+      "ci90": [
+       -0.416,
+       0.272
+      ],
+      "totalR": -2.99,
+      "maxDrawdownR": 11.99,
+      "totalWithoutBestR": -4.99,
+      "verdict": "inconclusive (interval includes zero)"
+     },
+     "BTC under 50-day": {
+      "n": 17,
+      "avgR": -0.118,
+      "ci90": [
+       -0.647,
+       0.412
+      ],
+      "totalR": -2,
+      "maxDrawdownR": 6,
+      "totalWithoutBestR": -4,
+      "verdict": "inconclusive (under 30 trades)"
+     }
+    }
+   }
+  },
+  "cleanBreak|build|watchlist": {
+   "scanner": {
+    "simple": {
+     "alerts": 386,
+     "ledToSpike": 0.37,
+     "spikesWarned": 0.715,
+     "medianLeadH": 4.75
+    },
+    "full": {
+     "alerts": 14,
+     "ledToSpike": 0.214,
+     "spikesWarned": 0.015,
+     "medianLeadH": 15.25
+    }
+   },
+   "breakouts": 276,
+   "spikes": 200,
+   "spikes3atr": 76,
+   "failedRetests": 131,
+   "extended": 23,
+   "skipped": {
+    "under 2R to resistance": 80,
+    "weak breakout bar": 25
+   },
+   "trade": {
+    "plain": {
+     "n": 17,
+     "avgR": -0.294,
+     "ci90": [
+      -0.824,
+      0.235
+     ],
+     "totalR": -5,
+     "maxDrawdownR": 8,
+     "totalWithoutBestR": -7,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "full": {
+     "n": 0
+    },
+    "plainDoubleSlippage": {
+     "n": 17,
+     "avgR": -0.294,
+     "ci90": [
+      -0.824,
+      0.235
+     ],
+     "totalR": -5,
+     "maxDrawdownR": 8,
+     "totalWithoutBestR": -7,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "fullDoubleSlippage": {
+     "n": 0
+    },
+    "plainByBtcTrend": {
+     "BTC under 50-day": {
+      "n": 2,
+      "avgR": -1,
+      "ci90": [
+       -1,
+       -1
+      ],
+      "totalR": -2,
+      "maxDrawdownR": 2,
+      "totalWithoutBestR": -1,
+      "verdict": "inconclusive (under 30 trades)"
+     },
+     "BTC over 50-day": {
+      "n": 15,
+      "avgR": -0.2,
+      "ci90": [
+       -0.8,
+       0.4
+      ],
+      "totalR": -3,
+      "maxDrawdownR": 7,
+      "totalWithoutBestR": -5,
+      "verdict": "inconclusive (under 30 trades)"
+     }
+    }
+   }
+  },
+  "quietRetest|unseen|all": {
+   "scanner": {
+    "simple": {
+     "alerts": 1906,
+     "ledToSpike": 0.372,
+     "spikesWarned": 0.731,
+     "medianLeadH": 3.75
+    },
+    "full": {
+     "alerts": 71,
+     "ledToSpike": 0.38,
+     "spikesWarned": 0.028,
+     "medianLeadH": 2.5
+    }
+   },
+   "breakouts": 1291,
+   "spikes": 968,
+   "spikes3atr": 461,
+   "failedRetests": 538,
+   "extended": 81,
+   "skipped": {
+    "under 2R to resistance": 95,
+    "loud retest": 527
+   },
+   "trade": {
+    "plain": {
+     "n": 50,
+     "avgR": -0.46,
+     "ci90": [
+      -0.7,
+      -0.22
+     ],
+     "totalR": -23,
+     "maxDrawdownR": 26,
+     "totalWithoutBestR": -25,
+     "verdict": "negative"
+    },
+    "full": {
+     "n": 1,
+     "avgR": -1,
+     "ci90": [
+      -1,
+      -1
+     ],
+     "totalR": -1,
+     "maxDrawdownR": 1,
+     "totalWithoutBestR": 0,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "plainDoubleSlippage": {
+     "n": 50,
+     "avgR": -0.52,
+     "ci90": [
+      -0.76,
+      -0.28
+     ],
+     "totalR": -26,
+     "maxDrawdownR": 29,
+     "totalWithoutBestR": -28,
+     "verdict": "negative"
+    },
+    "fullDoubleSlippage": {
+     "n": 1,
+     "avgR": -1,
+     "ci90": [
+      -1,
+      -1
+     ],
+     "totalR": -1,
+     "maxDrawdownR": 1,
+     "totalWithoutBestR": 0,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "plainByBtcTrend": {
+     "BTC under 50-day": {
+      "n": 23,
+      "avgR": -0.478,
+      "ci90": [
+       -0.87,
+       -0.087
+      ],
+      "totalR": -11,
+      "maxDrawdownR": 13,
+      "totalWithoutBestR": -13,
+      "verdict": "inconclusive (under 30 trades)"
+     },
+     "BTC over 50-day": {
+      "n": 27,
+      "avgR": -0.444,
+      "ci90": [
+       -0.778,
+       -0.111
+      ],
+      "totalR": -12,
+      "maxDrawdownR": 15,
+      "totalWithoutBestR": -14,
+      "verdict": "inconclusive (under 30 trades)"
+     }
+    }
+   }
+  },
+  "quietRetest|build|all": {
+   "scanner": {
+    "simple": {
+     "alerts": 1284,
+     "ledToSpike": 0.356,
+     "spikesWarned": 0.702,
+     "medianLeadH": 4
+    },
+    "full": {
+     "alerts": 54,
+     "ledToSpike": 0.278,
+     "spikesWarned": 0.023,
+     "medianLeadH": 2
+    }
+   },
+   "breakouts": 906,
+   "spikes": 652,
+   "spikes3atr": 268,
+   "failedRetests": 404,
+   "extended": 84,
+   "skipped": {
+    "loud retest": 346,
+    "under 2R to resistance": 49
+   },
+   "trade": {
+    "plain": {
+     "n": 23,
+     "avgR": -0.478,
+     "ci90": [
+      -0.87,
+      -0.087
+     ],
+     "totalR": -11,
+     "maxDrawdownR": 11,
+     "totalWithoutBestR": -13,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "full": {
+     "n": 1,
+     "avgR": -1,
+     "ci90": [
+      -1,
+      -1
+     ],
+     "totalR": -1,
+     "maxDrawdownR": 1,
+     "totalWithoutBestR": 0,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "plainDoubleSlippage": {
+     "n": 23,
+     "avgR": -0.478,
+     "ci90": [
+      -0.87,
+      -0.087
+     ],
+     "totalR": -11,
+     "maxDrawdownR": 11,
+     "totalWithoutBestR": -13,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "fullDoubleSlippage": {
+     "n": 1,
+     "avgR": -1,
+     "ci90": [
+      -1,
+      -1
+     ],
+     "totalR": -1,
+     "maxDrawdownR": 1,
+     "totalWithoutBestR": 0,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "plainByBtcTrend": {
+     "BTC over 50-day": {
+      "n": 19,
+      "avgR": -0.526,
+      "ci90": [
+       -0.842,
+       -0.053
+      ],
+      "totalR": -10,
+      "maxDrawdownR": 10,
+      "totalWithoutBestR": -12,
+      "verdict": "inconclusive (under 30 trades)"
+     },
+     "BTC under 50-day": {
+      "n": 4,
+      "avgR": -0.25,
+      "ci90": [
+       -1,
+       0.5
+      ],
+      "totalR": -1,
+      "maxDrawdownR": 3,
+      "totalWithoutBestR": -3,
+      "verdict": "inconclusive (under 30 trades)"
+     }
+    }
+   }
+  },
+  "quietRetest|unseen|watchlist": {
+   "scanner": {
+    "simple": {
+     "alerts": 666,
+     "ledToSpike": 0.369,
+     "spikesWarned": 0.739,
+     "medianLeadH": 3.75
+    },
+    "full": {
+     "alerts": 24,
+     "ledToSpike": 0.333,
+     "spikesWarned": 0.024,
+     "medianLeadH": 2.5
+    }
+   },
+   "breakouts": 451,
+   "spikes": 333,
+   "spikes3atr": 164,
+   "failedRetests": 166,
+   "extended": 39,
+   "skipped": {
+    "under 2R to resistance": 35,
+    "loud retest": 197
+   },
+   "trade": {
+    "plain": {
+     "n": 14,
+     "avgR": -0.143,
+     "ci90": [
+      -0.786,
+      0.5
+     ],
+     "totalR": -2,
+     "maxDrawdownR": 4,
+     "totalWithoutBestR": -4,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "full": {
+     "n": 0
+    },
+    "plainDoubleSlippage": {
+     "n": 14,
+     "avgR": -0.143,
+     "ci90": [
+      -0.786,
+      0.5
+     ],
+     "totalR": -2,
+     "maxDrawdownR": 4,
+     "totalWithoutBestR": -4,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "fullDoubleSlippage": {
+     "n": 0
+    },
+    "plainByBtcTrend": {
+     "BTC under 50-day": {
+      "n": 8,
+      "avgR": -0.25,
+      "ci90": [
+       -1,
+       0.5
+      ],
+      "totalR": -2,
+      "maxDrawdownR": 3,
+      "totalWithoutBestR": -4,
+      "verdict": "inconclusive (under 30 trades)"
+     },
+     "BTC over 50-day": {
+      "n": 6,
+      "avgR": 0,
+      "ci90": [
+       -1,
+       1
+      ],
+      "totalR": 0,
+      "maxDrawdownR": 3,
+      "totalWithoutBestR": -2,
+      "verdict": "inconclusive (under 30 trades)"
+     }
+    }
+   }
+  },
+  "quietRetest|build|watchlist": {
+   "scanner": {
+    "simple": {
+     "alerts": 386,
+     "ledToSpike": 0.37,
+     "spikesWarned": 0.715,
+     "medianLeadH": 4.75
+    },
+    "full": {
+     "alerts": 14,
+     "ledToSpike": 0.214,
+     "spikesWarned": 0.015,
+     "medianLeadH": 15.25
+    }
+   },
+   "breakouts": 276,
+   "spikes": 200,
+   "spikes3atr": 76,
+   "failedRetests": 131,
+   "extended": 23,
+   "skipped": {
+    "loud retest": 99,
+    "under 2R to resistance": 18
+   },
+   "trade": {
+    "plain": {
+     "n": 5,
+     "avgR": -1,
+     "ci90": [
+      -1,
+      -1
+     ],
+     "totalR": -5,
+     "maxDrawdownR": 5,
+     "totalWithoutBestR": -4,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "full": {
+     "n": 0
+    },
+    "plainDoubleSlippage": {
+     "n": 5,
+     "avgR": -1,
+     "ci90": [
+      -1,
+      -1
+     ],
+     "totalR": -5,
+     "maxDrawdownR": 5,
+     "totalWithoutBestR": -4,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "fullDoubleSlippage": {
+     "n": 0
+    },
+    "plainByBtcTrend": {
+     "BTC over 50-day": {
+      "n": 5,
+      "avgR": -1,
+      "ci90": [
+       -1,
+       -1
+      ],
+      "totalR": -5,
+      "maxDrawdownR": 5,
+      "totalWithoutBestR": -4,
+      "verdict": "inconclusive (under 30 trades)"
+     }
+    }
+   }
+  },
+  "baseStop|unseen|all": {
+   "scanner": {
+    "simple": {
+     "alerts": 1906,
+     "ledToSpike": 0.372,
+     "spikesWarned": 0.731,
+     "medianLeadH": 3.75
+    },
+    "full": {
+     "alerts": 71,
+     "ledToSpike": 0.38,
+     "spikesWarned": 0.028,
+     "medianLeadH": 2.5
+    }
+   },
+   "breakouts": 1291,
+   "spikes": 968,
+   "spikes3atr": 461,
+   "failedRetests": 538,
+   "extended": 81,
+   "skipped": {
+    "under 2R to resistance": 529,
+    "a trade was already open": 6
+   },
+   "trade": {
+    "plain": {
+     "n": 137,
+     "avgR": -0.042,
+     "ci90": [
+      -0.179,
+      0.105
+     ],
+     "totalR": -5.7,
+     "maxDrawdownR": 24.19,
+     "totalWithoutBestR": -7.7,
+     "verdict": "inconclusive (interval includes zero)"
+    },
+    "full": {
+     "n": 1,
+     "avgR": -0.247,
+     "ci90": [
+      -0.247,
+      -0.247
+     ],
+     "totalR": -0.25,
+     "maxDrawdownR": 0.25,
+     "totalWithoutBestR": 0,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "plainDoubleSlippage": {
+     "n": 137,
+     "avgR": -0.06,
+     "ci90": [
+      -0.195,
+      0.083
+     ],
+     "totalR": -8.28,
+     "maxDrawdownR": 24.44,
+     "totalWithoutBestR": -10.28,
+     "verdict": "inconclusive (interval includes zero)"
+    },
+    "fullDoubleSlippage": {
+     "n": 1,
+     "avgR": -0.264,
+     "ci90": [
+      -0.264,
+      -0.264
+     ],
+     "totalR": -0.26,
+     "maxDrawdownR": 0.26,
+     "totalWithoutBestR": 0,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "plainByBtcTrend": {
+     "BTC under 50-day": {
+      "n": 35,
+      "avgR": 0.075,
+      "ci90": [
+       -0.216,
+       0.368
+      ],
+      "totalR": 2.64,
+      "maxDrawdownR": 3.73,
+      "totalWithoutBestR": 0.64,
+      "verdict": "inconclusive (interval includes zero)"
+     },
+     "BTC over 50-day": {
+      "n": 102,
+      "avgR": -0.082,
+      "ci90": [
+       -0.238,
+       0.085
+      ],
+      "totalR": -8.34,
+      "maxDrawdownR": 20.46,
+      "totalWithoutBestR": -10.34,
+      "verdict": "inconclusive (interval includes zero)"
+     }
+    }
+   }
+  },
+  "baseStop|build|all": {
+   "scanner": {
+    "simple": {
+     "alerts": 1284,
+     "ledToSpike": 0.356,
+     "spikesWarned": 0.702,
+     "medianLeadH": 4
+    },
+    "full": {
+     "alerts": 54,
+     "ledToSpike": 0.278,
+     "spikesWarned": 0.023,
+     "medianLeadH": 2
+    }
+   },
+   "breakouts": 906,
+   "spikes": 652,
+   "spikes3atr": 268,
+   "failedRetests": 404,
+   "extended": 84,
+   "skipped": {
+    "under 2R to resistance": 348,
+    "a trade was already open": 5
+   },
+   "trade": {
+    "plain": {
+     "n": 65,
+     "avgR": -0.08,
+     "ci90": [
+      -0.27,
+      0.124
+     ],
+     "totalR": -5.17,
+     "maxDrawdownR": 9.01,
+     "totalWithoutBestR": -7.17,
+     "verdict": "inconclusive (interval includes zero)"
+    },
+    "full": {
+     "n": 2,
+     "avgR": -0.218,
+     "ci90": [
+      -1,
+      0.564
+     ],
+     "totalR": -0.44,
+     "maxDrawdownR": 1,
+     "totalWithoutBestR": -1,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "plainDoubleSlippage": {
+     "n": 65,
+     "avgR": -0.095,
+     "ci90": [
+      -0.282,
+      0.109
+     ],
+     "totalR": -6.19,
+     "maxDrawdownR": 9.18,
+     "totalWithoutBestR": -8.19,
+     "verdict": "inconclusive (interval includes zero)"
+    },
+    "fullDoubleSlippage": {
+     "n": 2,
+     "avgR": -0.227,
+     "ci90": [
+      -1,
+      0.545
+     ],
+     "totalR": -0.45,
+     "maxDrawdownR": 1,
+     "totalWithoutBestR": -1,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "plainByBtcTrend": {
+     "BTC over 50-day": {
+      "n": 60,
+      "avgR": -0.069,
+      "ci90": [
+       -0.278,
+       0.138
+      ],
+      "totalR": -4.13,
+      "maxDrawdownR": 8.01,
+      "totalWithoutBestR": -6.13,
+      "verdict": "inconclusive (interval includes zero)"
+     },
+     "BTC under 50-day": {
+      "n": 5,
+      "avgR": -0.209,
+      "ci90": [
+       -0.894,
+       0.8
+      ],
+      "totalR": -1.04,
+      "maxDrawdownR": 2.47,
+      "totalWithoutBestR": -3.04,
+      "verdict": "inconclusive (under 30 trades)"
+     }
+    }
+   }
+  },
+  "baseStop|unseen|watchlist": {
+   "scanner": {
+    "simple": {
+     "alerts": 666,
+     "ledToSpike": 0.369,
+     "spikesWarned": 0.739,
+     "medianLeadH": 3.75
+    },
+    "full": {
+     "alerts": 24,
+     "ledToSpike": 0.333,
+     "spikesWarned": 0.024,
+     "medianLeadH": 2.5
+    }
+   },
+   "breakouts": 451,
+   "spikes": 333,
+   "spikes3atr": 164,
+   "failedRetests": 166,
+   "extended": 39,
+   "skipped": {
+    "under 2R to resistance": 189,
+    "a trade was already open": 2
+   },
+   "trade": {
+    "plain": {
+     "n": 55,
+     "avgR": -0.298,
+     "ci90": [
+      -0.504,
+      -0.09
+     ],
+     "totalR": -16.38,
+     "maxDrawdownR": 24.19,
+     "totalWithoutBestR": -18.38,
+     "verdict": "negative"
+    },
+    "full": {
+     "n": 1,
+     "avgR": -0.247,
+     "ci90": [
+      -0.247,
+      -0.247
+     ],
+     "totalR": -0.25,
+     "maxDrawdownR": 0.25,
+     "totalWithoutBestR": 0,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "plainDoubleSlippage": {
+     "n": 55,
+     "avgR": -0.305,
+     "ci90": [
+      -0.51,
+      -0.097
+     ],
+     "totalR": -16.76,
+     "maxDrawdownR": 24.44,
+     "totalWithoutBestR": -18.76,
+     "verdict": "negative"
+    },
+    "fullDoubleSlippage": {
+     "n": 1,
+     "avgR": -0.264,
+     "ci90": [
+      -0.264,
+      -0.264
+     ],
+     "totalR": -0.26,
+     "maxDrawdownR": 0.26,
+     "totalWithoutBestR": 0,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "plainByBtcTrend": {
+     "BTC under 50-day": {
+      "n": 12,
+      "avgR": 0.012,
+      "ci90": [
+       -0.481,
+       0.526
+      ],
+      "totalR": 0.15,
+      "maxDrawdownR": 3.73,
+      "totalWithoutBestR": -1.85,
+      "verdict": "inconclusive (under 30 trades)"
+     },
+     "BTC over 50-day": {
+      "n": 43,
+      "avgR": -0.384,
+      "ci90": [
+       -0.583,
+       -0.173
+      ],
+      "totalR": -16.52,
+      "maxDrawdownR": 20.46,
+      "totalWithoutBestR": -18.52,
+      "verdict": "negative"
+     }
+    }
+   }
+  },
+  "baseStop|build|watchlist": {
+   "scanner": {
+    "simple": {
+     "alerts": 386,
+     "ledToSpike": 0.37,
+     "spikesWarned": 0.715,
+     "medianLeadH": 4.75
+    },
+    "full": {
+     "alerts": 14,
+     "ledToSpike": 0.214,
+     "spikesWarned": 0.015,
+     "medianLeadH": 15.25
+    }
+   },
+   "breakouts": 276,
+   "spikes": 200,
+   "spikes3atr": 76,
+   "failedRetests": 131,
+   "extended": 23,
+   "skipped": {
+    "under 2R to resistance": 109,
+    "a trade was already open": 1
+   },
+   "trade": {
+    "plain": {
+     "n": 12,
+     "avgR": -0.356,
+     "ci90": [
+      -0.686,
+      -0.016
+     ],
+     "totalR": -4.27,
+     "maxDrawdownR": 4.54,
+     "totalWithoutBestR": -5.02,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "full": {
+     "n": 0
+    },
+    "plainDoubleSlippage": {
+     "n": 12,
+     "avgR": -0.364,
+     "ci90": [
+      -0.69,
+      -0.029
+     ],
+     "totalR": -4.37,
+     "maxDrawdownR": 4.56,
+     "totalWithoutBestR": -5.1,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "fullDoubleSlippage": {
+     "n": 0
+    },
+    "plainByBtcTrend": {
+     "BTC over 50-day": {
+      "n": 11,
+      "avgR": -0.297,
+      "ci90": [
+       -0.647,
+       0.075
+      ],
+      "totalR": -3.27,
+      "maxDrawdownR": 3.54,
+      "totalWithoutBestR": -4.02,
+      "verdict": "inconclusive (under 30 trades)"
+     },
+     "BTC under 50-day": {
+      "n": 1,
+      "avgR": -1,
+      "ci90": [
+       -1,
+       -1
+      ],
+      "totalR": -1,
+      "maxDrawdownR": 1,
+      "totalWithoutBestR": 0,
+      "verdict": "inconclusive (under 30 trades)"
+     }
+    }
+   }
+  },
+  "bookAll|unseen|all": {
+   "scanner": {
+    "simple": {
+     "alerts": 1906,
+     "ledToSpike": 0.372,
+     "spikesWarned": 0.731,
+     "medianLeadH": 3.75
+    },
+    "full": {
+     "alerts": 71,
+     "ledToSpike": 0.38,
+     "spikesWarned": 0.028,
+     "medianLeadH": 2.5
+    }
+   },
+   "breakouts": 1291,
+   "spikes": 968,
+   "spikes3atr": 461,
+   "failedRetests": 538,
+   "extended": 81,
+   "skipped": {
+    "under 2R to resistance": 92,
+    "weak breakout bar": 162,
+    "loud retest": 406
+   },
+   "trade": {
+    "plain": {
+     "n": 12,
+     "avgR": 0.161,
+     "ci90": [
+      -0.376,
+      0.724
+     ],
+     "totalR": 1.93,
+     "maxDrawdownR": 2.61,
+     "totalWithoutBestR": -0.07,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "full": {
+     "n": 0
+    },
+    "plainDoubleSlippage": {
+     "n": 12,
+     "avgR": 0.146,
+     "ci90": [
+      -0.393,
+      0.713
+     ],
+     "totalR": 1.75,
+     "maxDrawdownR": 2.77,
+     "totalWithoutBestR": -0.25,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "fullDoubleSlippage": {
+     "n": 0
+    },
+    "plainByBtcTrend": {
+     "BTC over 50-day": {
+      "n": 8,
+      "avgR": 0.455,
+      "ci90": [
+       -0.243,
+       1.23
+      ],
+      "totalR": 3.64,
+      "maxDrawdownR": 1.91,
+      "totalWithoutBestR": 1.64,
+      "verdict": "inconclusive (under 30 trades)"
+     },
+     "BTC under 50-day": {
+      "n": 4,
+      "avgR": -0.426,
+      "ci90": [
+       -1,
+       0.13
+      ],
+      "totalR": -1.7,
+      "maxDrawdownR": 1.7,
+      "totalWithoutBestR": -1.89,
+      "verdict": "inconclusive (under 30 trades)"
+     }
+    }
+   }
+  },
+  "bookAll|build|all": {
+   "scanner": {
+    "simple": {
+     "alerts": 1284,
+     "ledToSpike": 0.356,
+     "spikesWarned": 0.702,
+     "medianLeadH": 4
+    },
+    "full": {
+     "alerts": 54,
+     "ledToSpike": 0.278,
+     "spikesWarned": 0.023,
+     "medianLeadH": 2
+    }
+   },
+   "breakouts": 906,
+   "spikes": 652,
+   "spikes3atr": 268,
+   "failedRetests": 404,
+   "extended": 84,
+   "skipped": {
+    "loud retest": 263,
+    "weak breakout bar": 100,
+    "under 2R to resistance": 43
+   },
+   "trade": {
+    "plain": {
+     "n": 12,
+     "avgR": -0.2,
+     "ci90": [
+      -0.557,
+      0.19
+     ],
+     "totalR": -2.4,
+     "maxDrawdownR": 2.81,
+     "totalWithoutBestR": -3.61,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "full": {
+     "n": 0
+    },
+    "plainDoubleSlippage": {
+     "n": 12,
+     "avgR": -0.224,
+     "ci90": [
+      -0.569,
+      0.15
+     ],
+     "totalR": -2.69,
+     "maxDrawdownR": 3.06,
+     "totalWithoutBestR": -3.81,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "fullDoubleSlippage": {
+     "n": 0
+    },
+    "plainByBtcTrend": {
+     "BTC over 50-day": {
+      "n": 10,
+      "avgR": -0.093,
+      "ci90": [
+       -0.512,
+       0.313
+      ],
+      "totalR": -0.93,
+      "maxDrawdownR": 2.59,
+      "totalWithoutBestR": -2.14,
+      "verdict": "inconclusive (under 30 trades)"
+     },
+     "BTC under 50-day": {
+      "n": 2,
+      "avgR": -0.735,
+      "ci90": [
+       -1,
+       -0.471
+      ],
+      "totalR": -1.47,
+      "maxDrawdownR": 1.47,
+      "totalWithoutBestR": -1,
+      "verdict": "inconclusive (under 30 trades)"
+     }
+    }
+   }
+  },
+  "bookAll|unseen|watchlist": {
+   "scanner": {
+    "simple": {
+     "alerts": 666,
+     "ledToSpike": 0.369,
+     "spikesWarned": 0.739,
+     "medianLeadH": 3.75
+    },
+    "full": {
+     "alerts": 24,
+     "ledToSpike": 0.333,
+     "spikesWarned": 0.024,
+     "medianLeadH": 2.5
+    }
+   },
+   "breakouts": 451,
+   "spikes": 333,
+   "spikes3atr": 164,
+   "failedRetests": 166,
+   "extended": 39,
+   "skipped": {
+    "under 2R to resistance": 33,
+    "weak breakout bar": 59,
+    "loud retest": 151
+   },
+   "trade": {
+    "plain": {
+     "n": 3,
+     "avgR": -0.605,
+     "ci90": [
+      -1,
+      -0.209
+     ],
+     "totalR": -1.81,
+     "maxDrawdownR": 2,
+     "totalWithoutBestR": -2,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "full": {
+     "n": 0
+    },
+    "plainDoubleSlippage": {
+     "n": 3,
+     "avgR": -0.622,
+     "ci90": [
+      -1,
+      -0.245
+     ],
+     "totalR": -1.87,
+     "maxDrawdownR": 2,
+     "totalWithoutBestR": -2,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "fullDoubleSlippage": {
+     "n": 0
+    },
+    "plainByBtcTrend": {
+     "BTC over 50-day": {
+      "n": 1,
+      "avgR": -1,
+      "ci90": [
+       -1,
+       -1
+      ],
+      "totalR": -1,
+      "maxDrawdownR": 1,
+      "totalWithoutBestR": 0,
+      "verdict": "inconclusive (under 30 trades)"
+     },
+     "BTC under 50-day": {
+      "n": 2,
+      "avgR": -0.407,
+      "ci90": [
+       -1,
+       0.186
+      ],
+      "totalR": -0.81,
+      "maxDrawdownR": 1,
+      "totalWithoutBestR": -1,
+      "verdict": "inconclusive (under 30 trades)"
+     }
+    }
+   }
+  },
+  "bookAll|build|watchlist": {
+   "scanner": {
+    "simple": {
+     "alerts": 386,
+     "ledToSpike": 0.37,
+     "spikesWarned": 0.715,
+     "medianLeadH": 4.75
+    },
+    "full": {
+     "alerts": 14,
+     "ledToSpike": 0.214,
+     "spikesWarned": 0.015,
+     "medianLeadH": 15.25
+    }
+   },
+   "breakouts": 276,
+   "spikes": 200,
+   "spikes3atr": 76,
+   "failedRetests": 131,
+   "extended": 23,
+   "skipped": {
+    "loud retest": 77,
+    "weak breakout bar": 25,
+    "under 2R to resistance": 18
+   },
+   "trade": {
+    "plain": {
+     "n": 2,
+     "avgR": -1,
+     "ci90": [
+      -1,
+      -1
+     ],
+     "totalR": -2,
+     "maxDrawdownR": 2,
+     "totalWithoutBestR": -1,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "full": {
+     "n": 0
+    },
+    "plainDoubleSlippage": {
+     "n": 2,
+     "avgR": -1,
+     "ci90": [
+      -1,
+      -1
+     ],
+     "totalR": -2,
+     "maxDrawdownR": 2,
+     "totalWithoutBestR": -1,
+     "verdict": "inconclusive (under 30 trades)"
+    },
+    "fullDoubleSlippage": {
+     "n": 0
+    },
+    "plainByBtcTrend": {
+     "BTC over 50-day": {
+      "n": 2,
+      "avgR": -1,
+      "ci90": [
+       -1,
+       -1
+      ],
+      "totalR": -2,
+      "maxDrawdownR": 2,
+      "totalWithoutBestR": -1,
+      "verdict": "inconclusive (under 30 trades)"
+     }
+    }
+   }
+  }
+ }
+}
