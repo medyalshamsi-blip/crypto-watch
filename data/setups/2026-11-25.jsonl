@@ -39,3 +39,6 @@
 {"id":"MMT|breakout-result|1795638600000","coin":"MMT","type":"breakout-result","t":1795638600000,"of":"MMT|breakout|1795638600000","spike":false,"spikeAt":null,"retest":"failed","seen":1795739962377,"backfill":true}
 {"id":"MOVE|retest-fail|1795638600000","coin":"MOVE","type":"retest-fail","t":1795638600000,"of":"MOVE|breakout|1795634100000","lv":0.005068,"seen":1795739962377,"backfill":true}
 {"id":"MMT|retest-fail|1795639500000","coin":"MMT","type":"retest-fail","t":1795639500000,"of":"MMT|breakout|1795638600000","lv":0.3177,"seen":1795739962377,"backfill":true}
+{"id":"USUAL|breakout|1795581900000","coin":"USUAL","type":"breakout","t":1795581900000,"lv":0.01205,"close":0.01207,"vm":2.39,"tb":0.475,"atr4":0.00047006202027739477,"simpleAt":null,"fullAt":null,"seen":1795772241045}
+{"id":"USUAL|breakout-result|1795581900000","coin":"USUAL","type":"breakout-result","t":1795581900000,"of":"USUAL|breakout|1795581900000","spike":true,"spikeAt":1795590000000,"retest":"retest","seen":1795772241045}
+{"id":"USUAL|retest-skip|1795582800000","coin":"USUAL","type":"retest-skip","t":1795582800000,"of":"USUAL|breakout|1795581900000","why":"R:R -0.1 to the 19-day high","seen":1795772241045}

@@ -1,9 +1,9 @@
 {
  "about": "Written by engine/setups-log.js on GitHub Actions every hour: breakout-and-retest setups replayed on closed Binance 15m candles. Read by the dashboard and the Claude alarm relay. Paper trades only. Not financial advice.",
- "updated": "2026-11-27T00:39:22.377Z",
+ "updated": "2026-11-27T09:37:21.045Z",
  "liveSince": "2026-11-27T00:39:22.377Z",
  "source": "data-api.binance.vision",
- "coins": 123,
+ "coins": 127,
  "failed": {},
  "rules": {
   "swing": 2,
@@ -32,116 +32,133 @@
    "status": "failed",
    "wl": true,
    "ceiling": 0.12885,
-   "price": 0.13899
+   "price": 0.13086
   },
   "TRB": {
    "status": "failed",
    "wl": true,
    "ceiling": 13.35,
-   "price": 13.48
+   "price": 13.44
   },
-  "CFX": {
+  "MAGIC": {
    "status": "near",
    "wl": true,
+   "ceiling": 0.0715,
+   "price": 0.0698
+  },
+  "CFX": {
+   "status": "failed",
+   "wl": true,
    "ceiling": 0.03482,
-   "price": 0.03415
+   "price": 0.03431
+  },
+  "HAEDAL": {
+   "status": "extended",
+   "ceiling": 0.02205,
+   "price": 0.02635
+  },
+  "LINK": {
+   "status": "entry",
+   "ceiling": 9.558,
+   "price": 9.579,
+   "entry": 9.57,
+   "stop": 9.542798488309787,
+   "target": 9.710662412464051
   },
   "SEI": {
    "status": "done",
    "ceiling": 0.04035,
-   "price": 0.03888
-  },
-  "牛来": {
-   "status": "failed",
-   "ceiling": 0.05015,
-   "price": 0.04477
+   "price": 0.03892
   },
   "BCH": {
-   "status": "near",
+   "status": "done",
    "ceiling": 213.8,
-   "price": 209.7
+   "price": 212
   },
   "2Z": {
    "status": "skipped",
    "ceiling": 0.01797,
-   "price": 0.0175
+   "price": 0.0174
   },
-  "BABY": {
-   "status": "failed",
-   "ceiling": 0.0099,
-   "price": 0.00927
-  },
-  "JST": {
-   "status": "failed",
-   "ceiling": 0.14855,
-   "price": 0.14465
-  },
-  "WIF": {
-   "status": "failed",
-   "ceiling": 0.1374,
-   "price": 0.1364
+  "W": {
+   "status": "done",
+   "ceiling": 0.00919,
+   "price": 0.00926
   },
   "SAGA": {
    "status": "skipped",
    "ceiling": 0.01485,
-   "price": 0.01463
+   "price": 0.01476
+  },
+  "WIF": {
+   "status": "failed",
+   "ceiling": 0.1374,
+   "price": 0.1382
   },
   "XPL": {
    "status": "near",
    "ceiling": 0.04909,
-   "price": 0.04772
-  },
-  "TFUEL": {
-   "status": "failed",
-   "ceiling": 0.00792,
-   "price": 0.0071
-  },
-  "KITE": {
-   "status": "near",
-   "ceiling": 0.1475,
-   "price": 0.1437
+   "price": 0.04877
   },
   "ANIME": {
    "status": "failed",
    "ceiling": 0.002396,
-   "price": 0.002278
+   "price": 0.002239
   },
-  "THETA": {
-   "status": "failed",
-   "ceiling": 0.1355,
-   "price": 0.135
+  "RUNE": {
+   "status": "extended",
+   "ceiling": 0.565,
+   "price": 0.585
   }
  },
  "live": {
   "since": "2026-11-27T00:39:22.377Z",
-  "spikes": 0,
-  "breakouts": 0,
+  "spikes": 4,
+  "breakouts": 6,
   "scanner": {
    "simple": {
-    "alerts": 0,
-    "ledToSpike": null,
-    "spikesWarned": null,
-    "medianLeadH": null
+    "alerts": 6,
+    "ledToSpike": 0.167,
+    "spikesWarned": 0.25,
+    "medianLeadH": 0.75
    },
    "full": {
     "alerts": 0,
     "ledToSpike": null,
-    "spikesWarned": null,
+    "spikesWarned": 0,
     "medianLeadH": null
    }
   },
   "trade": {
    "plain": {
-    "n": 0,
-    "target": 0,
-    "stop": 0,
+    "n": 2,
+    "target": 1,
+    "stop": 1,
     "time": 0,
-    "avgR": null,
-    "totalR": 0,
-    "maxDrawdownR": 0,
-    "totalWithoutBestR": 0,
-    "byBtcTrend": {},
-    "byCoin": {}
+    "avgR": 0.5,
+    "totalR": 1,
+    "maxDrawdownR": 1,
+    "totalWithoutBestR": -1,
+    "byBtcTrend": {
+     "down": {
+      "n": 1,
+      "r": 2
+     },
+     "up": {
+      "n": 1,
+      "r": -1
+     }
+    },
+    "byCoin": {
+     "W": {
+      "n": 1,
+      "r": 2
+     },
+     "BCH": {
+      "n": 1,
+      "r": -1
+     }
+    }
    },
    "full": {
     "n": 0,
@@ -156,16 +173,34 @@
     "byCoin": {}
    },
    "plainDoubleSlippage": {
-    "n": 0,
-    "target": 0,
-    "stop": 0,
+    "n": 2,
+    "target": 1,
+    "stop": 1,
     "time": 0,
-    "avgR": null,
-    "totalR": 0,
-    "maxDrawdownR": 0,
-    "totalWithoutBestR": 0,
-    "byBtcTrend": {},
-    "byCoin": {}
+    "avgR": 0.5,
+    "totalR": 1,
+    "maxDrawdownR": 1,
+    "totalWithoutBestR": -1,
+    "byBtcTrend": {
+     "down": {
+      "n": 1,
+      "r": 2
+     },
+     "up": {
+      "n": 1,
+      "r": -1
+     }
+    },
+    "byCoin": {
+     "W": {
+      "n": 1,
+      "r": 2
+     },
+     "BCH": {
+      "n": 1,
+      "r": -1
+     }
+    }
    },
    "fullDoubleSlippage": {
     "n": 0,
@@ -181,47 +216,51 @@
    }
   },
   "notes": {
-   "failedRetests": 0,
+   "failedRetests": 1,
    "skippedRetests": 0,
-   "openOrPending": 0
+   "openOrPending": 1
   }
  },
  "withBackfill": {
   "since": "1970-01-01T00:00:00.000Z",
-  "spikes": 48,
-  "breakouts": 73,
+  "spikes": 53,
+  "breakouts": 80,
   "scanner": {
    "simple": {
-    "alerts": 130,
-    "ledToSpike": 0.246,
-    "spikesWarned": 0.667,
-    "medianLeadH": 2.25
+    "alerts": 137,
+    "ledToSpike": 0.241,
+    "spikesWarned": 0.623,
+    "medianLeadH": 2
    },
    "full": {
     "alerts": 1,
     "ledToSpike": 1,
-    "spikesWarned": 0.021,
+    "spikesWarned": 0.019,
     "medianLeadH": 0.5
    }
   },
   "trade": {
    "plain": {
-    "n": 21,
-    "target": 5,
-    "stop": 16,
+    "n": 23,
+    "target": 6,
+    "stop": 17,
     "time": 0,
-    "avgR": -0.286,
-    "totalR": -6,
+    "avgR": -0.217,
+    "totalR": -5,
     "maxDrawdownR": 10,
-    "totalWithoutBestR": -8,
+    "totalWithoutBestR": -7,
     "byBtcTrend": {
      "unknown": {
       "n": 6,
       "r": 0
      },
      "down": {
-      "n": 15,
-      "r": -6
+      "n": 16,
+      "r": -4
+     },
+     "up": {
+      "n": 1,
+      "r": -1
      }
     },
     "byCoin": {
@@ -286,6 +325,14 @@
       "r": 2
      },
      "SEI": {
+      "n": 1,
+      "r": -1
+     },
+     "W": {
+      "n": 1,
+      "r": 2
+     },
+     "BCH": {
       "n": 1,
       "r": -1
      }
@@ -304,22 +351,26 @@
     "byCoin": {}
    },
    "plainDoubleSlippage": {
-    "n": 21,
-    "target": 5,
-    "stop": 16,
+    "n": 23,
+    "target": 6,
+    "stop": 17,
     "time": 0,
-    "avgR": -0.286,
-    "totalR": -6,
+    "avgR": -0.217,
+    "totalR": -5,
     "maxDrawdownR": 10,
-    "totalWithoutBestR": -8,
+    "totalWithoutBestR": -7,
     "byBtcTrend": {
      "unknown": {
       "n": 6,
       "r": 0
      },
      "down": {
-      "n": 15,
-      "r": -6
+      "n": 16,
+      "r": -4
+     },
+     "up": {
+      "n": 1,
+      "r": -1
      }
     },
     "byCoin": {
@@ -384,6 +435,14 @@
       "r": 2
      },
      "SEI": {
+      "n": 1,
+      "r": -1
+     },
+     "W": {
+      "n": 1,
+      "r": 2
+     },
+     "BCH": {
       "n": 1,
       "r": -1
      }
@@ -403,970 +462,339 @@
    }
   },
   "notes": {
-   "failedRetests": 45,
-   "skippedRetests": 4,
-   "openOrPending": 0
+   "failedRetests": 46,
+   "skippedRetests": 5,
+   "openOrPending": 1
   }
  },
  "latest": [
   {
-   "id": "LINK|warn-simple|1795727700000",
-   "coin": "LINK",
-   "type": "warn-simple",
-   "t": 1795727700000,
-   "lv": 9.558,
-   "dist": 0.967,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "WIF|retest-fail|1795727700000",
+   "id": "WIF|warn-simple|1795770900000",
    "coin": "WIF",
-   "type": "retest-fail",
-   "t": 1795727700000,
-   "of": "WIF|breakout|1795716000000",
-   "lv": 0.1374,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "TRB|retest-fail|1795724100000",
-   "coin": "TRB",
-   "wl": true,
-   "type": "retest-fail",
-   "t": 1795724100000,
-   "of": "TRB|breakout|1795723200000",
-   "lv": 13.35,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "TRB|breakout|1795723200000",
-   "coin": "TRB",
-   "wl": true,
-   "type": "breakout",
-   "t": 1795723200000,
-   "lv": 13.35,
-   "close": 13.38,
-   "vm": 1.5,
-   "tb": 0.729,
-   "atr4": 0.2989282619121005,
-   "simpleAt": 1795712400000,
-   "fullAt": null,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "TRB|breakout-result|1795723200000",
-   "coin": "TRB",
-   "wl": true,
-   "type": "breakout-result",
-   "t": 1795723200000,
-   "of": "TRB|breakout|1795723200000",
-   "spike": true,
-   "spikeAt": 1795729500000,
-   "retest": "failed",
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "SEI|exit|1795722300000",
-   "coin": "SEI",
-   "type": "exit",
-   "t": 1795722300000,
-   "of": "SEI|entry|1795720500000",
-   "why": "stop",
-   "px": 0.04006708000456836,
-   "r": -1,
-   "r2": -1,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "SEI|entry|1795720500000",
-   "coin": "SEI",
-   "type": "entry",
-   "t": 1795720500000,
-   "of": "SEI|breakout|1795717800000",
-   "entry": 0.04054,
-   "stop": 0.04006708000456836,
-   "target": 0.041851248103031535,
-   "rr": 4.86,
-   "costR": 0.204,
-   "full": false,
-   "btc": "down",
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "OPG|warn-simple|1795720500000",
-   "coin": "OPG",
    "type": "warn-simple",
-   "t": 1795720500000,
-   "lv": 0.1844,
-   "dist": 0.96,
-   "seen": 1795739962377,
-   "backfill": true
+   "t": 1795770900000,
+   "lv": 0.1424,
+   "dist": 0.933,
+   "seen": 1795772241045
   },
   {
-   "id": "SAGA|retest-skip|1795718700000",
-   "coin": "SAGA",
-   "type": "retest-skip",
-   "t": 1795718700000,
-   "of": "SAGA|breakout|1795717800000",
-   "why": "R:R 1.7 to the 4H swing high",
-   "seen": 1795739962377,
-   "backfill": true
+   "id": "LINK|entry|1795765500000",
+   "coin": "LINK",
+   "type": "entry",
+   "t": 1795765500000,
+   "of": "LINK|breakout|1795754700000",
+   "entry": 9.57,
+   "stop": 9.542798488309787,
+   "target": 9.710662412464051,
+   "rr": 10.14,
+   "costR": 0.513,
+   "full": false,
+   "btc": "up",
+   "seen": 1795772241045
   },
   {
-   "id": "CFX|warn-simple|1795717800000",
+   "id": "CFX|retest-fail|1795764600000",
    "coin": "CFX",
    "wl": true,
-   "type": "warn-simple",
-   "t": 1795717800000,
+   "type": "retest-fail",
+   "t": 1795764600000,
+   "of": "CFX|breakout|1795763700000",
    "lv": 0.03482,
-   "dist": 1,
-   "seen": 1795739962377,
-   "backfill": true
+   "seen": 1795772241045
   },
   {
-   "id": "SEI|breakout|1795717800000",
-   "coin": "SEI",
-   "type": "breakout",
-   "t": 1795717800000,
-   "lv": 0.04035,
-   "close": 0.04057,
-   "vm": 0.91,
-   "tb": 0.545,
-   "atr4": 0.001273356803593228,
-   "simpleAt": 1795712400000,
-   "fullAt": null,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "SAGA|breakout|1795717800000",
-   "coin": "SAGA",
-   "type": "breakout",
-   "t": 1795717800000,
-   "lv": 0.01485,
-   "close": 0.01501,
-   "vm": 2.6,
-   "tb": 0.688,
-   "atr4": 0.0004813785235989885,
-   "simpleAt": 1795692600000,
-   "fullAt": null,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "WIF|breakout|1795716000000",
-   "coin": "WIF",
-   "type": "breakout",
-   "t": 1795716000000,
-   "lv": 0.1374,
-   "close": 0.1383,
-   "vm": 1.23,
-   "tb": 0.577,
-   "atr4": 0.004029488443849971,
-   "simpleAt": 1795691700000,
-   "fullAt": null,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "WIF|breakout-result|1795716000000",
-   "coin": "WIF",
-   "type": "breakout-result",
-   "t": 1795716000000,
-   "of": "WIF|breakout|1795716000000",
-   "spike": true,
-   "spikeAt": 1795719600000,
-   "retest": "failed",
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "TRB|warn-simple|1795712400000",
-   "coin": "TRB",
-   "wl": true,
-   "type": "warn-simple",
-   "t": 1795712400000,
-   "lv": 13.35,
-   "dist": 0.87,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "SEI|warn-simple|1795712400000",
-   "coin": "SEI",
-   "type": "warn-simple",
-   "t": 1795712400000,
-   "lv": 0.04035,
-   "dist": 0.95,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "2Z|retest-skip|1795705200000",
-   "coin": "2Z",
-   "type": "retest-skip",
-   "t": 1795705200000,
-   "of": "2Z|breakout|1795704300000",
-   "why": "R:R 1.2 to the 4H swing high",
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "2Z|breakout|1795704300000",
-   "coin": "2Z",
-   "type": "breakout",
-   "t": 1795704300000,
-   "lv": 0.01797,
-   "close": 0.01806,
-   "vm": 1.35,
-   "tb": 0.769,
-   "atr4": 0.0005528539405288057,
-   "simpleAt": 1795698900000,
-   "fullAt": null,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "2Z|breakout-result|1795704300000",
-   "coin": "2Z",
-   "type": "breakout-result",
-   "t": 1795704300000,
-   "of": "2Z|breakout|1795704300000",
-   "spike": true,
-   "spikeAt": 1795705200000,
-   "retest": "retest",
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "INIT|retest-fail|1795701600000",
-   "coin": "INIT",
-   "wl": true,
-   "type": "retest-fail",
-   "t": 1795701600000,
-   "of": "INIT|breakout|1795699800000",
-   "lv": 0.12885,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "INIT|breakout|1795699800000",
-   "coin": "INIT",
+   "id": "CFX|breakout|1795763700000",
+   "coin": "CFX",
    "wl": true,
    "type": "breakout",
-   "t": 1795699800000,
-   "lv": 0.12885,
-   "close": 0.13014,
-   "vm": 0.76,
-   "tb": 0.594,
-   "atr4": 0.007089784682849645,
-   "simpleAt": 1795698900000,
+   "t": 1795763700000,
+   "lv": 0.03482,
+   "close": 0.03483,
+   "vm": 1.04,
+   "tb": 0.689,
+   "atr4": 0.00085647613343791,
+   "simpleAt": 1795717800000,
    "fullAt": null,
-   "seen": 1795739962377,
-   "backfill": true
+   "seen": 1795772241045
   },
   {
-   "id": "INIT|breakout-result|1795699800000",
-   "coin": "INIT",
-   "wl": true,
-   "type": "breakout-result",
-   "t": 1795699800000,
-   "of": "INIT|breakout|1795699800000",
-   "spike": true,
-   "spikeAt": 1795700700000,
-   "retest": "failed",
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "INIT|warn-simple|1795698900000",
-   "coin": "INIT",
-   "wl": true,
-   "type": "warn-simple",
-   "t": 1795698900000,
-   "lv": 0.12885,
-   "dist": 0.326,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "2Z|warn-simple|1795698900000",
-   "coin": "2Z",
-   "type": "warn-simple",
-   "t": 1795698900000,
-   "lv": 0.01797,
-   "dist": 0.271,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "SAGA|warn-simple|1795692600000",
-   "coin": "SAGA",
-   "type": "warn-simple",
-   "t": 1795692600000,
-   "lv": 0.01485,
-   "dist": 0.774,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "AIXBT|warn-simple|1795691700000",
-   "coin": "AIXBT",
-   "wl": true,
-   "type": "warn-simple",
-   "t": 1795691700000,
-   "lv": 0.01336,
-   "dist": 0.612,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "WIF|warn-simple|1795691700000",
-   "coin": "WIF",
-   "type": "warn-simple",
-   "t": 1795691700000,
-   "lv": 0.1374,
-   "dist": 0.865,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "ANIME|retest-fail|1795690800000",
-   "coin": "ANIME",
-   "type": "retest-fail",
-   "t": 1795690800000,
-   "of": "ANIME|breakout|1795689900000",
-   "lv": 0.002396,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "ANIME|breakout|1795689900000",
-   "coin": "ANIME",
-   "type": "breakout",
-   "t": 1795689900000,
-   "lv": 0.002396,
-   "close": 0.00244,
-   "vm": 9.24,
-   "tb": 0.443,
-   "atr4": 0.00009337710645588229,
-   "simpleAt": 1795671000000,
-   "fullAt": null,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "TFUEL|retest-fail|1795682700000",
-   "coin": "TFUEL",
-   "type": "retest-fail",
-   "t": 1795682700000,
-   "of": "TFUEL|breakout|1795680900000",
-   "lv": 0.00792,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "THETA|retest-fail|1795681800000",
-   "coin": "THETA",
-   "type": "retest-fail",
-   "t": 1795681800000,
-   "of": "THETA|breakout|1795680900000",
-   "lv": 0.1355,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "TFUEL|breakout|1795680900000",
-   "coin": "TFUEL",
-   "type": "breakout",
-   "t": 1795680900000,
-   "lv": 0.00792,
-   "close": 0.009,
-   "vm": 169.64,
-   "tb": 0.506,
-   "atr4": 0.0002203557388057256,
-   "simpleAt": null,
-   "fullAt": null,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "TFUEL|breakout-result|1795680900000",
-   "coin": "TFUEL",
-   "type": "breakout-result",
-   "t": 1795680900000,
-   "of": "TFUEL|breakout|1795680900000",
-   "spike": true,
-   "spikeAt": 1795681800000,
-   "retest": "failed",
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "THETA|breakout|1795680900000",
-   "coin": "THETA",
-   "type": "breakout",
-   "t": 1795680900000,
-   "lv": 0.1355,
-   "close": 0.1359,
-   "vm": 85.87,
-   "tb": 0.748,
-   "atr4": 0.0036026909196210624,
-   "simpleAt": null,
-   "fullAt": null,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "BABY|retest-fail|1795671000000",
-   "coin": "BABY",
-   "type": "retest-fail",
-   "t": 1795671000000,
-   "of": "BABY|breakout|1795670100000",
-   "lv": 0.0099,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "ANIME|warn-simple|1795671000000",
-   "coin": "ANIME",
-   "type": "warn-simple",
-   "t": 1795671000000,
-   "lv": 0.002396,
-   "dist": 0.802,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "牛来|retest-fail|1795670100000",
-   "coin": "牛来",
-   "type": "retest-fail",
-   "t": 1795670100000,
-   "of": "牛来|breakout|1795668300000",
-   "lv": 0.05015,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "BABY|breakout|1795670100000",
-   "coin": "BABY",
-   "type": "breakout",
-   "t": 1795670100000,
-   "lv": 0.0099,
-   "close": 0.00996,
-   "vm": 1.39,
-   "tb": 0.605,
-   "atr4": 0.00044487847131962754,
-   "simpleAt": 1795667400000,
-   "fullAt": null,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "BABY|breakout-result|1795670100000",
-   "coin": "BABY",
-   "type": "breakout-result",
-   "t": 1795670100000,
-   "of": "BABY|breakout|1795670100000",
-   "spike": true,
-   "spikeAt": 1795674600000,
-   "retest": "failed",
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "牛来|breakout|1795668300000",
-   "coin": "牛来",
-   "type": "breakout",
-   "t": 1795668300000,
-   "lv": 0.05015,
-   "close": 0.05145,
-   "vm": 1.86,
-   "tb": 0.511,
-   "atr4": 0.0027329710752856556,
-   "simpleAt": 1795662900000,
-   "fullAt": null,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "BABY|warn-simple|1795667400000",
-   "coin": "BABY",
-   "type": "warn-simple",
-   "t": 1795667400000,
-   "lv": 0.0099,
-   "dist": 0.742,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "JST|retest-fail|1795667400000",
-   "coin": "JST",
-   "type": "retest-fail",
-   "t": 1795667400000,
-   "of": "JST|breakout|1795658400000",
-   "lv": 0.14855,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "DODO|warn-simple|1795666500000",
-   "coin": "DODO",
-   "type": "warn-simple",
-   "t": 1795666500000,
-   "lv": 0.04588,
-   "dist": 0.718,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "牛来|warn-simple|1795662900000",
-   "coin": "牛来",
-   "type": "warn-simple",
-   "t": 1795662900000,
-   "lv": 0.05015,
-   "dist": 0.907,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "TIA|warn-simple|1795659300000",
-   "coin": "TIA",
-   "wl": true,
-   "type": "warn-simple",
-   "t": 1795659300000,
-   "lv": 0.3629,
-   "dist": 0.836,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "BCH|warn-simple|1795658400000",
+   "id": "BCH|exit|1795762800000",
    "coin": "BCH",
-   "type": "warn-simple",
-   "t": 1795658400000,
-   "lv": 213.8,
-   "dist": 0.977,
-   "seen": 1795739962377,
-   "backfill": true
+   "type": "exit",
+   "t": 1795762800000,
+   "of": "BCH|entry|1795761900000",
+   "why": "stop",
+   "px": 213.49018698126952,
+   "r": -1,
+   "r2": -1,
+   "seen": 1795772241045
   },
   {
-   "id": "JST|breakout|1795658400000",
-   "coin": "JST",
+   "id": "BCH|entry|1795761900000",
+   "coin": "BCH",
+   "type": "entry",
+   "t": 1795761900000,
+   "of": "BCH|breakout|1795745700000",
+   "entry": 214,
+   "stop": 213.49018698126952,
+   "target": 216.94851937747106,
+   "rr": 3.09,
+   "costR": 0.557,
+   "full": false,
+   "btc": "up",
+   "seen": 1795772241045
+  },
+  {
+   "id": "ILV|warn-simple|1795759200000",
+   "coin": "ILV",
+   "wl": true,
+   "type": "warn-simple",
+   "t": 1795759200000,
+   "lv": 2.4,
+   "dist": 0.832,
+   "seen": 1795772241045
+  },
+  {
+   "id": "ADA|warn-simple|1795759200000",
+   "coin": "ADA",
+   "type": "warn-simple",
+   "t": 1795759200000,
+   "lv": 0.1566,
+   "dist": 0.907,
+   "seen": 1795772241045
+  },
+  {
+   "id": "LINK|breakout|1795754700000",
+   "coin": "LINK",
    "type": "breakout",
-   "t": 1795658400000,
-   "lv": 0.14855,
-   "close": 0.14912,
-   "vm": 18.54,
-   "tb": 0.619,
-   "atr4": 0.001449138626201817,
-   "simpleAt": 1795651200000,
+   "t": 1795754700000,
+   "lv": 9.558,
+   "close": 9.614,
+   "vm": 2.24,
+   "tb": 0.48,
+   "atr4": 0.2176134294551967,
+   "simpleAt": 1795727700000,
    "fullAt": null,
-   "seen": 1795739962377,
-   "backfill": true
+   "seen": 1795772241045
   },
   {
-   "id": "ME|retest-fail|1795653900000",
-   "coin": "ME",
-   "type": "retest-fail",
-   "t": 1795653900000,
-   "of": "ME|breakout|1795652100000",
-   "lv": 0.04074,
-   "seen": 1795739962377,
-   "backfill": true
+   "id": "W|exit|1795750200000",
+   "coin": "W",
+   "type": "exit",
+   "t": 1795750200000,
+   "of": "W|entry|1795748400000",
+   "why": "target",
+   "px": 0.00948652161620105,
+   "r": 2,
+   "r2": 2,
+   "seen": 1795772241045
   },
   {
-   "id": "LAYER|warn-simple|1795653900000",
-   "coin": "LAYER",
-   "type": "warn-simple",
-   "t": 1795653900000,
-   "lv": 0.0505,
-   "dist": 0.887,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "ME|breakout|1795652100000",
-   "coin": "ME",
+   "id": "HAEDAL|breakout|1795749300000",
+   "coin": "HAEDAL",
    "type": "breakout",
-   "t": 1795652100000,
-   "lv": 0.04074,
-   "close": 0.0431,
-   "vm": 187.77,
-   "tb": 0.55,
-   "atr4": 0.001271840791238406,
+   "t": 1795749300000,
+   "lv": 0.02205,
+   "close": 0.02467,
+   "vm": 1953.83,
+   "tb": 0.498,
+   "atr4": 0.00047085876833604377,
    "simpleAt": null,
    "fullAt": null,
-   "seen": 1795739962377,
-   "backfill": true
+   "seen": 1795772241045
   },
   {
-   "id": "ME|breakout-result|1795652100000",
-   "coin": "ME",
+   "id": "HAEDAL|breakout-result|1795749300000",
+   "coin": "HAEDAL",
    "type": "breakout-result",
-   "t": 1795652100000,
-   "of": "ME|breakout|1795652100000",
+   "t": 1795749300000,
+   "of": "HAEDAL|breakout|1795749300000",
    "spike": true,
-   "spikeAt": 1795653000000,
-   "retest": "failed",
-   "seen": 1795739962377,
-   "backfill": true
+   "spikeAt": 1795750200000,
+   "retest": "await",
+   "seen": 1795772241045
   },
   {
-   "id": "JST|warn-simple|1795651200000",
+   "id": "BLUR|warn-simple|1795749300000",
+   "coin": "BLUR",
+   "type": "warn-simple",
+   "t": 1795749300000,
+   "lv": 0.01133,
+   "dist": 0.932,
+   "seen": 1795772241045
+  },
+  {
+   "id": "W|entry|1795748400000",
+   "coin": "W",
+   "type": "entry",
+   "t": 1795748400000,
+   "of": "W|breakout|1795747500000",
+   "entry": 0.00925,
+   "stop": 0.00917342672319642,
+   "target": 0.00948652161620105,
+   "rr": 8.93,
+   "costR": 0.265,
+   "full": false,
+   "btc": "down",
+   "seen": 1795772241045
+  },
+  {
+   "id": "RUNE|breakout|1795748400000",
+   "coin": "RUNE",
+   "type": "breakout",
+   "t": 1795748400000,
+   "lv": 0.565,
+   "close": 0.566,
+   "vm": 1.54,
+   "tb": 0.957,
+   "atr4": 0.013897517141316243,
+   "simpleAt": null,
+   "fullAt": null,
+   "seen": 1795772241045
+  },
+  {
+   "id": "RUNE|breakout-result|1795748400000",
+   "coin": "RUNE",
+   "type": "breakout-result",
+   "t": 1795748400000,
+   "of": "RUNE|breakout|1795748400000",
+   "spike": true,
+   "spikeAt": 1795753800000,
+   "retest": "await",
+   "seen": 1795772241045
+  },
+  {
+   "id": "W|breakout|1795747500000",
+   "coin": "W",
+   "type": "breakout",
+   "t": 1795747500000,
+   "lv": 0.00919,
+   "close": 0.00921,
+   "vm": 0.42,
+   "tb": 0.637,
+   "atr4": 0.0002454015979158991,
+   "simpleAt": 1795744800000,
+   "fullAt": null,
+   "seen": 1795772241045
+  },
+  {
+   "id": "W|breakout-result|1795747500000",
+   "coin": "W",
+   "type": "breakout-result",
+   "t": 1795747500000,
+   "of": "W|breakout|1795747500000",
+   "spike": true,
+   "spikeAt": 1795750200000,
+   "retest": "retest",
+   "seen": 1795772241045
+  },
+  {
+   "id": "LTC|warn-simple|1795746600000",
+   "coin": "LTC",
+   "type": "warn-simple",
+   "t": 1795746600000,
+   "lv": 45.44,
+   "dist": 0.957,
+   "seen": 1795772241045
+  },
+  {
+   "id": "BCH|breakout|1795745700000",
+   "coin": "BCH",
+   "type": "breakout",
+   "t": 1795745700000,
+   "lv": 213.8,
+   "close": 215.3,
+   "vm": 7.74,
+   "tb": 0.484,
+   "atr4": 4.589494124071282,
+   "simpleAt": null,
+   "fullAt": null,
+   "seen": 1795772241045
+  },
+  {
+   "id": "BCH|breakout-result|1795745700000",
+   "coin": "BCH",
+   "type": "breakout-result",
+   "t": 1795745700000,
+   "of": "BCH|breakout|1795745700000",
+   "spike": true,
+   "spikeAt": 1795747500000,
+   "retest": "retest",
+   "seen": 1795772241045
+  },
+  {
+   "id": "W|warn-simple|1795744800000",
+   "coin": "W",
+   "type": "warn-simple",
+   "t": 1795744800000,
+   "lv": 0.00919,
+   "dist": 0.896,
+   "seen": 1795772241045
+  },
+  {
+   "id": "牛来|breakout-result|1795668300000",
+   "coin": "牛来",
+   "type": "breakout-result",
+   "t": 1795668300000,
+   "of": "牛来|breakout|1795668300000",
+   "spike": false,
+   "spikeAt": null,
+   "retest": "failed",
+   "seen": 1795772241045
+  },
+  {
+   "id": "JST|breakout-result|1795658400000",
    "coin": "JST",
-   "type": "warn-simple",
-   "t": 1795651200000,
-   "lv": 0.14855,
-   "dist": 0.2,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "MMT|retest-fail|1795639500000",
-   "coin": "MMT",
-   "type": "retest-fail",
-   "t": 1795639500000,
-   "of": "MMT|breakout|1795638600000",
-   "lv": 0.3177,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "MMT|breakout|1795638600000",
-   "coin": "MMT",
-   "type": "breakout",
-   "t": 1795638600000,
-   "lv": 0.3177,
-   "close": 0.3249,
-   "vm": 2.7,
-   "tb": 0.548,
-   "atr4": 0.02632107043204886,
-   "simpleAt": 1795628700000,
-   "fullAt": null,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "MMT|breakout-result|1795638600000",
-   "coin": "MMT",
    "type": "breakout-result",
-   "t": 1795638600000,
-   "of": "MMT|breakout|1795638600000",
+   "t": 1795658400000,
+   "of": "JST|breakout|1795658400000",
    "spike": false,
    "spikeAt": null,
    "retest": "failed",
-   "seen": 1795739962377,
-   "backfill": true
+   "seen": 1795772241045
   },
   {
-   "id": "MOVE|retest-fail|1795638600000",
-   "coin": "MOVE",
-   "type": "retest-fail",
-   "t": 1795638600000,
-   "of": "MOVE|breakout|1795634100000",
-   "lv": 0.005068,
-   "seen": 1795739962377,
-   "backfill": true
+   "id": "RUNE|warn-simple|1795652100000",
+   "coin": "RUNE",
+   "type": "warn-simple",
+   "t": 1795652100000,
+   "lv": 0.565,
+   "dist": 0.92,
+   "seen": 1795772241045
   },
   {
-   "id": "MOVE|breakout|1795634100000",
-   "coin": "MOVE",
+   "id": "USUAL|retest-skip|1795582800000",
+   "coin": "USUAL",
+   "type": "retest-skip",
+   "t": 1795582800000,
+   "of": "USUAL|breakout|1795581900000",
+   "why": "R:R -0.1 to the 19-day high",
+   "seen": 1795772241045
+  },
+  {
+   "id": "USUAL|breakout|1795581900000",
+   "coin": "USUAL",
    "type": "breakout",
-   "t": 1795634100000,
-   "lv": 0.005068,
-   "close": 0.005094,
-   "vm": 10.09,
-   "tb": 0.512,
-   "atr4": 0.0001782769085115032,
-   "simpleAt": 1795622400000,
+   "t": 1795581900000,
+   "lv": 0.01205,
+   "close": 0.01207,
+   "vm": 2.39,
+   "tb": 0.475,
+   "atr4": 0.00047006202027739477,
+   "simpleAt": null,
    "fullAt": null,
-   "seen": 1795739962377,
-   "backfill": true
+   "seen": 1795772241045
   },
   {
-   "id": "MOVE|breakout-result|1795634100000",
-   "coin": "MOVE",
+   "id": "USUAL|breakout-result|1795581900000",
+   "coin": "USUAL",
    "type": "breakout-result",
-   "t": 1795634100000,
-   "of": "MOVE|breakout|1795634100000",
+   "t": 1795581900000,
+   "of": "USUAL|breakout|1795581900000",
    "spike": true,
-   "spikeAt": 1795635000000,
-   "retest": "failed",
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "MANTRA|exit|1795633200000",
-   "coin": "MANTRA",
-   "type": "exit",
-   "t": 1795633200000,
-   "of": "MANTRA|entry|1795630500000",
-   "why": "target",
-   "px": 0.002775492697693094,
-   "r": 2,
-   "r2": 2,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "MANTRA|entry|1795630500000",
-   "coin": "MANTRA",
-   "type": "entry",
-   "t": 1795630500000,
-   "of": "MANTRA|breakout|1795629600000",
-   "entry": 0.00265,
-   "stop": 0.0025991965655250107,
-   "target": 0.002775492697693094,
-   "rr": 4.8,
-   "costR": 0.134,
-   "full": false,
-   "btc": "down",
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "MANTRA|breakout|1795629600000",
-   "coin": "MANTRA",
-   "type": "breakout",
-   "t": 1795629600000,
-   "lv": 0.00262,
-   "close": 0.00264,
-   "vm": 0.72,
-   "tb": 0.499,
-   "atr4": 0.0001523196137928475,
-   "simpleAt": 1795621500000,
-   "fullAt": null,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "MANTRA|breakout-result|1795629600000",
-   "coin": "MANTRA",
-   "type": "breakout-result",
-   "t": 1795629600000,
-   "of": "MANTRA|breakout|1795629600000",
-   "spike": true,
-   "spikeAt": 1795633200000,
+   "spikeAt": 1795590000000,
    "retest": "retest",
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "MMT|warn-simple|1795628700000",
-   "coin": "MMT",
-   "type": "warn-simple",
-   "t": 1795628700000,
-   "lv": 0.3177,
-   "dist": 0.96,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "XPL|warn-simple|1795628700000",
-   "coin": "XPL",
-   "type": "warn-simple",
-   "t": 1795628700000,
-   "lv": 0.04909,
-   "dist": 0.963,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "KITE|warn-simple|1795628700000",
-   "coin": "KITE",
-   "type": "warn-simple",
-   "t": 1795628700000,
-   "lv": 0.1475,
-   "dist": 0.929,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "LISTA|retest-fail|1795627800000",
-   "coin": "LISTA",
-   "type": "retest-fail",
-   "t": 1795627800000,
-   "of": "LISTA|breakout|1795626000000",
-   "lv": 0.1197,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "LISTA|breakout|1795626000000",
-   "coin": "LISTA",
-   "type": "breakout",
-   "t": 1795626000000,
-   "lv": 0.1197,
-   "close": 0.1219,
-   "vm": 0.81,
-   "tb": 0.539,
-   "atr4": 0.009662862934473937,
-   "simpleAt": 1795616100000,
-   "fullAt": null,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "LISTA|breakout-result|1795626000000",
-   "coin": "LISTA",
-   "type": "breakout-result",
-   "t": 1795626000000,
-   "of": "LISTA|breakout|1795626000000",
-   "spike": false,
-   "spikeAt": null,
-   "retest": "failed",
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "SSV|exit|1795623300000",
-   "coin": "SSV",
-   "type": "exit",
-   "t": 1795623300000,
-   "of": "SSV|entry|1795620600000",
-   "why": "target",
-   "px": 1.9973142006715827,
-   "r": 2,
-   "r2": 2,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "MOVE|warn-simple|1795622400000",
-   "coin": "MOVE",
-   "type": "warn-simple",
-   "t": 1795622400000,
-   "lv": 0.005068,
-   "dist": 0.926,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "MANTRA|warn-simple|1795621500000",
-   "coin": "MANTRA",
-   "type": "warn-simple",
-   "t": 1795621500000,
-   "lv": 0.00262,
-   "dist": 0.335,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "SSV|entry|1795620600000",
-   "coin": "SSV",
-   "type": "entry",
-   "t": 1795620600000,
-   "of": "SSV|breakout|1795619700000",
-   "entry": 1.916,
-   "stop": 1.8839778520928514,
-   "target": 1.9973142006715827,
-   "rr": 5.54,
-   "costR": 0.151,
-   "full": false,
-   "btc": "down",
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "SSV|breakout|1795619700000",
-   "coin": "SSV",
-   "type": "breakout",
-   "t": 1795619700000,
-   "lv": 1.91,
-   "close": 1.93,
-   "vm": 2.65,
-   "tb": 0.357,
-   "atr4": 0.06508179874874452,
-   "simpleAt": 1795608900000,
-   "fullAt": null,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "SSV|breakout-result|1795619700000",
-   "coin": "SSV",
-   "type": "breakout-result",
-   "t": 1795619700000,
-   "of": "SSV|breakout|1795619700000",
-   "spike": true,
-   "spikeAt": 1795622400000,
-   "retest": "retest",
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "LISTA|warn-simple|1795616100000",
-   "coin": "LISTA",
-   "type": "warn-simple",
-   "t": 1795616100000,
-   "lv": 0.1197,
-   "dist": 0.963,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "LAYER|retest-fail|1795612500000",
-   "coin": "LAYER",
-   "type": "retest-fail",
-   "t": 1795612500000,
-   "of": "LAYER|breakout|1795611600000",
-   "lv": 0.047,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "LAYER|breakout|1795611600000",
-   "coin": "LAYER",
-   "type": "breakout",
-   "t": 1795611600000,
-   "lv": 0.047,
-   "close": 0.0485,
-   "vm": 5.82,
-   "tb": 0.513,
-   "atr4": 0.0012635754487275376,
-   "simpleAt": 1795609800000,
-   "fullAt": null,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "LAYER|breakout-result|1795611600000",
-   "coin": "LAYER",
-   "type": "breakout-result",
-   "t": 1795611600000,
-   "of": "LAYER|breakout|1795611600000",
-   "spike": true,
-   "spikeAt": 1795612500000,
-   "retest": "failed",
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "LAYER|warn-simple|1795609800000",
-   "coin": "LAYER",
-   "type": "warn-simple",
-   "t": 1795609800000,
-   "lv": 0.047,
-   "dist": 0.237,
-   "seen": 1795739962377,
-   "backfill": true
-  },
-  {
-   "id": "SSV|warn-simple|1795608900000",
-   "coin": "SSV",
-   "type": "warn-simple",
-   "t": 1795608900000,
-   "lv": 1.91,
-   "dist": 0.953,
-   "seen": 1795739962377,
-   "backfill": true
+   "seen": 1795772241045
   }
  ]
 }

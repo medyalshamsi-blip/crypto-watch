@@ -50,3 +50,6 @@
 {"id":"TRB|retest-fail|1795724100000","coin":"TRB","wl":true,"type":"retest-fail","t":1795724100000,"of":"TRB|breakout|1795723200000","lv":13.35,"seen":1795739962377,"backfill":true}
 {"id":"LINK|warn-simple|1795727700000","coin":"LINK","type":"warn-simple","t":1795727700000,"lv":9.558,"dist":0.967,"seen":1795739962377,"backfill":true}
 {"id":"WIF|retest-fail|1795727700000","coin":"WIF","type":"retest-fail","t":1795727700000,"of":"WIF|breakout|1795716000000","lv":0.1374,"seen":1795739962377,"backfill":true}
+{"id":"RUNE|warn-simple|1795652100000","coin":"RUNE","type":"warn-simple","t":1795652100000,"lv":0.565,"dist":0.92,"seen":1795772241045}
+{"id":"JST|breakout-result|1795658400000","coin":"JST","type":"breakout-result","t":1795658400000,"of":"JST|breakout|1795658400000","spike":false,"spikeAt":null,"retest":"failed","seen":1795772241045}
+{"id":"牛来|breakout-result|1795668300000","coin":"牛来","type":"breakout-result","t":1795668300000,"of":"牛来|breakout|1795668300000","spike":false,"spikeAt":null,"retest":"failed","seen":1795772241045}
