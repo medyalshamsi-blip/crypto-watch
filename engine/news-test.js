@@ -13,8 +13,8 @@ const med = a => { if (!a.length) return null; const s = a.slice().sort((x, y) =
 let seed = 7; const rand = () => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; };
 
 const cache = new Map();
-async function bars(c, from) {             // 15m candles from `from` for ~10 days
-  const k = c + '|' + Math.floor(from / 864e5);
+async function bars(c, from) {             // 1000 15m candles from `from` (about 10.4 days)
+  const k = c + "|" + from;
   if (cache.has(k)) return cache.get(k);
   let b = null;
   try { b = (await bin(`/api/v3/klines?symbol=${c}USDT&interval=15m&startTime=${from}&limit=1000`)).map(x => [x[0], +x[1], +x[2], +x[3], +x[4], +x[7]]); } catch (e) { b = null; }
@@ -23,12 +23,12 @@ async function bars(c, from) {             // 15m candles from `from` for ~10 da
   return b;
 }
 async function check(c, at) {
-  const b = await bars(c, at - 11 * 864e5);
+  const b = await bars(c, Math.floor((at - 9.5 * 864e5) / 9e5) * 9e5);   // the headline sits ~22 h before the window ends
   return b ? NEWS.react(b, at, Date.now(), { btc: c === 'BTC' || c === 'ETH' }) : null;
 }
-async function baseline(c, at, n = 6) {    // same coin, random times 1–10 days before the headline
+async function baseline(c, at, n = 6) {    // same coin, random times 1–8 days before the headline
   const out = [];
-  for (let k = 0; k < n; k++) { const t = at - (1 + rand() * 9) * 864e5; const r = await check(c, t); if (r && r.done) out.push(r); }
+  for (let k = 0; k < n; k++) { const t = at - (1 + rand() * 7) * 864e5; const r = await check(c, t); if (r && r.done) out.push(r); }
   return out;
 }
 function sum(rows) {
@@ -92,7 +92,7 @@ async function main() {
     const rs = rows.filter(r => r.group === g), dirRows = rs.filter(r => r.dir && r.status === 'confirmed');
     groups[g] = { headlines: sum(rs), baseline: sum(base[g] || []), directionRight: dirRows.length ? Math.round(1000 * dirRows.filter(r => Math.sign(r.m) === r.dir).length / dirRows.length) / 10 : null, directionN: dirRows.length };
   }
-  const out = { about: 'Replay of the breaking-news price check. Confirmed/faded/muted as in news.js; baseline = the same coins at random times 1–10 days earlier.', ran: new Date(now).toISOString(), groups, nvidia: { at: new Date(NV).toISOString(), coins: nv, btcSameHourOtherDays: sum(nvBase) }, counts: { events: events.length, checked: rows.length } };
+  const out = { about: 'Replay of the breaking-news price check. Confirmed/faded/muted as in news.js; baseline = the same coins at random times 1–8 days earlier.', ran: new Date(now).toISOString(), groups, nvidia: { at: new Date(NV).toISOString(), coins: nv, btcSameHourOtherDays: sum(nvBase) }, counts: { events: events.length, checked: rows.length } };
   fs.mkdirSync(OUT, { recursive: true });
   fs.writeFileSync(path.join(OUT, 'summary.json'), JSON.stringify(out, null, 1));
   const csv = ['group,type,w,dir,coin,at,status,move,peak,x,volume,title'].concat(rows.map(r => [r.group, r.type, r.w, r.dir, r.c, r.at, r.status, r.m.toFixed(4), r.peak.toFixed(4), r.x.toFixed(2), r.vr.toFixed(2), '"' + r.title.replace(/"/g, "'") + '"'].join(',')));
