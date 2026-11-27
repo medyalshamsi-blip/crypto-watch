@@ -2,8 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Crypto watch</title>
+<meta name="theme-color" content="#0b0b0b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Crypto watch">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -35,7 +43,7 @@ a{color:var(--blue)}
 .strip{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:baseline;font-size:14px;color:var(--ink2);padding:2px 0 6px}
 .strip b{color:var(--ink);font-weight:600}.strip .si{white-space:nowrap}
 @media (max-width:600px){#strip{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;font-size:13px}#strip>*{flex:none}#strip::-webkit-scrollbar{display:none}}
-.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}.tabs button{flex:none}@media (max-width:600px){.tabs{gap:6px}}
 .tabs button{border:0;background:transparent;font:inherit;font-size:15px;font-weight:600;color:var(--ink2);padding:10px 16px;border-bottom:3px solid transparent;cursor:pointer;min-height:44px;white-space:nowrap}
 .tabs button:hover{color:var(--ink)}
 .tabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--ink)}
@@ -1467,6 +1475,7 @@ function watch(key, tool, input, onData, hours) {
 const watchBars = (key, input, use, hours) => watch(key, 'mcp-tv-get-ohlcv', input, p => { if (p === null) return use(null); const b = tvBars(p); if (!b) return false; use(b); }, hours);
 const QCOLS = ['close', 'change', 'RSI', 'MACD.macd', 'MACD.signal', 'EMA20', 'EMA50', 'EMA200'];
 let tvAll = false;                           // light mode until the user asks for everything
+let TVQ = false;                             // TradingView's daily allowance is used up
 function tvQuotes(p) {
   if (typeof p === 'string') { try { p = JSON.parse(p); } catch (e) { return null; } }
   let d = p && (p.data || p.results || p.symbols); if (!d || typeof d !== 'object') return null;
@@ -1505,7 +1514,7 @@ function tvExtras() {
 function tvLoadAll() { tvAll = true; cfg.coins.forEach(loadCoin); tvExtras(); renderLite(); later(); }
 function renderLite() {
   const el = $('#lite'); if (!el) return;
-  if (mode !== 'tv' || tvAll) { el.innerHTML = ''; return; }
+  if (mode !== 'tv' || tvAll || TVQ) { el.innerHTML = ''; return; }
   const left = cfg.coins.filter(c => !unsubs['d:' + c]).length + (unsubs['cal'] ? 0 : 5);
   el.innerHTML = `<div class="banner"><span><b>Light mode</b>: 3 TradingView calls per open. Tap a coin to load its playbook and chart (1 call, kept 2 hours).</span>${left ? `<button class="btn sm" id="liteAll">Load everything (${left} calls)</button>` : ''}</div>`;
   const b = $('#liteAll'); if (b) b.onclick = tvLoadAll;
@@ -1559,12 +1568,12 @@ function tvNotice() {
     shape: 'TradingView replied in an unexpected format.'
   }[e.code] || 'TradingView did not answer. The last good data stays on screen; press Refresh later.';
   const all = errs.length === ks.length && codes.length === 1;
-  const quota = /quota|limit/i.test(e.message || '');
-  const text = quota ? 'TradingView’s daily allowance for connector calls is used up, so this link has nothing to show until it resets (TradingView says within a day). Live data does not depend on it: the website version and the PC file read Binance directly.' : msg;
-  banner((all || quota ? '' : errs.length + ' of ' + ks.length + ' data sections failed. ') + text, e.code === 'approval_required' ? 'Allow TradingView' : '');
+  const quota = /quota|limit/i.test(e.message || ''); TVQ = quota; renderLite();
+  const text = quota ? 'TradingView’s daily allowance for connector calls is used up, so this Claude link has nothing new to show until it resets (TradingView says within a day). The live website reads Binance directly and does not use the allowance.' : msg;
+  banner((all || quota ? '' : errs.length + ' of ' + ks.length + ' data sections failed. ') + text, e.code === 'approval_required' ? 'Allow TradingView' : '', quota || all);
   if (all) {
     setMode(DENY.has(e.code) ? 'bad' : 'warn', 'TradingView unavailable');
-    if (!cfg.coins.some(c => S[c] && S[c].scan)) { $('#finding').textContent = quota ? 'No data: TradingView’s daily allowance is used up.' : 'No market data from TradingView right now.'; $('#findingSub').textContent = 'The board fills in as soon as TradingView answers. Press Refresh after the allowance resets.'; }
+    if (!cfg.coins.some(c => S[c] && S[c].scan)) { $('#finding').textContent = quota ? 'No data: TradingView’s daily allowance is used up.' : 'No market data from TradingView right now.'; $('#findingSub').textContent = 'Open the live website (button above): it reads Binance directly and works now. This link fills in again once TradingView answers; press Refresh after the allowance resets.'; }
   }
 }
 function tvRefresh() { if (TV) TV.invalidate(TVS).catch(() => {}); }
@@ -1935,10 +1944,12 @@ $('#heat').addEventListener('click', e => { const tr = e.target.closest('tr[data
 
 // ---------------------------------------------------------------- shell: mode chip, banner, render queue
 function setMode(state, text) { const m = $('#mode'); m.firstElementChild.className = 'dot ' + ({ ok: 'ok', live: 'ok', warn: 'warn', bad: 'bad' }[state] || ''); m.lastElementChild.textContent = text; }
-function banner(text, action) {
+const SITE_URL = 'https://medyalshamsi-blip.github.io/crypto-watch/';   // the live version: Binance data, no TradingView allowance
+const siteLink = (t = 'Open the live website') => `<a class="btn sm" href="${SITE_URL}" target="_blank" rel="noopener">${t} ↗</a>`;
+function banner(text, action, link) {
   const b = $('#banner');
   if (!text) { b.innerHTML = ''; return; }
-  b.innerHTML = `<div class="banner"><span>${esc(text)}</span>${action ? `<button class="btn sm" id="bannerAct">${esc(action)}</button>` : ''}</div>`;
+  b.innerHTML = `<div class="banner"><span>${esc(text)}</span>${action ? `<button class="btn sm" id="bannerAct">${esc(action)}</button>` : ''}${link ? siteLink() : ''}</div>`;
   if (action) $('#bannerAct').onclick = tvAllow;
 }
 let queued = false;
@@ -2298,13 +2309,14 @@ function alertLine() {
 function renderSumTab() {
   const box = $('#sumMarket'); if (!box || tab !== 'summary') return;
   const bc = c => `<button class="lnk" data-c="${esc(c)}">${esc(c)}</button>`, bl = c => `<button class="lnk" data-look="${esc(c)}">${esc(c)}</button>`, sc = $('#sessClock');
-  box.innerHTML = `<h3>Market <button class="lnk" data-goto="market">Open Market →</button></h3><p class="big">${esc($('#finding').textContent)}</p><p class="k">${esc($('#findingSub').textContent)}</p>${BRIEF.l1 ? `<p>${BRIEF.l1}</p>` : ''}${sc && sc.querySelector('.si') ? `<p class="k">${[...sc.querySelectorAll('.si')].map(x => x.innerHTML).join(' · ').replace(/: · /, ': ')}</p>` : ''}`;
+  const noData = mode === 'tv' && !cfg.coins.some(c => S[c] && (S[c].scan || S[c].main));
+  box.innerHTML = `<h3>Market <button class="lnk" data-goto="market">Open Market →</button></h3><p class="big">${esc($('#finding').textContent)}</p>${noData ? `<p>${siteLink('Open the live website instead')}</p>` : ''}<p class="k">${esc($('#findingSub').textContent)}</p>${BRIEF.l1 ? `<p>${BRIEF.l1}</p>` : ''}${sc && sc.querySelector('.si') ? `<p class="k">${[...sc.querySelectorAll('.si')].map(x => x.innerHTML).join(' · ').replace(/: · /, ': ')}</p>` : ''}`;
   const rec = events.filter(e => Date.now() - e.at < DAY).slice(0, 5);
   $('#sumAlerts').innerHTML = `<h3>Alerts <button class="lnk" data-goto="watchlist">Watchlist →</button></h3><p>${alertLine() || 'Pings, breakout setups and radar hits appear on the website and the PC file.'}</p>${rec.length ? `<ul>${rec.map(e => `<li><span class="k">${hm(e.at)}</span> ${esc(e.text)}</li>`).join('')}</ul>` : '<p class="k">No price or trigger alerts in the last 24 hours.</p>'}`;
   const W = ALL().map(c => S[c]).filter(s => s && ok(s.price)), setups = W.filter(s => s.status && s.status.k !== 'wait'), near = W.filter(s => s.scan && nearDist(s) <= .03).sort((x, z) => nearDist(x) - nearDist(z));
   $('#sumWatch').innerHTML = `<h3>Watchlist <button class="lnk" data-goto="watchlist">Open Watchlist →</button></h3>${BRIEF.l2 ? `<p>${BRIEF.l2}</p>` : ''}<p><b>Setups</b> (key level and 1:3): ${setups.length ? setups.slice(0, 6).map(s => bc(s.c)).join(', ') : 'none, so the playbook says wait'}.</p><p><b>Within 3% of a daily trigger</b>: ${near.length ? near.slice(0, 6).map(s => `${bc(s.c)} ${(nearDist(s) * 100).toFixed(1)}%`).join(', ') : 'none'}.</p>${BRIEF.l4 ? `<p>${BRIEF.l4}</p>` : ''}`;
   const rt = $('#sumRadarTxt');
-  if (mode === 'tv') rt.innerHTML = '<p class="k">The radar reads all of Binance live; open the website or the PC file for it.</p>';
+  if (mode === 'tv') rt.innerHTML = `<p class="k">The radar reads all of Binance live, which this Claude link cannot reach; the website can.</p>${siteLink()}`;
   else if (mode !== 'live') rt.innerHTML = '<p class="k">Waiting for data.</p>';
   else if (!RD.on && !RD.busy) rt.innerHTML = '<p class="k">Not loaded on this screen: it downloads about 20 days of candles for ~130 coins.</p><button class="btn sm" data-rdstart="1" type="button">Load the radar</button>';
   else if (RD.back !== 'done') rt.innerHTML = `<p class="k">Loading the radar (${RD.busy ? `${RD.syms.filter(x => RD.d15[x]).length} of ${RD.syms.length || '…'} coins` : `4H data, ${RD.backN || 0} of ${RD.syms.length} coins`})…</p>`;
