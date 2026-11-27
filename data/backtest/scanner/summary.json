@@ -1,0 +1,440 @@
+{
+ "about": "Daily playbook scanner, live rules vs the book rebuild (27 Nov 2026): Bullish calls scored as right when the close 7 days later is higher, Bearish when lower. Edge = hit rate minus the share of all test days that went the same way. Not financial advice.",
+ "ran": "2026-11-27T14:13:17.941Z",
+ "coins": 119,
+ "failed": {
+  "HYPEUSDT": "only 64 days",
+  "CFGUSDT": "only 256 days",
+  "GRAMUSDT": "only 148 days",
+  "NIGHTUSDT": "only 261 days",
+  "牛来USDT": "only 79 days",
+  "OPGUSDT": "only 189 days",
+  "MARSCOINUSDT": "only 84 days",
+  "AEROUSDT": "only 133 days",
+  "CHIPUSDT": "only 220 days"
+ },
+ "rows": 10058,
+ "changedCalls": 790,
+ "periods": {
+  "all": {
+   "old": {
+    "days": 666,
+    "calls": 10058,
+    "baseUp": 0.437,
+    "bullish": {
+     "n": 2032,
+     "hit": 0.4582,
+     "edge": 0.0212,
+     "edgeCI90": [
+      -0.021,
+      0.067
+     ],
+     "avg7d": 0.0126
+    },
+    "bearish": {
+     "n": 3984,
+     "hit": 0.5612,
+     "edge": -0.0018,
+     "edgeCI90": [
+      -0.031,
+      0.032
+     ],
+     "avg7d": -0.0122
+    }
+   },
+   "new": {
+    "days": 666,
+    "calls": 10058,
+    "baseUp": 0.437,
+    "bullish": {
+     "n": 2198,
+     "hit": 0.4591,
+     "edge": 0.0221,
+     "edgeCI90": [
+      -0.021,
+      0.066
+     ],
+     "avg7d": 0.0127
+    },
+    "bearish": {
+     "n": 3768,
+     "hit": 0.561,
+     "edge": -0.002,
+     "edgeCI90": [
+      -0.033,
+      0.033
+     ],
+     "avg7d": -0.0124
+    }
+   },
+   "changedOnly": {
+    "n": 790,
+    "old": {
+     "days": 282,
+     "calls": 790,
+     "baseUp": 0.4139,
+     "bullish": {
+      "n": 66,
+      "hit": 0.4697,
+      "edge": 0.0558,
+      "edgeCI90": [
+       -0.046,
+       0.152
+      ],
+      "avg7d": -0.002
+     },
+     "bearish": {
+      "n": 354,
+      "hit": 0.6017,
+      "edge": 0.0156,
+      "edgeCI90": [
+       -0.029,
+       0.06
+      ],
+      "avg7d": -0.0151
+     }
+    },
+    "new": {
+     "days": 282,
+     "calls": 790,
+     "baseUp": 0.4139,
+     "bullish": {
+      "n": 232,
+      "hit": 0.4698,
+      "edge": 0.0559,
+      "edgeCI90": [
+       -0.017,
+       0.124
+      ],
+      "avg7d": 0.0099
+     },
+     "bearish": {
+      "n": 138,
+      "hit": 0.6594,
+      "edge": 0.0733,
+      "edgeCI90": [
+       -0.002,
+       0.152
+      ],
+      "avg7d": -0.027
+     }
+    }
+   }
+  },
+  "before May 2026": {
+   "old": {
+    "days": 463,
+    "calls": 6743,
+    "baseUp": 0.4578,
+    "bullish": {
+     "n": 1327,
+     "hit": 0.468,
+     "edge": 0.0102,
+     "edgeCI90": [
+      -0.049,
+      0.069
+     ],
+     "avg7d": 0.0131
+    },
+    "bearish": {
+     "n": 2770,
+     "hit": 0.5357,
+     "edge": -0.0065,
+     "edgeCI90": [
+      -0.048,
+      0.037
+     ],
+     "avg7d": -0.0124
+    }
+   },
+   "new": {
+    "days": 463,
+    "calls": 6743,
+    "baseUp": 0.4578,
+    "bullish": {
+     "n": 1444,
+     "hit": 0.4668,
+     "edge": 0.009,
+     "edgeCI90": [
+      -0.05,
+      0.068
+     ],
+     "avg7d": 0.0138
+    },
+    "bearish": {
+     "n": 2639,
+     "hit": 0.5369,
+     "edge": -0.0052,
+     "edgeCI90": [
+      -0.047,
+      0.039
+     ],
+     "avg7d": -0.0126
+    }
+   },
+   "changedOnly": {
+    "n": 522,
+    "old": {
+     "days": 169,
+     "calls": 522,
+     "baseUp": 0.4521,
+     "bullish": {
+      "n": 50,
+      "hit": 0.46,
+      "edge": 0.0079,
+      "edgeCI90": [
+       -0.121,
+       0.132
+      ],
+      "avg7d": -0.0056
+     },
+     "bearish": {
+      "n": 218,
+      "hit": 0.5367,
+      "edge": -0.0112,
+      "edgeCI90": [
+       -0.071,
+       0.054
+      ],
+      "avg7d": -0.0099
+     }
+    },
+    "new": {
+     "days": 169,
+     "calls": 522,
+     "baseUp": 0.4521,
+     "bullish": {
+      "n": 167,
+      "hit": 0.4551,
+      "edge": 0.003,
+      "edgeCI90": [
+       -0.077,
+       0.094
+      ],
+      "avg7d": 0.0132
+     },
+     "bearish": {
+      "n": 87,
+      "hit": 0.5747,
+      "edge": 0.0268,
+      "edgeCI90": [
+       -0.068,
+       0.131
+      ],
+      "avg7d": -0.0136
+     }
+    }
+   }
+  },
+  "May-Aug 2026": {
+   "old": {
+    "days": 123,
+    "calls": 1935,
+    "baseUp": 0.4388,
+    "bullish": {
+     "n": 356,
+     "hit": 0.4663,
+     "edge": 0.0275,
+     "edgeCI90": [
+      -0.059,
+      0.103
+     ],
+     "avg7d": 0.0101
+    },
+    "bearish": {
+     "n": 809,
+     "hit": 0.5501,
+     "edge": -0.0112,
+     "edgeCI90": [
+      -0.051,
+      0.03
+     ],
+     "avg7d": -0.0003
+    }
+   },
+   "new": {
+    "days": 123,
+    "calls": 1935,
+    "baseUp": 0.4388,
+    "bullish": {
+     "n": 384,
+     "hit": 0.4688,
+     "edge": 0.03,
+     "edgeCI90": [
+      -0.053,
+      0.101
+     ],
+     "avg7d": 0.0096
+    },
+    "bearish": {
+     "n": 763,
+     "hit": 0.5478,
+     "edge": -0.0134,
+     "edgeCI90": [
+      -0.054,
+      0.029
+     ],
+     "avg7d": -0.0028
+    }
+   },
+   "changedOnly": {
+    "n": 142,
+    "old": {
+     "days": 67,
+     "calls": 142,
+     "baseUp": 0.3592,
+     "bullish": {
+      "n": 7,
+      "hit": 0.4286,
+      "edge": 0.0694,
+      "edgeCI90": [
+       -0.217,
+       0.526
+      ],
+      "avg7d": -0.0375
+     },
+     "bearish": {
+      "n": 73,
+      "hit": 0.6575,
+      "edge": 0.0167,
+      "edgeCI90": [
+       -0.054,
+       0.09
+      ],
+      "avg7d": 0.0046
+     }
+    },
+    "new": {
+     "days": 67,
+     "calls": 142,
+     "baseUp": 0.3592,
+     "bullish": {
+      "n": 35,
+      "hit": 0.4857,
+      "edge": 0.1266,
+      "edgeCI90": [
+       -0.02,
+       0.262
+      ],
+      "avg7d": -0.0052
+     },
+     "bearish": {
+      "n": 27,
+      "hit": 0.7778,
+      "edge": 0.1369,
+      "edgeCI90": [
+       0.003,
+       0.262
+      ],
+      "avg7d": -0.0562
+     }
+    }
+   }
+  },
+  "Sep-Nov 2026": {
+   "old": {
+    "days": 80,
+    "calls": 1380,
+    "baseUp": 0.3326,
+    "bullish": {
+     "n": 349,
+     "hit": 0.4126,
+     "edge": 0.08,
+     "edgeCI90": [
+      0.019,
+      0.147
+     ],
+     "avg7d": 0.0129
+    },
+    "bearish": {
+     "n": 405,
+     "hit": 0.758,
+     "edge": 0.0906,
+     "edgeCI90": [
+      0.046,
+      0.127
+     ],
+     "avg7d": -0.0346
+    }
+   },
+   "new": {
+    "days": 80,
+    "calls": 1380,
+    "baseUp": 0.3326,
+    "bullish": {
+     "n": 370,
+     "hit": 0.4189,
+     "edge": 0.0863,
+     "edgeCI90": [
+      0.025,
+      0.151
+     ],
+     "avg7d": 0.0118
+    },
+    "bearish": {
+     "n": 366,
+     "hit": 0.7623,
+     "edge": 0.0949,
+     "edgeCI90": [
+      0.05,
+      0.133
+     ],
+     "avg7d": -0.0314
+    }
+   },
+   "changedOnly": {
+    "n": 126,
+    "old": {
+     "days": 46,
+     "calls": 126,
+     "baseUp": 0.3175,
+     "bullish": {
+      "n": 9,
+      "hit": 0.5556,
+      "edge": 0.2381,
+      "edgeCI90": [
+       -0.044,
+       0.504
+      ],
+      "avg7d": 0.0455
+     },
+     "bearish": {
+      "n": 63,
+      "hit": 0.7619,
+      "edge": 0.0794,
+      "edgeCI90": [
+       -0.012,
+       0.155
+      ],
+      "avg7d": -0.0558
+     }
+    },
+    "new": {
+     "days": 46,
+     "calls": 126,
+     "baseUp": 0.3175,
+     "bullish": {
+      "n": 30,
+      "hit": 0.5333,
+      "edge": 0.2159,
+      "edgeCI90": [
+       0.031,
+       0.359
+      ],
+      "avg7d": 0.0094
+     },
+     "bearish": {
+      "n": 24,
+      "hit": 0.8333,
+      "edge": 0.1508,
+      "edgeCI90": [
+       0.03,
+       0.279
+      ],
+      "avg7d": -0.0425
+     }
+    }
+   }
+  }
+ }
+}
