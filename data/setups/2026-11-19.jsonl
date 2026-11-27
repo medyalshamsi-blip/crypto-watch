@@ -1,0 +1,13 @@
+{"id":"LUNC|breakout|1795050000000","coin":"LUNC","type":"breakout","t":1795050000000,"lv":0.00004388,"close":0.00004399,"vm":2.09,"tb":0.541,"atr4":0.000001702397387327355,"simpleAt":1795044600000,"fullAt":null,"seen":1795739962377,"backfill":true}
+{"id":"LUNC|breakout-result|1795050000000","coin":"LUNC","type":"breakout-result","t":1795050000000,"of":"LUNC|breakout|1795050000000","spike":true,"spikeAt":1795056300000,"retest":"failed","seen":1795739962377,"backfill":true}
+{"id":"LUNC|retest-fail|1795050900000","coin":"LUNC","type":"retest-fail","t":1795050900000,"of":"LUNC|breakout|1795050000000","lv":0.00004388,"seen":1795739962377,"backfill":true}
+{"id":"FTT|breakout|1795099500000","coin":"FTT","wl":true,"type":"breakout","t":1795099500000,"lv":0.2319,"close":0.236,"vm":171.98,"tb":0.57,"atr4":0.005749470071413569,"simpleAt":null,"fullAt":null,"seen":1795739962377,"backfill":true}
+{"id":"FTT|breakout-result|1795099500000","coin":"FTT","wl":true,"type":"breakout-result","t":1795099500000,"of":"FTT|breakout|1795099500000","spike":true,"spikeAt":1795100400000,"retest":"failed","seen":1795739962377,"backfill":true}
+{"id":"FTT|retest-fail|1795100400000","coin":"FTT","wl":true,"type":"retest-fail","t":1795100400000,"of":"FTT|breakout|1795099500000","lv":0.2319,"seen":1795739962377,"backfill":true}
+{"id":"MMT|breakout|1795102200000","coin":"MMT","type":"breakout","t":1795102200000,"lv":0.2833,"close":0.2924,"vm":10.9,"tb":0.494,"atr4":0.025214220463083834,"simpleAt":null,"fullAt":null,"seen":1795739962377,"backfill":true}
+{"id":"MMT|breakout-result|1795102200000","coin":"MMT","type":"breakout-result","t":1795102200000,"of":"MMT|breakout|1795102200000","spike":true,"spikeAt":1795103100000,"retest":"retest","seen":1795739962377,"backfill":true}
+{"id":"MMT|entry|1795103100000","coin":"MMT","type":"entry","t":1795103100000,"of":"MMT|breakout|1795102200000","entry":0.2872,"stop":0.2672271508310165,"target":0.3297343813625038,"rr":null,"costR":0.04,"full":false,"btc":"down","seen":1795739962377,"backfill":true}
+{"id":"MMT|exit|1795104000000","coin":"MMT","type":"exit","t":1795104000000,"of":"MMT|entry|1795103100000","why":"stop","px":0.2672271508310165,"r":-1,"r2":-1,"seen":1795739962377,"backfill":true}
+{"id":"JST|warn-simple|1795107600000","coin":"JST","type":"warn-simple","t":1795107600000,"lv":0.14716,"dist":0.991,"seen":1795739962377,"backfill":true}
+{"id":"LUNC|warn-simple|1795110300000","coin":"LUNC","type":"warn-simple","t":1795110300000,"lv":0.00004978,"dist":0.969,"seen":1795739962377,"backfill":true}
+{"id":"PROM|warn-simple|1795128300000","coin":"PROM","type":"warn-simple","t":1795128300000,"lv":5.715,"dist":0.946,"seen":1795739962377,"backfill":true}

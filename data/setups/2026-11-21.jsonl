@@ -1,0 +1,7 @@
+{"id":"AIGENSYN|warn-simple|1795233600000","coin":"AIGENSYN","type":"warn-simple","t":1795233600000,"lv":0.01457,"dist":0.908,"seen":1795739962377,"backfill":true}
+{"id":"DODO|breakout|1795248900000","coin":"DODO","type":"breakout","t":1795248900000,"lv":0.03582,"close":0.03588,"vm":1.41,"tb":0.561,"atr4":0.0014354621640640466,"simpleAt":null,"fullAt":null,"seen":1795739962377,"backfill":true}
+{"id":"DODO|breakout-result|1795248900000","coin":"DODO","type":"breakout-result","t":1795248900000,"of":"DODO|breakout|1795248900000","spike":true,"spikeAt":1795249800000,"retest":"retest","seen":1795739962377,"backfill":true}
+{"id":"DODO|entry|1795249800000","coin":"DODO","type":"entry","t":1795249800000,"of":"DODO|breakout|1795248900000","entry":0.03691,"stop":0.03565073302203409,"target":0.039761222989482155,"rr":null,"costR":0.08,"full":false,"btc":"down","seen":1795739962377,"backfill":true}
+{"id":"DODO|exit|1795253400000","coin":"DODO","type":"exit","t":1795253400000,"of":"DODO|entry|1795249800000","why":"target","px":0.039761222989482155,"r":2,"r2":2,"seen":1795739962377,"backfill":true}
+{"id":"ORCA|warn-simple|1795272300000","coin":"ORCA","wl":true,"type":"warn-simple","t":1795272300000,"lv":1.302,"dist":0.057,"seen":1795739962377,"backfill":true}
+{"id":"JST|warn-simple|1795303800000","coin":"JST","type":"warn-simple","t":1795303800000,"lv":0.14853,"dist":0.987,"seen":1795739962377,"backfill":true}

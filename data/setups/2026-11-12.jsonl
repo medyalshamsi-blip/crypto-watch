@@ -1,0 +1,17 @@
+{"id":"OPG|entry|1794446100000","coin":"OPG","type":"entry","t":1794446100000,"of":"OPG|breakout|1794391200000","entry":0.1328,"stop":0.1315267281806493,"target":0.13654353913194123,"rr":null,"costR":0.237,"full":false,"btc":"unknown","seen":1795739962377,"backfill":true}
+{"id":"OPG|exit|1794451500000","coin":"OPG","type":"exit","t":1794451500000,"of":"OPG|entry|1794446100000","why":"target","px":0.13654353913194123,"r":2,"r2":2,"seen":1795739962377,"backfill":true}
+{"id":"KITE|warn-simple|1794458700000","coin":"KITE","type":"warn-simple","t":1794458700000,"lv":0.1292,"dist":0.979,"seen":1795739962377,"backfill":true}
+{"id":"KITE|breakout|1794465000000","coin":"KITE","type":"breakout","t":1794465000000,"lv":0.1292,"close":0.1294,"vm":1.15,"tb":0.601,"atr4":0.003472215321255345,"simpleAt":1794458700000,"fullAt":null,"seen":1795739962377,"backfill":true}
+{"id":"KITE|breakout-result|1794465000000","coin":"KITE","type":"breakout-result","t":1794465000000,"of":"KITE|breakout|1794465000000","spike":false,"spikeAt":null,"retest":"failed","seen":1795739962377,"backfill":true}
+{"id":"KITE|retest-fail|1794465900000","coin":"KITE","type":"retest-fail","t":1794465900000,"of":"KITE|breakout|1794465000000","lv":0.1292,"seen":1795739962377,"backfill":true}
+{"id":"NIGHT|warn-simple|1794473100000","coin":"NIGHT","type":"warn-simple","t":1794473100000,"lv":0.04881,"dist":0.948,"seen":1795739962377,"backfill":true}
+{"id":"GRAM|warn-simple|1794473100000","coin":"GRAM","type":"warn-simple","t":1794473100000,"lv":1.257,"dist":0.59,"seen":1795739962377,"backfill":true}
+{"id":"ICP|warn-simple|1794476700000","coin":"ICP","type":"warn-simple","t":1794476700000,"lv":2.637,"dist":0.933,"seen":1795739962377,"backfill":true}
+{"id":"WLFI|warn-simple|1794478500000","coin":"WLFI","type":"warn-simple","t":1794478500000,"lv":0.049,"dist":0.98,"seen":1795739962377,"backfill":true}
+{"id":"KERNEL|warn-simple|1794490200000","coin":"KERNEL","wl":true,"type":"warn-simple","t":1794490200000,"lv":0.0467,"dist":0.997,"seen":1795739962377,"backfill":true}
+{"id":"DODO|warn-simple|1794497400000","coin":"DODO","type":"warn-simple","t":1794497400000,"lv":0.02371,"dist":0.251,"seen":1795739962377,"backfill":true}
+{"id":"DODO|breakout|1794498300000","coin":"DODO","type":"breakout","t":1794498300000,"lv":0.02371,"close":0.02541,"vm":11.13,"tb":0.614,"atr4":0.00039894410978740744,"simpleAt":1794497400000,"fullAt":null,"seen":1795739962377,"backfill":true}
+{"id":"DODO|breakout-result|1794498300000","coin":"DODO","type":"breakout-result","t":1794498300000,"of":"DODO|breakout|1794498300000","spike":true,"spikeAt":1794499200000,"retest":"extended","seen":1795739962377,"backfill":true}
+{"id":"JST|warn-simple|1794499200000","coin":"JST","type":"warn-simple","t":1794499200000,"lv":0.14734,"dist":0.741,"seen":1795739962377,"backfill":true}
+{"id":"KITE|warn-simple|1794499200000","coin":"KITE","type":"warn-simple","t":1794499200000,"lv":0.1303,"dist":0.377,"seen":1795739962377,"backfill":true}
+{"id":"ETHFI|warn-simple|1794519000000","coin":"ETHFI","wl":true,"type":"warn-simple","t":1794519000000,"lv":0.6561,"dist":0.987,"seen":1795739962377,"backfill":true}

@@ -1,0 +1,6 @@
+{"id":"SOPH|warn-simple|1794706200000","coin":"SOPH","type":"warn-simple","t":1794706200000,"lv":0.00261,"dist":0.58,"seen":1795739962377,"backfill":true}
+{"id":"KITE|breakout|1794710700000","coin":"KITE","type":"breakout","t":1794710700000,"lv":0.1314,"close":0.1315,"vm":1.15,"tb":0.468,"atr4":0.003874490765238551,"simpleAt":1794628800000,"fullAt":null,"seen":1795739962377,"backfill":true}
+{"id":"KITE|breakout-result|1794710700000","coin":"KITE","type":"breakout-result","t":1794710700000,"of":"KITE|breakout|1794710700000","spike":true,"spikeAt":1794735900000,"retest":"retest","seen":1795739962377,"backfill":true}
+{"id":"KITE|entry|1794711600000","coin":"KITE","type":"entry","t":1794711600000,"of":"KITE|breakout|1794710700000","entry":0.1316,"stop":0.13079246760020014,"target":0.13440124406850307,"rr":null,"costR":0.328,"full":false,"btc":"down","seen":1795739962377,"backfill":true}
+{"id":"KITE|exit|1794712500000","coin":"KITE","type":"exit","t":1794712500000,"of":"KITE|entry|1794711600000","why":"stop","px":0.13079246760020014,"r":-1,"r2":-1,"seen":1795739962377,"backfill":true}
+{"id":"NIGHT|warn-simple|1794717000000","coin":"NIGHT","type":"warn-simple","t":1794717000000,"lv":0.05126,"dist":0.604,"seen":1795739962377,"backfill":true}

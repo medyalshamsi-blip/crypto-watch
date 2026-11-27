@@ -1,0 +1,9 @@
+{"id":"AIGENSYN|breakout|1795311900000","coin":"AIGENSYN","type":"breakout","t":1795311900000,"lv":0.01457,"close":0.01468,"vm":5.48,"tb":0.677,"atr4":0.0005804422274612337,"simpleAt":1795233600000,"fullAt":null,"seen":1795739962377,"backfill":true}
+{"id":"AIGENSYN|breakout-result|1795311900000","coin":"AIGENSYN","type":"breakout-result","t":1795311900000,"of":"AIGENSYN|breakout|1795311900000","spike":true,"spikeAt":1795320000000,"retest":"retest","seen":1795739962377,"backfill":true}
+{"id":"AIGENSYN|retest-skip|1795312800000","coin":"AIGENSYN","type":"retest-skip","t":1795312800000,"of":"AIGENSYN|breakout|1795311900000","why":"R:R 1.7 to the 16-day high","seen":1795739962377,"backfill":true}
+{"id":"KITE|warn-simple|1795340700000","coin":"KITE","type":"warn-simple","t":1795340700000,"lv":0.1446,"dist":0.667,"seen":1795739962377,"backfill":true}
+{"id":"ZAMA|warn-simple|1795342500000","coin":"ZAMA","type":"warn-simple","t":1795342500000,"lv":0.06401,"dist":0.901,"seen":1795739962377,"backfill":true}
+{"id":"LISTA|warn-simple|1795373100000","coin":"LISTA","type":"warn-simple","t":1795373100000,"lv":0.0755,"dist":0.801,"seen":1795739962377,"backfill":true}
+{"id":"LISTA|breakout|1795374900000","coin":"LISTA","type":"breakout","t":1795374900000,"lv":0.0755,"close":0.0757,"vm":2.61,"tb":0.598,"atr4":0.002123440312495726,"simpleAt":1795373100000,"fullAt":null,"seen":1795739962377,"backfill":true}
+{"id":"LISTA|breakout-result|1795374900000","coin":"LISTA","type":"breakout-result","t":1795374900000,"of":"LISTA|breakout|1795374900000","spike":true,"spikeAt":1795383000000,"retest":"failed","seen":1795739962377,"backfill":true}
+{"id":"LISTA|retest-fail|1795375800000","coin":"LISTA","type":"retest-fail","t":1795375800000,"of":"LISTA|breakout|1795374900000","lv":0.0755,"seen":1795739962377,"backfill":true}

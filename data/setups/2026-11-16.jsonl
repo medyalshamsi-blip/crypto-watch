@@ -1,0 +1,5 @@
+{"id":"TFUEL|warn-simple|1794807900000","coin":"TFUEL","type":"warn-simple","t":1794807900000,"lv":0.00794,"dist":0.648,"seen":1795739962377,"backfill":true}
+{"id":"HUMA|breakout|1794846600000","coin":"HUMA","type":"breakout","t":1794846600000,"lv":0.00879,"close":0.00915,"vm":3.81,"tb":0.531,"atr4":0.0004740762506996135,"simpleAt":null,"fullAt":null,"seen":1795739962377,"backfill":true}
+{"id":"HUMA|breakout-result|1794846600000","coin":"HUMA","type":"breakout-result","t":1794846600000,"of":"HUMA|breakout|1794846600000","spike":true,"spikeAt":1794847500000,"retest":"retest","seen":1795739962377,"backfill":true}
+{"id":"HUMA|entry|1794848400000","coin":"HUMA","type":"entry","t":1794848400000,"of":"HUMA|breakout|1794846600000","entry":0.00889,"stop":0.008590669997831838,"target":0.009568790199629263,"rr":15.16,"costR":0.081,"full":false,"btc":"down","seen":1795739962377,"backfill":true}
+{"id":"HUMA|exit|1794849300000","coin":"HUMA","type":"exit","t":1794849300000,"of":"HUMA|entry|1794848400000","why":"stop","px":0.008590669997831838,"r":-1,"r2":-1,"seen":1795739962377,"backfill":true}

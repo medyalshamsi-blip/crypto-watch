@@ -1,0 +1,6 @@
+{"id":"HMSTR|warn-simple|1794981600000","coin":"HMSTR","type":"warn-simple","t":1794981600000,"lv":0.0001495,"dist":0.859,"seen":1795739962377,"backfill":true}
+{"id":"SENT|warn-simple|1795017600000","coin":"SENT","type":"warn-simple","t":1795017600000,"lv":0.02006,"dist":0.526,"seen":1795739962377,"backfill":true}
+{"id":"SENT|breakout|1795035600000","coin":"SENT","type":"breakout","t":1795035600000,"lv":0.02006,"close":0.0202,"vm":1.92,"tb":0.773,"atr4":0.0006726927056306757,"simpleAt":1795017600000,"fullAt":null,"seen":1795739962377,"backfill":true}
+{"id":"SENT|breakout-result|1795035600000","coin":"SENT","type":"breakout-result","t":1795035600000,"of":"SENT|breakout|1795035600000","spike":true,"spikeAt":1795041000000,"retest":"failed","seen":1795739962377,"backfill":true}
+{"id":"SENT|retest-fail|1795036500000","coin":"SENT","type":"retest-fail","t":1795036500000,"of":"SENT|breakout|1795035600000","lv":0.02006,"seen":1795739962377,"backfill":true}
+{"id":"LUNC|warn-simple|1795044600000","coin":"LUNC","type":"warn-simple","t":1795044600000,"lv":0.00004388,"dist":0.969,"seen":1795739962377,"backfill":true}
