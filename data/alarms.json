@@ -1,6 +1,6 @@
 {
  "about": "Written by engine/alarms.js on GitHub Actions. Read by the dashboard and by the Claude alarm relay. Not financial advice.",
- "heartbeat": "2026-11-26T23:35:02.517Z",
+ "heartbeat": "2026-11-27T05:21:17.268Z",
  "ok": true,
  "scanned": 43,
  "of": 44,
@@ -8,7 +8,170 @@
  "failed": {
   "POPCAT": "not on Binance spot"
  },
- "alerts": [],
+ "alerts": [
+  {
+   "at": "2026-11-27T05:21:17.268Z",
+   "focus": true,
+   "key": "INIT|close-up|2026-11-26",
+   "coin": "INIT",
+   "type": "close-up",
+   "text": "INIT closed 2026-11-26 at 0.1421, above the bull trigger 0.1288",
+   "strong": true
+  },
+  {
+   "at": "2026-11-27T05:21:17.268Z",
+   "focus": true,
+   "key": "INIT|struct-up|2026-11-26",
+   "coin": "INIT",
+   "type": "struct-up",
+   "text": "INIT daily CHoCH up: closed 2026-11-26 at 0.1421 above the swing at 0.1288",
+   "strong": true
+  },
+  {
+   "at": "2026-11-27T05:21:17.268Z",
+   "focus": false,
+   "key": "FET|close-up|2026-11-26",
+   "coin": "FET",
+   "type": "close-up",
+   "text": "FET closed 2026-11-26 at 0.1203, above the bull trigger 0.1196",
+   "strong": true
+  },
+  {
+   "at": "2026-11-27T05:21:17.268Z",
+   "focus": false,
+   "key": "FET|struct-up|2026-11-26",
+   "coin": "FET",
+   "type": "struct-up",
+   "text": "FET daily CHoCH up: closed 2026-11-26 at 0.1203 above the swing at 0.1196",
+   "strong": true
+  },
+  {
+   "at": "2026-11-27T05:21:17.268Z",
+   "focus": false,
+   "key": "TRB|close-up|2026-11-26",
+   "coin": "TRB",
+   "type": "close-up",
+   "text": "TRB closed 2026-11-26 at 13.560, above the bull trigger 13.350",
+   "strong": true
+  },
+  {
+   "at": "2026-11-27T05:21:17.268Z",
+   "focus": false,
+   "key": "TRB|struct-up|2026-11-26",
+   "coin": "TRB",
+   "type": "struct-up",
+   "text": "TRB daily CHoCH up: closed 2026-11-26 at 13.560 above the swing at 13.350",
+   "strong": true
+  },
+  {
+   "at": "2026-11-27T05:21:17.268Z",
+   "focus": true,
+   "key": "INIT|spike|2026-11-26",
+   "coin": "INIT",
+   "type": "spike",
+   "text": "INIT daily volume 3.2× its 20-day average on 2026-11-26, 51% taker buys, green candle; not bullish yet",
+   "strong": false
+  },
+  {
+   "at": "2026-11-27T05:21:17.268Z",
+   "focus": true,
+   "key": "INIT|brk-up|2026-11-26",
+   "coin": "INIT",
+   "type": "brk-up",
+   "text": "INIT daily breakout up through a support / resistance area on 2026-11-26, volume 3.2× average",
+   "strong": false
+  },
+  {
+   "at": "2026-11-27T05:21:17.268Z",
+   "focus": true,
+   "key": "ZRO|brk-up|2026-11-26",
+   "coin": "ZRO",
+   "type": "brk-up",
+   "text": "ZRO daily breakout up through a support / resistance area on 2026-11-26, on low volume",
+   "strong": false
+  },
+  {
+   "at": "2026-11-27T05:21:17.268Z",
+   "focus": false,
+   "key": "IO|brk-down|2026-11-26",
+   "coin": "IO",
+   "type": "brk-down",
+   "text": "IO daily breakout down through a support / resistance area on 2026-11-26, on low volume",
+   "strong": false
+  },
+  {
+   "at": "2026-11-27T05:21:17.268Z",
+   "focus": false,
+   "key": "TRB|spike|2026-11-26",
+   "coin": "TRB",
+   "type": "spike",
+   "text": "TRB daily volume 2.0× its 20-day average on 2026-11-26, 57% taker buys, green candle; not bullish yet",
+   "strong": false
+  },
+  {
+   "at": "2026-11-27T05:21:17.268Z",
+   "focus": false,
+   "key": "TRB|brk-up|2026-11-26",
+   "coin": "TRB",
+   "type": "brk-up",
+   "text": "TRB daily breakout up through a support / resistance area on 2026-11-26, volume 2.0× average",
+   "strong": false
+  },
+  {
+   "at": "2026-11-27T05:21:17.268Z",
+   "focus": false,
+   "key": "AIXBT|spike|2026-11-26",
+   "coin": "AIXBT",
+   "type": "spike",
+   "text": "AIXBT daily volume 3.8× its 20-day average on 2026-11-26, 48% taker buys, red candle",
+   "strong": false
+  },
+  {
+   "at": "2026-11-27T05:21:17.268Z",
+   "focus": false,
+   "key": "MAGIC|touch-up|2026-11-27",
+   "coin": "MAGIC",
+   "type": "touch-up",
+   "text": "MAGIC is trading above the bull trigger 0.07010 (now 0.06920); it needs a daily close to count",
+   "strong": false
+  },
+  {
+   "at": "2026-11-27T05:21:17.268Z",
+   "focus": false,
+   "key": "ORCA|brk-up|2026-11-26",
+   "coin": "ORCA",
+   "type": "brk-up",
+   "text": "ORCA daily breakout up through a support / resistance area on 2026-11-26, on low volume",
+   "strong": false
+  },
+  {
+   "at": "2026-11-27T05:21:17.268Z",
+   "focus": false,
+   "key": "ZEC|brk-down|2026-11-26",
+   "coin": "ZEC",
+   "type": "brk-down",
+   "text": "ZEC daily breakout down through a support / resistance area on 2026-11-26, on low volume",
+   "strong": false
+  },
+  {
+   "at": "2026-11-27T05:21:17.268Z",
+   "focus": false,
+   "key": "CFX|touch-up|2026-11-27",
+   "coin": "CFX",
+   "type": "touch-up",
+   "text": "CFX is trading above the bull trigger 0.03443 (now 0.03414); it needs a daily close to count",
+   "strong": false
+  },
+  {
+   "at": "2026-11-27T05:21:17.268Z",
+   "focus": false,
+   "key": "ONDO|brk-up|2026-11-26",
+   "coin": "ONDO",
+   "type": "brk-up",
+   "text": "ONDO daily breakout up through a support / resistance area on 2026-11-26, on low volume",
+   "strong": false
+  }
+ ],
  "fired": {
   "INIT|touch-up|2026-11-26": 1795736102517,
   "ORDI|spike|2026-11-25": 1795736102517,
@@ -27,7 +190,25 @@
   "MAGIC|brk-up|2026-11-25": 1795736102517,
   "ZEC|touch-down|2026-11-26": 1795736102517,
   "DASH|brk-up|2026-11-25": 1795736102517,
-  "CFX|touch-up|2026-11-26": 1795736102517
+  "CFX|touch-up|2026-11-26": 1795736102517,
+  "INIT|close-up|2026-11-26": 1795756877268,
+  "INIT|spike|2026-11-26": 1795756877268,
+  "INIT|struct-up|2026-11-26": 1795756877268,
+  "INIT|brk-up|2026-11-26": 1795756877268,
+  "ZRO|brk-up|2026-11-26": 1795756877268,
+  "FET|close-up|2026-11-26": 1795756877268,
+  "FET|struct-up|2026-11-26": 1795756877268,
+  "IO|brk-down|2026-11-26": 1795756877268,
+  "TRB|close-up|2026-11-26": 1795756877268,
+  "TRB|spike|2026-11-26": 1795756877268,
+  "TRB|struct-up|2026-11-26": 1795756877268,
+  "TRB|brk-up|2026-11-26": 1795756877268,
+  "AIXBT|spike|2026-11-26": 1795756877268,
+  "MAGIC|touch-up|2026-11-27": 1795756877268,
+  "ORCA|brk-up|2026-11-26": 1795756877268,
+  "ZEC|brk-down|2026-11-26": 1795756877268,
+  "CFX|touch-up|2026-11-27": 1795756877268,
+  "ONDO|brk-up|2026-11-26": 1795756877268
  },
- "lastSuccess": "2026-11-26T23:35:02.517Z"
+ "lastSuccess": "2026-11-27T05:21:17.268Z"
 }
