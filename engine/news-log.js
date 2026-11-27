@@ -70,6 +70,14 @@ async function main() {
   const items = (prev.items || []).filter(it => now - it.at < KEEP_DAYS * 86400e3);
   const seen = new Set(items.map(it => it.id));
 
+  // Rules improve over time: tag the kept headlines again with the current rules (their price checks stay).
+  for (const it of items) {
+    const cls = NEWS.classify(it.title, '', { official: it.official });
+    const cs = NEWS.coins(it.title, prev.universe ? new Set(prev.universe) : null);
+    for (const a of it.also || []) { /* repeats keep the lead's tags */ }
+    Object.assign(it, { type: cls.type, label: cls.label, w: cls.w, dir: cls.dir, coins: cs.length ? cs : it.coins, market: NEWS.isMarket(cls, cs) });
+  }
+
   // Coins that trade against USDT on Binance.
   let universe = new Set(prev.universe || []);
   try {

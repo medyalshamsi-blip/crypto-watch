@@ -5,16 +5,15 @@ const NEWS = (() => {
   const SOURCES = [
     { id: 'binance-list', name: 'Binance listings', kind: 'binance', catalog: 48, official: true },
     { id: 'binance-delist', name: 'Binance delistings', kind: 'binance', catalog: 161, official: true },
-    { id: 'upbit', name: 'Upbit notices', kind: 'upbit', official: true },
     { id: 'coindesk', name: 'CoinDesk', kind: 'rss', url: 'https://www.coindesk.com/arc/outboundfeeds/rss/' },
     { id: 'theblock', name: 'The Block', kind: 'rss', url: 'https://www.theblock.co/rss.xml' },
     { id: 'cointelegraph', name: 'Cointelegraph', kind: 'rss', url: 'https://cointelegraph.com/rss' },
     { id: 'decrypt', name: 'Decrypt', kind: 'rss', url: 'https://decrypt.co/feed' },
-    { id: 'blockworks', name: 'Blockworks', kind: 'rss', url: 'https://blockworks.co/feed' },
+    { id: 'cryptoslate', name: 'CryptoSlate', kind: 'rss', url: 'https://cryptoslate.com/feed/' },
     { id: 'cnbc', name: 'CNBC', kind: 'rss', url: 'https://www.cnbc.com/id/100003114/device/rss/rss.html', macro: true },
     { id: 'cnbc-econ', name: 'CNBC Economy', kind: 'rss', url: 'https://www.cnbc.com/id/20910258/device/rss/rss.html', macro: true },
     { id: 'cnbc-earn', name: 'CNBC Earnings', kind: 'rss', url: 'https://www.cnbc.com/id/15839135/device/rss/rss.html', macro: true },
-    { id: 'fed', name: 'Federal Reserve', kind: 'rss', url: 'https://www.federalreserve.gov/feeds/press_all.xml', official: true, macro: true },
+    { id: 'fed', name: 'Federal Reserve', kind: 'rss', url: 'https://www.federalreserve.gov/feeds/press_monetary.xml', official: true, macro: true },
     { id: 'sec', name: 'SEC', kind: 'rss', url: 'https://www.sec.gov/news/pressreleases.rss', official: true }
   ];
 
@@ -33,7 +32,7 @@ const NEWS = (() => {
     { type: 'stocks', label: 'Stocks and big-tech earnings', w: 2, dir: 0, re: /\b(Nvidia|NVDA|earnings|quarterly (results|revenue)|revenue (beat|miss)|AI (stocks|trade|bubble)|Nasdaq|S&P 500|Dow|Wall Street|sell-?off|stock market|Magnificent Seven)\b/i },
     { type: 'legal', label: 'Regulation and courts', w: 2, dir: 0, re: /\b(SEC|CFTC|DOJ|Department of Justice|lawsuit|sues|sued|charge[sd]|indict(ed|ment)|settle(s|d|ment)|bans?|banned|regulators?|regulation|regulatory|bill|Senate|Congress|court|judge|MiCA|licen[cs]e[sd]?|crackdown|probe|investigation|executive order|White House)\b/ },
     { type: 'whale', label: 'Big buyers and sellers', w: 2, dir: 0, re: /\b(Strategy|MicroStrategy|Saylor|BlackRock|Mt\.? ?Gox|government wallet|moves? \$?[\d.,]+ ?(billion|million|bn|m)\b|whales?|treasury (firm|company|companies)|(buys|bought|sells|sold|acquires|acquired|dumps|dumped) [\d.,]+ ?(k |thousand |million |billion )?(BTC|ETH|SOL|bitcoin|ether))\b/i },
-    { type: 'unlock', label: 'Token unlock', w: 2, dir: -1, re: /\b(token unlocks?|unlock(s|ing)? (of )?\$?[\d.,]+)\b/i },
+    { type: 'unlock', label: 'Token unlock', w: 2, dir: -1, re: /\b([Tt]oken [Uu]nlocks?|[Uu]nlocks? (of )?\$[\d.,]+ ?(million|billion|[mMB]|bn)|[Uu]nlock(s|ing)? [\d.,]+ ?(million|billion|[MB]|bn)? ?[A-Z]{2,10})\b/ },
     { type: 'flows', label: 'Flows and liquidations', w: 1, dir: 0, re: /\b(liquidat(ion|ions|ed)|inflows?|outflows?|open interest|short squeeze|funding rates?)\b/i },
     { type: 'upgrade', label: 'Upgrade or launch', w: 1, dir: 1, re: /\b(mainnet|upgrade|hard fork|hardfork|launch(es|ed)?|partnership|partners with|integrat(es|ion)|airdrop|token burn|buyback)\b/i }
   ];
@@ -55,10 +54,10 @@ const NEWS = (() => {
     'Pudgy Penguins': 'PENGU', 'World Liberty Financial': 'WLFI', Hyperliquid: 'HYPE', 'Official Trump': 'TRUMP', Optimism: 'OP', Mantle: 'MNT', Immutable: 'IMX',
     'The Sandbox': 'SAND', Decentraland: 'MANA', 'Axie Infinity': 'AXS', Gala: 'GALA', ApeCoin: 'APE', Ronin: 'RON', Stacks: 'STX', Kaspa: 'KAS', Berachain: 'BERA',
     Plasma: 'XPL', Movement: 'MOVE', Story: 'IP', Near: 'NEAR', 'NEAR Protocol': 'NEAR', Render: 'RENDER', Stellar: 'XLM', Avalanche: 'AVAX', Cosmos: 'ATOM', Dash: 'DASH',
-    Treasure: 'MAGIC', Orca: 'ORCA', Newton: 'NEWT', Polygon: 'POL', Maker: 'MKR', Sky: 'SKY', Celo: 'CELO', Flow: 'FLOW', Trump: 'TRUMP', 'Ethereum Classic': 'ETC'
+    Treasure: 'MAGIC', Orca: 'ORCA', Newton: 'NEWT', Polygon: 'POL', Maker: 'MKR', Sky: 'SKY', Celo: 'CELO', Flow: 'FLOW', 'Ethereum Classic': 'ETC'
   };
-  const CTX_NAMES = new Set(['Near', 'Render', 'Stellar', 'Avalanche', 'Cosmos', 'Dash', 'Treasure', 'Orca', 'Newton', 'Story', 'Movement', 'Plasma', 'Optimism', 'Maker', 'Sky', 'Flow', 'Trump', 'Celo', 'Jupiter', 'Mantle', 'Gala', 'Stacks', 'Polygon', 'Immutable', 'Sei', 'Ondo', 'Kaito', 'Lido', 'Pyth', 'Ronin']);
-  const CRYPTO_CTX = /\b(tokens?|coins?|memecoins?|crypto|cryptocurrency|blockchain|network|protocol|chain|price|rall(y|ies)|surges?|jumps?|soars?|plunges?|drops?|falls?|tumbles?|slides?|DeFi|staking|airdrop|listing|delist\w*|liquidity|pools?|wallets?|exchanges?|DEX|hack\w*|exploit\w*|\$[A-Z]{2,})\b/i;
+  const CTX_NAMES = new Set(['Near', 'Render', 'Stellar', 'Avalanche', 'Cosmos', 'Dash', 'Treasure', 'Orca', 'Newton', 'Story', 'Movement', 'Plasma', 'Optimism', 'Maker', 'Sky', 'Flow', 'Celo', 'Jupiter', 'Mantle', 'Gala', 'Stacks', 'Polygon', 'Immutable', 'Sei', 'Ondo', 'Kaito', 'Lido', 'Pyth', 'Ronin']);
+  const CRYPTO_CTX = /\b(tokens?|coins?|memecoins?|crypto|cryptocurrency|blockchain|on-?chain|protocol|mainnet|testnet|DeFi|staking|airdrop|delist\w*|liquidity pools?|wallets?|DEX|stablecoins?|layer[- ]?[12]|L[12]|\$[A-Z]{2,})\b/i;
   // Uppercase words that are tickers on Binance but usually mean something else in a headline.
   const STOP = new Set(('AI ID OG ME IT AT IN ON OR US UK EU UN ARK NFP ONE ACT CITY DATA EDU FUN HIGH HOT KEY RED SIGN SUN WIN GAS BIO USUAL FIRST PEOPLE MAGIC BOND CAKE SAND MOVE NOT ' +
     'ETF ETFS SEC CEO CFO CTO USD USDT GDP CPI PCE PPI FED FOMC IPO DOJ NFT NFTS DAO DEX CEX TVL ATH API OTC IRS FBI UAE USA XAI COOKIE STORY SAGA PORTAL PIXEL RARE HOOK MASK MEME ' +
@@ -78,6 +77,7 @@ const NEWS = (() => {
     let ctx = CRYPTO_CTX.test(text);
     if (!ctx) for (const m of text.matchAll(nameRe)) if (!CTX_NAMES.has(m[2])) { ctx = true; break; }   // another coin named nearby
     for (const m of text.matchAll(/\$([A-Za-z][A-Za-z0-9]{1,9})\b/g)) add(m[1].toUpperCase());          // cashtags always count
+    if (/\b(Official Trump|TRUMP (token|memecoin|coin)|Trump (memecoin|meme ?coin|token))\b/i.test(text)) add('TRUMP');
     for (const m of text.matchAll(nameRe)) { const n = m[2]; if (CTX_NAMES.has(n) && !ctx) continue; add(NAMES[n]); }
     for (const m of text.matchAll(/(^|[^A-Za-z0-9$])([A-Z][A-Z0-9]{2,9})(?=$|[^A-Za-z0-9])/g)) {      // TICKER in capitals, 3+ letters
       const t = m[2]; if (STOP.has(t) || /^\d/.test(t)) continue;
@@ -91,7 +91,7 @@ const NEWS = (() => {
   // What kind of news it is, and how much it tends to matter.
   function classify(title, summary = '', src = {}) {
     const text = title + ' ' + (summary || '').slice(0, 300);
-    const hits = RULES.filter(r => r.re.test(title) || (r.w >= 2 && r.re.test(summary || '')));
+    const hits = RULES.filter(r => r.re.test(title));
     let best = hits.reduce((a, r) => (!a || r.w > a.w) ? r : a, null);
     let w = best ? best.w : 0;
     if (best && best.type === 'list' && /delist/i.test(title)) { best = RULES.find(r => r.type === 'delist'); w = 3; }
@@ -101,6 +101,9 @@ const NEWS = (() => {
     if (best && best.type === 'data' && /\b(CPI|nonfarm|non-farm|payrolls|PCE)\b/i.test(title) && /\b(rises?|falls?|hotter|cooler|beats?|miss(es)?|unexpected|surges?|jumps?|slows?|eases?)\b/i.test(title)) w = 3;
     if (best && best.type === 'legal' && !/\b(crypto|bitcoin|token|coin|exchange|stablecoin|DeFi|Binance|Coinbase|ether|blockchain|digital asset)\b/i.test(text)) w = Math.min(w, 1);
     if (best && best.type === 'whale' && !/\b(bitcoin|BTC|ether|ETH|crypto|token|coin|SOL|XRP)\b/i.test(text)) w = 0;
+    const crypto = CRYPTO_CTX.test(title) || /\b(bitcoin|BTC|ether|ethereum|ETH|solana|XRP|binance|coinbase|upbit|bithumb|robinhood|okx|bybit|kraken|tether|USDT|USDC|exchange)\b/i.test(title) || [...title.matchAll(nameRe)].some(m => !CTX_NAMES.has(m[2])) || /\$[A-Z]{2,}/.test(title);
+    if (best && ['hack', 'unlock', 'depeg', 'delist', 'list'].includes(best.type) && !crypto && !src.official) w = 0;
+    if (best && best.type === 'hack' && w > 1 && /\b(after|since|response|recover\w*|restor\w*|lifts?|resum\w*|returns?|refunds?|can freeze|security (group|firm|alliance)|bounty|sentenced|arrested|charged|lessons?)\b/i.test(title)) { w = 1; best = Object.assign({}, best, { label: 'Hack aftermath', dir: 0 }); }
     const digest = DIGEST.test(title);
     if (digest) w = Math.max(0, Math.min(w, 2) - 1);
     if (src.official && w > 0) w = Math.min(3, w + (best && ['list', 'delist', 'rates'].includes(best.type) ? 0 : 1));
@@ -153,7 +156,9 @@ const NEWS = (() => {
     return Math.round(s * 10) / 10;
   }
   const BREAK_H = 3;
-  const isBreaking = (it, now = Date.now()) => now - it.at < BREAK_H * 3600e3 && (it.w >= 3 || (it.react && it.react.status === 'confirmed' && it.w >= 1) || it.score >= 3.5);
+  const isBreaking = (it, now = Date.now()) => now - it.at < BREAK_H * 3600e3 && (it.w >= 3 || (it.w >= 2 && it.react && it.react.status === 'confirmed' && (!it.market || it.react.x >= 4)));
+  // What the box lists: anything with an impact type, plus coin news that prices confirmed.
+  const isShown = it => it.w >= 1 || (it.react && it.react.status === 'confirmed' && it.coins.some(c => c !== 'BTC' && c !== 'ETH'));
 
   // RSS / Atom without libraries.
   const ENT = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', '#39': "'", hellip: '…', mdash: '—', ndash: '–', rsquo: '’', lsquo: '‘', rdquo: '”', ldquo: '“' };
@@ -181,6 +186,6 @@ const NEWS = (() => {
       urgent: x.urgency === 1, related: (x.relatedSymbols || []).map(s => String(s.symbol || s).split(':').pop().replace(/USDT?$|USD$|\.P$/, '')).filter(Boolean)
     }));
   }
-  return { SOURCES, RULES, NAMES, P, BREAK_H, coins, classify, isMarket, react, sameStory, score, isBreaking, parseFeed, parseTV, dec };
+  return { SOURCES, RULES, NAMES, P, BREAK_H, coins, classify, isMarket, react, sameStory, score, isBreaking, isShown, parseFeed, parseTV, dec };
 })();
 if (typeof module !== 'undefined') module.exports = NEWS;
