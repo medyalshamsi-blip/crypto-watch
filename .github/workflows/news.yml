@@ -1,0 +1,40 @@
+name: news
+on:
+  schedule:
+    - cron: '4,19,34,49 * * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "live (read the sources and update data/news.json) or test (replay the price check on past notices and current headlines)"
+        required: false
+        default: live
+        type: choice
+        options: [live, test]
+permissions:
+  contents: write
+concurrency:
+  group: news-${{ inputs.mode || 'live' }}
+  cancel-in-progress: false
+jobs:
+  read:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Read the news sources and check Binance prices
+        env:
+          MODE: ${{ inputs.mode || 'live' }}
+        run: if [ "$MODE" = test ]; then node engine/news-test.js; else node engine/news-log.js; fi
+      - name: Save
+        if: always()
+        run: |
+          if [ -n "$(git status --porcelain -- data)" ]; then
+            git config user.name "crypto-watch news"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data
+            git commit -q -m "news ${{ inputs.mode || 'live' }} $(date -u +%Y-%m-%dT%H:%MZ)"
+            for i in 1 2 3 4 5; do git pull -q --rebase && git push -q && break; sleep 10; done
+          fi
