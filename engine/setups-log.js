@@ -67,6 +67,23 @@ function events(coin, r, r2, trend, wl) {
   for (const b of r.brks) if (b.state === 'failed') add({ type: 'retest-fail', t: b.failT, of: `${coin}|breakout|${b.t}`, lv: b.lv });
   return out;
 }
+// fast 15m pings on watchlist coins (rules in setups.js): the ping, its 2-hour result, and every 5%-in-an-hour spike
+function pingEvents(coin, x) {
+  const out = [], add = e => out.push(Object.assign({ id: `${coin}|${e.type}|${e.t}`, coin, wl: true }, e)), f = (v, d) => +v.toFixed(d);
+  for (const q of x.pings) {
+    add({ type: 'ping', t: q.t, price: q.price, r: f(q.r, 4), vm: f(q.vm, 2), buy: Number.isFinite(q.buy) ? f(q.buy, 3) : null, aboveVwap: q.aboveVwap, above16: q.above16, confirmed: q.confirmed });
+    if (q.done) add({ type: 'ping-result', t: q.t, of: `${coin}|ping|${q.t}`, spikeAt: q.spikeAt, maxUp: Number.isFinite(q.maxUp) ? f(q.maxUp, 4) : null });
+  }
+  for (const k of x.spikes) add({ type: 'spike5', t: k.t, gain: f(k.gain, 4) });
+  return out;
+}
+function pingScoreLog(ev, since) {                  // the same numbers as SETUPS.pingScore, from logged events (live only)
+  const live = ev.filter(e => e.t >= since && !e.backfill), res = {}; for (const e of live) if (e.type === 'ping-result') res[e.of] = e;
+  const pings = live.filter(e => e.type === 'ping'), done = pings.filter(e => res[e.id]), spikes = live.filter(e => e.type === 'spike5'), lead = [];
+  for (const sp of spikes) { const first = pings.filter(p => p.coin === sp.coin && p.t >= sp.t - 8 * M15 && p.t < sp.t).sort((a, b) => a.t - b.t)[0]; if (first) lead.push((sp.t - first.t) / 60e3); }
+  const hit = done.filter(e => res[e.id].spikeAt).length, sl = lead.sort((a, b) => a - b);
+  return { pings: done.length, open: pings.length - done.length, followed: hit, hitRate: done.length ? +(hit / done.length).toFixed(4) : null, spikes: spikes.length, caught: lead.length, caughtShare: spikes.length ? +(lead.length / spikes.length).toFixed(4) : null, leadMin: sl.length ? sl[sl.length >> 1] : null };
+}
 // the strategy's two tables, from the log
 function score(ev, since) {
   const live = ev.filter(e => e.t >= since), by = {}; for (const e of ev) by[e.id] = e;
@@ -100,17 +117,20 @@ function score(ev, since) {
   const trend = btcTrend(data.BTCUSDT), status = {};
   const old = readDays(now - LOOKBACK_DAYS * DAY), known = new Set(old.map(e => e.id));
   const first = !fs.existsSync(DIR) || !fs.readdirSync(DIR).some(f => f.endsWith('.jsonl'));
-  let fresh = [];
+  const prev0 = fs.existsSync(OUT) ? JSON.parse(fs.readFileSync(OUT, 'utf8')) : {}, pingFirst = !prev0.pings;
+  let fresh = []; const pg = {};
   for (const s of syms) {
     const d = data[s]; if (!d || s === 'BTCUSDT') continue; let r, r2;
     try { r = SETUPS.replay(d); r2 = SETUPS.replay(d, { slip: SETUPS.DEF.slip * 2 }); } catch (e) { failed[s] = 'replay: ' + e.message; continue; }
     if (!r) { failed[s] = 'too few candles'; continue; }
     const coin = s.replace(/USDT$/, '');
     if (r.status) { const b = r.lastBrk, t = b && b.trade; status[coin] = { status: r.status, wl: wl.has(s) || undefined, ceiling: b && ['await', 'entry', 'extended', 'failed', 'skipped', 'done'].includes(r.status) ? b.lv : r.last.ceil ? r.last.ceil.lv : null, price: r.last.price, entry: t && r.status === 'entry' ? t.entry : undefined, stop: t && r.status === 'entry' ? t.stop : undefined, target: t && r.status === 'entry' ? t.target : undefined }; }
-    for (const e of events(coin, r, r2, trend, wl.has(s) || undefined)) {
+    try { pg[s] = SETUPS.pings(d); } catch (e) { pg[s] = null; }
+    const pe = wl.has(s) && pg[s] ? pingEvents(coin, pg[s]) : [];
+    for (const e of events(coin, r, r2, trend, wl.has(s) || undefined).concat(pe)) {
       if (known.has(e.id)) continue;
       if (!first && e.t < now - LOOKBACK_DAYS * DAY) continue;     // older than the overlap window: belongs to the backfill
-      e.seen = now; if (first) e.backfill = true; fresh.push(e); known.add(e.id);
+      e.seen = now; if (first || (pingFirst && /^(ping|spike5)/.test(e.type))) e.backfill = true; fresh.push(e); known.add(e.id);
     }
   }
   fs.mkdirSync(DIR, { recursive: true });
@@ -118,10 +138,17 @@ function score(ev, since) {
   for (const [d, list] of Object.entries(byDay)) fs.appendFileSync(path.join(DIR, d + '.jsonl'), list.sort((a, b) => a.t - b.t).map(e => JSON.stringify(e)).join('\n') + '\n');
   const all = readDays(null), prev = fs.existsSync(OUT) ? JSON.parse(fs.readFileSync(OUT, 'utf8')) : {};
   const since = prev.liveSince ? Date.parse(prev.liveSince) : now;
+  const pingSince = prev.pings && prev.pings.since ? Date.parse(prev.pings.since) : now, wlList = Object.keys(pg).filter(s => wl.has(s));
+  const isPing = e => /^(ping|spike5)/.test(e.type), r4 = z => Object.fromEntries(Object.entries(z).map(([k, v]) => [k, typeof v === 'number' && !Number.isInteger(v) ? +v.toFixed(4) : Number.isNaN(v) ? null : v]));
   const doc = { about: 'Written by engine/setups-log.js on GitHub Actions every hour: breakout-and-retest setups replayed on closed Binance 15m candles. Read by the dashboard and the Claude alarm relay. Paper trades only. Not financial advice.',
     updated: new Date(now).toISOString(), liveSince: new Date(since).toISOString(), source: host ? new URL(host).host : null, coins: Object.keys(data).length, failed,
     rules: SETUPS.DEF, status, live: score(all, since), withBackfill: score(all, 0),
-    latest: all.filter(e => e.seen >= now - 3 * 3600e3 || e.t >= now - 3 * 3600e3).sort((a, b) => b.t - a.t).slice(0, 80) };
+    latest: all.filter(e => !isPing(e) && (e.seen >= now - 3 * 3600e3 || e.t >= now - 3 * 3600e3)).sort((a, b) => b.t - a.t).slice(0, 80),
+    pings: { about: 'Fast 15m pings (look at the chart, not an entry): 15m close >= +0.75% on >= 2x the 20-candle average volume, one per coin per hour; scored against 5%-in-an-hour spikes within 2 hours. Logged for watchlist coins; last20Days replays every coin in this log.',
+      rules: SETUPS.PING, since: new Date(pingSince).toISOString(), coins: Object.keys(pg).length, watchlistCoins: wlList.length,
+      live: { watchlist: pingScoreLog(all, pingSince) },
+      last20Days: { watchlist: r4(SETUPS.pingScore(wlList.map(s => pg[s]))), all: r4(SETUPS.pingScore(Object.values(pg))) },
+      recent: all.filter(e => e.type === 'ping' && e.t >= now - DAY).sort((a, b) => b.t - a.t).slice(0, 60) } };
   fs.writeFileSync(OUT, JSON.stringify(doc, null, 1) + '\n');
   console.log(`coins ${doc.coins}, new events ${fresh.length}${first ? ' (first run: backfill of about 20 days)' : ''}, failed ${Object.keys(failed).length}; live trades ${doc.live.trade.plain.n} (plain) / ${doc.live.trade.full.n} (full)`);
 })().catch(e => { console.error(e); process.exit(1); });

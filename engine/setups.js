@@ -184,6 +184,39 @@ const SETUPS = ((R) => {
     const scan = k => ({ alerts: sc[k].alerts, hitRate: sc[k].alerts ? sc[k].toSpike / sc[k].alerts : NaN, caught: spikes.n ? spikes[k] / spikes.n : NaN, leadH: med(sc[k].lead) });
     return { spikes: spikes.n, scanner: { base: scan('base'), full: scan('full') }, trade: { plain: trades(tr.plain), full: trades(tr.full) }, notes };
   }
-  return { DEF, to4H, ind4, rvolAt, vwapAt, replay, tradeOdds, summarize };
+  // fast "Moving" pings (from the spike-radar prompt, replayed on 130 coins before adding, 27 Nov 2026): a completed 15m candle closes
+  // at least 0.75% above the previous close on at least 2x the average volume of the previous 20 candles; one ping per coin per hour.
+  // A ping is "look at the chart now", not an entry. Scored against spikes: a 15m close 5% above the close one hour (4 candles)
+  // earlier, at most one per coin per 24 hours; a ping counts when such a spike completes within the next 2 hours (8 candles).
+  const PING = { up: 0.0075, vol: 2, look: 20, gap: 4, hi: 16, buy: 0.55, spike: 0.05, spikeBars: 4, spikeGap: 96, win: 8 };
+  function pings(m, opt = {}) {
+    const p = Object.assign({}, PING, opt), n = opt.n != null ? opt.n : m.c.length, c = m.c;
+    if (n < p.look + 2) return null;
+    const VW = vwapAt(m, n), spikes = []; let nx = 0;
+    for (let k = p.spikeBars; k < n; k++) if (k >= nx && c[k] / c[k - p.spikeBars] >= 1 + p.spike) { spikes.push({ k, t: m.t[k] + M15, gain: c[k] / c[k - p.spikeBars] - 1 }); nx = k + p.spikeGap; }
+    const out = []; let last = -99;
+    for (let j = p.look + 1; j < n; j++) {
+      let av = 0; for (let q = j - p.look; q < j; q++) av += m.v[q]; av /= p.look;
+      const r = c[j] / c[j - 1] - 1; if (!(r >= p.up && av > 0 && m.v[j] >= p.vol * av) || j - last < p.gap) continue;
+      last = j; let hh = -Infinity; for (let q = Math.max(0, j - p.hi); q < j; q++) hh = Math.max(hh, m.h[q]);
+      let mx = -Infinity; for (let q = j + 1; q <= Math.min(n - 1, j + p.win); q++) mx = Math.max(mx, m.h[q]);
+      const sp = spikes.find(x => x.k > j && x.k <= j + p.win), buy = m.tb && m.v[j] > 0 ? m.tb[j] / m.v[j] : NaN;
+      out.push({ j, t: m.t[j] + M15, price: c[j], r, vm: m.v[j] / av, buy, vwap: VW[j], aboveVwap: c[j] > VW[j], hi16: hh, above16: c[j] > hh,
+        confirmed: c[j] > hh && c[j] > VW[j] && buy >= p.buy, maxUp: mx > -Infinity ? mx / c[j] - 1 : NaN, spikeAt: sp ? sp.t : null, done: !!sp || j + p.win <= n - 1 });
+    }
+    let bN = 0, bH = 0; for (let j = p.look + 1; j + p.win <= n - 1; j += 4) { bN++; if (spikes.some(x => x.k > j && x.k <= j + p.win)) bH++; }
+    return { pings: out, spikes, n, from: m.t[0], to: m.t[n - 1] + M15, baseN: bN, baseHit: bH };
+  }
+  function pingScore(list, since = -Infinity, p = PING) {     // list: pings() results; counts pings and spikes at or after `since`
+    let a = 0, hit = 0, sp = 0, caught = 0, bN = 0, bH = 0; const lead = [];
+    for (const x of list) {
+      if (!x) continue; bN += x.baseN; bH += x.baseHit;
+      for (const q of x.pings) if (q.done && q.t >= since) { a++; if (q.spikeAt) hit++; }
+      for (const s of x.spikes) { if (s.t < since) continue; sp++; const f = x.pings.find(q => q.j >= s.k - p.win && q.j < s.k); if (f) { caught++; lead.push((s.k - f.j) * 15); } }
+    }
+    const sl = [...lead].sort((u, v) => u - v);
+    return { pings: a, followed: hit, hitRate: a ? hit / a : NaN, chance: bN ? bH / bN : NaN, spikes: sp, caught, caughtShare: sp ? caught / sp : NaN, leadMin: sl.length ? sl[sl.length >> 1] : NaN };
+  }
+  return { DEF, PING, to4H, ind4, rvolAt, vwapAt, replay, tradeOdds, summarize, pings, pingScore };
 })(typeof RADAR !== 'undefined' ? RADAR : require('./radar.js'));
 if (typeof module !== 'undefined') module.exports = SETUPS;

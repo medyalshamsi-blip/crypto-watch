@@ -138,7 +138,7 @@ svg.spark{display:block;margin:4px 0 0 auto}
 .sutop{display:grid;gap:8px;margin:10px 0}.sutop>div{border:1px solid var(--grid);border-radius:12px;padding:9px 13px;font-size:14px;line-height:1.5}.sutop b{font-weight:600}
 .suscore table{width:auto;border-collapse:collapse;font-size:13.5px;margin:6px 0 2px;font-variant-numeric:tabular-nums}.suscore th,.suscore td{padding:4px 10px 4px 0;text-align:right;border-bottom:1px solid var(--grid);white-space:nowrap}.suscore th:first-child,.suscore td:first-child{text-align:left}.suscore th{color:var(--ink2);font-weight:500}
 .rtag.mut{background:var(--soft);color:var(--ink2)}
-#suTable td.wrap{min-width:96px}@media (min-width:601px) and (max-width:1600px){#suTable .opt2{display:none}}#suTable .rtag{white-space:normal}#suTable td:last-child .btn{display:block;width:100%;margin:2px 0}@media (max-width:600px){#suTable td:last-child .btn{display:inline-block;width:auto}}
+#pgTable td:last-child .btn{display:block;width:100%;margin:2px 0}@media (max-width:600px){#pgTable td:last-child .btn{display:inline-block;width:auto}}#suTable td.wrap{min-width:96px}@media (min-width:601px) and (max-width:1600px){#suTable .opt2{display:none}}#suTable .rtag{white-space:normal}#suTable td:last-child .btn{display:block;width:100%;margin:2px 0}@media (max-width:600px){#suTable td:last-child .btn{display:inline-block;width:auto}}
 .rtag{display:inline-block;font-size:12px;font-weight:600;padding:1px 7px;border-radius:999px;margin:0 4px 3px 0;white-space:nowrap}.rtag.up{background:var(--upbg);color:var(--up)}.rtag.dn{background:var(--downbg);color:var(--down)}
 .sim{margin-top:16px}.smchart{height:420px;margin:6px 0}.smchart:empty{display:none}
 .simgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:10px 0}.simgrid .st{border:1px solid var(--grid);border-radius:12px;padding:10px 12px;display:grid;gap:3px}.simgrid .st>span{font-size:13px;color:var(--ink2)}.simgrid .st b{font-size:19px}.simgrid small{color:var(--ink3);font-size:12.5px}
@@ -329,6 +329,13 @@ dialog form{padding:18px;display:grid;gap:12px;overflow:auto;max-height:88vh}
     <div class="rdbrief" id="rdBrief" aria-live="polite"></div>
     <div class="scroll"><table class="board stack" id="rdTable"></table></div>
     <p class="note" id="rdTrack"></p>
+  </section>
+  <section class="card setups" id="pgCard">
+    <div class="head"><h2>Fast moves on your watchlist: 15m pings</h2><p class="note" id="pgStatus"></p></div>
+    <div class="rdbrief" id="pgBrief" aria-live="polite"></div>
+    <div class="scroll"><table class="board stack" id="pgTable"></table></div>
+    <div id="pgScore"></div>
+    <p class="note">Rule, fixed and replayed on 130 coins before it was added (27 Nov 2026): a completed 15m candle closes at least 0.75% above the previous close on at least 2× the average volume of the previous 20 candles; one ping per coin per hour. <b>A ping means "look at the chart now", not "buy"</b>: in the replay (May–Aug 2026) 3.4% of pings were followed within 2 hours by a 5% hour against 0.5% at any moment, pings came first for 66% of those spikes (30 minutes ahead in the median), 97% led nowhere, and the average next hour after a ping was slightly negative. 5% hour: a 15m close 5% above the close one hour earlier, counted once per coin per day. Buyers, VWAP (00:00 UTC) and the 16-candle high are shown for context only. Pings appear on this page and as a pop-up message here; they are not sent to Telegram (about 1–2 per coin per day). Read-only.</p>
   </section>
   <section class="card setups" id="suCard">
     <div class="head"><h2>Breakout setups: 4H warning → 15m breakout → retest</h2><p class="note" id="suStatus"></p></div>
@@ -1031,7 +1038,40 @@ const SETUPS = ((R) => {
     const scan = k => ({ alerts: sc[k].alerts, hitRate: sc[k].alerts ? sc[k].toSpike / sc[k].alerts : NaN, caught: spikes.n ? spikes[k] / spikes.n : NaN, leadH: med(sc[k].lead) });
     return { spikes: spikes.n, scanner: { base: scan('base'), full: scan('full') }, trade: { plain: trades(tr.plain), full: trades(tr.full) }, notes };
   }
-  return { DEF, to4H, ind4, rvolAt, vwapAt, replay, tradeOdds, summarize };
+  // fast "Moving" pings (from the spike-radar prompt, replayed on 130 coins before adding, 27 Nov 2026): a completed 15m candle closes
+  // at least 0.75% above the previous close on at least 2x the average volume of the previous 20 candles; one ping per coin per hour.
+  // A ping is "look at the chart now", not an entry. Scored against spikes: a 15m close 5% above the close one hour (4 candles)
+  // earlier, at most one per coin per 24 hours; a ping counts when such a spike completes within the next 2 hours (8 candles).
+  const PING = { up: 0.0075, vol: 2, look: 20, gap: 4, hi: 16, buy: 0.55, spike: 0.05, spikeBars: 4, spikeGap: 96, win: 8 };
+  function pings(m, opt = {}) {
+    const p = Object.assign({}, PING, opt), n = opt.n != null ? opt.n : m.c.length, c = m.c;
+    if (n < p.look + 2) return null;
+    const VW = vwapAt(m, n), spikes = []; let nx = 0;
+    for (let k = p.spikeBars; k < n; k++) if (k >= nx && c[k] / c[k - p.spikeBars] >= 1 + p.spike) { spikes.push({ k, t: m.t[k] + M15, gain: c[k] / c[k - p.spikeBars] - 1 }); nx = k + p.spikeGap; }
+    const out = []; let last = -99;
+    for (let j = p.look + 1; j < n; j++) {
+      let av = 0; for (let q = j - p.look; q < j; q++) av += m.v[q]; av /= p.look;
+      const r = c[j] / c[j - 1] - 1; if (!(r >= p.up && av > 0 && m.v[j] >= p.vol * av) || j - last < p.gap) continue;
+      last = j; let hh = -Infinity; for (let q = Math.max(0, j - p.hi); q < j; q++) hh = Math.max(hh, m.h[q]);
+      let mx = -Infinity; for (let q = j + 1; q <= Math.min(n - 1, j + p.win); q++) mx = Math.max(mx, m.h[q]);
+      const sp = spikes.find(x => x.k > j && x.k <= j + p.win), buy = m.tb && m.v[j] > 0 ? m.tb[j] / m.v[j] : NaN;
+      out.push({ j, t: m.t[j] + M15, price: c[j], r, vm: m.v[j] / av, buy, vwap: VW[j], aboveVwap: c[j] > VW[j], hi16: hh, above16: c[j] > hh,
+        confirmed: c[j] > hh && c[j] > VW[j] && buy >= p.buy, maxUp: mx > -Infinity ? mx / c[j] - 1 : NaN, spikeAt: sp ? sp.t : null, done: !!sp || j + p.win <= n - 1 });
+    }
+    let bN = 0, bH = 0; for (let j = p.look + 1; j + p.win <= n - 1; j += 4) { bN++; if (spikes.some(x => x.k > j && x.k <= j + p.win)) bH++; }
+    return { pings: out, spikes, n, from: m.t[0], to: m.t[n - 1] + M15, baseN: bN, baseHit: bH };
+  }
+  function pingScore(list, since = -Infinity, p = PING) {     // list: pings() results; counts pings and spikes at or after `since`
+    let a = 0, hit = 0, sp = 0, caught = 0, bN = 0, bH = 0; const lead = [];
+    for (const x of list) {
+      if (!x) continue; bN += x.baseN; bH += x.baseHit;
+      for (const q of x.pings) if (q.done && q.t >= since) { a++; if (q.spikeAt) hit++; }
+      for (const s of x.spikes) { if (s.t < since) continue; sp++; const f = x.pings.find(q => q.j >= s.k - p.win && q.j < s.k); if (f) { caught++; lead.push((s.k - f.j) * 15); } }
+    }
+    const sl = [...lead].sort((u, v) => u - v);
+    return { pings: a, followed: hit, hitRate: a ? hit / a : NaN, chance: bN ? bH / bN : NaN, spikes: sp, caught, caughtShare: sp ? caught / sp : NaN, leadMin: sl.length ? sl[sl.length >> 1] : NaN };
+  }
+  return { DEF, PING, to4H, ind4, rvolAt, vwapAt, replay, tradeOdds, summarize, pings, pingScore };
 })(typeof RADAR !== 'undefined' ? RADAR : require('./radar.js'));
 
 
@@ -1863,7 +1903,7 @@ function banner(text, action) {
 let queued = false;
 function later() { if (queued) return; queued = true; requestAnimationFrame(() => { queued = false; renderAll(); }); }
 // ---------------------------------------------------------------- Radar tab: every Binance USDT pair, early moves, and the 20,000-path simulator
-const RD = { on: false, busy: false, syms: [], d15: {}, d1h: {}, tick: {}, hits: [], track: null, ws: null, wsAt: 0, at: 0, err: '', pools: {}, minVol: store.get('rdMinVol', 1e6), dir: store.get('rdDir', 'up'), stocks: store.get('rdStocks', false), su: {}, back: 'idle', suShow: store.get('suShow', 'active'), wl: new Set() };
+const RD = { on: false, busy: false, syms: [], d15: {}, d1h: {}, tick: {}, hits: [], track: null, ws: null, wsAt: 0, at: 0, err: '', pools: {}, minVol: store.get('rdMinVol', 1e6), dir: store.get('rdDir', 'up'), stocks: store.get('rdStocks', false), su: {}, pg: {}, pgSeen: {}, back: 'idle', suShow: store.get('suShow', 'active'), wl: new Set() };
 // Binance stock tokens (NVDAB, MSTRB, QQQB…) end in B; these crypto coins do too
 const RD_CRYPTO_B = new Set(['BNB', 'DGB', 'TRB', 'CKB', 'ARB', 'SHIB', 'BB', 'YB']);
 const rdStock = sym => { const b = sym.replace(/USDT$/, ''); return /B$/.test(b) && b.length >= 3 && !RD_CRYPTO_B.has(b); };
@@ -1880,7 +1920,7 @@ async function rdStart() {
     RD.wl = new Set(tracked().filter(c => !isMacro(c)).map(c => c + 'USDT'));
     const live = new Set(tk.filter(x => +x.count > 0 && (x.closeTime == null || +x.closeTime > Date.now() - 3 * 3600e3)).map(x => x.symbol));
     RD.syms = [...new Set(['BTCUSDT', ...list.map(x => x.symbol), ...[...RD.wl].filter(s => live.has(s))])].slice(0, 400);
-    RD.su = {}; RD.back = 'idle';
+    RD.su = {}; RD.pg = {}; RD.back = 'idle';
     const todo = RD.syms.filter(s => !RD.d15[s]);
     for (let i = 0; i < todo.length; i += 8) {
       const part = todo.slice(i, i + 8), res = await Promise.allSettled(part.map(s => klines(s, '15m', 1000)));
@@ -1896,7 +1936,15 @@ async function rdStart() {
 }
 const klinesTo = (sym, iv, limit, end) => bn(`/api/v3/klines?symbol=${sym}&interval=${iv}&limit=${limit}&endTime=${end}`).then(parseK);
 const closedN = d => d.t.length - (Date.now() < d.t[d.t.length - 1] + 900e3 ? 1 : 0);
-function suCompute(s) { const d = RD.d15[s]; if (!d || s === 'BTCUSDT') return; try { RD.su[s] = SETUPS.replay(d, { n: closedN(d) }); } catch (e) { RD.su[s] = null; } }
+function suCompute(s, live) { const d = RD.d15[s]; if (!d || s === 'BTCUSDT') return; try { RD.su[s] = SETUPS.replay(d, { n: closedN(d) }); } catch (e) { RD.su[s] = null; } pgCompute(s, live); }
+function pgCompute(s, live) {                 // fast 15m pings; a new one on a watchlist coin pops a message on this page
+  const d = RD.d15[s]; if (!d || s === 'BTCUSDT') return;
+  let x; try { x = SETUPS.pings(d, { n: closedN(d) }); } catch (e) { x = null; } RD.pg[s] = x;
+  if (!live || !x || !RD.wl.has(s)) return;
+  const q = x.pings[x.pings.length - 1]; if (!q || q.j !== x.n - 1 || RD.pgSeen[s] === q.t) return; RD.pgSeen[s] = q.t;
+  const txt = `${rdBase(s)} moving: ${fpc(q.r)} in 15 minutes on ${q.vm.toFixed(1)}× volume${ok(q.buy) ? `, ${Math.round(q.buy * 100)}% buyers` : ''}. Look at the chart; most pings lead nowhere.`;
+  toast(txt); if (cfg.popup) notify(txt);
+}
 async function rdBackfill() {                 // 1,000 older 15m candles per coin: about 20 days in all, enough for the 4H checks
   if (RD.back !== 'idle' || !RD.on) return; RD.back = 'busy'; renderSetups();
   const syms = RD.syms.slice(); let k = 0;
@@ -1928,7 +1976,7 @@ function rdWS() {
   w.onmessage = e => {
     let m; try { m = JSON.parse(e.data); } catch (er) { return; } const k = m && m.k; if (!k) return; RD.wsAt = Date.now();
     const s = k.s, d = RD.d15[s]; if (!d) return; putBar(d, k);
-    if (k.x) { RD.d1h[s] = RADAR.toHours(d); RD.hits = RD.hits.filter(h => h.s !== s).concat(s === 'BTCUSDT' ? [] : rdScanCoin(s)); if (RD.back === 'done') suCompute(s); }
+    if (k.x) { RD.d1h[s] = RADAR.toHours(d); RD.hits = RD.hits.filter(h => h.s !== s).concat(s === 'BTCUSDT' ? [] : rdScanCoin(s)); if (RD.back === 'done') suCompute(s, true); }
     if (Date.now() - rt > 3000 && tab === 'radar') { rt = Date.now(); renderRadar(); }
     if (SM.res && SM.res.sym === s && SM.tf === '15m') smLive(k);
   };
@@ -1986,7 +2034,8 @@ function renderRadar() {
   $('#rdTable').innerHTML = rows.length ? `<thead><tr><th>Coin</th><th class="n">Score</th><th>What fired</th><th class="n">Price</th><th class="n">24h</th><th class="n">24h volume</th><th class="n">Buyers</th><th class="n">vs BTC</th><th></th></tr></thead><tbody>${rows.join('')}</tbody>` : '<tbody><tr><td class="note">No hits in the last hours for this filter.</td></tr></tbody>';
   if (RD.back === 'done') { const A = Object.entries(RD.su).filter(([, r]) => r && r.status), c = k => A.filter(([, r]) => r.status === k).map(([s]) => s);
     const nm = a => a.slice(0, 4).map(x => `<button class="lnk" data-sutop="${esc(x)}">${esc(rdBase(x))}</button>`).join(', ') + (a.length > 4 ? ` +${a.length - 4}` : '');
-    const e = c('entry'), w = c('await'), f = c('warn');
+    const e = c('entry'), w = c('await'), f = c('warn'), pg2 = [...RD.wl].filter(s => RD.pg[s] && RD.pg[s].pings.some(q => now - q.t < 2 * 3600e3));
+    $('#rdBrief').insertAdjacentHTML('beforeend', `<p><b>Fast moves</b> (15m pings on your watchlist, below): ${pg2.length ? pg2.slice(0, 5).map(x => `<button class="lnk" data-look="${esc(rdBase(x))}">${esc(rdBase(x))}</button>`).join(', ') + (pg2.length > 5 ? ` +${pg2.length - 5}` : '') + ' in the last 2 hours' : 'none in the last 2 hours'}.</p>`);
     $('#rdBrief').insertAdjacentHTML('beforeend', `<p><b>Breakout setups</b> (4H → 15m, below): ${e.length} paper entr${e.length === 1 ? 'y' : 'ies'}${e.length ? ' (' + nm(e) + ')' : ''}, ${w.length} breakout${w.length === 1 ? '' : 's'} awaiting a retest${w.length ? ' (' + nm(w) + ')' : ''}, ${f.length} early warning${f.length === 1 ? '' : 's'}${f.length ? ' (' + nm(f) + ')' : ''}.</p>`); }
   const t15 = RD.track && RD.track['15m'];
   $('#rdTrack').innerHTML = t15 && t15.base[0] ? `15m check (last ${Math.round((now - t15.from) / 36e5)} hours): a bullish hit scoring 4 or more was followed by a 3% rise within 6 bars ${pc(t15.bull, 1)} of the time and a 3% drop ${pc(t15.bull, 2)} (any bar: ${pc(t15.base, 1)} and ${pc(t15.base, 2)}). A score adds up what fired: volume spike up to 4, range breakout 3, structure break 2, momentum turn 1 each, quiet build-up 2, plus 0.5 each for buyers over 55% and beating BTC.` : '';
@@ -2036,7 +2085,34 @@ function suLogHTML() {
     <div class="scroll"><table><thead><tr><th>Scanner</th><th>Alerts</th><th>Led to a spike</th><th>Spikes warned in advance</th><th>Median lead</th></tr></thead><tbody>${a[0]}${b[0]}</tbody></table></div>
     <div class="scroll"><table><thead><tr><th>Paper trade</th><th>Trades</th><th>Target / stop / time</th><th>Avg net R</th><th>Total R</th><th>Max drawdown R</th><th>Avg R, double slippage</th></tr></thead><tbody>${a[1]}${b[1]}</tbody></table></div>`;
 }
+function renderPings() {
+  const st = $('#pgStatus'); if (!st) return;
+  const card = $('#pgCard'); if (card) card.hidden = mode === 'tv';
+  if (mode !== 'live') return;
+  if (RD.back !== 'done') { st.textContent = RD.on ? 'Waiting for the 20 days of 15-minute candles…' : 'Starts with the radar.'; for (const id of ['#pgBrief', '#pgTable', '#pgScore']) $(id).innerHTML = ''; return; }
+  const W = [...RD.wl].filter(s => RD.pg[s]), now = Date.now(), tm = t => new Date(t).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+  st.textContent = `${W.length} watchlist coins on Binance · checked on each 15m close · ${RD.ws && now - RD.wsAt < 120e3 ? 'live' : 'reconnecting'}`;
+  const list = W.flatMap(s => RD.pg[s].pings.filter(q => now - q.t < DAY).map(q => ({ s, q }))).sort((a, b) => b.q.t - a.q.t);
+  const two = list.filter(x => now - x.q.t < 2 * 3600e3), coins = new Set(list.map(x => x.s));
+  $('#pgBrief').innerHTML = `<p><b>${list.length} ping${list.length === 1 ? '' : 's'} in the last 24 hours</b> on ${coins.size} of ${W.length} watchlist coins${two.length ? `; last 2 hours: ${two.slice(0, 5).map(x => `<button class="lnk" data-look="${esc(rdBase(x.s))}">${esc(rdBase(x.s))}</button> ${tm(x.q.t)}`).join(', ')}${two.length > 5 ? ` +${two.length - 5}` : ''}` : '; none in the last 2 hours'}. ${((k) => `${k} ${k === 1 ? 'was' : 'were'} followed by a 5% hour within 2 hours`)(list.filter(x => x.q.spikeAt).length)}.</p>`;
+  const last = s => { const d = RD.d15[s]; return d ? d.c[closedN(d) - 1] : NaN; };
+  const row = ({ s, q }) => { const nowPx = last(s), open = !q.done, out = q.spikeAt ? `<span class="pill up">Yes, ${tm(q.spikeAt)}</span>` : open ? '<span class="pill">Open</span>' : '<span class="pill">No</span>';
+    return `<tr class="main"><td data-l="Coin"><b>${esc(rdBase(s))}</b><small>${tm(q.t)} close</small></td><td data-l="15m move" class="n"><span class="up">${fpc(q.r)}</span></td><td data-l="Volume" class="n">${q.vm.toFixed(1)}×</td>
+    <td data-l="Buyers" class="n">${ok(q.buy) ? Math.round(q.buy * 100) + '%' : '–'}</td><td data-l="VWAP" class="n">${q.aboveVwap ? 'above' : 'below'} ${fp(q.vwap)}</td><td data-l="16-candle high" class="n">${q.above16 ? 'broke ' : 'under '}${fp(q.hi16)}</td>
+    <td data-l="Best in 2 h" class="n"><span class="${cls(q.maxUp)}">${ok(q.maxUp) ? fpc(q.maxUp) : '–'}</span></td><td data-l="Now vs ping" class="n"><span class="${cls(nowPx / q.price - 1)}">${fpc(nowPx / q.price - 1)}</span></td><td data-l="5% hour within 2 h">${out}</td>
+    <td data-l="" class="n"><button class="btn sm" data-sim="${esc(s)}" data-tf="15m">Simulate</button> <button class="btn sm" data-look="${esc(rdBase(s))}">Chart</button></td></tr>`; };
+  $('#pgTable').innerHTML = list.length ? `<thead><tr><th>Coin</th><th class="n">15m move</th><th class="n">Volume</th><th class="n">Buyers</th><th class="n">VWAP</th><th class="n">16-candle high</th><th class="n">Best in 2 h</th><th class="n">Now vs ping</th><th>5% hour within 2 h</th><th></th></tr></thead><tbody>${list.slice(0, 30).map(row).join('')}</tbody>` : '<tbody><tr><td class="note">No pings on your watchlist in the last 24 hours.</td></tr></tbody>';
+  const pc = x => ok(x) ? (x < .1 ? (x * 100).toFixed(1) : Math.round(x * 100)) + '%' : '–', mn = x => ok(x) ? (x >= 60 ? `${Math.floor(x / 60)} h ${String(x % 60).padStart(2, '0')}` : `${x} min`) : '–';
+  const sr = (lab, z) => `<tr><td>${lab}</td><td>${z.pings}</td><td>${pc(z.hitRate)}</td><td>${pc(z.chance)}</td><td>${z.spikes}</td><td>${pc(z.caughtShare)}</td><td>${mn(z.leadMin)}</td></tr>`;
+  const all = Object.values(RD.pg).filter(Boolean), days = W.length ? Math.round((RD.pg[W[0]].to - RD.pg[W[0]].from) / DAY) : 0, Lg = RD.log && RD.log.pings;
+  $('#pgScore').innerHTML = `<p class="note" style="margin-top:12px"><b>How pings have done</b> (replay of the loaded ${days} days, rules fixed; a ping is scored once its 2 hours have passed; the 24/7 log's watchlist row counts only pings logged since it started recording them).</p>
+    <div class="scroll"><table><thead><tr><th>Coins</th><th>Pings scored</th><th>Followed by a 5% hour within 2 h</th><th>Chance at any moment</th><th>5% hours</th><th>Had a ping first</th><th>Median lead</th></tr></thead><tbody>
+    ${sr(`Your watchlist (${W.length})`, SETUPS.pingScore(W.map(s => RD.pg[s])))}${sr(`All loaded coins (${all.length})`, SETUPS.pingScore(all))}
+    ${Lg ? sr(`24/7 log, watchlist, since ${new Date(Lg.since).toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}`, Lg.live.watchlist) + sr(`24/7 log, all ${Lg.coins} coins, last 20 days`, Lg.last20Days.all) : `<tr><td colspan="7" class="note">24/7 log: ${RD.log === null ? 'not available yet' : RD.log ? 'pings not recorded yet' : 'loading…'}</td></tr>`}
+    <tr><td>Replay before adding (May–Aug 2026, 130 coins)</td><td>21,363</td><td>3.4%</td><td>0.5%</td><td>942</td><td>66%</td><td>30 min</td></tr></tbody></table></div>`;
+}
 function renderSetups() {
+  renderPings();
   const st = $('#suStatus'); if (!st) return;
   const card = $('#suCard'); if (card) card.hidden = mode === 'tv';
   if (mode !== 'live') return;
