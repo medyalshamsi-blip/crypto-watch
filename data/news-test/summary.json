@@ -1,0 +1,52 @@
+{
+ "about": "Replay of the breaking-news price check. Confirmed/faded/muted as in news.js; baseline = the same coins at random times 1–10 days earlier.",
+ "ran": "2026-11-27T20:45:07.424Z",
+ "groups": {
+  "binance-list": {
+   "headlines": {
+    "n": 2,
+    "confirmed": 0,
+    "faded": 100,
+    "muted": 0,
+    "medMove": 1.48,
+    "medX": 1.05
+   },
+   "baseline": {
+    "n": 0
+   },
+   "directionRight": null,
+   "directionN": 0
+  },
+  "feeds w2 market": {
+   "headlines": {
+    "n": 2,
+    "confirmed": 0,
+    "faded": 50,
+    "muted": 50,
+    "medMove": 0.39,
+    "medX": 2.61
+   },
+   "baseline": {
+    "n": 1,
+    "confirmed": 100,
+    "faded": 0,
+    "muted": 0,
+    "medMove": 1.01,
+    "medX": 6.7
+   },
+   "directionRight": null,
+   "directionN": 0
+  }
+ },
+ "nvidia": {
+  "at": "2026-11-17T21:20:00.000Z",
+  "coins": [],
+  "btcSameHourOtherDays": {
+   "n": 0
+  }
+ },
+ "counts": {
+  "events": 614,
+  "checked": 4
+ }
+}
