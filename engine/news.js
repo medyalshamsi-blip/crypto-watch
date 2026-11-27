@@ -103,11 +103,11 @@ const NEWS = (() => {
     if (best && best.type === 'whale' && !/\b(bitcoin|BTC|ether|ETH|crypto|token|coin|SOL|XRP)\b/i.test(text)) w = 0;
     const crypto = CRYPTO_CTX.test(title) || /\b(bitcoin|BTC|ether|ethereum|ETH|solana|XRP|binance|coinbase|upbit|bithumb|robinhood|okx|bybit|kraken|tether|USDT|USDC|exchange)\b/i.test(title) || [...title.matchAll(nameRe)].some(m => !CTX_NAMES.has(m[2])) || /\$[A-Z]{2,}/.test(title);
     if (best && ['hack', 'unlock', 'depeg', 'delist', 'list'].includes(best.type) && !crypto && !src.official) w = 0;
-    if (best && best.type === 'hack' && w > 1 && /\b(after|since|response|recover\w*|restor\w*|lifts?|resum\w*|returns?|refunds?|can freeze|security (group|firm|alliance)|bounty|sentenced|arrested|charged|lessons?)\b/i.test(title)) { w = 1; best = Object.assign({}, best, { label: 'Hack aftermath', dir: 0 }); }
+    if (best && best.type === 'hack' && w > 1 && /\b(after|since|response|recover\w*|restor\w*|lifts?|resum\w*|returns?|refunds?|can freeze|security (group|firm|alliance)|bounty|sentenced|arrested|charged|lessons?|cites?|citing|wake|reviews?|report)\b/i.test(title)) { w = 1; best = Object.assign({}, best, { label: 'Hack aftermath', dir: 0 }); }
     const digest = DIGEST.test(title) || /^(how|why|what|inside|explainer|here'?s)\b|\?\s*$/i.test(title.trim());
     if (digest) w = Math.max(0, Math.min(w, 2) - 1);
     if (src.official && w > 0) w = Math.min(3, w + (best && ['list', 'delist', 'rates'].includes(best.type) ? 0 : 1));
-    return { type: best && w > 0 ? best.type : digest ? 'analysis' : 'other', label: best && w > 0 ? best.label : digest ? 'Commentary' : 'Other', w, dir: best && w > 0 ? best.dir : 0, digest, tags: hits.map(r => r.type) };
+    return { type: best && w > 0 ? best.type : digest ? 'analysis' : 'other', label: best && w > 0 ? best.label : digest ? 'Commentary' : 'Coin news', w, dir: best && w > 0 ? best.dir : 0, digest, tags: hits.map(r => r.type) };
   }
   const MACRO = new Set(['rates', 'data', 'trade', 'geo', 'stocks', 'etf', 'legal', 'depeg', 'flows']);
   // Market-wide: macro types, or news about BTC/ETH/stablecoins with no smaller coin named.
@@ -182,7 +182,7 @@ const NEWS = (() => {
     if (!arr && payload && payload.columns && payload.rows) arr = payload.rows.map(r => Object.fromEntries(payload.columns.map((c, k) => [c, r[k]])));
     return (arr || []).filter(x => x && x.title).map(x => ({
       title: String(x.title), link: x.link || (x.storyPath ? 'https://www.tradingview.com' + x.storyPath : ''),
-      at: (x.published > 1e12 ? x.published : x.published * 1000) || Date.parse(x.published) || Date.now(), src: 'tv', srcName: x.provider ? String(x.provider).replace(/^./, c => c.toUpperCase()) : 'TradingView',
+      at: (x.published > 1e12 ? x.published : x.published * 1000) || Date.parse(x.published) || Date.now(), src: 'tv', srcName: x.provider ? String(x.provider).replace(/(^|[\s-])\w/g, c => c.toUpperCase()) : 'TradingView',
       urgent: x.urgency === 1, related: (x.relatedSymbols || []).map(s => String(s.symbol || s).split(':').pop().replace(/USDT?$|USD$|\.P$/, '')).filter(Boolean)
     }));
   }

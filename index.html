@@ -119,6 +119,17 @@ input.cell{min-height:36px;width:112px;font-size:15px;text-align:right}
 .wlctl{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .inl{display:flex;gap:6px;align-items:center;font-size:14px;color:var(--ink2)}.inl select{width:auto;min-height:40px}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
+.nws{display:flex;flex-direction:column;gap:8px;margin:10px 0}.nws:empty{display:none}
+.nwb{border:1px solid var(--orange);background:var(--hl);border-radius:10px;padding:10px 12px}
+.nwb .bk{font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--orange);text-transform:uppercase}
+.nwf{margin:10px 0 2px}
+.nwl{list-style:none;margin:0;padding:0}.nwl li{padding:10px 0;border-top:1px solid var(--grid)}.nwl li:first-child{border-top:0}
+.nwm{font-size:13px;color:var(--ink3);display:flex;flex-wrap:wrap;gap:3px 8px;align-items:center}.nwm .lnk{font-size:13px}
+.nwt{display:block;font-weight:600;color:var(--ink);text-decoration:none;margin:3px 0 2px;line-height:1.35;overflow-wrap:anywhere}.nwt:hover{text-decoration:underline}
+.nwr{font-size:13px;color:var(--ink2)}
+.nwh{font-size:13px;font-weight:700;color:var(--ink2);margin:14px 0 0}
+.nwhow{margin-top:10px}.nwhow summary{cursor:pointer}
+.pill.w1{background:transparent;border:1px solid var(--grid);color:var(--ink3)}
 .chip{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 12px;border-radius:999px;border:1px solid var(--grid);background:var(--card);color:var(--ink2);font:inherit;font-size:14px;cursor:pointer}
 .chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .layerchips{margin-top:8px}.layerchips .chip{min-height:32px;font-size:13px;padding:0 10px}
@@ -296,6 +307,13 @@ dialog form{padding:18px;display:grid;gap:12px;overflow:auto;max-height:88vh}
   <h1 id="finding">Loading the market</h1>
   <p class="sub" id="findingSub">Daily closes decide; the last candle is still forming.</p>
 </div></section>
+<section class="band"><div class="wrap"><div class="card" id="newsCard">
+  <div class="head"><h2>Breaking news</h2><p class="note" id="newsNote">Loading the news</p></div>
+  <div id="newsBreak" class="nws"></div>
+  <div class="chips nwf" id="newsFilter" role="group" aria-label="Filter the news"></div>
+  <div id="newsList"></div>
+  <details class="nwhow"><summary class="note">How the box decides</summary><p class="note" id="newsHow"></p></details>
+</div></div></section>
 <section class="band"><div class="wrap">
   <h2>Market regime</h2>
   <div class="tiles" id="tiles"></div>
@@ -1120,6 +1138,198 @@ const SETUPS = ((R) => {
   }
   return { DEF, PING, to4H, ind4, rvolAt, vwapAt, replay, tradeOdds, summarize, pings, pingScore };
 })(typeof RADAR !== 'undefined' ? RADAR : require('./radar.js'));
+
+
+// Breaking-news rules shared by the dashboard and the GitHub news job.
+// What a headline is about (impact type), which coins it names, and whether prices actually reacted.
+// Read-only: it never trades and never posts anywhere. Not financial advice.
+const NEWS = (() => {
+  const SOURCES = [
+    { id: 'binance-list', name: 'Binance listings', kind: 'binance', catalog: 48, official: true },
+    { id: 'binance-delist', name: 'Binance delistings', kind: 'binance', catalog: 161, official: true },
+    { id: 'coindesk', name: 'CoinDesk', kind: 'rss', url: 'https://www.coindesk.com/arc/outboundfeeds/rss/' },
+    { id: 'theblock', name: 'The Block', kind: 'rss', url: 'https://www.theblock.co/rss.xml' },
+    { id: 'cointelegraph', name: 'Cointelegraph', kind: 'rss', url: 'https://cointelegraph.com/rss' },
+    { id: 'decrypt', name: 'Decrypt', kind: 'rss', url: 'https://decrypt.co/feed' },
+    { id: 'cryptoslate', name: 'CryptoSlate', kind: 'rss', url: 'https://cryptoslate.com/feed/' },
+    { id: 'cnbc', name: 'CNBC', kind: 'rss', url: 'https://www.cnbc.com/id/100003114/device/rss/rss.html', macro: true },
+    { id: 'cnbc-econ', name: 'CNBC Economy', kind: 'rss', url: 'https://www.cnbc.com/id/20910258/device/rss/rss.html', macro: true },
+    { id: 'cnbc-earn', name: 'CNBC Earnings', kind: 'rss', url: 'https://www.cnbc.com/id/15839135/device/rss/rss.html', macro: true },
+    { id: 'fed', name: 'Federal Reserve', kind: 'rss', url: 'https://www.federalreserve.gov/feeds/press_monetary.xml', official: true, macro: true },
+    { id: 'sec', name: 'SEC', kind: 'rss', url: 'https://www.sec.gov/news/pressreleases.rss', official: true }
+  ];
+
+  // Impact types. w: 3 = can move the whole market or a coin hard, 2 = often moves it, 1 = sometimes, 0 = commentary.
+  // dir: what the type usually means for the named coin (+1 up, -1 down, 0 either way). The price check says what actually happened.
+  const RULES = [
+    { type: 'hack', label: 'Hack or exploit', w: 3, dir: -1, re: /\b(hack(ed|er|ers|s)?|exploit(ed|s)?|drain(ed|s)?|breach(ed)?|stolen|heist|compromised|rug ?pull(ed)?|attacker)\b/i },
+    { type: 'depeg', label: 'Stablecoin off its peg', w: 3, dir: -1, re: /\b(de-?peg(ged|s|ging)?|(loses?|lost|regains?) (its |the )?peg)\b/i },
+    { type: 'delist', label: 'Delisting', w: 3, dir: -1, re: /\b(delist(s|ed|ing)?|will (remove|cease)|monitoring tag|suspends? (trading|deposits|withdrawals)|halts? (trading|withdrawals|deposits)|withdrawals? (paused|halted|suspended|frozen))\b/i },
+    { type: 'list', label: 'Listing', w: 2, dir: 1, re: /\b(will list|lists|listed on|to list|new listing|listing of|launchpool|launchpad|hodler airdrops?|adds? (support for|trading for)|(added|adds) to (the )?(roadmap|listing roadmap)|will add|spot trading (for|of)|KRW market|(Upbit|Bithumb|Coinbase|Robinhood|Binance|OKX|Bybit|Kraken)\b.{0,40}\badds?)\b/i },
+    { type: 'etf', label: 'ETF', w: 2, dir: 0, re: /\bETFs?\b/ },
+    { type: 'rates', label: 'Fed and rates', w: 2, dir: 0, re: /\b(Fed|FOMC|Federal Reserve|Powell|Warsh|rate (cut|cuts|hike|hikes|decision)|interest rates?|basis points?|monetary policy)\b/ },
+    { type: 'data', label: 'Economic data', w: 2, dir: 0, re: /\b(CPI|PCE|PPI|inflation|jobs report|nonfarm|non-farm|payrolls|unemployment rate|GDP|retail sales|jobless claims)\b/i },
+    { type: 'trade', label: 'Tariffs and trade', w: 2, dir: 0, re: /\b(tariffs?|trade war|trade deal|export controls?)\b/i },
+    { type: 'geo', label: 'War and geopolitics', w: 2, dir: -1, re: /\b(war|missiles?|airstrikes?|invasion|invade[sd]?|ceasefire|military|troops|Arabian Gulf|Strait of Hormuz|sanctions?|nuclear)\b/i },
+    { type: 'stocks', label: 'Stocks and big-tech earnings', w: 2, dir: 0, re: /\b(Nvidia|NVDA|earnings|quarterly (results|revenue)|revenue (beat|miss)|AI (stocks|trade|bubble)|Nasdaq|S&P 500|Dow|Wall Street|sell-?off|stock market|Magnificent Seven)\b/i },
+    { type: 'legal', label: 'Regulation and courts', w: 2, dir: 0, re: /\b(SEC|CFTC|DOJ|Department of Justice|lawsuit|sues|sued|charge[sd]|indict(ed|ment)|settle(s|d|ment)|bans?|banned|regulators?|regulation|regulatory|bill|Senate|Congress|court|judge|MiCA|licen[cs]e[sd]?|crackdown|probe|investigation|executive order|White House)\b/ },
+    { type: 'whale', label: 'Big buyers and sellers', w: 2, dir: 0, re: /\b(Strategy|MicroStrategy|Saylor|BlackRock|Mt\.? ?Gox|government wallet|moves? \$?[\d.,]+ ?(billion|million|bn|m)\b|whales?|treasury (firm|company|companies)|(buys|bought|sells|sold|acquires|acquired|dumps|dumped) [\d.,]+ ?(k |thousand |million |billion )?(BTC|ETH|SOL|bitcoin|ether))\b/i },
+    { type: 'unlock', label: 'Token unlock', w: 2, dir: -1, re: /\b([Tt]oken [Uu]nlocks?|[Uu]nlocks? (of )?\$[\d.,]+ ?(million|billion|[mMB]|bn)|[Uu]nlock(s|ing)? [\d.,]+ ?(million|billion|[MB]|bn)? ?[A-Z]{2,10})\b/ },
+    { type: 'flows', label: 'Flows and liquidations', w: 1, dir: 0, re: /\b(liquidat(ion|ions|ed)|inflows?|outflows?|open interest|short squeeze|funding rates?)\b/i },
+    { type: 'upgrade', label: 'Upgrade or launch', w: 1, dir: 1, re: /\b(mainnet|upgrade|hard fork|hardfork|launch(es|ed)?|partnership|partners with|integrat(es|ion)|airdrop|token burn|buyback)\b/i }
+  ];
+  const DIGEST = /\b(opinion|podcast|newsletter|morning minute|daybook|week in review|weekly recap|the protocol:|price (prediction|analysis)|technical analysis|could (hit|reach|rally|drop|soar|crash)|here'?s (why|what|how)|what'?s next|analysts? (says?|predicts?|warns?)|eyes \$|explained|guide|how to)\b/i;
+  const BIG_RATES = /\b(rate (cut|hike|decision)|cuts? rates|hikes? rates|holds? rates|FOMC (decision|statement|minutes)|emergency)\b/i;
+  const BIG_ETF = /\b(approv(e|es|ed|al)|reject(s|ed|ion)?|den(y|ies|ied)|launch(es|ed)?|first day|record (inflows|outflows))\b/i;
+  const BIG_STOCKS = /\b(Nvidia|NVDA)\b/i;
+
+  // Coin names as they appear in headlines. "ctx" names are also ordinary words, so they count only next to a crypto word.
+  const NAMES = {
+    Bitcoin: 'BTC', BTC: 'BTC', Ethereum: 'ETH', Ether: 'ETH', Solana: 'SOL', Ripple: 'XRP', XRP: 'XRP', 'BNB Chain': 'BNB', BNB: 'BNB', Dogecoin: 'DOGE',
+    Cardano: 'ADA', Tron: 'TRX', TRON: 'TRX', Toncoin: 'TON', Chainlink: 'LINK', Polkadot: 'DOT', Litecoin: 'LTC', 'Shiba Inu': 'SHIB', 'Bitcoin Cash': 'BCH',
+    Uniswap: 'UNI', Aave: 'AAVE', Arbitrum: 'ARB', Aptos: 'APT', Sui: 'SUI', Sei: 'SEI', Celestia: 'TIA', Injective: 'INJ', Filecoin: 'FIL', 'Internet Computer': 'ICP',
+    Algorand: 'ALGO', Hedera: 'HBAR', VeChain: 'VET', Bittensor: 'TAO', 'Fetch.ai': 'FET', 'Artificial Superintelligence Alliance': 'FET', Worldcoin: 'WLD', 'World Network': 'WLD',
+    Ethena: 'ENA', 'ether.fi': 'ETHFI', EtherFi: 'ETHFI', LayerZero: 'ZRO', Initia: 'INIT', Illuvium: 'ILV', Notcoin: 'NOT', 'io.net': 'IO', Tellor: 'TRB', FTX: 'FTT',
+    KernelDAO: 'KERNEL', Neiro: 'NEIRO', Bonk: 'BONK', 'Sahara AI': 'SAHARA', Horizen: 'ZEN', Zcash: 'ZEC', Conflux: 'CFX', Popcat: 'POPCAT', Ondo: 'ONDO',
+    ChainGPT: 'CGPT', 'Pump.fun': 'PUMP', Virtuals: 'VIRTUAL', 'Virtuals Protocol': 'VIRTUAL', aixbt: 'AIXBT', Floki: 'FLOKI', Pepe: 'PEPE', Jasmy: 'JASMY', JasmyCoin: 'JASMY',
+    Lido: 'LDO', 'The Graph': 'GRT', Kaito: 'KAITO', Mubarak: 'MUBARAK', Pendle: 'PENDLE', Jupiter: 'JUP', Pyth: 'PYTH', Wormhole: 'W', Starknet: 'STRK', zkSync: 'ZK',
+    'Pudgy Penguins': 'PENGU', 'World Liberty Financial': 'WLFI', Hyperliquid: 'HYPE', 'Official Trump': 'TRUMP', Optimism: 'OP', Mantle: 'MNT', Immutable: 'IMX',
+    'The Sandbox': 'SAND', Decentraland: 'MANA', 'Axie Infinity': 'AXS', Gala: 'GALA', ApeCoin: 'APE', Ronin: 'RON', Stacks: 'STX', Kaspa: 'KAS', Berachain: 'BERA',
+    Plasma: 'XPL', Movement: 'MOVE', Story: 'IP', Near: 'NEAR', 'NEAR Protocol': 'NEAR', Render: 'RENDER', Stellar: 'XLM', Avalanche: 'AVAX', Cosmos: 'ATOM', Dash: 'DASH',
+    Treasure: 'MAGIC', Orca: 'ORCA', Newton: 'NEWT', Polygon: 'POL', Maker: 'MKR', Sky: 'SKY', Celo: 'CELO', Flow: 'FLOW', 'Ethereum Classic': 'ETC'
+  };
+  const CTX_NAMES = new Set(['Near', 'Render', 'Stellar', 'Avalanche', 'Cosmos', 'Dash', 'Treasure', 'Orca', 'Newton', 'Story', 'Movement', 'Plasma', 'Optimism', 'Maker', 'Sky', 'Flow', 'Celo', 'Jupiter', 'Mantle', 'Gala', 'Stacks', 'Polygon', 'Immutable', 'Sei', 'Ondo', 'Kaito', 'Lido', 'Pyth', 'Ronin']);
+  const CRYPTO_CTX = /\b(tokens?|coins?|memecoins?|crypto|cryptocurrency|blockchain|on-?chain|protocol|mainnet|testnet|DeFi|staking|airdrop|delist\w*|liquidity pools?|wallets?|DEX|stablecoins?|layer[- ]?[12]|L[12]|\$[A-Z]{2,})\b/i;
+  // Uppercase words that are tickers on Binance but usually mean something else in a headline.
+  const STOP = new Set(('AI ID OG ME IT AT IN ON OR US UK EU UN ARK NFP ONE ACT CITY DATA EDU FUN HIGH HOT KEY RED SIGN SUN WIN GAS BIO USUAL FIRST PEOPLE MAGIC BOND CAKE SAND MOVE NOT ' +
+    'ETF ETFS SEC CEO CFO CTO USD USDT GDP CPI PCE PPI FED FOMC IPO DOJ NFT NFTS DAO DEX CEX TVL ATH API OTC IRS FBI UAE USA XAI COOKIE STORY SAGA PORTAL PIXEL RARE HOOK MASK MEME ' +
+    'TURBO SUPER ANIME CHESS QUICK ORDER PROM ICE JOE DENT HARD LOKA ACE ALT BEL COS DEGO RAD REI SYN VIC NEW BANK OPEN TRUTH FORM HOME LINEA SOLV WAL AVAIL BARD PLUME ' +
+    'NEWT TREE TOWNS SPK RESOLV HUMA ERA TOKEN SOON LAYER SHELL RAY JUP AUCTION GUN VANA AWE SIGN DOLO BREV ZKC ASTER MITO HEMI').split(' '));
+  const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  let nameRe = null, nameList = [];
+  function buildNames() {
+    nameList = Object.keys(NAMES).filter(n => n.length >= 3 && !/^[A-Z0-9]+$/.test(n)).sort((a, b) => b.length - a.length);
+    nameRe = new RegExp('(^|[^A-Za-z0-9$])(' + nameList.map(esc).join('|') + ')(?=$|[^A-Za-z0-9])', 'g');
+  }
+  buildNames();
+
+  // Which coins a headline names. universe: Set of Binance base assets (USDT pairs). Returns tickers in order of appearance.
+  function coins(text, universe) {
+    const out = [], add = c => { if (c && (!universe || universe.has(c)) && !out.includes(c)) out.push(c); };
+    let ctx = CRYPTO_CTX.test(text);
+    if (!ctx) for (const m of text.matchAll(nameRe)) if (!CTX_NAMES.has(m[2])) { ctx = true; break; }   // another coin named nearby
+    for (const m of text.matchAll(/\$([A-Za-z][A-Za-z0-9]{1,9})\b/g)) add(m[1].toUpperCase());          // cashtags always count
+    if (/\b(Official Trump|TRUMP (token|memecoin|coin)|Trump (memecoin|meme ?coin|token))\b/i.test(text)) add('TRUMP');
+    for (const m of text.matchAll(nameRe)) { const n = m[2]; if (CTX_NAMES.has(n) && !ctx) continue; add(NAMES[n]); }
+    for (const m of text.matchAll(/(^|[^A-Za-z0-9$])([A-Z][A-Z0-9]{2,9})(?=$|[^A-Za-z0-9])/g)) {      // TICKER in capitals, 3+ letters
+      const t = m[2]; if (STOP.has(t) || /^\d/.test(t)) continue;
+      if (NAMES[t]) { add(NAMES[t]); continue; }
+      add(t);
+    }
+    for (const m of text.matchAll(/\(([A-Z0-9]{2,10})\)/g)) if (!STOP.has(m[1]) || ctx) add(m[1]);       // "Story (IP)" style
+    return out.slice(0, 6);
+  }
+
+  // What kind of news it is, and how much it tends to matter.
+  function classify(title, summary = '', src = {}) {
+    const text = title;                                   // tags come from the headline only
+    const hits = RULES.filter(r => r.re.test(title));
+    let best = hits.reduce((a, r) => (!a || r.w > a.w) ? r : a, null);
+    let w = best ? best.w : 0;
+    if (best && best.type === 'list' && /delist/i.test(title)) { best = RULES.find(r => r.type === 'delist'); w = 3; }
+    if (best && best.type === 'rates' && BIG_RATES.test(text)) w = 3;
+    if (best && best.type === 'etf' && BIG_ETF.test(title)) w = 3;
+    if (best && best.type === 'stocks' && BIG_STOCKS.test(title) && /\b(earnings|results|revenue|guidance|beat|miss)\b/i.test(text)) w = 3;
+    if (best && best.type === 'data' && /\b(CPI|nonfarm|non-farm|payrolls|PCE)\b/i.test(title) && /\b(rises?|falls?|hotter|cooler|beats?|miss(es)?|unexpected|surges?|jumps?|slows?|eases?)\b/i.test(title)) w = 3;
+    if (best && best.type === 'legal' && !/\b(crypto|bitcoin|token|coin|exchange|stablecoin|DeFi|Binance|Coinbase|ether|blockchain|digital asset)\b/i.test(text)) w = Math.min(w, 1);
+    if (best && best.type === 'whale' && !/\b(bitcoin|BTC|ether|ETH|crypto|token|coin|SOL|XRP)\b/i.test(text)) w = 0;
+    const crypto = CRYPTO_CTX.test(title) || /\b(bitcoin|BTC|ether|ethereum|ETH|solana|XRP|binance|coinbase|upbit|bithumb|robinhood|okx|bybit|kraken|tether|USDT|USDC|exchange)\b/i.test(title) || [...title.matchAll(nameRe)].some(m => !CTX_NAMES.has(m[2])) || /\$[A-Z]{2,}/.test(title);
+    if (best && ['hack', 'unlock', 'depeg', 'delist', 'list'].includes(best.type) && !crypto && !src.official) w = 0;
+    if (best && best.type === 'hack' && w > 1 && /\b(after|since|response|recover\w*|restor\w*|lifts?|resum\w*|returns?|refunds?|can freeze|security (group|firm|alliance)|bounty|sentenced|arrested|charged|lessons?|cites?|citing|wake|reviews?|report)\b/i.test(title)) { w = 1; best = Object.assign({}, best, { label: 'Hack aftermath', dir: 0 }); }
+    const digest = DIGEST.test(title) || /^(how|why|what|inside|explainer|here'?s)\b|\?\s*$/i.test(title.trim());
+    if (digest) w = Math.max(0, Math.min(w, 2) - 1);
+    if (src.official && w > 0) w = Math.min(3, w + (best && ['list', 'delist', 'rates'].includes(best.type) ? 0 : 1));
+    return { type: best && w > 0 ? best.type : digest ? 'analysis' : 'other', label: best && w > 0 ? best.label : digest ? 'Commentary' : 'Coin news', w, dir: best && w > 0 ? best.dir : 0, digest, tags: hits.map(r => r.type) };
+  }
+  const MACRO = new Set(['rates', 'data', 'trade', 'geo', 'stocks', 'etf', 'legal', 'depeg', 'flows']);
+  // Market-wide: macro types, or news about BTC/ETH/stablecoins with no smaller coin named.
+  function isMarket(cls, cs) { return MACRO.has(cls.type) && (!cs.length || cs.every(c => ['BTC', 'ETH', 'USDT', 'USDC'].includes(c))) || (cs.length && cs.every(c => c === 'BTC' || c === 'ETH') && cls.w >= 2); }
+
+  // Did prices react? bars: 15m candles [[t, o, h, l, c, v], ...] in time order. at: headline time (ms).
+  const P = { look: 96, win: 4, x: 2.5, floorCoin: 0.01, floorBTC: 0.005, vol: 4, fade: 0.5 };
+  function react(bars, at, now = Date.now(), opt = {}) {
+    const p = Object.assign({}, P, opt), Q = 15 * 60e3;
+    let i = -1; for (let k = bars.length - 1; k >= 0; k--) if (bars[k][0] <= at) { i = k; break; }
+    if (i < 0 || at - bars[i][0] >= Q) return null;
+    const base = bars[i][1], end = Math.min(bars.length - 1, i + p.win - 1), done = i + p.win - 1 <= bars.length - 1 && bars[i + p.win - 1][0] + Q <= now;
+    const moves = [], vols = [];
+    for (let j = Math.max(0, i - p.look); j + p.win - 1 < i; j++) { moves.push(Math.abs(bars[j + p.win - 1][4] / bars[j][1] - 1)); vols.push(bars[j][5]); }
+    if (moves.length < 24) return null;
+    const med = a => { const s = a.slice().sort((x, y) => x - y); return s[s.length >> 1]; };
+    const typ = Math.max(med(moves), 0.0015), vm = med(vols) || 1;
+    let hi = base, lo = base; for (let j = i; j <= end; j++) { hi = Math.max(hi, bars[j][2]); lo = Math.min(lo, bars[j][3]); }
+    const m = bars[end][4] / base - 1, up = hi / base - 1, dn = lo / base - 1, peak = Math.abs(up) >= Math.abs(dn) ? up : dn;
+    const vr = (bars[i][5] + (bars[i + 1] ? bars[i + 1][5] : 0)) / (2 * vm);
+    const floor = opt.btc ? p.floorBTC : p.floorCoin, need = Math.max(p.x * typ, floor);
+    let status;
+    if (Math.abs(m) >= need) status = 'confirmed';
+    else if (Math.abs(peak) >= need && Math.abs(m) < p.fade * Math.abs(peak)) status = done ? 'faded' : 'pending';
+    else if (vr >= p.vol && Math.abs(m) >= floor / 2) status = 'confirmed';
+    else status = done ? 'muted' : 'pending';
+    return { base, m, peak, typ, x: Math.abs(m) / typ, vr, status, done, mins: Math.round((Math.min(now, bars[end][0] + Q) - bars[i][0]) / 6e4) };
+  }
+
+  // Same story from several outlets: share most of the words and land within 3 hours.
+  const WORDS = t => new Set(t.toLowerCase().replace(/[^a-z0-9$ ]/g, ' ').split(/\s+/).filter(w => w.length > 2 && !/^(the|and|for|with|from|after|amid|into|over|says|said|this|that|its|has|have|will|are|was|new|why|how|what)$/.test(w)));
+  function sameStory(a, b) {
+    if (Math.abs(a.at - b.at) > 3 * 3600e3) return false;
+    const A = WORDS(a.title), B = WORDS(b.title); let n = 0; for (const w of A) if (B.has(w)) n++;
+    const cs = a.coins && b.coins && a.coins.length && a.coins.some(c => b.coins.includes(c)) && a.type === b.type && a.type !== 'other';
+    return n / Math.max(1, Math.min(A.size, B.size)) >= 0.5 || (cs && n >= 3);
+  }
+
+  // Final ranking: impact type, official source, several outlets, the price check.
+  function score(it) {
+    let s = it.w;
+    if (it.official) s += 0.5;
+    if ((it.also || []).length) s += 0.5;
+    if (it.urgent) s += 0.5;
+    const r = it.react; if (r && r.status === 'confirmed') s += 1.5; else if (r && r.status === 'faded') s += 0.5; else if (r && r.status === 'muted' && it.w < 3) s -= 0.5;
+    return Math.round(s * 10) / 10;
+  }
+  const BREAK_H = 3;
+  const isBreaking = (it, now = Date.now()) => now - it.at < BREAK_H * 3600e3 && (it.w >= 3 || (it.w >= 2 && it.react && it.react.status === 'confirmed' && (!it.market || it.react.x >= 4)));
+  // What the box lists: anything with an impact type, plus coin news that prices confirmed.
+  const isShown = it => it.w >= 1 || (it.react && it.react.status === 'confirmed' && it.coins.some(c => c !== 'BTC' && c !== 'ETH'));
+
+  // RSS / Atom without libraries.
+  const ENT = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', '#39': "'", hellip: '…', mdash: '—', ndash: '–', rsquo: '’', lsquo: '‘', rdquo: '”', ldquo: '“' };
+  const dec = s => (s || '').replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1').replace(/<[^>]+>/g, ' ').replace(/&(#x?[0-9a-f]+|\w+);/gi, (m, e) => e[0] === '#' ? String.fromCodePoint(e[1] === 'x' || e[1] === 'X' ? parseInt(e.slice(2), 16) : +e.slice(1)) : (ENT[e] !== undefined ? ENT[e] : m)).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  const tag = (x, n) => { const m = x.match(new RegExp('<' + n + '(?:\\s[^>]*)?>([\\s\\S]*?)</' + n + '>', 'i')); return m ? m[1] : ''; };
+  function parseFeed(xml) {
+    const items = [], blocks = xml.match(/<item[\s>][\s\S]*?<\/item>/gi) || xml.match(/<entry[\s>][\s\S]*?<\/entry>/gi) || [];
+    for (const b of blocks) {
+      let link = dec(tag(b, 'link')); if (!link) { const m = b.match(/<link[^>]*href="([^"]+)"/i); link = m ? m[1] : ''; }
+      const when = dec(tag(b, 'pubDate') || tag(b, 'published') || tag(b, 'updated') || tag(b, 'dc:date'));
+      const at = Date.parse(when);
+      const title = dec(tag(b, 'title'));
+      if (title && Number.isFinite(at)) items.push({ title, link, at, summary: dec(tag(b, 'description') || tag(b, 'summary')).slice(0, 400) });
+    }
+    return items;
+  }
+  // Headlines from TradingView's news tool (the Claude link). Accepts the usual shapes.
+  function parseTV(payload) {
+    const find = o => Array.isArray(o) ? o : o && typeof o === 'object' ? (o.items || o.news || o.headlines || o.data || o.result || null) : null;
+    let arr = find(payload); if (arr && !Array.isArray(arr)) arr = find(arr);
+    if (!arr && payload && payload.columns && payload.rows) arr = payload.rows.map(r => Object.fromEntries(payload.columns.map((c, k) => [c, r[k]])));
+    return (arr || []).filter(x => x && x.title).map(x => ({
+      title: String(x.title), link: x.link || (x.storyPath ? 'https://www.tradingview.com' + x.storyPath : ''),
+      at: (x.published > 1e12 ? x.published : x.published * 1000) || Date.parse(x.published) || Date.now(), src: 'tv', srcName: x.provider ? String(x.provider).replace(/(^|[\s-])\w/g, c => c.toUpperCase()) : 'TradingView',
+      urgent: x.urgency === 1, related: (x.relatedSymbols || []).map(s => String(s.symbol || s).split(':').pop().replace(/USDT?$|USD$|\.P$/, '')).filter(Boolean)
+    }));
+  }
+  return { SOURCES, RULES, NAMES, P, BREAK_H, coins, classify, isMarket, react, sameStory, score, isBreaking, isShown, parseFeed, parseTV, dec };
+})();
 
 
 </script>
@@ -2310,7 +2520,7 @@ function renderSumTab() {
   const box = $('#sumMarket'); if (!box || tab !== 'summary') return;
   const bc = c => `<button class="lnk" data-c="${esc(c)}">${esc(c)}</button>`, bl = c => `<button class="lnk" data-look="${esc(c)}">${esc(c)}</button>`, sc = $('#sessClock');
   const noData = mode === 'tv' && !cfg.coins.some(c => S[c] && (S[c].scan || S[c].main));
-  box.innerHTML = `<h3>Market <button class="lnk" data-goto="market">Open Market →</button></h3><p class="big">${esc($('#finding').textContent)}</p>${noData ? `<p>${siteLink('Open the live website instead')}</p>` : ''}<p class="k">${esc($('#findingSub').textContent)}</p>${BRIEF.l1 ? `<p>${BRIEF.l1}</p>` : ''}${sc && sc.querySelector('.si') ? `<p class="k">${[...sc.querySelectorAll('.si')].map(x => x.innerHTML).join(' · ').replace(/: · /, ': ')}</p>` : ''}`;
+  box.innerHTML = `<h3>Market <button class="lnk" data-goto="market">Open Market →</button></h3><p class="big">${esc($('#finding').textContent)}</p>${noData ? `<p>${siteLink('Open the live website instead')}</p>` : ''}<p class="k">${esc($('#findingSub').textContent)}</p>${BRIEF.l1 ? `<p>${BRIEF.l1}</p>` : ''}${newsLine() ? `<p>${newsLine()} <button class="lnk" data-goto="market">All news →</button></p>` : ''}${sc && sc.querySelector('.si') ? `<p class="k">${[...sc.querySelectorAll('.si')].map(x => x.innerHTML).join(' · ').replace(/: · /, ': ')}</p>` : ''}`;
   const rec = events.filter(e => Date.now() - e.at < DAY).slice(0, 5);
   $('#sumAlerts').innerHTML = `<h3>Alerts <button class="lnk" data-goto="watchlist">Watchlist →</button></h3><p>${alertLine() || 'Pings, breakout setups and radar hits appear on the website and the PC file.'}</p>${rec.length ? `<ul>${rec.map(e => `<li><span class="k">${hm(e.at)}</span> ${esc(e.text)}</li>`).join('')}</ul>` : '<p class="k">No price or trigger alerts in the last 24 hours.</p>'}`;
   const W = ALL().map(c => S[c]).filter(s => s && ok(s.price)), setups = W.filter(s => s.status && s.status.k !== 'wait'), near = W.filter(s => s.scan && nearDist(s) <= .03).sort((x, z) => nearDist(x) - nearDist(z));
@@ -2546,7 +2756,7 @@ $('#brief').addEventListener('toggle', e => store.set('briefOpen', e.target.open
 $('#brief').addEventListener('click', e => { const b = e.target.closest('[data-c]'); if (b) { e.preventDefault(); selectCoin(b.dataset.c, true); } });
 function renderAll() {
   const bad = [];
-  for (const [f, name] of [[renderFinding, 'headline'], [renderTiles, 'regime'], [drawCycle, 'cycle clock'], [renderZones, 'buy zones'], [renderStrip, 'top strip'], [renderBrief, 'brief'], [() => { if (mode === 'live' && !RD.logAsked) { RD.logAsked = true; loadSetupLog(); setInterval(loadSetupLog, 10 * 60e3); } if ((tab === 'radar' || RD_AUTO()) && mode !== 'init') { if (mode === 'live' && !RD.on && !RD.busy && !RD.err) rdStart(); if (tab === 'radar') renderRadar(); } }, 'radar'], [renderSumTab, 'summary'], [renderChanges, 'what changed'], [renderGroups, 'coin groups'], [drawBreadth, 'breadth'], [renderHeat, 'heatmap'], [renderAlerts, 'alerts'], [renderAlarms, 'phone alarms'], [renderBoard, 'watchlist'], [renderIntra, 'intraday setups'], [renderJournal, 'signal journal'], [renderSide, 'coin detail'], [renderHold, 'holdings'], [ensureChart, 'chart'], [renderSessClock, 'session clock']])
+  for (const [f, name] of [[renderFinding, 'headline'], [renderTiles, 'regime'], [drawCycle, 'cycle clock'], [renderZones, 'buy zones'], [renderStrip, 'top strip'], [renderBrief, 'brief'], [() => { if (mode === 'live' && !RD.logAsked) { RD.logAsked = true; loadSetupLog(); setInterval(loadSetupLog, 10 * 60e3); } if ((tab === 'radar' || RD_AUTO()) && mode !== 'init') { if (mode === 'live' && !RD.on && !RD.busy && !RD.err) rdStart(); if (tab === 'radar') renderRadar(); } }, 'radar'], [renderSumTab, 'summary'], [() => { if (mode === 'live' && !NW.asked) { NW.asked = true; loadNews(); setInterval(loadNews, 5 * 60e3); } renderNews(); }, 'breaking news'], [renderChanges, 'what changed'], [renderGroups, 'coin groups'], [drawBreadth, 'breadth'], [renderHeat, 'heatmap'], [renderAlerts, 'alerts'], [renderAlarms, 'phone alarms'], [renderBoard, 'watchlist'], [renderIntra, 'intraday setups'], [renderJournal, 'signal journal'], [renderSide, 'coin detail'], [renderHold, 'holdings'], [ensureChart, 'chart'], [renderSessClock, 'session clock']])
     try { f(); } catch (e) { console.error(name, e); bad.push(name + ': ' + e.message); }
   $('#problems').innerHTML = bad.length ? `<div class="banner">Display problem in ${esc(bad.join('; '))}. Reload the page; if it stays, tell Claude this line.</div>` : '';
   setTitle();
@@ -2873,6 +3083,120 @@ for (const id of ['#board', '#board2', '#board3']) $(id).addEventListener('click
 const ALARM_URL = 'https://raw.githubusercontent.com/medyalshamsi-blip/crypto-watch/main/data/alarms.json';
 const SETUP_URL = 'https://raw.githubusercontent.com/medyalshamsi-blip/crypto-watch/main/data/setups.json';
 function loadSetupLog() { if (mode !== 'live') return; const done = () => { renderSetups(); renderBrief(); renderSumTab(); }; fetch(SETUP_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))).then(j => { RD.log = j; done(); }, () => { RD.log = null; done(); }); }
+
+// ---------------------------------------------------------------- breaking news (Market tab)
+// Website and PC file: data/news.json from the GitHub news job (every 15 min), price checks refreshed here from Binance.
+// Claude link: TradingView's news tool (1 call, kept 30 min); no price check there.
+const NEWS_URL = 'https://raw.githubusercontent.com/medyalshamsi-blip/crypto-watch/main/data/news.json';
+const NW = { j: null, err: null, at: 0, f: store.get('newsFilter', 'all'), more: false, live: {}, liveAt: 0, tv: null, tvAsked: false };
+function loadNews() {
+  if (mode !== 'live') return;
+  fetch(NEWS_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)))
+    .then(j => { NW.j = j; NW.err = null; NW.at = Date.now(); newsLive(); later(); }, e => { NW.err = e.message; later(); });
+}
+async function newsLive() {                       // fresh price checks for headlines of the last 3 hours
+  if (mode !== 'live' || !NW.j) return;
+  const now = Date.now(), list = (NW.j.items || []).filter(it => now - it.at < 3 * 3600e3 && !(it.reacts && it.reacts.length && it.reacts.every(r => r.done)));
+  const bars = {};
+  for (const it of list) {
+    const cs = it.reacts && it.reacts.length ? it.reacts.map(r => r.c) : it.coins.length ? it.coins.slice(0, 3) : (it.market || it.w >= 2) ? ['BTC'] : [];
+    const out = [];
+    for (const c of cs) {
+      if (!(c in bars)) { try { const d = await klines(c + 'USDT', '15m', 130); bars[c] = d.t.map((t, i) => [t, d.o[i], d.h[i], d.l[i], d.c[i], d.v[i]]); } catch (e) { bars[c] = null; } }
+      const r = bars[c] && NEWS.react(bars[c], it.at, now, { btc: c === 'BTC' || c === 'ETH' });
+      if (r) out.push(Object.assign({ c }, r));
+    }
+    if (out.length) NW.live[it.id] = out;
+  }
+  NW.liveAt = now; later();
+}
+function newsTV() {                                // the Claude link: one TradingView call
+  if (mode !== 'tv' || NW.tvAsked) return;
+  NW.tvAsked = true;
+  watch('news', 'mcp-tv-get-news', { symbol: 'BINANCE:BTCUSDT', limit: 60 }, p => {
+    if (p === null) { NW.tv = []; return; }
+    let pl = p; if (typeof pl === 'string') { try { pl = JSON.parse(pl); } catch (e) { return false; } }
+    const known = new Set([...tracked(), ...Object.values(NEWS.NAMES)]), seen = [];
+    NW.tv = NEWS.parseTV(pl).map(x => {
+      const cls = NEWS.classify(x.title, '', {}), cs = [...new Set([...x.related.filter(c => /^[A-Z0-9]{2,12}$/.test(c) && c !== 'USD'), ...NEWS.coins(x.title, known)])].slice(0, 6);   // TradingView's own tags count as they are
+      return Object.assign(x, { id: 'tv' + x.at + x.title.length, coins: cs, market: NEWS.isMarket(cls, cs), type: cls.type, label: cls.label, w: cls.w, dir: cls.dir, also: [], official: false });
+    }).filter(it => { const dup = seen.find(o => NEWS.sameStory(o, it)); if (dup) { dup.also.push({ name: it.srcName }); return false; } seen.push(it); return true; });
+  }, 0.5);
+}
+function newsItems() {
+  const now = Date.now();
+  const src = mode === 'tv' ? (NW.tv || []) : ((NW.j && NW.j.items) || []);
+  return src.filter(it => now - it.at < 48 * 3600e3 && it.at <= now + 6e5).map(it => {
+    const rs = NW.live[it.id] || it.reacts || [], order = { confirmed: 3, faded: 2, pending: 1, muted: 0 };
+    const react = rs.slice().sort((a, b) => order[b.status] - order[a.status] || b.x - a.x)[0] || null;
+    const x = Object.assign({}, it, { reacts: rs, react }); x.score = NEWS.score(x); return x;
+  }).filter(NEWS.isShown).sort((a, b) => b.at - a.at);
+}
+const wlNews = (it, wl) => it.coins.some(c => wl.has(c) && c !== 'BTC' && c !== 'ETH');   // BTC and ETH news reads as market news
+function newsAgo(t) { const m = Math.max(0, Math.round((Date.now() - t) / 6e4)); return m < 60 ? m + ' min ago' : m < 48 * 60 ? Math.round(m / 60) + ' h ago' : fdate(t); }
+function newsReact(it) {
+  const r = it.react;
+  if (!r) return mode === 'live' && it.type === 'list' && it.coins.length ? `<div class="nwr mut">No price check: ${esc(it.coins[0])} is not trading on Binance yet.</div>` : mode === 'tv' ? '<div class="nwr mut">Price check on the live website.</div>' : '';
+  const pc = v => `<b class="${v >= 0 ? 'up' : 'dn'}">${v >= 0 ? '+' : '−'}${Math.abs(v * 100).toFixed(2)}%</b>`, more = it.reacts.length > 1 ? ' · ' + it.reacts.filter(q => q !== r).map(q => `${esc(q.c)} ${pc(q.m)}`).join(', ') : '';
+  const usual = `${r.x.toFixed(1)}× its usual hour`;
+  const t = r.status === 'confirmed' ? `${esc(r.c)} ${pc(r.m)} in the hour after (${usual}): <b>prices moved</b>`
+    : r.status === 'faded' ? `${esc(r.c)} moved ${pc(r.peak)}, then gave most of it back (${pc(r.m)} after the hour): <b>faded</b>`
+    : r.status === 'pending' ? `${esc(r.c)} ${pc(r.m)} so far (${r.mins} of 60 min)`
+    : `${esc(r.c)} ${pc(r.m)} in the hour after: <b>no reaction</b>`;
+  return `<div class="nwr" title="Prices move for many reasons: this shows what happened after the headline, not why.">${t}${more}</div>`;
+}
+function newsRow(it, wl) {
+  const imp = it.w >= 3 ? 'pill hot' : it.w === 2 ? 'pill' : 'pill w1';
+  const cs = it.coins.length ? it.coins.map(c => `<button class="lnk" data-look="${esc(c)}"${wl.has(c) ? ' title="On your watchlist"' : ''}>${wl.has(c) ? '★ ' : ''}${esc(c)}</button>`).join(' ') : it.market ? '<span>whole market</span>' : '';
+  const also = (it.also || []).length ? ` <span title="${esc(it.also.map(a => a.name).join(', '))}">+${it.also.length} more</span>` : '';
+  return `<div class="nwm"><time datetime="${new Date(it.at).toISOString()}">${ftime(it.at)}${Date.now() - it.at > 20 * 3600e3 ? ' ' + fdate(it.at) : ''}</time><span>${esc(it.srcName || '')}${also}</span><span class="${imp}">${it.w >= 3 ? 'High impact · ' : ''}${esc(it.label)}</span>${cs}</div>`
+    + `<a class="nwt" href="${esc(it.link || '#')}" target="_blank" rel="noopener">${esc(it.title)}</a>${newsReact(it)}`;
+}
+function renderNews() {
+  const card = $('#newsCard'); if (!card) return;
+  if (tab !== 'market' && tab !== 'summary') return;
+  const note = $('#newsNote'), brk = $('#newsBreak'), list = $('#newsList'), fl = $('#newsFilter');
+  $('#newsHow').innerHTML = `Headlines come from ${mode === 'tv' ? 'TradingView’s news feed (this Claude link)' : 'Binance listing and delisting notices, CoinDesk, The Block, Cointelegraph, Decrypt, CryptoSlate, CNBC, the Federal Reserve and the SEC, read every 15 minutes by the GitHub job'}. Each gets an impact type: <b>high</b> (hack, delisting, stablecoin off its peg, Fed rate decision, CPI or payrolls surprise, ETF approval or rejection, Nvidia earnings), <b>medium</b> (listings, ETF flows, regulation, tariffs, war, big buyers and sellers, token unlocks) or <b>low</b> (upgrades, liquidations). The price check compares the named coin (BTC for market-wide news) in the hour after the headline with its usual hour over the previous day: <b>prices moved</b> = at least 2.5× its usual hour and 1% (BTC and ETH 0.5%); <b>faded</b> = moved that much, then gave most of it back; <b>no reaction</b> = neither. Breaking = the last 3 hours and high impact, or medium impact with a confirmed move. Prices move for many reasons; the check shows what happened after a headline, not why. Read-only; not financial advice.`;
+  if (mode === 'tv') {
+    if (!NW.tvAsked && !tvAll) { note.textContent = 'From TradingView, on request'; brk.innerHTML = ''; fl.innerHTML = ''; list.innerHTML = `<p class="note">Headlines with impact types from TradingView’s news feed. The live website also checks prices after each headline.</p><p><button class="btn sm" id="newsLoad" type="button">Load the news (1 TradingView call)</button> ${siteLink()}</p>`; $('#newsLoad').onclick = () => { newsTV(); later(); }; return; }
+    if (!NW.tvAsked) newsTV();
+    const st = tvState.news || {};
+    if (!NW.tv) { note.textContent = st.err ? tvErrShort(st.err) : 'Loading TradingView news…'; brk.innerHTML = ''; fl.innerHTML = ''; list.innerHTML = st.err ? `<p class="note">${esc(tvErrShort(st.err))}.</p><p>${siteLink()}</p>` : ''; return; }
+  } else if (mode === 'live') {
+    if (!NW.j) { note.textContent = NW.err ? 'News file not reachable (' + NW.err + ')' : 'Loading the news'; return; }
+  } else return;
+  const items = newsItems(), wl = new Set(tracked()), now = Date.now();
+  const src = NW.j && NW.j.sources ? Object.values(NW.j.sources) : null, upd = NW.j ? Date.parse(NW.j.updated) : NaN;
+  note.innerHTML = mode === 'tv' ? `TradingView · ${items.length} headlines, last 48 h` : `${ok(upd) ? 'Updated ' + newsAgo(upd) : ''}${ok(upd) && now - upd > 75 * 6e4 ? ' <b class="dn">(GitHub is late)</b>' : ''} · ${src ? src.filter(x => x.ok).length + ' of ' + src.length + ' sources answered' : ''}`;
+  const br = items.filter(it => NEWS.isBreaking(it, now)).slice(0, 4);
+  brk.innerHTML = br.length ? br.map(it => `<div class="nwb"><span class="bk">Breaking · ${newsAgo(it.at)}</span>${newsRow(it, wl)}</div>`).join('') : `<p class="note">Nothing breaking in the last 3 hours.${(() => { const h = items.find(it => it.w >= 3); return h ? ` Last high-impact headline ${newsAgo(h.at)}: ${esc(h.title)}` : ''; })()}</p>`;
+  const rest = items.filter(it => !br.includes(it));
+  const F = [['all', 'All'], ['watch', '★ Watchlist', it => wlNews(it, wl)], ['market', 'Whole market', it => it.market], ['high', 'High impact', it => it.w >= 3]];
+  fl.innerHTML = F.map(([k, lab, f]) => `<button class="chip" type="button" data-nf="${k}" aria-pressed="${NW.f === k}">${lab} <span class="mut">${f ? rest.filter(f).length : rest.length}</span></button>`).join('');
+  // Compact by default: 5 per section, low-impact headlines only once prices moved; "Show more" opens the rest.
+  const N = NW.more ? 40 : 5, main = it => NW.more || it.w >= 2 || (it.react && it.react.status === 'confirmed'), ul = a => `<ul class="nwl">${a.map(it => `<li>${newsRow(it, wl)}</li>`).join('')}</ul>`;
+  let html = '';
+  if (NW.f === 'all') {
+    const w = rest.filter(it => wlNews(it, wl)), o = rest.filter(it => !w.includes(it)), w1 = w.filter(main), o1 = o.filter(main);
+    html = (w1.length ? `<h3 class="nwh">Your watchlist coins</h3>${ul(w1.slice(0, N))}` : '') + `<h3 class="nwh">Market, BTC and other coins</h3>${o1.length ? ul(o1.slice(0, N)) : '<p class="note">No headlines with an impact type in the last 48 hours.</p>'}`;
+    if (w.length > w1.slice(0, N).length || o.length > o1.slice(0, N).length) html += `<button class="btn sm" type="button" id="newsMore">${NW.more ? 'Show fewer' : `Show more (${w.length + o.length - Math.min(w1.length, N) - Math.min(o1.length, N)})`}</button>`;
+  } else {
+    const f = F.find(x => x[0] === NW.f)[2], a = rest.filter(f);
+    html = a.length ? ul(a.slice(0, N)) + (a.length > N ? `<button class="btn sm" type="button" id="newsMore">${NW.more ? 'Show fewer' : 'Show more'}</button>` : '') : '<p class="note">Nothing in the last 48 hours.</p>';
+  }
+  list.innerHTML = html;
+  const m = $('#newsMore'); if (m) m.onclick = () => { NW.more = !NW.more; later(); };
+}
+$('#newsFilter').addEventListener('click', e => { const b = e.target.closest('[data-nf]'); if (!b) return; NW.f = b.dataset.nf; store.set('newsFilter', NW.f); NW.more = false; later(); });
+$('#newsCard').addEventListener('click', e => { const l = e.target.closest('[data-look]'); if (l) { e.preventDefault(); lookCoin(l.dataset.look, true); } });
+function newsLine() {                              // one line for the Summary tab
+  if (mode === 'live' && !NW.j) return '';
+  if (mode === 'tv' && !NW.tv) return '';
+  const now = Date.now(), items = newsItems(), br = items.filter(it => NEWS.isBreaking(it, now));
+  if (br.length) { const it = br[0]; return `<b>Breaking</b> (${newsAgo(it.at)}, ${esc(it.label.toLowerCase())}): <a href="${esc(it.link || '#')}" target="_blank" rel="noopener">${esc(it.title)}</a>${br.length > 1 ? ` <span class="mut">+${br.length - 1} more</span>` : ''}`; }
+  const h = items.find(it => it.w >= 3);
+  return `<b>News</b>: nothing breaking in 3 hours${h ? `; last high-impact ${newsAgo(h.at)}: ${esc(h.title)}` : ''}.`;
+}
 function loadAlarms() { if (mode !== 'live') return; fetch(ALARM_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))).then(j => { G.alarms = j; later(); }, () => { G.alarms = null; later(); }); }
 function renderAlarms() {
   const el = $('#alarms'), j = G.alarms; if (!j) { el.hidden = true; return; } el.hidden = false;
