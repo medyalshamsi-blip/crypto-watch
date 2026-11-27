@@ -1942,7 +1942,14 @@ function pgCompute(s, live) {                 // fast 15m pings; a new one on a 
   let x; try { x = SETUPS.pings(d, { n: closedN(d) }); } catch (e) { x = null; } RD.pg[s] = x;
   if (!live || !x || !RD.wl.has(s)) return;
   const q = x.pings[x.pings.length - 1]; if (!q || q.j !== x.n - 1 || RD.pgSeen[s] === q.t) return; RD.pgSeen[s] = q.t;
-  const txt = `${rdBase(s)} moving: ${fpc(q.r)} in 15 minutes on ${q.vm.toFixed(1)}× volume${ok(q.buy) ? `, ${Math.round(q.buy * 100)}% buyers` : ''}. Look at the chart; most pings lead nowhere.`;
+  RD.pgQ = RD.pgQ || []; RD.pgQ.push({ s, q }); clearTimeout(RD.pgT); RD.pgT = setTimeout(pgFlush, 2500);   // pings of one close go out together
+}
+function pgFlush() {                          // several coins at once usually means the whole market moved, so one message instead of many
+  const Q = (RD.pgQ || []).splice(0), b = RD.d15.BTCUSDT; if (!Q.length) return;
+  const bn = b ? closedN(b) : 0, br = bn > 1 ? b.c[bn - 1] / b.c[bn - 2] - 1 : NaN, btc = ok(br) ? ` (BTC ${fpc(br)} in the same 15 minutes)` : '';
+  const one = ({ s, q }) => `${rdBase(s)} moving: ${fpc(q.r)} in 15 minutes on ${q.vm.toFixed(1)}× volume${ok(q.buy) ? `, ${Math.round(q.buy * 100)}% buyers` : ''}`;
+  const txt = Q.length < 3 ? Q.map(one).join('. ') + `${btc}. Look at the chart; most pings lead nowhere.`
+    : `${Q.length} watchlist coins pinged at the same 15m close${btc}: ${Q.sort((x, y) => y.q.r - x.q.r).map(({ s, q }) => `${rdBase(s)} ${fpc(q.r)}`).join(', ')}. A market-wide move, so look at BTC first; most pings lead nowhere.`;
   toast(txt); if (cfg.popup) notify(txt);
 }
 async function rdBackfill() {                 // 1,000 older 15m candles per coin: about 20 days in all, enough for the 4H checks
