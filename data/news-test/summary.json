@@ -1,38 +1,183 @@
 {
- "about": "Replay of the breaking-news price check. Confirmed/faded/muted as in news.js; baseline = the same coins at random times 1–10 days earlier.",
- "ran": "2026-11-27T20:45:07.424Z",
+ "about": "Replay of the breaking-news price check. Confirmed/faded/muted as in news.js; baseline = the same coins at random times 1–8 days earlier.",
+ "ran": "2026-11-27T20:47:17.008Z",
  "groups": {
-  "binance-list": {
+  "binance-delist": {
    "headlines": {
-    "n": 2,
-    "confirmed": 0,
-    "faded": 100,
-    "muted": 0,
-    "medMove": 1.48,
-    "medX": 1.05
+    "n": 90,
+    "confirmed": 52.2,
+    "faded": 10,
+    "muted": 37.8,
+    "medMove": 1.03,
+    "medX": 3.05
    },
    "baseline": {
-    "n": 0
+    "n": 360,
+    "confirmed": 14.2,
+    "faded": 9.2,
+    "muted": 76.7,
+    "medMove": 0.31,
+    "medX": 1
+   },
+   "directionRight": 87.2,
+   "directionN": 47
+  },
+  "binance-list": {
+   "headlines": {
+    "n": 124,
+    "confirmed": 17.7,
+    "faded": 3.2,
+    "muted": 79,
+    "medMove": 0.24,
+    "medX": 1.06
+   },
+   "baseline": {
+    "n": 494,
+    "confirmed": 9.1,
+    "faded": 5.1,
+    "muted": 85.8,
+    "medMove": 0.17,
+    "medX": 0.83
+   },
+   "directionRight": 47.6,
+   "directionN": 21
+  },
+  "feeds w0 coin": {
+   "headlines": {
+    "n": 28,
+    "confirmed": 25,
+    "faded": 3.6,
+    "muted": 71.4,
+    "medMove": 0.27,
+    "medX": 1.08
+   },
+   "baseline": {
+    "n": 84,
+    "confirmed": 15.5,
+    "faded": 7.1,
+    "muted": 77.4,
+    "medMove": 0.33,
+    "medX": 0.89
+   },
+   "directionRight": null,
+   "directionN": 0
+  },
+  "feeds w1 coin": {
+   "headlines": {
+    "n": 4,
+    "confirmed": 25,
+    "faded": 25,
+    "muted": 50,
+    "medMove": 0.17,
+    "medX": 0.55
+   },
+   "baseline": {
+    "n": 12,
+    "confirmed": 16.7,
+    "faded": 0,
+    "muted": 83.3,
+    "medMove": 0.34,
+    "medX": 0.64
+   },
+   "directionRight": null,
+   "directionN": 0
+  },
+  "feeds w1 market": {
+   "headlines": {
+    "n": 4,
+    "confirmed": 0,
+    "faded": 0,
+    "muted": 100,
+    "medMove": 0.35,
+    "medX": 1.36
+   },
+   "baseline": {
+    "n": 12,
+    "confirmed": 8.3,
+    "faded": 8.3,
+    "muted": 83.3,
+    "medMove": 0.19,
+    "medX": 0.94
+   },
+   "directionRight": null,
+   "directionN": 0
+  },
+  "feeds w2 coin": {
+   "headlines": {
+    "n": 7,
+    "confirmed": 14.3,
+    "faded": 0,
+    "muted": 85.7,
+    "medMove": 0.18,
+    "medX": 0.61
+   },
+   "baseline": {
+    "n": 21,
+    "confirmed": 28.6,
+    "faded": 9.5,
+    "muted": 61.9,
+    "medMove": 0.23,
+    "medX": 0.66
    },
    "directionRight": null,
    "directionN": 0
   },
   "feeds w2 market": {
    "headlines": {
-    "n": 2,
-    "confirmed": 0,
-    "faded": 50,
-    "muted": 50,
-    "medMove": 0.39,
-    "medX": 2.61
+    "n": 73,
+    "confirmed": 9.6,
+    "faded": 17.8,
+    "muted": 72.6,
+    "medMove": 0.23,
+    "medX": 0.98
    },
    "baseline": {
+    "n": 219,
+    "confirmed": 17.4,
+    "faded": 7.3,
+    "muted": 75.3,
+    "medMove": 0.21,
+    "medX": 0.89
+   },
+   "directionRight": null,
+   "directionN": 0
+  },
+  "feeds w3 coin": {
+   "headlines": {
     "n": 1,
-    "confirmed": 100,
+    "confirmed": 0,
     "faded": 0,
-    "muted": 0,
-    "medMove": 1.01,
-    "medX": 6.7
+    "muted": 100,
+    "medMove": 0,
+    "medX": 0.02
+   },
+   "baseline": {
+    "n": 3,
+    "confirmed": 0,
+    "faded": 0,
+    "muted": 100,
+    "medMove": 0.36,
+    "medX": 1.12
+   },
+   "directionRight": null,
+   "directionN": 0
+  },
+  "feeds w3 market": {
+   "headlines": {
+    "n": 9,
+    "confirmed": 22.2,
+    "faded": 33.3,
+    "muted": 44.4,
+    "medMove": 0.19,
+    "medX": 1.02
+   },
+   "baseline": {
+    "n": 27,
+    "confirmed": 22.2,
+    "faded": 11.1,
+    "muted": 66.7,
+    "medMove": 0.23,
+    "medX": 1.05
    },
    "directionRight": null,
    "directionN": 0
@@ -40,13 +185,83 @@
  },
  "nvidia": {
   "at": "2026-11-17T21:20:00.000Z",
-  "coins": [],
+  "coins": [
+   {
+    "c": "BTC",
+    "m": 0.005981132107861331,
+    "peak": 0.009142427132360353,
+    "x": 2.205487839405518,
+    "vr": 0.9267850824924931,
+    "status": "muted"
+   },
+   {
+    "c": "ETH",
+    "m": 0.004040999188465122,
+    "peak": 0.010516603114960166,
+    "x": 1.0867307729074225,
+    "vr": 1.7829561186726055,
+    "status": "faded"
+   },
+   {
+    "c": "TAO",
+    "m": 0.011500261369576492,
+    "peak": 0.013068478829064256,
+    "x": 2.4291107626183432,
+    "vr": 1.6898320492462509,
+    "status": "muted"
+   },
+   {
+    "c": "FET",
+    "m": 0.003053435114503733,
+    "peak": 0.01450381679389312,
+    "x": 0.567502726281327,
+    "vr": 2.007990069616987,
+    "status": "faded"
+   },
+   {
+    "c": "RENDER",
+    "m": 0.02936962750716332,
+    "peak": 0.036532951289398374,
+    "x": 6.701170009551162,
+    "vr": 5.088738776218728,
+    "status": "confirmed"
+   },
+   {
+    "c": "NEAR",
+    "m": 0.017857142857142794,
+    "peak": 0.02155172413793105,
+    "x": 2.3292857142857075,
+    "vr": 5.068263908556215,
+    "status": "confirmed"
+   },
+   {
+    "c": "WLD",
+    "m": 0.006033182503770718,
+    "peak": 0.016968325791855143,
+    "x": 1.1661279896573817,
+    "vr": 1.5387393622992307,
+    "status": "faded"
+   },
+   {
+    "c": "ICP",
+    "m": -0.001761338617349173,
+    "peak": 0.010568031704095038,
+    "x": 0.24247761632174103,
+    "vr": 3.0858634795704734,
+    "status": "muted"
+   }
+  ],
   "btcSameHourOtherDays": {
-   "n": 0
+   "n": 10,
+   "confirmed": 10,
+   "faded": 10,
+   "muted": 80,
+   "medMove": 0.32,
+   "medX": 1.53
   }
  },
  "counts": {
-  "events": 614,
-  "checked": 4
+  "events": 570,
+  "checked": 340
  }
 }
