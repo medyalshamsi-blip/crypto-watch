@@ -14,6 +14,9 @@ const SETUPS = ((R) => {
     stopBuf: 0.25,       // stop 0.25 × ATR14 (15m) below the retest low
     fee: 0.001, slip: 0.0005,                                 // per side: Binance spot taker fee 0.10%, slippage and half the spread 0.05%
     minR: 2, targetR: 2,
+    squeezeLook: 1,      // variant: a squeeze on any of the last N 4H readings (1 = the latest only, as written)
+    volFloor: false,     // variant: breakout volume against max(average of 20, median of 96 bars), and at least $25,000 traded in the bar
+    noEntry: null,       // variant: function (time) → true to skip a new paper entry (session filter)
   };
   const ok = x => x != null && Number.isFinite(x);
   const sma = (a, i, n) => { let s = 0; for (let k = i - n + 1; k <= i; k++) s += a[k]; return s / n; };
@@ -66,7 +69,9 @@ const SETUPS = ((R) => {
       const k4 = K - 1, atr4 = I.A[k4];
       // 1) a close above the ceiling known at the previous close is a breakout of that level
       if (ceil && c[j] > ceil.lv) {
-        let vs = 0; for (let q = j - o.brkLook; q < j; q++) vs += m.v[q]; const vm = m.v[j] / (vs / o.brkLook);
+        let vs = 0; for (let q = j - o.brkLook; q < j; q++) vs += m.v[q]; let den = vs / o.brkLook;
+        if (o.volFloor) { const w = m.v.slice(Math.max(0, j - 96), j).sort((a, b) => a - b); den = Math.max(den, w[w.length >> 1] || 0); }
+        let vm = den > 0 ? m.v[j] / den : Infinity; if (o.volFloor && m.v[j] * c[j] < 25000) vm = Math.min(vm, 1);
         const fw = firstW[ceil.id] || {}, inWin = t => t != null && t <= T && t >= T - o.within * M15;
         brks.push({ j, t: T, lv: ceil.lv, id: ceil.id, close: c[j], atr4: ceil.atr4 || atr4, vm, tb: m.v[j] > 0 ? m.tb[j] / m.v[j] : NaN,
           base: inWin(fw.base) ? fw.base : null, full: inWin(fw.full) ? fw.full : null });
@@ -78,7 +83,8 @@ const SETUPS = ((R) => {
       // 3) early-warning checks on this close
       const lows = lowsBefore(K), hl = lows.length >= 2 && lows[lows.length - 1].lv > lows[lows.length - 2].lv;
       const near = !!ceil && c[j] < ceil.lv && ceil.lv - c[j] <= o.atrK * atr4, dist = ceil ? (ceil.lv - c[j]) / atr4 : NaN;
-      const squeeze = ok(I.pct[k4]) && I.pct[k4] <= o.bwPct, vol = ok(RV.rv[j]) && RV.rv[j] >= o.rvMin, full = near && hl && squeeze && vol;
+      let squeeze = false; for (let q = 0; q < o.squeezeLook && k4 - q >= 0; q++) if (ok(I.pct[k4 - q]) && I.pct[k4 - q] <= o.bwPct) { squeeze = true; break; }
+      const vol = ok(RV.rv[j]) && RV.rv[j] >= o.rvMin, full = near && hl && squeeze && vol;
       if (near) { const f = firstW[ceil.id] = firstW[ceil.id] || {}; if (f.base == null) { f.base = T; alerts.push({ v: 'base', t: T, j, lv: ceil.lv, id: ceil.id, dist }); } if (full && f.full == null) { f.full = T; alerts.push({ v: 'full', t: T, j, lv: ceil.lv, id: ceil.id, dist }); } }
       if (j === n - 1) last = { j, T, price: c[j], ceil, dist, near, hl, lows: lows.slice(-2).map(p => p.lv), squeeze, bwPct: I.pct[k4], rv: RV.rv[j], rvDays: RV.days[j], vol, full,
         atr4, rsi4: I.RS[k4], rsiReclaim: I.RS[k4] >= 50 && Math.min(I.RS[k4 - 1], I.RS[k4 - 2]) < 50, hist: I.hist[k4], histUp: I.hist[k4] > I.hist[k4 - 1] && I.hist[k4 - 1] > I.hist[k4 - 2], vwap: VW[j], atr15: A15[j], t4: d4.t[k4] };
@@ -90,6 +96,7 @@ const SETUPS = ((R) => {
     for (const b of brks) {
       const end = Math.min(n - 1, b.j + o.within);
       b.spike = false; for (let q = b.j + 1; q <= end; q++) if (m.h[q] >= b.lv + b.atr4) { b.spike = true; b.spikeT = m.t[q] + M15; break; }
+      b.spike3 = false; for (let q = b.j + 1; q <= end; q++) if (m.h[q] >= b.lv + 3 * b.atr4) { b.spike3 = true; break; }
       b.spikeOpen = !b.spike && b.j + o.within > n - 1;           // still inside its 24 hours
       b.ran = false; b.state = 'await';
       for (let q = b.j + 1; q <= end; q++) {
@@ -105,13 +112,15 @@ const SETUPS = ((R) => {
       b.trade = { q, t: Tq, entry, pending: q + 1 >= n, stop, target: tgt, risk, costR: (entry + stop) * cost / risk, res, rr, vwap: VW[q], aboveVwap: c[q] > VW[q] };
       const plainOk = risk > 0 && rr >= o.minR, fullOk = plainOk && b.full != null && b.vm >= o.brkVol && c[q] > VW[q];
       b.trade.plain = plainOk; b.trade.fullOk = fullOk;
-      b.trade.skip = !(risk > 0) ? 'no risk' : rr < o.minR ? `R:R ${rr.toFixed(1)} to the ${res.src}` : q < busyUntil ? 'a trade was already open' : null;
+      const sess = o.noEntry ? o.noEntry(Tq) : false;
+      b.trade.skip = !(risk > 0) ? 'no risk' : rr < o.minR ? `R:R ${rr.toFixed(1)} to the ${res.src}` : q < busyUntil ? 'a trade was already open' : sess ? 'session filter' : null;
+      if (sess && plainOk) { b.trade.plain = b.trade.fullOk = false; continue; }
       if (!plainOk || q < busyUntil) { if (q < busyUntil) b.trade.plain = b.trade.fullOk = false; continue; }
       // simulate: entry at the next open; stop first when both are touched in one candle; time exit 24 hours after entry
       let out = null;
       for (let k = q + 1; k < n && k <= q + o.within; k++) {
         const hitS = m.l[k] <= stop, hitT = m.h[k] >= tgt;
-        if (hitS) { const px = Math.min(stop, m.o[k]); out = { why: 'stop', k, px }; break; }
+        if (hitS) { const px = Math.min(stop, m.o[k]); out = { why: 'stop', k, px, ambig: hitT }; break; }
         if (hitT) { const px = Math.max(tgt, m.o[k]); out = { why: 'target', k, px }; break; }
       }
       if (!out && q + 1 + o.within < n) out = { why: 'time', k: q + 1 + o.within, px: m.o[q + 1 + o.within] };
