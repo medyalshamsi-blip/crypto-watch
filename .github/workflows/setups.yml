@@ -1,0 +1,32 @@
+name: setups
+on:
+  schedule:
+    - cron: '5 * * * *'
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency:
+  group: data
+  cancel-in-progress: false
+jobs:
+  log:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Replay breakout setups on Binance 15m candles
+        run: node engine/setups-log.js
+      - name: Save the log
+        if: always()
+        run: |
+          if [ -n "$(git status --porcelain -- data)" ]; then
+            git config user.name "crypto-watch setups"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data
+            git commit -q -m "setups $(date -u +%Y-%m-%dT%H:%MZ)"
+            git pull -q --rebase
+            git push -q
+          fi
