@@ -2218,7 +2218,7 @@ function renderRC() {
   const st = $('#rcStatus'); if (!st) return;
   for (const id of ['#rcCard', '#rhCard']) $(id).hidden = mode === 'tv';
   if (mode !== 'live') return;
-  if (!RD.on || RD.back !== 'done') { st.textContent = RD.on ? 'Waiting for the 20 days of 15-minute candles (about a minute)…' : 'Starts with the radar.'; RC.blips = []; $('#rcNear').innerHTML = ''; $('#rcSel').hidden = true; rcKick(); return; }
+  if (!RD.on || RD.back !== 'done') { st.textContent = RD.busy ? `Loading the radar: ${RD.syms.filter(x => RD.d15[x]).length} of ${RD.syms.length || '…'} coins…` : RD.on ? `Loading 20 days of 15-minute candles for the triggers: ${RD.backN || 0} of ${RD.syms.length} coins…` : RD.err ? RD.err : 'Starts with the radar.'; RC.blips = []; $('#rcNear').innerHTML = ''; $('#rcSel').hidden = true; rcKick(); return; }
   rcBuild(); const B = RC.blips, near = B.filter(b => b.near).sort((a, z) => a.near.dist - z.near.dist), inR = f => B.filter(b => b.near && b.near.dist <= f).length;
   st.textContent = `${B.length} coins · ${inR(.01)} within 1% of a trigger, ${inR(.03)} within 3%, ${inR(.10)} within 10% · ${RD.ws && Date.now() - RD.wsAt < 120e3 ? 'live' : 'reconnecting'}`;
   $('#rcShow').value = RC.show;
@@ -2303,7 +2303,7 @@ function renderSumTab() {
   if (mode === 'tv') rt.innerHTML = '<p class="k">The radar reads all of Binance live; open the website or the PC file for it.</p>';
   else if (mode !== 'live') rt.innerHTML = '<p class="k">Waiting for data.</p>';
   else if (!RD.on && !RD.busy) rt.innerHTML = '<p class="k">Not loaded on this screen: it downloads about 20 days of candles for ~130 coins.</p><button class="btn sm" data-rdstart="1" type="button">Load the radar</button>';
-  else if (RD.back !== 'done') rt.innerHTML = '<p class="k">Loading the radar…</p>';
+  else if (RD.back !== 'done') rt.innerHTML = `<p class="k">Loading the radar (${RD.busy ? `${RD.syms.filter(x => RD.d15[x]).length} of ${RD.syms.length || '…'} coins` : `4H data, ${RD.backN || 0} of ${RD.syms.length} coins`})…</p>`;
   else { rcBuild(); const B = RC.blips, nr = B.filter(b => b.near).sort((x, z) => x.near.dist - z.near.dist).slice(0, 4), cnt = k => Object.values(RD.su).filter(r => r && r.status === k).length, now = Date.now();
     const pg2 = [...RD.wl].filter(s => RD.pg[s]).reduce((a, s) => a + RD.pg[s].pings.filter(q => now - q.t < 2 * 3600e3).length, 0), hits = rdLatest().filter(h => h.x.score >= 4 && now - h.t < 2 * 3600e3).length;
     rt.innerHTML = `<p><b>${B.filter(b => b.near && b.near.dist <= .01).length}</b> within 1% of a trigger, <b>${B.filter(b => b.near && b.near.dist <= .03).length}</b> within 3%.</p><ul>${nr.map(b => `<li>${bl(b.c)} <span class="${b.near.up ? 'up' : 'dn'}">${(b.near.dist * 100).toFixed(1)}%</span> <span class="k">${esc(b.near.what)}</span></li>`).join('')}</ul><p class="k">${pl(cnt('entry'), 'paper entry', 'paper entries')} · ${cnt('await')} awaiting a retest · ${pl(cnt('warn'), 'early warning', 'early warnings')} · ${pl(pg2, 'watchlist ping', 'watchlist pings')} and ${pl(hits, 'coin', 'coins')} with a strong hit in 2 h</p>`; }
