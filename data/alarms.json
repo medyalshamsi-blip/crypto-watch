@@ -1,6 +1,6 @@
 {
  "about": "Written by engine/alarms.js on GitHub Actions. Read by the dashboard and by the Claude alarm relay. Not financial advice.",
- "heartbeat": "2026-11-27T05:21:17.268Z",
+ "heartbeat": "2026-11-27T22:23:19.349Z",
  "ok": true,
  "scanned": 43,
  "of": 44,
@@ -9,6 +9,33 @@
   "POPCAT": "not on Binance spot"
  },
  "alerts": [
+  {
+   "at": "2026-11-27T22:23:19.349Z",
+   "focus": true,
+   "key": "ETHFI|touch-down|2026-11-27",
+   "coin": "ETHFI",
+   "type": "touch-down",
+   "text": "ETHFI is trading below the bear trigger 0.4167 (now 0.4390); it needs a daily close to count",
+   "strong": false
+  },
+  {
+   "at": "2026-11-27T22:23:19.349Z",
+   "focus": true,
+   "key": "ILV|touch-up|2026-11-27",
+   "coin": "ILV",
+   "type": "touch-up",
+   "text": "ILV is trading above the bull trigger 2.360 (now 2.340); it needs a daily close to count",
+   "strong": false
+  },
+  {
+   "at": "2026-11-27T22:23:19.349Z",
+   "focus": false,
+   "key": "FTT|touch-up|2026-11-27",
+   "coin": "FTT",
+   "type": "touch-up",
+   "text": "FTT is trading above the bull trigger 0.1898 (now 0.1886); it needs a daily close to count",
+   "strong": false
+  },
   {
    "at": "2026-11-27T05:21:17.268Z",
    "focus": true,
@@ -208,7 +235,10 @@
   "ORCA|brk-up|2026-11-26": 1795756877268,
   "ZEC|brk-down|2026-11-26": 1795756877268,
   "CFX|touch-up|2026-11-27": 1795756877268,
-  "ONDO|brk-up|2026-11-26": 1795756877268
+  "ONDO|brk-up|2026-11-26": 1795756877268,
+  "ETHFI|touch-down|2026-11-27": 1795818199349,
+  "ILV|touch-up|2026-11-27": 1795818199349,
+  "FTT|touch-up|2026-11-27": 1795818199349
  },
- "lastSuccess": "2026-11-27T05:21:17.268Z"
+ "lastSuccess": "2026-11-27T22:23:19.349Z"
 }
