@@ -90,7 +90,7 @@ const NEWS = (() => {
 
   // What kind of news it is, and how much it tends to matter.
   function classify(title, summary = '', src = {}) {
-    const text = title + ' ' + (summary || '').slice(0, 300);
+    const text = title;                                   // tags come from the headline only
     const hits = RULES.filter(r => r.re.test(title));
     let best = hits.reduce((a, r) => (!a || r.w > a.w) ? r : a, null);
     let w = best ? best.w : 0;
@@ -104,7 +104,7 @@ const NEWS = (() => {
     const crypto = CRYPTO_CTX.test(title) || /\b(bitcoin|BTC|ether|ethereum|ETH|solana|XRP|binance|coinbase|upbit|bithumb|robinhood|okx|bybit|kraken|tether|USDT|USDC|exchange)\b/i.test(title) || [...title.matchAll(nameRe)].some(m => !CTX_NAMES.has(m[2])) || /\$[A-Z]{2,}/.test(title);
     if (best && ['hack', 'unlock', 'depeg', 'delist', 'list'].includes(best.type) && !crypto && !src.official) w = 0;
     if (best && best.type === 'hack' && w > 1 && /\b(after|since|response|recover\w*|restor\w*|lifts?|resum\w*|returns?|refunds?|can freeze|security (group|firm|alliance)|bounty|sentenced|arrested|charged|lessons?)\b/i.test(title)) { w = 1; best = Object.assign({}, best, { label: 'Hack aftermath', dir: 0 }); }
-    const digest = DIGEST.test(title);
+    const digest = DIGEST.test(title) || /^(how|why|what|inside|explainer|here'?s)\b|\?\s*$/i.test(title.trim());
     if (digest) w = Math.max(0, Math.min(w, 2) - 1);
     if (src.official && w > 0) w = Math.min(3, w + (best && ['list', 'delist', 'rates'].includes(best.type) ? 0 : 1));
     return { type: best && w > 0 ? best.type : digest ? 'analysis' : 'other', label: best && w > 0 ? best.label : digest ? 'Commentary' : 'Other', w, dir: best && w > 0 ? best.dir : 0, digest, tags: hits.map(r => r.type) };
