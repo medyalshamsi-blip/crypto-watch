@@ -138,6 +138,19 @@ svg.spark{display:block;margin:4px 0 0 auto}
 .sutop{display:grid;gap:8px;margin:10px 0}.sutop>div{border:1px solid var(--grid);border-radius:12px;padding:9px 13px;font-size:14px;line-height:1.5}.sutop b{font-weight:600}
 .suscore table{width:auto;border-collapse:collapse;font-size:13.5px;margin:6px 0 2px;font-variant-numeric:tabular-nums}.suscore th,.suscore td{padding:4px 10px 4px 0;text-align:right;border-bottom:1px solid var(--grid);white-space:nowrap}.suscore th:first-child,.suscore td:first-child{text-align:left}.suscore th{color:var(--ink2);font-weight:500}
 .rtag.mut{background:var(--soft);color:var(--ink2)}
+.sumgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:4px}@media (max-width:1100px){.sumgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (max-width:640px){.sumgrid{grid-template-columns:1fr}}
+.sumgrid .card{padding:14px;display:flex;flex-direction:column;gap:6px;min-width:0}.sumgrid h3{margin:0;font-size:15px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}.sumgrid h3 .lnk{font-size:13px;font-weight:500}
+.sumgrid p{margin:0;font-size:13.5px;line-height:1.45}.sumgrid ul{margin:0;padding-left:16px;font-size:13.5px;line-height:1.45}.sumgrid .big{font-size:20px;font-weight:600}.sumgrid .k{color:var(--ink3);font-size:12.5px}
+.smrc{display:grid;grid-template-columns:150px minmax(0,1fr);gap:10px;align-items:center}@media (max-width:380px){.smrc{grid-template-columns:120px minmax(0,1fr)}}
+.rcwrap{display:grid;grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:18px;align-items:start}@media (max-width:860px){.rcwrap{grid-template-columns:1fr}}
+.rcbox{position:relative;width:100%;max-width:440px;aspect-ratio:1/1;margin:0 auto}.rcbox canvas{width:100%;height:100%;display:block;border-radius:50%;cursor:crosshair;touch-action:manipulation}
+.smrc .rcbox{max-width:150px}.rctip{position:absolute;pointer-events:none;background:var(--card);border:1px solid var(--grid);border-radius:8px;padding:6px 8px;font-size:12.5px;box-shadow:0 4px 14px rgba(0,0,0,.14);white-space:nowrap;z-index:3;transform:translate(-50%,-115%)}
+.rclegend{font-size:12.5px;color:var(--ink2);display:flex;flex-wrap:wrap;gap:4px 14px;margin:6px 0}.rclegend i{display:inline-block;width:9px;height:9px;border-radius:50%;vertical-align:-1px;margin-right:4px}
+.rcnear{list-style:none;margin:6px 0;padding:0;font-size:13.5px}.rcnear li{display:flex;justify-content:space-between;gap:8px;padding:3px 0;border-bottom:1px solid var(--grid)}.rcnear li button{background:none;border:0;padding:0;font:inherit;color:var(--ink);font-weight:600;cursor:pointer}
+.rcsel{margin-top:8px;padding:10px;border:1px solid var(--grid);border-radius:10px;font-size:13.5px}
+table.rh{border-collapse:separate;border-spacing:2px;font-size:12px;margin-top:4px}table.rh th{font-weight:500;color:var(--ink3);font-size:11.5px;padding:2px 3px;white-space:nowrap;text-align:center}
+table.rh td{padding:0 3px;height:24px;min-width:38px;text-align:center;border-radius:3px;color:var(--ink);white-space:nowrap}table.rh td.c,table.rh th.c{text-align:left;font-weight:600;padding:0 8px 0 2px;min-width:58px;position:sticky;left:0;background:var(--card)}
+table.rh.hr td{min-width:22px;padding:0}table.rh tr.sb td{height:5px;border-radius:1px}table.rh td.mk::after{content:'•';font-weight:700}
 #pgTable td:last-child .btn{display:block;width:100%;margin:2px 0}@media (max-width:600px){#pgTable td:last-child .btn{display:inline-block;width:auto}}#suTable td.wrap{min-width:96px}@media (min-width:601px) and (max-width:1600px){#suTable .opt2{display:none}}#suTable .rtag{white-space:normal}#suTable td:last-child .btn{display:block;width:100%;margin:2px 0}@media (max-width:600px){#suTable td:last-child .btn{display:inline-block;width:auto}}
 .rtag{display:inline-block;font-size:12px;font-weight:600;padding:1px 7px;border-radius:999px;margin:0 4px 3px 0;white-space:nowrap}.rtag.up{background:var(--upbg);color:var(--up)}.rtag.dn{background:var(--downbg);color:var(--down)}
 .sim{margin-top:16px}.smchart{height:420px;margin:6px 0}.smchart:empty{display:none}
@@ -248,6 +261,7 @@ dialog form{padding:18px;display:grid;gap:12px;overflow:auto;max-height:88vh}
 <div class="stick"><div class="wrap">
   <div class="strip" id="strip" aria-live="off"></div>
   <nav class="tabs" role="tablist" aria-label="Dashboard sections">
+    <button role="tab" id="tab-summary" data-tab="summary" aria-controls="p-summary">Summary</button>
     <button role="tab" id="tab-market" data-tab="market" aria-controls="p-market">Market</button>
     <button role="tab" id="tab-watchlist" data-tab="watchlist" aria-controls="p-watchlist">Watchlist</button>
     <button role="tab" id="tab-radar" data-tab="radar" aria-controls="p-radar">Radar</button>
@@ -258,6 +272,17 @@ dialog form{padding:18px;display:grid;gap:12px;overflow:auto;max-height:88vh}
 <div class="wrap msgs"><div id="banner"></div><div id="problems"></div><div id="lite"></div></div>
 
 <main>
+<div id="p-summary" class="tabp" role="tabpanel" aria-labelledby="tab-summary" hidden><div class="wrap">
+  <div class="sumgrid">
+    <section class="card" id="sumMarket"></section>
+    <section class="card" id="sumAlerts"></section>
+    <section class="card" id="sumRadar"><h3>Radar <button class="lnk" data-goto="radar">Open Radar →</button></h3><div class="smrc"><div class="rcbox"><canvas id="sumRc" data-small="1" aria-label="Small radar: coins closer to the centre are closer to a trigger"></canvas></div><div id="sumRadarTxt"></div></div></section>
+    <section class="card" id="sumWatch"></section>
+    <section class="card" id="sumPort"></section>
+    <section class="card" id="sumTests"></section>
+  </div>
+  <p class="note">A one-screen summary of every tab. Read-only: nothing is bought or sold and no TradingView alert is set. Not financial advice.</p>
+</div></div>
 <div id="p-market" class="tabp" role="tabpanel" aria-labelledby="tab-market">
 <section class="band"><div class="wrap">
   <h1 id="finding">Loading the market</h1>
@@ -320,6 +345,20 @@ dialog form{padding:18px;display:grid;gap:12px;overflow:auto;max-height:88vh}
 </div>
 
 <div id="p-radar" class="tabp" role="tabpanel" aria-labelledby="tab-radar" hidden>
+  <section class="card radar" id="rcCard">
+    <div class="head"><h2>Live radar: how close each coin is to a trigger</h2><p class="note" id="rcStatus"></p></div>
+    <div class="rcwrap"><div><div class="rcbox"><canvas id="rcCan" aria-label="Radar circle: coins closer to the centre are closer to a trigger; angle is the coin group"></canvas><div class="rctip" id="rcTip" hidden></div></div></div>
+      <div><div class="tools rdtools" style="margin:0"><label>Show <select id="rcShow"><option value="active">Watchlist + active setups</option><option value="watch">My watchlist</option><option value="all">All radar coins</option></select></label></div>
+        <div class="rclegend"><span><i style="background:var(--up)"></i>nearest trigger above (breakout)</span><span><i style="background:var(--down)"></i>nearest trigger below (breakdown)</span><span>rings: 1%, 3%, 10%</span><span>size: 24h volume</span><span>pulsing: ping or strong hit in the last 2 h</span></div>
+        <h4 style="margin-top:6px">Closest to a trigger</h4><ul class="rcnear" id="rcNear"></ul><div class="rcsel" id="rcSel" hidden></div></div></div>
+    <p class="note">Triggers: the 4H ceiling and the last 4H swing low from the breakout setups, the breakout level while a retest is pending, and for watchlist coins the playbook's daily bull and bear triggers; the nearest one decides the distance. Prices are live; the sweep only shows the radar is running. Click a coin for details.</p>
+  </section>
+  <section class="card radar" id="rhCard">
+    <div class="head"><h2>Heat maps</h2><p class="note" id="rhStatus"></p></div>
+    <h4>Signals by coin (nearest to a trigger first)</h4><div class="scroll" id="rhSig"></div>
+    <h4>Coins by hour: each 1H candle's move, last 24 hours (• = a 15m ping in that hour)</h4><div class="scroll" id="rhHour"></div>
+    <p class="note">Signals: the latest radar hit (1H within 6 hours, 15m within 2 hours); darker = stronger, green bullish, red bearish. Buyers: taker buys over the last 4 closed 15m candles. vs BTC: the coin's move minus BTC's over the last 12 closed 15m candles. Hours are your local time; the coloured band marks the Asia, London and New York sessions.</p>
+  </section>
   <section class="card radar">
     <div class="head"><h2>Radar: early moves across Binance</h2><p class="note" id="rdStatus"></p></div>
     <div class="tools rdtools"><label>24-hour volume at least <select id="rdMinVol"><option value="1000000">$1M</option><option value="2000000">$2M</option><option value="5000000">$5M</option><option value="20000000">$20M</option></select></label>
@@ -1747,14 +1786,16 @@ function checkHold(c, px) {
 }
 
 // ---------------------------------------------------------------- tabs and the top strip
-const TABS = ['market', 'watchlist', 'radar', 'chart', 'portfolio'];
-let tab = TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : store.get('tab', 'market');
+const TABS = ['summary', 'market', 'watchlist', 'radar', 'chart', 'portfolio'];
+let tab = TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'summary';     // the Summary opens first
 function setTab(t, push) {
-  if (!TABS.includes(t)) t = 'market';
+  if (!TABS.includes(t)) t = 'summary';
   tab = t; store.set('tab', t);
   for (const x of TABS) { const on = x === t, b = $('#tab-' + x); $('#p-' + x).hidden = !on; b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; }
   if (push && location.hash !== '#' + t) location.hash = t;
   if (t === 'radar' && typeof rdStart === 'function') { rdStart(); renderSimOptions(); renderRadar(); if (!SM.res) renderSim(); else setTimeout(smChart, 0); }
+  if (t === 'summary') renderSumTab();
+  rcKick();
   later();
 }
 $('.tabs').addEventListener('click', e => { const b = e.target.closest('[data-tab]'); if (b) setTab(b.dataset.tab, true); });
@@ -1964,7 +2005,7 @@ async function rdBackfill() {                 // 1,000 older 15m candles per coi
   for (const s of RD.syms) if (RD.d15[s]) RD.d1h[s] = RADAR.toHours(RD.d15[s]);
   RD.pools = {};
   for (let i = 0; i < RD.syms.length; i++) { suCompute(RD.syms[i]); if (i % 12 === 11) await new Promise(r => setTimeout(r, 0)); }
-  RD.back = 'done'; RD.suAt = Date.now(); renderRadar(); setTimeout(rdTrack, 50);
+  RD.back = 'done'; RD.suAt = Date.now(); renderRadar(); renderBrief(); renderSumTab(); setTimeout(rdTrack, 50);
 }
 function rdScanCoin(s) {
   const out = [];
@@ -1984,7 +2025,7 @@ function rdWS() {
     let m; try { m = JSON.parse(e.data); } catch (er) { return; } const k = m && m.k; if (!k) return; RD.wsAt = Date.now();
     const s = k.s, d = RD.d15[s]; if (!d) return; putBar(d, k);
     if (k.x) { RD.d1h[s] = RADAR.toHours(d); RD.hits = RD.hits.filter(h => h.s !== s).concat(s === 'BTCUSDT' ? [] : rdScanCoin(s)); if (RD.back === 'done') suCompute(s, true); }
-    if (Date.now() - rt > 3000 && tab === 'radar') { rt = Date.now(); renderRadar(); }
+    if (Date.now() - rt > 3000) { rt = Date.now(); if (tab === 'radar') renderRadar(); else if (tab === 'summary') { rcBuild(); renderSumTab(); } if (k.x) renderBrief(); }
     if (SM.res && SM.res.sym === s && SM.tf === '15m') smLive(k);
   };
   w.onclose = () => { RD.ws = null; setTimeout(() => { if (RD.on) rdWS(); }, 5000); };
@@ -2016,7 +2057,7 @@ function rdPool(tf) {                         // similar moments across the mark
 function cutTo(d, n) { const k = Math.max(0, d.c.length - n); return Object.fromEntries(Object.entries(d).map(([x, a]) => [x, a.slice(k)])); }
 const SIG_NAME = { vol: 'Volume spike', brk: 'Range breakout', struct: 'Structure break', mom: 'Momentum turn', early: 'Quiet build-up' };
 function renderRadar() {
-  const st = $('#rdStatus'); if (!st) return; renderSetups();
+  const st = $('#rdStatus'); if (!st) return; renderSetups(); try { renderRC(); renderRH(); } catch (e) { console.error('radar circle', e); }
   for (const sel of ['.rdtools', '#rdBrief']) { const e = $(sel); if (e) e.style.display = mode === 'tv' ? 'none' : ''; }
   if (mode === 'tv') { st.textContent = 'The radar reads all of Binance live, which the Claude link cannot do. Use the website or the PC file for the radar; Simulate below works here through your TradingView connector (2 calls).'; $('#rdBrief').innerHTML = ''; $('#rdTable').innerHTML = ''; $('#rdTrack').textContent = ''; return; }
   if (mode !== 'live') { st.textContent = 'Waiting for data.'; return; }
@@ -2092,6 +2133,203 @@ function suLogHTML() {
     <div class="scroll"><table><thead><tr><th>Scanner</th><th>Alerts</th><th>Led to a spike</th><th>Spikes warned in advance</th><th>Median lead</th></tr></thead><tbody>${a[0]}${b[0]}</tbody></table></div>
     <div class="scroll"><table><thead><tr><th>Paper trade</th><th>Trades</th><th>Target / stop / time</th><th>Avg net R</th><th>Total R</th><th>Max drawdown R</th><th>Avg R, double slippage</th></tr></thead><tbody>${a[1]}${b[1]}</tbody></table></div>`;
 }
+// ---------------------------------------------------------------- live radar circle, heat maps, brief alerts and the Summary tab
+const RD_AUTO = () => matchMedia('(min-width: 900px)').matches;      // desktops load the radar on start; phones when asked
+const RC = { show: store.get('rcShow', 'active'), blips: [], groups: [], sel: null, raf: 0, reduce: matchMedia('(prefers-reduced-motion: reduce)').matches, css: null, theme: null };
+const RC_GROUPS = { BNB: 'Majors', SOL: 'Layer 1', ADA: 'Layer 1', AVAX: 'Layer 1', DOT: 'Layer 1', NEAR: 'Layer 1', SUI: 'Layer 1', APT: 'Layer 1', SEI: 'Layer 1', TON: 'Layer 1', TRX: 'Layer 1', ATOM: 'Layer 1', ICP: 'Layer 1', HBAR: 'Layer 1', ALGO: 'Layer 1', INJ: 'Layer 1', TIA: 'Layer 1', XRP: 'Payments', XLM: 'Payments', LTC: 'Payments', BCH: 'Payments', DOGE: 'Meme', SHIB: 'Meme', WIF: 'Meme', BONK: 'Meme', NEIRO: 'Meme', MUBARAK: 'Meme', PENGU: 'Meme', ARB: 'Layer 2', OP: 'Layer 2', POL: 'Layer 2', STRK: 'Layer 2', LINK: 'Infrastructure', PYTH: 'Infrastructure', FET: 'AI', TAO: 'AI', RENDER: 'AI', VIRTUAL: 'AI', WLD: 'AI', AAVE: 'DeFi', UNI: 'DeFi', CRV: 'DeFi', PENDLE: 'DeFi', LDO: 'DeFi', JUP: 'DeFi', RAY: 'DeFi', ORCA: 'DeFi', CAKE: 'DeFi', SAND: 'Gaming', AXS: 'Gaming', GALA: 'Gaming', IMX: 'Gaming', FIL: 'Data / IoT', AR: 'Data / IoT', ZEC: 'Privacy', DASH: 'Privacy' };
+const rcGroup = c => { const g = groupOf(c); return g !== 'Other' ? g : RC_GROUPS[c] || 'Other'; };
+const tint = (hex, a) => { const h = String(hex).replace('#', ''), n = parseInt(h.length === 3 ? h.split('').map(x => x + x).join('') : h, 16); return `rgba(${n >> 16 & 255},${n >> 8 & 255},${n & 255},${a})`; };
+const hm = t => new Date(t).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+const pl = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+function rcCss() {
+  const th = document.documentElement.dataset.theme || 'light'; if (RC.css && RC.theme === th) return RC.css;
+  const cs = getComputedStyle(document.documentElement), v = k => cs.getPropertyValue(k).trim(); RC.theme = th;
+  return RC.css = { up: v('--up'), down: v('--down'), ink: v('--ink'), ink2: v('--ink2'), ink3: v('--ink3'), grid: v('--grid'), card: v('--card'), soft: v('--soft'), dark: th === 'dark' };
+}
+function rcTriggers(s) {                     // every trigger known for the coin, nearest first; distance from the live price
+  const c = rdBase(s), d = RD.d15[s]; if (!d || !d.c.length) return null;
+  const px = d.c[d.c.length - 1], r = RD.su[s], L = r && r.last, T = [];
+  if (L && L.ceil && L.ceil.lv > px) T.push({ lv: L.ceil.lv, up: true, what: '4H ceiling' });
+  if (L && L.lows && L.lows.length && L.lows[L.lows.length - 1] < px) T.push({ lv: L.lows[L.lows.length - 1], up: false, what: '4H swing low' });
+  const b = r && r.lastBrk; if (b && ['await', 'entry', 'extended'].includes(r.status) && b.lv < px) T.push({ lv: b.lv, up: false, what: 'breakout level' });
+  const sc = RD.wl.has(s) && S[c] && S[c].scan; if (sc) { if (sc.bullTrigger > px) T.push({ lv: sc.bullTrigger, up: true, what: 'daily bull trigger' }); if (sc.bearTrigger < px) T.push({ lv: sc.bearTrigger, up: false, what: 'daily bear trigger' }); }
+  for (const t of T) t.dist = Math.abs(t.lv / px - 1); T.sort((a, z) => a.dist - z.dist);
+  return { px, near: T[0] || null, all: T };
+}
+const rcR = x => x == null ? .97 : x <= .01 ? x / .01 * .25 : x <= .03 ? .25 + (x - .01) / .02 * .25 : x <= .10 ? .5 + (x - .03) / .07 * .3 : Math.min(.97, .8 + (x - .1) / .4 * .17);
+function rcBuild() {
+  const now = Date.now(), wl = RD.wl, act = s => { const r = RD.su[s]; return r && ['near', 'warn', 'await', 'entry', 'extended'].includes(r.status); };
+  const hitS = new Set(RD.hits.filter(h => h.x.score >= 4 && now - h.t < 2 * 3600e3).map(h => h.s)), pingS = new Set(Object.keys(RD.pg).filter(s => RD.pg[s] && RD.pg[s].pings.some(q => now - q.t < 2 * 3600e3)));
+  let syms = RD.syms.filter(s => RD.d15[s]);
+  if (RC.show === 'watch') syms = syms.filter(s => wl.has(s)); else if (RC.show !== 'all') syms = syms.filter(s => wl.has(s) || act(s) || hitS.has(s) || pingS.has(s));
+  const B = syms.map(s => { const tr = rcTriggers(s); if (!tr) return null; const c = rdBase(s), tk = RD.tick[s] || {};
+    return { s, c, g: rcGroup(c), px: tr.px, near: tr.near, r: rcR(tr.near ? tr.near.dist : null), up: tr.near ? tr.near.up : null, qv: tk.qv || 0, ch: tk.ch, wl: wl.has(s), fresh: hitS.has(s) || pingS.has(s), status: RD.su[s] && RD.su[s].status }; }).filter(Boolean);
+  const groups = [...new Set(B.map(b => b.g))].sort((a, z) => a === 'Other' ? 1 : z === 'Other' ? -1 : a.localeCompare(z)), n = groups.length || 1;
+  const hash = str => { let h = 2166136261; for (const ch of str) h = Math.imul(h ^ ch.charCodeAt(0), 16777619); return ((h >>> 0) % 1000) / 1000; };
+  for (const b of B) b.a = (groups.indexOf(b.g) + .12 + .76 * hash(b.c)) / n * 2 * Math.PI - Math.PI / 2;
+  const qs = B.map(b => b.qv).filter(x => x > 0).sort((a, z) => a - z), lo = Math.log10(qs[0] || 1e6), hi = Math.log10(qs[qs.length - 1] || 1e9);
+  for (const b of B) b.size = 2.5 + 4.5 * (hi > lo && b.qv > 0 ? (Math.log10(b.qv) - lo) / (hi - lo) : .4);
+  RC.blips = B; RC.groups = groups;
+}
+function rcDraw(cv, now) {
+  const small = cv.dataset.small === '1', dpr = window.devicePixelRatio || 1, W = cv.clientWidth; if (!W) return;
+  if (cv.width !== Math.round(W * dpr)) { cv.width = cv.height = Math.round(W * dpr); }
+  const g = cv.getContext('2d'), css = rcCss(), R = W / 2 - 1.5, cx = W / 2, cy = W / 2, TAU = 2 * Math.PI;
+  g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, W); g.globalAlpha = 1;
+  g.fillStyle = css.soft; g.beginPath(); g.arc(cx, cy, R, 0, TAU); g.fill();
+  g.strokeStyle = css.grid; g.lineWidth = 1;
+  for (const f of [.25, .5, .8, 1]) { g.beginPath(); g.arc(cx, cy, R * f, 0, TAU); g.stroke(); }
+  const n = RC.groups.length;
+  if (n > 1) for (let k = 0; k < n; k++) { const a = k / n * TAU - Math.PI / 2; g.beginPath(); g.moveTo(cx, cy); g.lineTo(cx + R * Math.cos(a), cy + R * Math.sin(a)); g.stroke(); }
+  if (!small) {
+    g.font = '10px "Hanken Grotesk",system-ui,sans-serif'; g.fillStyle = css.ink3; g.textAlign = 'left';
+    [['1%', .25], ['3%', .5], ['10%', .8]].forEach(([t, f]) => g.fillText(t, cx + 3, cy - R * f + 11));
+    g.font = '600 10.5px "Hanken Grotesk",system-ui,sans-serif'; g.textAlign = 'center';
+    RC.groups.forEach((name0, k) => { let name = name0; while (name.length > 4 && g.measureText(name).width > R * .3) name = name.slice(0, -2).trimEnd() + '…'; const a = (k + .5) / n * TAU - Math.PI / 2, x = cx + R * .86 * Math.cos(a), y = cy + R * .86 * Math.sin(a), w = g.measureText(name).width + 8;
+      g.fillStyle = tint(css.card, .85); g.fillRect(x - w / 2, y - 8, w, 15); g.fillStyle = css.ink2; g.fillText(name, x, y + 3.5); });
+  }
+  const per = 6000, sw = RC.reduce ? -Math.PI / 2 : ((now % per) / per) * TAU - Math.PI / 2;
+  if (!RC.reduce) {
+    if (g.createConicGradient) { const cg = g.createConicGradient(sw - .9, cx, cy); cg.addColorStop(0, tint(css.up, 0)); cg.addColorStop(.9 / TAU, tint(css.up, css.dark ? .28 : .2)); cg.addColorStop(.9 / TAU + .0005, tint(css.up, 0)); cg.addColorStop(1, tint(css.up, 0)); g.fillStyle = cg; }
+    else g.fillStyle = tint(css.up, .12);
+    g.beginPath(); g.moveTo(cx, cy); g.arc(cx, cy, R, sw - .9, sw); g.closePath(); g.fill();
+    g.strokeStyle = tint(css.up, .8); g.lineWidth = 1.5; g.beginPath(); g.moveTo(cx, cy); g.lineTo(cx + R * Math.cos(sw), cy + R * Math.sin(sw)); g.stroke();
+  }
+  const pts = [];
+  for (const b of RC.blips) {
+    const x = cx + R * b.r * Math.cos(b.a), y = cy + R * b.r * Math.sin(b.a), sz = b.size * (small ? .62 : 1);
+    let da = (sw - b.a) % TAU; if (da < 0) da += TAU;
+    const glow = RC.reduce ? 1 : Math.max(0, 1 - da / (TAU * .65)), col = b.up == null ? css.ink3 : b.up ? css.up : css.down;
+    g.globalAlpha = .38 + .62 * glow; g.fillStyle = col; g.beginPath(); g.arc(x, y, sz, 0, TAU); g.fill();
+    if (b.fresh) { g.globalAlpha = .55; g.strokeStyle = col; g.lineWidth = 1.2; g.beginPath(); g.arc(x, y, sz + 2.5 + (RC.reduce ? 1 : 2 * (1 + Math.sin(now / 220))), 0, TAU); g.stroke(); }
+    if (b.s === RC.sel) { g.globalAlpha = 1; g.strokeStyle = css.ink; g.lineWidth = 2; g.beginPath(); g.arc(x, y, sz + 4, 0, TAU); g.stroke(); }
+    if (!small && (b.wl || b.r < .5) && b.r < .9) { g.globalAlpha = .55 + .45 * glow; g.fillStyle = css.ink; g.font = `${b.wl ? 600 : 500} 10.5px "Hanken Grotesk",system-ui,sans-serif`; g.textAlign = 'left'; g.fillText(b.c, x + sz + 3, y + 3.5); }
+    pts.push({ b, x, y });
+  }
+  g.globalAlpha = 1; cv._pts = pts;
+}
+function rcLoop() {
+  RC.raf = 0; const now = Date.now(); let any = false;
+  for (const id of ['#rcCan', '#sumRc']) { const cv = $(id); if (cv && cv.offsetParent && cv.clientWidth) { rcDraw(cv, now); any = true; } }
+  if (any && !document.hidden && !RC.reduce && RC.blips.length) RC.raf = requestAnimationFrame(rcLoop);
+}
+function rcKick() { if (!RC.raf) RC.raf = requestAnimationFrame(rcLoop); }
+function renderRC() {
+  const st = $('#rcStatus'); if (!st) return;
+  for (const id of ['#rcCard', '#rhCard']) $(id).hidden = mode === 'tv';
+  if (mode !== 'live') return;
+  if (!RD.on || RD.back !== 'done') { st.textContent = RD.on ? 'Waiting for the 20 days of 15-minute candles (about a minute)…' : 'Starts with the radar.'; RC.blips = []; $('#rcNear').innerHTML = ''; $('#rcSel').hidden = true; rcKick(); return; }
+  rcBuild(); const B = RC.blips, near = B.filter(b => b.near).sort((a, z) => a.near.dist - z.near.dist), inR = f => B.filter(b => b.near && b.near.dist <= f).length;
+  st.textContent = `${B.length} coins · ${inR(.01)} within 1% of a trigger, ${inR(.03)} within 3%, ${inR(.10)} within 10% · ${RD.ws && Date.now() - RD.wsAt < 120e3 ? 'live' : 'reconnecting'}`;
+  $('#rcShow').value = RC.show;
+  $('#rcNear').innerHTML = near.slice(0, 8).map(b => `<li><button data-rc="${esc(b.s)}">${esc(b.c)}</button><span class="${b.near.up ? 'up' : 'dn'}">${(b.near.dist * 100).toFixed(2)}% to the ${esc(b.near.what)} ${fp(b.near.lv)}</span></li>`).join('') || '<li class="note">No coin has a trigger in range.</li>';
+  renderRCSel(); rcKick();
+}
+function renderRCSel() {
+  const el = $('#rcSel'); if (!el) return; const b = RC.blips.find(x => x.s === RC.sel); if (!b) { el.hidden = true; return; } el.hidden = false;
+  const tr = rcTriggers(b.s), r = RD.su[b.s], lh = RD.hits.filter(h => h.s === b.s).sort((x, y) => y.t - x.t)[0], pq = RD.pg[b.s] && RD.pg[b.s].pings[RD.pg[b.s].pings.length - 1];
+  el.innerHTML = `<b>${esc(b.c)}</b> ${fp(b.px)} <span class="${cls(b.ch)}">${fpc(b.ch)}</span> 24h · ${esc(b.g)}${b.wl ? ' · watchlist' : ''}<br>${tr && tr.all.length ? tr.all.slice(0, 3).map(t => `<span class="${t.up ? 'up' : 'dn'}">${t.up ? '▲' : '▼'}</span> ${esc(t.what)} ${fp(t.lv)} (${(t.dist * 100).toFixed(2)}%)`).join(' · ') : 'No trigger in range.'}<br>
+    ${r && r.status ? `Setup: ${esc(SU_NAME[r.status] || r.status)}. ` : ''}${lh ? `Last radar hit ${lh.tf} at ${hm(lh.t)}, score ${lh.x.score.toFixed(1)} ${lh.x.up ? 'bullish' : 'bearish'}. ` : ''}${pq ? `Last ping ${hm(pq.t)} (${fpc(pq.r)}).` : ''}
+    <div style="margin-top:6px"><button class="btn sm" data-sim="${esc(b.s)}" data-tf="15m">Simulate</button> <button class="btn sm" data-look="${esc(b.c)}">Chart</button></div>`;
+}
+function renderRH() {
+  const a = $('#rhSig'); if (!a || mode !== 'live') return;
+  if (RD.back !== 'done' || !RC.blips.length) { a.innerHTML = '<p class="note">Waiting for the radar…</p>'; $('#rhHour').innerHTML = ''; $('#rhStatus').textContent = ''; return; }
+  const css = rcCss(), now = Date.now(), btc = RD.d15.BTCUSDT, L = RC.blips.filter(b => b.near).sort((x, z) => x.near.dist - z.near.dist).slice(0, 24);
+  const txtOn = al => al > .55 ? `;color:${css.dark ? css.ink : '#fff'}` : '';
+  const cell = (v, scale, txt, up) => { if (!ok(v) || v === 0) return `<td style="background:${css.soft}">${txt || ''}</td>`; const al = Math.min(1, Math.abs(v) / scale) * .82 + .1; return `<td style="background:${tint((up == null ? v > 0 : up) ? css.up : css.down, al)}${txtOn(al)}">${txt}</td>`; };
+  const SHORT = { entry: 'entry', await: 'retest?', warn: 'warning', near: 'near', extended: 'extended', failed: 'failed' }, kinds = ['vol', 'brk', 'struct', 'mom', 'early'];
+  const rows = L.map(b => {
+    const sig = {}; for (const h of RD.hits.filter(h => h.s === b.s && now - h.t < (h.tf === '1H' ? 6 : 2) * 3600e3)) for (const q of h.x.sig) { const v = (q.up ? 1 : -1) * q.w; if (sig[q.k] == null || Math.abs(v) > Math.abs(sig[q.k])) sig[q.k] = v; }
+    const d = RD.d15[b.s], n = closedN(d); let tb = 0, vv = 0; for (let i = Math.max(0, n - 4); i < n; i++) { tb += d.tb ? d.tb[i] : 0; vv += d.v[i]; }
+    const buy = vv > 0 && d.tb ? tb / vv : NaN, bn = btc ? closedN(btc) : 0, rs = n > 12 && bn > 12 ? (d.c[n - 1] / d.c[n - 13] - 1) - (btc.c[bn - 1] / btc.c[bn - 13] - 1) : NaN;
+    const pq = RD.pg[b.s] && RD.pg[b.s].pings.filter(q => now - q.t < 2 * 3600e3).pop(), st = b.status;
+    return `<tr><td class="c"><button class="lnk" data-rc="${esc(b.s)}">${esc(b.c)}</button></td>${cell(.1 - b.near.dist, .1, (b.near.dist * 100).toFixed(1) + '%', b.near.up)}${kinds.map(k => cell(sig[k], 4, sig[k] ? Math.abs(sig[k]).toFixed(1) : '')).join('')}${cell(ok(buy) ? buy - .5 : NaN, .25, ok(buy) ? Math.round(buy * 100) + '%' : '–')}${cell(rs, .03, ok(rs) ? fpc(rs) : '–')}${cell(pq ? pq.r : NaN, .02, pq ? fpc(pq.r) : '')}${st && SHORT[st] ? cell(st === 'failed' ? -1 : 1, { entry: 1, await: 1.3, warn: 1.8, near: 3, extended: 2.5 }[st] || 1, SHORT[st]) : `<td style="background:${css.soft}"></td>`}</tr>`;
+  }).join('');
+  a.innerHTML = `<table class="rh"><thead><tr><th class="c">Coin</th><th>Trigger</th><th>Volume</th><th>Breakout</th><th>Structure</th><th>Momentum</th><th>Build-up</th><th>Buyers</th><th>vs BTC</th><th>Ping</th><th>Setup</th></tr></thead><tbody>${rows}</tbody></table>`;
+  // coins by hour
+  const ref = RD.d1h.BTCUSDT; if (!ref) { $('#rhHour').innerHTML = ''; return; }
+  const cols = ref.t.slice(Math.max(0, ref.t.length - 24)), ses = sessionsBetween(cols[0], cols[cols.length - 1] + 3600e3);
+  const sessAt = t => ses.filter(z => t + 1800e3 >= z.a && t + 1800e3 < z.b).pop();
+  const head = cols.map((t, i) => `<th>${i % 3 === 0 || i === cols.length - 1 ? String(new Date(t).getHours()).padStart(2, '0') : ''}</th>`).join('');
+  const band = cols.map(t => { const z = sessAt(t); return `<td style="background:${z ? `var(${z.col})` : 'transparent'}" title="${z ? esc(z.name) : 'no main session'}"></td>`; }).join('');
+  const hrows = L.map(b => { const h = RD.d1h[b.s]; if (!h) return ''; const ix = new Map(h.t.map((t, i) => [t, i])), P = RD.pg[b.s] ? RD.pg[b.s].pings : [];
+    return `<tr><td class="c"><button class="lnk" data-rc="${esc(b.s)}">${esc(b.c)}</button></td>${cols.map((t, k) => { const i = ix.get(t); if (i == null) return `<td style="background:${css.soft}"></td>`; const r = h.c[i] / h.o[i] - 1, mk = P.some(q => q.t > t && q.t <= t + 3600e3), al = Math.min(1, Math.abs(r) / .03) * .82 + .08;
+      return `<td class="${mk ? 'mk' : ''}" style="background:${tint(r >= 0 ? css.up : css.down, al)}${txtOn(al)}" title="${esc(b.c)} ${hm(t)}–${hm(t + 3600e3)}${k === cols.length - 1 ? ' (still forming)' : ''}: ${fpc(r)}${mk ? ', 15m ping' : ''}"></td>`; }).join('')}</tr>`; }).join('');
+  $('#rhHour').innerHTML = `<table class="rh hr"><thead><tr><th class="c">Coin</th>${head}</tr><tr class="sb"><td class="c"></td>${band}</tr></thead><tbody>${hrows}</tbody></table>
+    <p class="rclegend">${SESS.map(([nm, , , , col]) => `<span><i style="background:var(${col});border-radius:2px"></i>${nm}</span>`).join('')}<span>colour: the hour's move, full at ±3%</span></p>`;
+  $('#rhStatus').textContent = `${L.length} coins nearest to a trigger · ${hm(now)}`;
+}
+// alerts for the brief and the Summary: pings, breakout setups and strong radar hits (from the radar, else from the hourly 24/7 log)
+function alertBits() {
+  const now = Date.now(), out = { pings: [], setups: [], hits: [], src: null }, wlS = s => RD.wl.has(s);
+  if (RD.back === 'done') {
+    out.src = 'radar';
+    out.pings = [...RD.wl].filter(s => RD.pg[s]).flatMap(s => RD.pg[s].pings.filter(q => now - q.t < 2 * 3600e3).map(q => ({ c: rdBase(s), t: q.t, r: q.r })));
+    for (const [s, r] of Object.entries(RD.su)) { if (!r || !r.status) continue; const c = rdBase(s); if (r.status === 'entry') out.setups.push({ c, k: 'entry' }); else if (wlS(s) && (r.status === 'await' || r.status === 'warn')) out.setups.push({ c, k: r.status }); }
+    out.hits = RD.hits.filter(h => wlS(h.s) && h.x.score >= 4 && now - h.t < (h.tf === '1H' ? 6 : 2) * 3600e3).map(h => ({ c: rdBase(h.s), up: h.x.up }));
+  } else if (RD.log) {
+    out.src = 'log';
+    out.pings = ((RD.log.pings && RD.log.pings.recent) || []).filter(e => now - e.t < 2 * 3600e3).map(e => ({ c: e.coin, t: e.t, r: e.r }));
+    for (const [c, x] of Object.entries(RD.log.status || {})) { if (x.status === 'entry') out.setups.push({ c, k: 'entry' }); else if (x.wl && (x.status === 'await' || x.status === 'warn')) out.setups.push({ c, k: x.status }); }
+  }
+  return out;
+}
+function alertLine() {
+  const A = alertBits(); if (!A.src) return mode === 'live' ? '<b>Alerts</b>: waiting for the radar or the 24/7 log…' : '';
+  const btn = c => `<button class="lnk" data-look="${esc(c)}">${esc(c)}</button>`, list = a => a.slice(0, 4).map(btn).join(', ') + (a.length > 4 ? ` +${a.length - 4}` : ''), parts = [];
+  if (A.pings.length) { const by = {}; for (const p of A.pings) (by[p.t] = by[p.t] || []).push(p);
+    const g = Object.entries(by).sort((x, z) => z[0] - x[0]).map(([t, a]) => a.length >= 3 ? `${a.length} coins at ${hm(+t)} (market move)` : a.map(p => `${btn(p.c)} ${fpc(p.r)} at ${hm(+t)}`).join(', '));
+    parts.push(`pings: ${g.slice(0, 3).join('; ')}${g.length > 3 ? '…' : ''}`); }
+  const sk = k => [...new Set(A.setups.filter(x => x.k === k).map(x => x.c))];
+  if (sk('entry').length) parts.push(`<span class="up">paper entr${sk('entry').length === 1 ? 'y' : 'ies'} ${list(sk('entry'))}</span>`);
+  if (sk('await').length) parts.push(`breakout awaiting a retest ${list(sk('await'))}`);
+  if (sk('warn').length) parts.push(`early warning ${list(sk('warn'))}`);
+  const hb = [...new Set(A.hits.filter(h => h.up).map(h => h.c))], hs = [...new Set(A.hits.filter(h => !h.up).map(h => h.c))];
+  if (hb.length) parts.push(`<span class="up">strong bullish hits ${list(hb)}</span>`); if (hs.length) parts.push(`<span class="dn">strong bearish hits ${list(hs)}</span>`);
+  return `<b>Alerts</b>${A.src === 'log' ? ' (hourly 24/7 log; open the radar for live ones)' : ''}: ${parts.length ? parts.join('; ') : 'none right now'}.`;
+}
+function renderSumTab() {
+  const box = $('#sumMarket'); if (!box || tab !== 'summary') return;
+  const bc = c => `<button class="lnk" data-c="${esc(c)}">${esc(c)}</button>`, bl = c => `<button class="lnk" data-look="${esc(c)}">${esc(c)}</button>`, sc = $('#sessClock');
+  box.innerHTML = `<h3>Market <button class="lnk" data-goto="market">Open Market →</button></h3><p class="big">${esc($('#finding').textContent)}</p><p class="k">${esc($('#findingSub').textContent)}</p>${BRIEF.l1 ? `<p>${BRIEF.l1}</p>` : ''}${sc && sc.querySelector('.si') ? `<p class="k">${[...sc.querySelectorAll('.si')].map(x => x.innerHTML).join(' · ').replace(/: · /, ': ')}</p>` : ''}`;
+  const rec = events.filter(e => Date.now() - e.at < DAY).slice(0, 5);
+  $('#sumAlerts').innerHTML = `<h3>Alerts <button class="lnk" data-goto="watchlist">Watchlist →</button></h3><p>${alertLine() || 'Pings, breakout setups and radar hits appear on the website and the PC file.'}</p>${rec.length ? `<ul>${rec.map(e => `<li><span class="k">${hm(e.at)}</span> ${esc(e.text)}</li>`).join('')}</ul>` : '<p class="k">No price or trigger alerts in the last 24 hours.</p>'}`;
+  const W = ALL().map(c => S[c]).filter(s => s && ok(s.price)), setups = W.filter(s => s.status && s.status.k !== 'wait'), near = W.filter(s => s.scan && nearDist(s) <= .03).sort((x, z) => nearDist(x) - nearDist(z));
+  $('#sumWatch').innerHTML = `<h3>Watchlist <button class="lnk" data-goto="watchlist">Open Watchlist →</button></h3>${BRIEF.l2 ? `<p>${BRIEF.l2}</p>` : ''}<p><b>Setups</b> (key level and 1:3): ${setups.length ? setups.slice(0, 6).map(s => bc(s.c)).join(', ') : 'none, so the playbook says wait'}.</p><p><b>Within 3% of a daily trigger</b>: ${near.length ? near.slice(0, 6).map(s => `${bc(s.c)} ${(nearDist(s) * 100).toFixed(1)}%`).join(', ') : 'none'}.</p>${BRIEF.l4 ? `<p>${BRIEF.l4}</p>` : ''}`;
+  const rt = $('#sumRadarTxt');
+  if (mode === 'tv') rt.innerHTML = '<p class="k">The radar reads all of Binance live; open the website or the PC file for it.</p>';
+  else if (mode !== 'live') rt.innerHTML = '<p class="k">Waiting for data.</p>';
+  else if (!RD.on && !RD.busy) rt.innerHTML = '<p class="k">Not loaded on this screen: it downloads about 20 days of candles for ~130 coins.</p><button class="btn sm" data-rdstart="1" type="button">Load the radar</button>';
+  else if (RD.back !== 'done') rt.innerHTML = '<p class="k">Loading the radar…</p>';
+  else { rcBuild(); const B = RC.blips, nr = B.filter(b => b.near).sort((x, z) => x.near.dist - z.near.dist).slice(0, 4), cnt = k => Object.values(RD.su).filter(r => r && r.status === k).length, now = Date.now();
+    const pg2 = [...RD.wl].filter(s => RD.pg[s]).reduce((a, s) => a + RD.pg[s].pings.filter(q => now - q.t < 2 * 3600e3).length, 0), hits = RD.hits.filter(h => h.x.score >= 4 && now - h.t < 2 * 3600e3).length;
+    rt.innerHTML = `<p><b>${B.filter(b => b.near && b.near.dist <= .01).length}</b> within 1% of a trigger, <b>${B.filter(b => b.near && b.near.dist <= .03).length}</b> within 3%.</p><ul>${nr.map(b => `<li>${bl(b.c)} <span class="${b.near.up ? 'up' : 'dn'}">${(b.near.dist * 100).toFixed(1)}%</span> <span class="k">${esc(b.near.what)}</span></li>`).join('')}</ul><p class="k">${pl(cnt('entry'), 'paper entry', 'paper entries')} · ${cnt('await')} awaiting a retest · ${pl(cnt('warn'), 'early warning', 'early warnings')} · ${pl(pg2, 'watchlist ping', 'watchlist pings')} and ${pl(hits, 'strong hit', 'strong hits')} in 2 h</p>`; }
+  let tv = 0, tc = 0, risk = 0; for (const x of hold) { const s = S[x.c], px = s && s.price; if (ok(px)) { tv += px * x.amt; tc += x.avg * x.amt; if (x.stop > 0) risk += Math.max(0, (px - x.stop) * x.amt); } }
+  const lt = store.get('lossToday', {}), loss = lt.d === new Date().toISOString().slice(0, 10) ? +lt.v || 0 : 0;
+  $('#sumPort').innerHTML = `<h3>Portfolio <button class="lnk" data-goto="portfolio">Open Portfolio →</button></h3>${hold.length ? `<p class="big">${fusd(tv)}</p><p>${hold.length} holding${hold.length === 1 ? '' : 's'}, P/L <span class="${cls(tv - tc)}">${fusd(tv - tc)}</span>; at risk to the stops ${fusd(risk)}.</p>` : '<p class="k">No holdings entered.</p>'}<p class="k">Risk per trade ${fusd(cfg.account * cfg.riskPct / 100)} (${cfg.riskPct}% of ${fusd(cfg.account)}); daily loss limit ${fusd(cfg.dailyLimit)}, ${fusd(loss)} used today.</p>`;
+  const Lg = RD.log, lv = Lg && Lg.live && Lg.live.trade && Lg.live.trade.plain, pw = Lg && Lg.pings && Lg.pings.live && Lg.pings.live.watchlist;
+  $('#sumTests').innerHTML = `<h3>What the tests say <button class="lnk" data-goto="radar">Radar →</button></h3><ul><li>Breakout + retest as written: <span class="dn">−0.28R per trade</span> on unseen data, so not a strategy to trade.</li><li>Stop under the 4-hour base: about break-even, unproven.</li><li>Daily playbook scanner: no edge over two years; a second opinion, not odds.</li><li>15m pings: about 6× chance of a 5% hour, but the next hour is slightly negative: look, don't chase.</li></ul>${Lg ? `<p class="k">24/7 log, updated ${hm(Date.parse(Lg.updated))}: ${lv && lv.n ? `${lv.n} live paper trade${lv.n === 1 ? '' : 's'}, average ${lv.avgR >= 0 ? '+' : ''}${(+lv.avgR).toFixed(2)}R` : 'no live paper trades closed yet'}; ${pw ? `${pw.pings} live pings scored, ${pw.followed} followed by a 5% hour` : 'pings not recorded yet'}.</p>` : ''}`;
+  rcKick();
+}
+$('#rcShow').addEventListener('change', e => { RC.show = e.target.value; store.set('rcShow', RC.show); renderRC(); renderRH(); });
+(() => { const cv = $('#rcCan'), tip = $('#rcTip');
+  const pick = e => { const r = cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top; let best = null, bd = 14; for (const q of cv._pts || []) { const d = Math.hypot(q.x - x, q.y - y); if (d < bd) { bd = d; best = q; } } return { best, x, y }; };
+  cv.addEventListener('mousemove', e => { const { best, x, y } = pick(e); if (!best) { tip.hidden = true; return; } const b = best.b; tip.hidden = false; tip.innerHTML = `<b>${esc(b.c)}</b> ${fp(b.px)} · ${b.near ? `${(b.near.dist * 100).toFixed(2)}% to the ${esc(b.near.what)} ${fp(b.near.lv)}` : 'no trigger in range'}`; const w = tip.offsetWidth, bw = cv.clientWidth; tip.style.left = Math.min(Math.max(x, w / 2 + 2), bw - w / 2 - 2) + 'px'; tip.style.top = y + 'px'; });
+  cv.addEventListener('mouseleave', () => { tip.hidden = true; });
+  cv.addEventListener('click', e => { const { best } = pick(e); if (best) { RC.sel = best.b.s; renderRCSel(); rcKick(); } });
+})();
+for (const id of ['#rcCard', '#rhCard']) $(id).addEventListener('click', e => { const b = e.target.closest('[data-rc]'); if (!b) return; RC.sel = b.dataset.rc; renderRCSel(); rcKick(); if (id === '#rhCard') $('#rcCard').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+$('#sumRc').addEventListener('click', () => setTab('radar', true));
+$('#p-summary').addEventListener('click', e => {
+  const g = e.target.closest('[data-goto]'); if (g) { setTab(g.dataset.goto, true); window.scrollTo(0, 0); return; }
+  if (e.target.closest('[data-rdstart]')) { rdStart(); renderSumTab(); return; }
+  const c = e.target.closest('[data-c]'); if (c) { setTab('watchlist', true); selectCoin(c.dataset.c, true); return; }
+  const l = e.target.closest('[data-look]'); if (l) lookCoin(l.dataset.look, true);
+});
+$('#brief').addEventListener('click', e => { const l = e.target.closest('[data-look]'); if (l) { e.preventDefault(); lookCoin(l.dataset.look, true); } });
+document.addEventListener('visibilitychange', rcKick); window.addEventListener('resize', rcKick);
+
 function renderPings() {
   const st = $('#pgStatus'); if (!st) return;
   const card = $('#pgCard'); if (card) card.hidden = mode === 'tv';
@@ -2253,6 +2491,7 @@ $('#rdScan').addEventListener('click', async () => {
 });
 
 // ---------------------------------------------------------------- watchlist brief above the tabs (rules, live)
+let BRIEF = {};
 function renderBrief() {
   const el = $('#brief'); if (!el) return;
   const W = ALL().map(c => S[c]).filter(s => s && ok(s.day) && ok(s.price)); if (W.length < 3) { el.hidden = true; return; } el.hidden = false;
@@ -2281,13 +2520,15 @@ function renderBrief() {
   const gs = Object.entries(G0).filter(([, a]) => a.length >= 2).map(([g, a]) => [g, a.reduce((x, y) => x + y, 0) / a.length, a.length]).sort((a, c) => c[1] - a[1]);
   const l4 = gs.length >= 2 ? `<b>Groups</b>: strongest ${esc(gs[0][0])} <span class="${cls(gs[0][1])}">${fpc(gs[0][1])}</span>, weakest ${esc(last(gs)[0])} <span class="${cls(last(gs)[1])}">${fpc(last(gs)[1])}</span> (average today).` : '';
   const open = el.querySelector('details') ? el.querySelector('details').open : store.get('briefOpen', !matchMedia('(max-width: 600px)').matches);
-  el.innerHTML = `<details${open ? ' open' : ''}><summary><span class="bt">Brief</span> ${l1}</summary><p>${[l2, l3, l4].filter(Boolean).join('<br>')}</p></details>`;
+  const al = alertLine();
+  el.innerHTML = `<details${open ? ' open' : ''}><summary><span class="bt">Brief</span> ${l1}</summary><p>${[al, l2, l3, l4].filter(Boolean).join('<br>')}</p></details>`;
+  BRIEF = { l1, l2, l3, l4 };
 }
 $('#brief').addEventListener('toggle', e => store.set('briefOpen', e.target.open), true);
 $('#brief').addEventListener('click', e => { const b = e.target.closest('[data-c]'); if (b) { e.preventDefault(); selectCoin(b.dataset.c, true); } });
 function renderAll() {
   const bad = [];
-  for (const [f, name] of [[renderFinding, 'headline'], [renderTiles, 'regime'], [drawCycle, 'cycle clock'], [renderZones, 'buy zones'], [renderStrip, 'top strip'], [renderBrief, 'brief'], [() => { if (tab === 'radar' && mode !== 'init') { if (mode === 'live' && !RD.on && !RD.busy && !RD.err) rdStart(); renderRadar(); } }, 'radar'], [renderChanges, 'what changed'], [renderGroups, 'coin groups'], [drawBreadth, 'breadth'], [renderHeat, 'heatmap'], [renderAlerts, 'alerts'], [renderAlarms, 'phone alarms'], [renderBoard, 'watchlist'], [renderIntra, 'intraday setups'], [renderJournal, 'signal journal'], [renderSide, 'coin detail'], [renderHold, 'holdings'], [ensureChart, 'chart'], [renderSessClock, 'session clock']])
+  for (const [f, name] of [[renderFinding, 'headline'], [renderTiles, 'regime'], [drawCycle, 'cycle clock'], [renderZones, 'buy zones'], [renderStrip, 'top strip'], [renderBrief, 'brief'], [() => { if (mode === 'live' && !RD.logAsked) { RD.logAsked = true; loadSetupLog(); setInterval(loadSetupLog, 10 * 60e3); } if ((tab === 'radar' || RD_AUTO()) && mode !== 'init') { if (mode === 'live' && !RD.on && !RD.busy && !RD.err) rdStart(); if (tab === 'radar') renderRadar(); } }, 'radar'], [renderSumTab, 'summary'], [renderChanges, 'what changed'], [renderGroups, 'coin groups'], [drawBreadth, 'breadth'], [renderHeat, 'heatmap'], [renderAlerts, 'alerts'], [renderAlarms, 'phone alarms'], [renderBoard, 'watchlist'], [renderIntra, 'intraday setups'], [renderJournal, 'signal journal'], [renderSide, 'coin detail'], [renderHold, 'holdings'], [ensureChart, 'chart'], [renderSessClock, 'session clock']])
     try { f(); } catch (e) { console.error(name, e); bad.push(name + ': ' + e.message); }
   $('#problems').innerHTML = bad.length ? `<div class="banner">Display problem in ${esc(bad.join('; '))}. Reload the page; if it stays, tell Claude this line.</div>` : '';
   setTitle();
@@ -2613,7 +2854,7 @@ for (const id of ['#board', '#board2', '#board3']) $(id).addEventListener('click
 // 24/7 alarms written by the GitHub engine (engine/alarms.js); the Claude relay pushes the same list to the phone
 const ALARM_URL = 'https://raw.githubusercontent.com/medyalshamsi-blip/crypto-watch/main/data/alarms.json';
 const SETUP_URL = 'https://raw.githubusercontent.com/medyalshamsi-blip/crypto-watch/main/data/setups.json';
-function loadSetupLog() { if (mode !== 'live') return; fetch(SETUP_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))).then(j => { RD.log = j; renderSetups(); }, () => { RD.log = null; renderSetups(); }); }
+function loadSetupLog() { if (mode !== 'live') return; const done = () => { renderSetups(); renderBrief(); renderSumTab(); }; fetch(SETUP_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))).then(j => { RD.log = j; done(); }, () => { RD.log = null; done(); }); }
 function loadAlarms() { if (mode !== 'live') return; fetch(ALARM_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))).then(j => { G.alarms = j; later(); }, () => { G.alarms = null; later(); }); }
 function renderAlarms() {
   const el = $('#alarms'), j = G.alarms; if (!j) { el.hidden = true; return; } el.hidden = false;
