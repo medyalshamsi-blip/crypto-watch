@@ -10,7 +10,8 @@
 //   verdict: inconclusive when fewer than 30 trades or when the 90% bootstrap interval of the average R includes zero
 const fs = require('fs'), path = require('path');
 const SETUPS = require('./setups.js');
-const ROOT = path.join(__dirname, '..'), OUT = path.join(ROOT, 'data', 'backtest');
+const SET = process.env.BT_SET === 'book' ? 'book' : 'pre';
+const ROOT = path.join(__dirname, '..'), OUT = path.join(ROOT, 'data', 'backtest', ...(SET === 'book' ? ['book'] : []));
 const HOSTS = ['https://data-api.binance.vision', 'https://api.binance.com', 'https://api1.binance.com', 'https://api2.binance.com'];
 const COINS = JSON.parse(fs.readFileSync(path.join(__dirname, 'coins.json'), 'utf8'));
 const M15 = 900e3, DAY = 864e5;
@@ -61,7 +62,14 @@ function stats(rs) {
   for (let i = 50; i < days.length; i++) { let s = 0; for (let k = i - 50; k < i; k++) s += dclose.get(days[k]); below.set(days[i], dclose.get(days[i - 1]) < s / 50); }   // known at the day's open
   const btcDown = t => below.get(Math.floor(t / DAY) * DAY) === true;
   const usSession = t => { const x = nyHM(t), mins = x.h * 60 + x.m; return x.wd !== 'Sat' && x.wd !== 'Sun' && mins >= 570 && mins < 960; };
-  const VERS = {
+  // second family, pre-registered on 27 Nov 2026 after reading the books and before any backtest result was seen
+  const VERS = SET === 'book' ? {
+    asWritten: {},
+    cleanBreak: { cleanBreak: true },
+    quietRetest: { quietRetest: true },
+    baseStop: { baseStop: true },
+    bookAll: { cleanBreak: true, quietRetest: true, baseStop: true },
+  } : {
     asWritten: {},
     recentSqueeze: { squeezeLook: 12 },
     volumeFloor: { volFloor: true },
@@ -104,7 +112,7 @@ function stats(rs) {
     breakouts: A.brk, spikes: A.spikes, spikes3atr: A.spikes3, failedRetests: A.failed, extended: A.extended, skipped: A.skipped,
     trade: { plain: stats(A.plain), full: stats(A.full), plainDoubleSlippage: stats(A.plain2), fullDoubleSlippage: stats(A.full2), plainByBtcTrend: Object.fromEntries(Object.entries(A.byTrend).map(([t, rs]) => [t, stats(rs)])) } };
   fs.mkdirSync(OUT, { recursive: true });
-  const doc = { about: 'Walk-forward backtest of the breakout-and-retest strategy, rules frozen 27 Nov 2026 (see engine/backtest.js). Paper trades only. Not financial advice.', ran: iso(Date.now()), source: host, blocks: Object.fromEntries(Object.entries(BLOCKS).map(([k, [a, b]]) => [k, [iso(a), iso(b)]])), rules: Object.assign({}, SETUPS.DEF, { noEntry: undefined }), versions: Object.keys(VERS), coins: Object.keys(coverage).length, failed, coverage, summary };
+  const doc = { about: `Walk-forward backtest of the breakout-and-retest strategy, ${SET === 'book' ? 'book variants' : 'first variants'}, rules frozen 27 Nov 2026 (see engine/backtest.js). Paper trades only. Not financial advice.`, set: SET, ran: iso(Date.now()), source: host, blocks: Object.fromEntries(Object.entries(BLOCKS).map(([k, [a, b]]) => [k, [iso(a), iso(b)]])), rules: Object.assign({}, SETUPS.DEF, { noEntry: undefined }), versions: Object.keys(VERS), coins: Object.keys(coverage).length, failed, coverage, summary };
   fs.writeFileSync(path.join(OUT, 'summary.json'), JSON.stringify(doc, null, 1) + '\n');
   fs.writeFileSync(path.join(OUT, 'trades.csv'), 'version,block,coin,breakout_utc,level,entry_signal_utc,entry,stop,target,rr_to_resistance,setup,exit,exit_utc,net_r,net_r_double_slippage,costs_in_r,btc_trend,resolved\n' + trades.join('\n') + '\n');
   fs.writeFileSync(path.join(OUT, 'signals.csv'), 'block,coin,signal,time_utc,level,detail,spike,spike_3atr,retest\n' + signals.join('\n') + '\n');

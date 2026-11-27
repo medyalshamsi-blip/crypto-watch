@@ -17,6 +17,10 @@ const SETUPS = ((R) => {
     squeezeLook: 1,      // variant: a squeeze on any of the last N 4H readings (1 = the latest only, as written)
     volFloor: false,     // variant: breakout volume against max(average of 20, median of 96 bars), and at least $25,000 traded in the bar
     noEntry: null,       // variant: function (time) → true to skip a new paper entry (session filter)
+    // book variants (playbook rebuild, 27 Nov 2026), all off = as written
+    cleanBreak: false,   // [SMC p10, DT p64/p110/p114] the breakout bar closes in the top third of its range with a body of at least half the range
+    quietRetest: false,  // [DT p64/p111, SMC p66, TAD p72] the retest bar trades less volume than the breakout bar and than its own 20-bar average
+    baseStop: false,     // [SMC p36/p57-58/p101, DT p44] stop below the 4-hour base before the breakout (and the retest low), not just under the retest
   };
   const ok = x => x != null && Number.isFinite(x);
   const sma = (a, i, n) => { let s = 0; for (let k = i - n + 1; k <= i; k++) s += a[k]; return s / n; };
@@ -106,14 +110,17 @@ const SETUPS = ((R) => {
       if (b.state === 'await' && b.j + o.within <= n - 1) b.state = b.ran ? 'extended' : 'expired';
       if (b.state !== 'retest') continue;
       const q = b.rq, Tq = m.t[q] + M15; let Kq = 0; while (Kq < d4.t.length && d4.t[Kq] + H4 <= Tq) Kq++;
-      const entry = q + 1 < n ? m.o[q + 1] : c[q], stop = m.l[q] - o.stopBuf * A15[q], Eb = entry * (1 + cost), risk = Eb - stop * (1 - cost);
+      let lowB = m.l[q]; if (o.baseStop) for (let k = Math.max(0, b.j - 16); k < b.j; k++) lowB = Math.min(lowB, m.l[k]);
+      const entry = q + 1 < n ? m.o[q + 1] : c[q], stop = lowB - o.stopBuf * A15[q], Eb = entry * (1 + cost), risk = Eb - stop * (1 - cost);
+      const rgB = m.h[b.j] - m.l[b.j], weakBar = o.cleanBreak && !(rgB > 0 && (c[b.j] - m.l[b.j]) / rgB >= 2 / 3 && (c[b.j] - m.o[b.j]) / rgB >= 0.5);
+      let loud = false; if (o.quietRetest) { let s20 = 0; for (let k = q - 20; k < q; k++) s20 += m.v[k]; loud = !(m.v[q] < m.v[b.j] && m.v[q] < s20 / 20); }
       const res = resistAbove(entry, Kq, b.id, b.t - M15), rr = res ? (res.lv * (1 - cost) - Eb) / risk : Infinity;
       const tgt = (Eb + o.targetR * risk) / (1 - cost);
       b.trade = { q, t: Tq, entry, pending: q + 1 >= n, stop, target: tgt, risk, costR: (entry + stop) * cost / risk, res, rr, vwap: VW[q], aboveVwap: c[q] > VW[q] };
-      const plainOk = risk > 0 && rr >= o.minR, fullOk = plainOk && b.full != null && b.vm >= o.brkVol && c[q] > VW[q];
+      const plainOk = risk > 0 && rr >= o.minR && !weakBar && !loud, fullOk = plainOk && b.full != null && b.vm >= o.brkVol && c[q] > VW[q];
       b.trade.plain = plainOk; b.trade.fullOk = fullOk;
       const sess = o.noEntry ? o.noEntry(Tq) : false;
-      b.trade.skip = !(risk > 0) ? 'no risk' : rr < o.minR ? `R:R ${rr.toFixed(1)} to the ${res.src}` : q < busyUntil ? 'a trade was already open' : sess ? 'session filter' : null;
+      b.trade.skip = !(risk > 0) ? 'no risk' : weakBar ? 'weak breakout bar' : loud ? 'loud retest' : rr < o.minR ? `R:R ${rr.toFixed(1)} to the ${res.src}` : q < busyUntil ? 'a trade was already open' : sess ? 'session filter' : null;
       if (sess && plainOk) { b.trade.plain = b.trade.fullOk = false; continue; }
       if (!plainOk || q < busyUntil) { if (q < busyUntil) b.trade.plain = b.trade.fullOk = false; continue; }
       // simulate: entry at the next open; stop first when both are touched in one candle; time exit 24 hours after entry

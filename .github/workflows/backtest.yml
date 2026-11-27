@@ -1,21 +1,30 @@
 name: backtest
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      set:
+        description: "Which variants: pre (first four) or book (book rules)"
+        required: false
+        default: pre
+        type: choice
+        options: [pre, book]
 permissions:
   contents: write
 concurrency:
-  group: data
+  group: backtest-${{ inputs.set }}
   cancel-in-progress: false
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 240
+    timeout-minutes: 300
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
       - name: Walk-forward backtest of the breakout strategy
+        env:
+          BT_SET: ${{ inputs.set }}
         run: node engine/backtest.js
       - name: Save the results
         if: always()
@@ -24,7 +33,6 @@ jobs:
             git config user.name "crypto-watch backtest"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add data/backtest
-            git commit -q -m "backtest $(date -u +%Y-%m-%dT%H:%MZ)"
-            git pull -q --rebase
-            git push -q
+            git commit -q -m "backtest ${{ inputs.set }} $(date -u +%Y-%m-%dT%H:%MZ)"
+            for i in 1 2 3 4 5; do git pull -q --rebase && git push -q && break; sleep 10; done
           fi
