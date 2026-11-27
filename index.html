@@ -138,6 +138,7 @@ svg.spark{display:block;margin:4px 0 0 auto}
 .sutop{display:grid;gap:8px;margin:10px 0}.sutop>div{border:1px solid var(--grid);border-radius:12px;padding:9px 13px;font-size:14px;line-height:1.5}.sutop b{font-weight:600}
 .suscore table{width:auto;border-collapse:collapse;font-size:13.5px;margin:6px 0 2px;font-variant-numeric:tabular-nums}.suscore th,.suscore td{padding:4px 10px 4px 0;text-align:right;border-bottom:1px solid var(--grid);white-space:nowrap}.suscore th:first-child,.suscore td:first-child{text-align:left}.suscore th{color:var(--ink2);font-weight:500}
 .rtag.mut{background:var(--soft);color:var(--ink2)}
+#suTable td.wrap{min-width:96px}@media (min-width:601px) and (max-width:1600px){#suTable .opt2{display:none}}#suTable .rtag{white-space:normal}#suTable td:last-child .btn{display:block;width:100%;margin:2px 0}@media (max-width:600px){#suTable td:last-child .btn{display:inline-block;width:auto}}
 .rtag{display:inline-block;font-size:12px;font-weight:600;padding:1px 7px;border-radius:999px;margin:0 4px 3px 0;white-space:nowrap}.rtag.up{background:var(--upbg);color:var(--up)}.rtag.dn{background:var(--downbg);color:var(--down)}
 .sim{margin-top:16px}.smchart{height:420px;margin:6px 0}.smchart:empty{display:none}
 .simgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:10px 0}.simgrid .st{border:1px solid var(--grid);border-radius:12px;padding:10px 12px;display:grid;gap:3px}.simgrid .st>span{font-size:13px;color:var(--ink2)}.simgrid .st b{font-size:19px}.simgrid small{color:var(--ink3);font-size:12.5px}
@@ -1963,8 +1964,8 @@ function suRow(sym, r) {
     <td data-l="BandWidth percentile" class="n">${ok(L.bwPct) ? Math.round(L.bwPct * 100) + '%' : '–'}</td>
     <td data-l="Same-time volume" class="n">${xf(L.rv)}</td>
     <td data-l="Breakout-bar volume" class="n">${b && post ? `${xf(b.vm)}${ok(b.tb) ? ` · ${Math.round(b.tb * 100)}% buys` : ''}` : '–'}</td>
-    <td data-l="RSI / MACD (4H)" class="wrap"><small>${rsi}${mac ? '<br>' + mac : ''}</small></td>
-    <td data-l="VWAP" class="n">${fp(L.vwap)}<small>${L.price > L.vwap ? 'price above' : 'price below'}</small></td>
+    <td data-l="RSI / MACD (4H)" class="wrap opt2"><small>${rsi}${mac ? '<br>' + mac : ''}</small></td>
+    <td data-l="VWAP" class="n opt2">${fp(L.vwap)}<small>${L.price > L.vwap ? 'price above' : 'price below'}</small></td>
     <td data-l="Trigger or entry" class="wrap"><small>${trig}</small></td>
     <td data-l="Stop" class="n">${t && (st === 'entry' || st === 'done' || st === 'skipped') ? fp(t.stop) : '–'}</td>
     <td data-l="First resistance" class="n">${t && t.res ? fp(t.res.lv) : '–'}</td>
@@ -2000,7 +2001,7 @@ function renderSetups() {
   const list = all.filter(x => show === 'all' ? true : show === 'watch' ? RD.wl.has(x[0]) : act(x)).sort((a, b) => (SU_RANK[a[1].status] ?? 9) - (SU_RANK[b[1].status] ?? 9) || suRank(b[1]) - suRank(a[1]));
   const cnt = k => all.filter(([, r]) => r.status === k).length;
   $('#suBrief').innerHTML = `<p><b>${cnt('entry')} paper entr${cnt('entry') === 1 ? 'y' : 'ies'}, ${cnt('await')} breakout${cnt('await') === 1 ? '' : 's'} awaiting a retest, ${cnt('warn')} early warning${cnt('warn') === 1 ? '' : 's'}</b>, ${cnt('near')} near a ceiling, ${cnt('extended')} extended, ${cnt('failed')} failed in the last 24 hours.</p>`;
-  $('#suTable').innerHTML = list.length ? `<thead><tr><th>Coin</th><th>Status</th><th class="n">4H ceiling</th><th class="n">Distance (ATR)</th><th class="n">BandWidth pct</th><th class="n">Same-time vol</th><th class="n">Breakout vol</th><th>RSI / MACD 4H</th><th class="n">VWAP</th><th>Trigger or entry</th><th class="n">Stop</th><th class="n">1st resistance</th><th class="n">Net R:R</th><th></th></tr></thead><tbody>${list.slice(0, 60).map(([s, r]) => suRow(s, r)).join('')}</tbody>` : '<tbody><tr><td class="note">No coin is near its 4H ceiling or in a breakout right now.</td></tr></tbody>';
+  $('#suTable').innerHTML = list.length ? `<thead><tr><th>Coin</th><th>Status</th><th class="n">4H ceiling</th><th class="n">Distance (ATR)</th><th class="n">BandWidth pct</th><th class="n">Same-time vol</th><th class="n">Breakout vol</th><th class="opt2">RSI / MACD 4H</th><th class="n opt2">VWAP</th><th>Trigger or entry</th><th class="n">Stop</th><th class="n">1st resistance</th><th class="n">Net R:R</th><th></th></tr></thead><tbody>${list.slice(0, 60).map(([s, r]) => suRow(s, r)).join('')}</tbody>` : '<tbody><tr><td class="note">No coin is near its 4H ceiling or in a breakout right now.</td></tr></tbody>';
   const top = list.filter(x => act(x)).slice(0, 3);
   $('#suTop').innerHTML = top.length ? `<div class="sutop">${top.map(([s, r]) => `<div>${suNote(s, r)}</div>`).join('')}</div>` : '';
   const sm = SETUPS.summarize(all.map(([coin, r]) => ({ coin, r }))), pc = x => ok(x) ? Math.round(x * 100) + '%' : '–', h = x => ok(x) ? x.toFixed(1) + ' h' : '–', rr = x => ok(x) ? (x >= 0 ? '+' : '') + x.toFixed(2) : '–';
