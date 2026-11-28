@@ -2913,13 +2913,13 @@ function rcDraw(cv, now, st = RC, rings = [['1%', .25], ['3%', .5], ['10%', .8]]
   g.fillStyle = css.soft; g.beginPath(); g.arc(cx, cy, R, 0, TAU); g.fill();
   g.strokeStyle = css.grid; g.lineWidth = 1;
   for (const f of [.25, .5, .8, 1]) { g.beginPath(); g.arc(cx, cy, R * f, 0, TAU); g.stroke(); }
-  const n = st.groups.length;
-  if (n > 1) for (let k = 0; k < n; k++) { const a = k / n * TAU - Math.PI / 2; g.beginPath(); g.moveTo(cx, cy); g.lineTo(cx + R * Math.cos(a), cy + R * Math.sin(a)); g.stroke(); }
+  const n = st.groups.length, sect = st.sect || st.groups.map((name, k) => ({ g: name, a0: k / n, a1: (k + 1) / n }));   // sector edges as fractions of the circle
+  if (n > 1) for (const q of sect) { const a = q.a0 * TAU - Math.PI / 2; g.beginPath(); g.moveTo(cx, cy); g.lineTo(cx + R * Math.cos(a), cy + R * Math.sin(a)); g.stroke(); }
   if (!small) {
     g.font = '10px "Hanken Grotesk",system-ui,sans-serif'; g.fillStyle = css.ink3; g.textAlign = 'left';
     rings.forEach(([t, f]) => g.fillText(t, cx + 3, cy - R * f + 11));
     g.font = '600 10.5px "Hanken Grotesk",system-ui,sans-serif'; g.textAlign = 'center';
-    st.groups.forEach((name0, k) => { let name = name0; while (name.length > 4 && g.measureText(name).width > R * .3) name = name.slice(0, -2).trimEnd() + '…'; const a = (k + .5) / n * TAU - Math.PI / 2, x = cx + R * .86 * Math.cos(a), y = cy + R * .86 * Math.sin(a), w = g.measureText(name).width + 8;
+    sect.forEach(({ g: name0, a0, a1 }) => { let name = name0; while (name.length > 4 && g.measureText(name).width > R * Math.max(.3, (a1 - a0) * 2.2)) name = name.slice(0, -2).trimEnd() + '…'; const a = (a0 + a1) / 2 * TAU - Math.PI / 2, x = cx + R * .86 * Math.cos(a), y = cy + R * .86 * Math.sin(a), w = g.measureText(name).width + 8;
       g.fillStyle = tint(css.card, .85); g.fillRect(x - w / 2, y - 8, w, 15); g.fillStyle = css.ink2; g.fillText(name, x, y + 3.5); });
   }
   const per = 6000, sw = RC.reduce ? -Math.PI / 2 : ((now % per) / per) * TAU - Math.PI / 2;
@@ -3122,7 +3122,10 @@ function tsBuild(k) {
   const B = [...by.values()].map(h => ({ s: h.s, c: h.c, g: rcGroup(h.c), r: tsAgeR(h.age), up: h.side > 0, size: 2.5 + Math.min(5, (h.score - 2.5) * 1.3), wl: wl.has(h.s), fresh: h.age <= TS_MS[h.tf], h }));
   const groups = [...new Set(B.map(b => b.g))].sort((a, z) => a === 'Other' ? 1 : z === 'Other' ? -1 : a.localeCompare(z)), n = groups.length || 1;
   const hash = str => { let x = 2166136261; for (const ch of str) x = Math.imul(x ^ ch.charCodeAt(0), 16777619); return ((x >>> 0) % 1000) / 1000; };
-  for (const b of B) b.a = (groups.indexOf(b.g) + .12 + .76 * hash(b.c)) / n * 2 * Math.PI - Math.PI / 2;
+  // sectors sized by how many coins each group has (square root, so one big group does not swallow the circle)
+  const cnt = g => B.filter(b => b.g === g).length, wts = groups.map(g => Math.sqrt(Math.max(1, cnt(g)))), tot = wts.reduce((x, y) => x + y, 0) || 1; let acc = 0;
+  st.sect = groups.map((g, k) => { const a0 = acc / tot; acc += wts[k]; return { g, a0, a1: acc / tot }; });
+  for (const b of B) { const q = st.sect[groups.indexOf(b.g)]; b.a = (q.a0 + (q.a1 - q.a0) * (.08 + .84 * hash(b.c))) * 2 * Math.PI - Math.PI / 2; }
   st.blips = B; st.groups = groups; st.hits = H;
 }
 const tsName = h => R2.KIND[h.kind] || h.kind;
