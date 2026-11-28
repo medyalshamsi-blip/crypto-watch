@@ -1,0 +1,635 @@
+{
+ "about": "Replay of the Test tab radars, chart patterns and candle rejections on 60 days of Binance 15m candles (1H, 4H built from them). Point in time. Outcome: +5% / -5% first within 6 h (4H: 24 h). Patterns: 80% target before stop within 48 bars (1H) / 30 bars (4H), against the zero-drift chance stop/(target+stop). Rejections: entry on the follow-through, target 2R within 24 bars, zero-drift chance 33%. Not financial advice.",
+ "ran": "2026-11-28T15:22:19.233Z",
+ "coins": 82,
+ "failed": 1,
+ "days": 60,
+ "base": {
+  "15m": {
+   "n": 121278,
+   "up5": 6.9,
+   "dn5": 8.1,
+   "upFirst": 6.7,
+   "dnFirst": 7.8,
+   "closeUp": 45,
+   "avgRetPct": -0.181
+  },
+  "1H": {
+   "n": 117505,
+   "up5": 6.8,
+   "dn5": 8.1,
+   "upFirst": 6.6,
+   "dnFirst": 7.8,
+   "closeUp": 45.1,
+   "avgRetPct": -0.177
+  },
+  "4H": {
+   "n": 25255,
+   "up5": 21.8,
+   "dn5": 32.2,
+   "upFirst": 19.6,
+   "dnFirst": 29.9,
+   "closeUp": 42.1,
+   "avgRetPct": -0.773
+  }
+ },
+ "radars": {
+  "sweep": {
+   "bear 15m": {
+    "n": 13356,
+    "up5": 8,
+    "dn5": 8.1,
+    "upFirst": 7.7,
+    "dnFirst": 7.7,
+    "closeUp": 42.9,
+    "avgRetPct": -0.192
+   },
+   "bear 1H": {
+    "n": 4445,
+    "up5": 8.7,
+    "dn5": 9.6,
+    "upFirst": 8.1,
+    "dnFirst": 9.1,
+    "closeUp": 44.9,
+    "avgRetPct": -0.189
+   },
+   "bear 4H": {
+    "n": 967,
+    "up5": 27.5,
+    "dn5": 38.5,
+    "upFirst": 23.9,
+    "dnFirst": 34,
+    "closeUp": 41.2,
+    "avgRetPct": -0.636
+   },
+   "bear Sign of weakness": {
+    "n": 710,
+    "up5": 13.2,
+    "dn5": 18.5,
+    "upFirst": 11.5,
+    "dnFirst": 16.8,
+    "closeUp": 56.2,
+    "avgRetPct": 0.282
+   },
+   "bear Sweep & reclaim": {
+    "n": 17475,
+    "up5": 8.9,
+    "dn5": 9.5,
+    "upFirst": 8.4,
+    "dnFirst": 8.9,
+    "closeUp": 42.9,
+    "avgRetPct": -0.234
+   },
+   "bear Upthrust": {
+    "n": 583,
+    "up5": 12.9,
+    "dn5": 15.8,
+    "upFirst": 11.7,
+    "dnFirst": 14.6,
+    "closeUp": 38.3,
+    "avgRetPct": -0.214
+   },
+   "bear all": {
+    "n": 18768,
+    "up5": 9.1,
+    "dn5": 10,
+    "upFirst": 8.6,
+    "dnFirst": 9.4,
+    "closeUp": 43.3,
+    "avgRetPct": -0.214
+   },
+   "bear score 3-3.5": {
+    "n": 10149,
+    "up5": 9,
+    "dn5": 10,
+    "upFirst": 8.6,
+    "dnFirst": 9.4,
+    "closeUp": 44.3,
+    "avgRetPct": -0.161
+   },
+   "bear score 4-4.5": {
+    "n": 5923,
+    "up5": 9,
+    "dn5": 9.4,
+    "upFirst": 8.5,
+    "dnFirst": 9,
+    "closeUp": 42.7,
+    "avgRetPct": -0.202
+   },
+   "bear score 5+": {
+    "n": 2696,
+    "up5": 10.1,
+    "dn5": 11.4,
+    "upFirst": 9.1,
+    "dnFirst": 10.3,
+    "closeUp": 40.4,
+    "avgRetPct": -0.44
+   },
+   "bull 15m": {
+    "n": 15249,
+    "up5": 6.8,
+    "dn5": 9.8,
+    "upFirst": 6.5,
+    "dnFirst": 9.5,
+    "closeUp": 45.5,
+    "avgRetPct": -0.252
+   },
+   "bull 1H": {
+    "n": 5117,
+    "up5": 7.6,
+    "dn5": 8.9,
+    "upFirst": 7.3,
+    "dnFirst": 8.4,
+    "closeUp": 46.3,
+    "avgRetPct": -0.113
+   },
+   "bull 4H": {
+    "n": 1330,
+    "up5": 21.5,
+    "dn5": 30.5,
+    "upFirst": 19,
+    "dnFirst": 28.8,
+    "closeUp": 45.5,
+    "avgRetPct": -0.652
+   },
+   "bull Sign of strength": {
+    "n": 453,
+    "up5": 15.7,
+    "dn5": 17.2,
+    "upFirst": 13.7,
+    "dnFirst": 14.8,
+    "closeUp": 35.5,
+    "avgRetPct": -0.381
+   },
+   "bull Spring": {
+    "n": 945,
+    "up5": 9.1,
+    "dn5": 16.1,
+    "upFirst": 8.8,
+    "dnFirst": 15.7,
+    "closeUp": 45.1,
+    "avgRetPct": -0.38
+   },
+   "bull Sweep & reclaim": {
+    "n": 20298,
+    "up5": 7.6,
+    "dn5": 10.4,
+    "upFirst": 7.3,
+    "dnFirst": 10.1,
+    "closeUp": 46,
+    "avgRetPct": -0.234
+   },
+   "bull all": {
+    "n": 21696,
+    "up5": 7.9,
+    "dn5": 10.8,
+    "upFirst": 7.5,
+    "dnFirst": 10.5,
+    "closeUp": 45.7,
+    "avgRetPct": -0.244
+   },
+   "bull score 3-3.5": {
+    "n": 10609,
+    "up5": 7.4,
+    "dn5": 10.9,
+    "upFirst": 7,
+    "dnFirst": 10.5,
+    "closeUp": 44.9,
+    "avgRetPct": -0.271
+   },
+   "bull score 4-4.5": {
+    "n": 7321,
+    "up5": 8.2,
+    "dn5": 11.2,
+    "upFirst": 7.8,
+    "dnFirst": 10.9,
+    "closeUp": 46,
+    "avgRetPct": -0.254
+   },
+   "bull score 5+": {
+    "n": 3766,
+    "up5": 8.6,
+    "dn5": 9.9,
+    "upFirst": 8.2,
+    "dnFirst": 9.4,
+    "closeUp": 47.5,
+    "avgRetPct": -0.147
+   }
+  },
+  "flow": {
+   "bear 15m": {
+    "n": 5403,
+    "up5": 7.7,
+    "dn5": 8.8,
+    "upFirst": 7.3,
+    "dnFirst": 8.4,
+    "closeUp": 46.5,
+    "avgRetPct": -0.152
+   },
+   "bear 1H": {
+    "n": 895,
+    "up5": 10.2,
+    "dn5": 13.9,
+    "upFirst": 9.3,
+    "dnFirst": 12.4,
+    "closeUp": 45,
+    "avgRetPct": -0.422
+   },
+   "bear Buying climax": {
+    "n": 1822,
+    "up5": 12.1,
+    "dn5": 13.6,
+    "upFirst": 11,
+    "dnFirst": 12.2,
+    "closeUp": 43.7,
+    "avgRetPct": -0.322
+   },
+   "bear CVD divergence": {
+    "n": 58,
+    "up5": 10.3,
+    "dn5": 13.8,
+    "upFirst": 10.3,
+    "dnFirst": 12.1,
+    "closeUp": 36.2,
+    "avgRetPct": -0.689
+   },
+   "bear Hidden selling": {
+    "n": 388,
+    "up5": 8.2,
+    "dn5": 9.8,
+    "upFirst": 8.2,
+    "dnFirst": 9.3,
+    "closeUp": 47.9,
+    "avgRetPct": -0.354
+   },
+   "bear Seller surge": {
+    "n": 4030,
+    "up5": 6.2,
+    "dn5": 7.5,
+    "upFirst": 6,
+    "dnFirst": 7.4,
+    "closeUp": 47.5,
+    "avgRetPct": -0.107
+   },
+   "bear all": {
+    "n": 6298,
+    "up5": 8.1,
+    "dn5": 9.5,
+    "upFirst": 7.6,
+    "dnFirst": 8.9,
+    "closeUp": 46.3,
+    "avgRetPct": -0.19
+   },
+   "bear score 3-3.5": {
+    "n": 6174,
+    "up5": 8,
+    "dn5": 9.5,
+    "upFirst": 7.5,
+    "dnFirst": 8.9,
+    "closeUp": 46.3,
+    "avgRetPct": -0.186
+   },
+   "bear score 4-4.5": {
+    "n": 41,
+    "up5": 9.8,
+    "dn5": 0,
+    "upFirst": 9.8,
+    "dnFirst": 0,
+    "closeUp": 58.5,
+    "avgRetPct": 0.504
+   },
+   "bear score 5+": {
+    "n": 83,
+    "up5": 10.8,
+    "dn5": 14.5,
+    "upFirst": 10.8,
+    "dnFirst": 13.3,
+    "closeUp": 41,
+    "avgRetPct": -0.818
+   },
+   "bull 15m": {
+    "n": 5152,
+    "up5": 7.6,
+    "dn5": 7.2,
+    "upFirst": 7.4,
+    "dnFirst": 6.6,
+    "closeUp": 45.8,
+    "avgRetPct": -0.141
+   },
+   "bull 1H": {
+    "n": 860,
+    "up5": 7.1,
+    "dn5": 7.9,
+    "upFirst": 6.7,
+    "dnFirst": 7.7,
+    "closeUp": 48,
+    "avgRetPct": -0.115
+   },
+   "bull Buyer surge": {
+    "n": 3361,
+    "up5": 7.1,
+    "dn5": 6.2,
+    "upFirst": 7,
+    "dnFirst": 6,
+    "closeUp": 43.2,
+    "avgRetPct": -0.229
+   },
+   "bull CVD divergence": {
+    "n": 88,
+    "up5": 6.8,
+    "dn5": 10.2,
+    "upFirst": 6.8,
+    "dnFirst": 10.2,
+    "closeUp": 60.2,
+    "avgRetPct": -0.305
+   },
+   "bull Hidden buying": {
+    "n": 385,
+    "up5": 4.7,
+    "dn5": 7.3,
+    "upFirst": 4.2,
+    "dnFirst": 7,
+    "closeUp": 44.9,
+    "avgRetPct": -0.082
+   },
+   "bull Selling climax": {
+    "n": 2178,
+    "up5": 8.7,
+    "dn5": 8.8,
+    "upFirst": 8.3,
+    "dnFirst": 7.9,
+    "closeUp": 50.3,
+    "avgRetPct": 0.002
+   },
+   "bull all": {
+    "n": 6012,
+    "up5": 7.5,
+    "dn5": 7.3,
+    "upFirst": 7.3,
+    "dnFirst": 6.8,
+    "closeUp": 46.2,
+    "avgRetPct": -0.137
+   },
+   "bull score 3-3.5": {
+    "n": 5860,
+    "up5": 7.6,
+    "dn5": 7.2,
+    "upFirst": 7.3,
+    "dnFirst": 6.7,
+    "closeUp": 45.9,
+    "avgRetPct": -0.136
+   },
+   "bull score 4-4.5": {
+    "n": 56,
+    "up5": 1.8,
+    "dn5": 8.9,
+    "upFirst": 1.8,
+    "dnFirst": 8.9,
+    "closeUp": 50,
+    "avgRetPct": -0.134
+   },
+   "bull score 5+": {
+    "n": 96,
+    "up5": 6.3,
+    "dn5": 9.4,
+    "upFirst": 6.3,
+    "dnFirst": 9.4,
+    "closeUp": 60.4,
+    "avgRetPct": -0.216
+   }
+  }
+ },
+ "patterns": {
+  "1H Ascending triangle": {
+   "n": 322,
+   "winPct": 19.6,
+   "chancePct": 20.3,
+   "onVolume": 101,
+   "onVolumeWinPct": 25.7
+  },
+  "1H Bear flag": {
+   "n": 966,
+   "winPct": 36.7,
+   "chancePct": 25.1,
+   "onVolume": 219,
+   "onVolumeWinPct": 43.8
+  },
+  "1H Bear pennant": {
+   "n": 1183,
+   "winPct": 33.3,
+   "chancePct": 24.4,
+   "onVolume": 195,
+   "onVolumeWinPct": 45.1
+  },
+  "1H Bull flag": {
+   "n": 793,
+   "winPct": 17.4,
+   "chancePct": 24.8,
+   "onVolume": 191,
+   "onVolumeWinPct": 28.8
+  },
+  "1H Bull pennant": {
+   "n": 603,
+   "winPct": 13.6,
+   "chancePct": 22.2,
+   "onVolume": 74,
+   "onVolumeWinPct": 21.6
+  },
+  "1H Descending triangle": {
+   "n": 376,
+   "winPct": 17.6,
+   "chancePct": 18.7,
+   "onVolume": 118,
+   "onVolumeWinPct": 28
+  },
+  "1H Double bottom": {
+   "n": 509,
+   "winPct": 57,
+   "chancePct": 67.2,
+   "onVolume": 314,
+   "onVolumeWinPct": 56.7
+  },
+  "1H Double top": {
+   "n": 519,
+   "winPct": 77.6,
+   "chancePct": 67,
+   "onVolume": 295,
+   "onVolumeWinPct": 77.3
+  },
+  "1H Falling wedge": {
+   "n": 1002,
+   "winPct": 40.7,
+   "chancePct": 58.4,
+   "onVolume": 254,
+   "onVolumeWinPct": 26.8
+  },
+  "1H Head and shoulders": {
+   "n": 84,
+   "winPct": 58.3,
+   "chancePct": 52.3,
+   "onVolume": 34,
+   "onVolumeWinPct": 61.8
+  },
+  "1H Inverse head and shoulders": {
+   "n": 114,
+   "winPct": 39.5,
+   "chancePct": 47.5,
+   "onVolume": 55,
+   "onVolumeWinPct": 47.3
+  },
+  "1H Rectangle": {
+   "n": 95,
+   "winPct": 31.6,
+   "chancePct": 34.7,
+   "onVolume": 52,
+   "onVolumeWinPct": 30.8
+  },
+  "1H Rising wedge": {
+   "n": 675,
+   "winPct": 56.6,
+   "chancePct": 61.3,
+   "onVolume": 133,
+   "onVolumeWinPct": 39.1
+  },
+  "1H Symmetrical triangle": {
+   "n": 1239,
+   "winPct": 21.3,
+   "chancePct": 21.4,
+   "onVolume": 223,
+   "onVolumeWinPct": 37.2
+  },
+  "1H Triple bottom": {
+   "n": 32,
+   "winPct": 46.9,
+   "chancePct": 65.7,
+   "onVolume": 22,
+   "onVolumeWinPct": 50
+  },
+  "1H Triple top": {
+   "n": 28,
+   "winPct": 78.6,
+   "chancePct": 68.6,
+   "onVolume": 14,
+   "onVolumeWinPct": 85.7
+  },
+  "4H Ascending triangle": {
+   "n": 28,
+   "winPct": 21.4,
+   "chancePct": 17.5,
+   "onVolume": 5,
+   "onVolumeWinPct": 40
+  },
+  "4H Bear flag": {
+   "n": 144,
+   "winPct": 34,
+   "chancePct": 21.5,
+   "onVolume": 23,
+   "onVolumeWinPct": 30.4
+  },
+  "4H Bear pennant": {
+   "n": 268,
+   "winPct": 18.3,
+   "chancePct": 17.9,
+   "onVolume": 22,
+   "onVolumeWinPct": 40.9
+  },
+  "4H Bull flag": {
+   "n": 24,
+   "winPct": 0,
+   "chancePct": 24.3,
+   "onVolume": 6,
+   "onVolumeWinPct": 0
+  },
+  "4H Bull pennant": {
+   "n": 40,
+   "winPct": 15,
+   "chancePct": 22.8,
+   "onVolume": 5,
+   "onVolumeWinPct": 0
+  },
+  "4H Descending triangle": {
+   "n": 50,
+   "winPct": 20,
+   "chancePct": 19.9,
+   "onVolume": 16,
+   "onVolumeWinPct": 31.3
+  },
+  "4H Double bottom": {
+   "n": 43,
+   "winPct": 48.8,
+   "chancePct": 69.8,
+   "onVolume": 36,
+   "onVolumeWinPct": 55.6
+  },
+  "4H Double top": {
+   "n": 16,
+   "winPct": 62.5,
+   "chancePct": 63.9,
+   "onVolume": 6,
+   "onVolumeWinPct": 66.7
+  },
+  "4H Falling wedge": {
+   "n": 137,
+   "winPct": 31.4,
+   "chancePct": 54.9,
+   "onVolume": 37,
+   "onVolumeWinPct": 27
+  },
+  "4H Head and shoulders": {
+   "n": 4,
+   "winPct": 50,
+   "chancePct": 37.1,
+   "onVolume": 2,
+   "onVolumeWinPct": 0
+  },
+  "4H Inverse head and shoulders": {
+   "n": 19,
+   "winPct": 21.1,
+   "chancePct": 45.7,
+   "onVolume": 9,
+   "onVolumeWinPct": 33.3
+  },
+  "4H Rectangle": {
+   "n": 10,
+   "winPct": 30,
+   "chancePct": 44.6,
+   "onVolume": 7,
+   "onVolumeWinPct": 14.3
+  },
+  "4H Rising wedge": {
+   "n": 38,
+   "winPct": 57.9,
+   "chancePct": 65,
+   "onVolume": 12,
+   "onVolumeWinPct": 58.3
+  },
+  "4H Symmetrical triangle": {
+   "n": 120,
+   "winPct": 15.8,
+   "chancePct": 19.4,
+   "onVolume": 22,
+   "onVolumeWinPct": 27.3
+  },
+  "4H Triple bottom": {
+   "n": 1,
+   "winPct": 0,
+   "chancePct": 59,
+   "onVolume": 1,
+   "onVolumeWinPct": 0
+  },
+  "4H Triple top": {
+   "n": 3,
+   "winPct": 100,
+   "chancePct": 68.8,
+   "onVolume": 2,
+   "onVolumeWinPct": 100
+  }
+ },
+ "rejections": {
+  "confirmed": 9533,
+  "finished": 8793,
+  "winPct": 38.3,
+  "chancePct": 33.3
+ },
+ "reads": 120948
+}
