@@ -1,6 +1,6 @@
 {
  "about": "Written by engine/setups-log.js on GitHub Actions every hour: breakout-and-retest setups replayed on closed Binance 15m candles. Read by the dashboard and the Claude alarm relay. Paper trades only. Not financial advice.",
- "updated": "2026-11-28T15:22:34.398Z",
+ "updated": "2026-11-28T15:28:15.187Z",
  "liveSince": "2026-11-27T00:39:22.377Z",
  "source": "data-api.binance.vision",
  "coins": 131,
