@@ -58,6 +58,19 @@ function check(c, d, now) {
   return out;
 }
 
+// Optional Telegram message for strong new alarms on the watchlist coins. The bot token and chat id are GitHub repository secrets
+// (TG_TOKEN, TG_CHAT): they are never typed into the dashboard page. With no secrets set this does nothing. Telegram's own answer is checked, and the token is never printed.
+async function telegram(list, env = process.env, f = globalThis.fetch) {
+  const token = env.TG_TOKEN, chat = env.TG_CHAT; if (!token || !chat) return null;
+  if (!list.length) return 'nothing to send';
+  const text = `Crypto alarms, ${list.length} new:\n` + list.slice(0, 10).map(a => '‼ ' + a.text).join('\n') + (list.length > 10 ? `\n…and ${list.length - 10} more on the dashboard.` : '') + '\nNot financial advice.';
+  try {
+    const r = await f('https://api.telegram.org/bot' + token + '/sendMessage', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ chat_id: chat, text }) });
+    const j = await r.json().catch(() => ({}));
+    return r.ok && j && j.ok === true ? 'sent' : `Telegram refused it (HTTP ${r.status})`;
+  } catch (e) { return 'Telegram not reachable'; }
+}
+
 async function main() {
   const now = Date.now(), old = fs.existsSync(FILE) ? JSON.parse(fs.readFileSync(FILE, 'utf8')) : {};
   const fired = Object.fromEntries(Object.entries(old.fired || {}).filter(([, t]) => now - t < KEEP_KEYS));
@@ -86,6 +99,8 @@ async function main() {
   }
   console.log(`scanned ${scanned}/${coins.length}, new alerts ${fresh.length}${seeding ? ' (first run: signals remembered, not rung)' : ''}, failed ${Object.keys(failed).length}${Object.keys(failed).length ? ': ' + Object.entries(failed).map(([c, e]) => c + ' ' + e).join('; ') : ''}`);
   for (const a of fresh) console.log((a.strong ? '!! ' : '   ') + a.text);
+  const tgRes = await telegram(fresh.filter(a => a.strong && a.focus)); if (tgRes) console.log('telegram: ' + tgRes);
   if (!ok) process.exitCode = 1;                   // a red run in the Actions tab when Binance cannot be reached at all
 }
-main().catch(e => { console.error(e); process.exitCode = 1; });
+if (require.main === module) main().catch(e => { console.error(e); process.exitCode = 1; });
+module.exports = { telegram };

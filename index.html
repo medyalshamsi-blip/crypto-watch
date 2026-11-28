@@ -76,6 +76,15 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
 input,select{font:inherit;font-size:16px;color:var(--ink);background:var(--card);border:1px solid var(--grid);border-radius:8px;min-height:44px;padding:0 10px;width:100%}
 label{font-size:13px;color:var(--ink2);display:grid;gap:4px}
 .card{background:var(--card);border:1px solid var(--grid);border-radius:12px;padding:16px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#noteText{display:block;width:100%;min-height:110px;font:inherit;font-size:16px;line-height:1.45;color:var(--ink);background:var(--card);border:1px solid var(--grid);border-radius:8px;padding:10px;resize:vertical}
+#noteText:focus{outline:2px solid var(--blue);outline-offset:1px}
+.notelist{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.notelist li{border:1px solid var(--grid);border-left:4px solid var(--ink3);border-radius:10px;padding:12px 14px;background:var(--card)}
+.notelist li.ed{border-left-color:var(--blue)}.notelist li.none{border-left-color:var(--grid)}
+.notelist .nt{white-space:pre-wrap;overflow-wrap:anywhere;margin:0 0 8px}
+.notelist .nm{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:13px;color:var(--ink2)}.notelist .nm .sp{flex:1}
+.notelist .btn.dn{border-color:var(--down)}
 .two{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px;align-items:start}
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:10px}
 .tile{border:1px solid var(--grid);border-radius:12px;padding:12px 14px;background:var(--card)}
@@ -291,6 +300,7 @@ dialog form{padding:18px;display:grid;gap:12px;overflow:auto;max-height:88vh}
     <button role="tab" id="tab-test" data-tab="test" aria-controls="p-test">Test</button>
     <button role="tab" id="tab-chart" data-tab="chart" aria-controls="p-chart">Chart</button>
     <button role="tab" id="tab-portfolio" data-tab="portfolio" aria-controls="p-portfolio">Portfolio</button>
+    <button role="tab" id="tab-notes" data-tab="notes" aria-controls="p-notes">Notes</button>
   </nav>
 </div></div>
 <div class="wrap msgs"><div id="banner"></div><div id="problems"></div><div id="lite"></div></div>
@@ -434,7 +444,7 @@ dialog form{padding:18px;display:grid;gap:12px;overflow:auto;max-height:88vh}
     <div class="scroll"><table class="board stack" id="suTable"></table></div>
     <div id="suTop"></div>
     <div id="suScore"></div>
-    <p class="note">Rules, fixed before testing: the ceiling is the highest unbroken 4H swing high of the last 10 days (a swing counts once 2 lower 4H highs have closed after it). <b>Near ceiling</b>: price below it by at most 1 × ATR14 (4H). <b>Early warning</b>: also two rising 4H swing lows, Bollinger BandWidth (20, 2) in the lowest 20% of the previous 100 4H readings, and volume since 00:00 UTC at least 1.3× the same time of day over the previous 20 days. <b>Breakout confirmed</b>: a 15m close above the ceiling on 1.5× the average of the previous 20 bars. <b>Paper entry</b>: the first retest touches the level and a 15m candle closes back above it, above session VWAP (00:00 UTC); entry at the next open, stop 0.25 × ATR14 (15m) below the retest low, target +2R, exit after 24 hours at the latest, at least 2R to the first resistance. Costs per side: 0.10% Binance fee plus 0.05% slippage and spread, inside 1R. Only completed candles are used. Read-only: nothing is bought or sold, and no TradingView alert is set.</p>
+    <p class="note">Rules, fixed before testing: the ceiling is the highest unbroken 4H swing high of the last 10 days (a swing counts once 2 lower 4H highs have closed after it). <b>Near ceiling</b>: price below it by at most 1 × ATR14 (4H). <b>Early warning</b>: also two rising 4H swing lows, Bollinger BandWidth (20, 2) in the lowest 20% of the previous 100 4H readings, and volume since 00:00 UTC at least 1.3× the same time of day over the previous 20 days. <b>Breakout confirmed</b>: a 15m close above the ceiling on 1.5× the average of the previous 20 bars. <b>Paper entry</b>: the first retest touches the level and a 15m candle closes back above it, above session VWAP (00:00 UTC), after a breakout on at least 1.5× volume; entry at the next open (until that candle opens the coin shows <i>Retest qualified, entry price set at the next open</i> and has no entry or target), stop 0.25 × ATR14 (15m) below the retest low, target +2R, exit after 24 hours at the latest, at least 2R to the first resistance. Costs per side: 0.10% Binance fee plus 0.05% slippage and spread, inside 1R. Only completed candles are used. Read-only: nothing is bought or sold, and no TradingView alert is set.</p>
   </section>
   <section class="card sim" id="smCard">
     <div class="head"><h2>Simulate: predicted high and low for the next 6 bars</h2><p class="note">Pick a coin from the radar or your watchlist, or type any Binance coin, then press Simulate. Read-only: nothing is bought or sold.</p></div>
@@ -479,6 +489,19 @@ dialog form{padding:18px;display:grid;gap:12px;overflow:auto;max-height:88vh}
 <div id="p-portfolio" class="tabp" role="tabpanel" aria-labelledby="tab-portfolio" hidden>
 <section class="band"><div class="wrap"><div class="card"><h2>Holdings and risk</h2><div id="hold"></div></div></div></section>
 </div>
+<div id="p-notes" class="tabp" role="tabpanel" aria-labelledby="tab-notes" hidden>
+<section class="band"><div class="wrap"><div class="card notes">
+  <h2>Notes</h2>
+  <p class="note">Write what to change next or a question for Claude. Each note is saved as a point under the box, and you can edit or delete it. Notes stay in this browser only: the website, the PC file and the Claude link each keep their own list. “Copy all notes” gives you the list to paste into a chat.</p>
+  <form id="noteForm">
+    <label for="noteText" class="sr">New note</label>
+    <textarea id="noteText" rows="4" maxlength="2000" placeholder="Type a note about the next edit or a question…"></textarea>
+    <div class="tools" style="margin-top:8px"><button class="btn" type="submit" id="noteSubmit">Submit</button><button class="btn" type="button" id="noteCancel" hidden>Cancel edit</button><button class="btn" type="button" id="noteCopy" hidden>Copy all notes</button></div>
+  </form>
+  <p class="note" id="noteStatus" role="status"></p>
+  <ul id="noteList" class="notelist"></ul>
+</div></div></section>
+</div>
 </main>
 
 <footer class="band foot"><div class="wrap">
@@ -497,16 +520,11 @@ dialog form{padding:18px;display:grid;gap:12px;overflow:auto;max-height:88vh}
     <label>Volume spike (× 20-day average)<input name="spike" type="number" min="1" step="0.1" inputmode="decimal"></label>
   </div>
   <h4>Alerts</h4>
-  <p class="note">Rows always highlight. A daily close beyond a trigger can also ring and pop up, and send a Telegram message. These run while this page is open.</p>
+  <p class="note">Rows always highlight. A daily close beyond a trigger can also ring and pop up while this page is open.</p>
   <label class="check"><input type="checkbox" name="popup"> Pop-up and sound on daily-close alerts</label>
   <div id="tgBox">
-    <label class="check"><input type="checkbox" name="telegram"> Telegram message on daily-close alerts</label>
-    <div class="grid2" style="margin-top:8px">
-      <label>Bot token<input name="tgToken" type="password" autocomplete="off" spellcheck="false"></label>
-      <label>Chat id<input name="tgChat" autocomplete="off" spellcheck="false"></label>
-    </div>
-    <p class="note">Create a bot with BotFather in Telegram, paste its token here, send your bot one message, then get your chat id from userinfobot. The token stays in this browser only; anyone using this browser profile could read it.</p>
-    <button type="button" class="btn sm" id="tgTest">Send a test message</button> <span class="note" id="tgOut"></span>
+    <p class="note"><b>Telegram</b>: this page no longer sends Telegram messages or keeps a bot token. It loads scripts from other sites (the chart library, TradingView widgets), and a token saved in the same browser could be read by them. Phone messages come from the GitHub job instead, which keeps the token as a repository secret (see the README in the crypto-watch repository).</p>
+    <p class="note" id="tgGone" hidden>A Telegram token that was saved in this browser has been deleted. If you still use that bot, make a new token in BotFather and put it in the repository secrets, not here.</p>
   </div>
   <div class="tools" style="justify-content:flex-end">
     <button type="button" class="btn" id="dlgReset">Reset to defaults</button>
@@ -516,7 +534,7 @@ dialog form{padding:18px;display:grid;gap:12px;overflow:auto;max-height:88vh}
 </form></dialog>
 <div id="toasts" aria-live="polite"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js" integrity="sha384-OK7vELvjHdhUFi31JYioPIcRHTROLdcDa6ZsNWgvgLaKj+9JqhU0Ad8g4wz3CXjA" crossorigin="anonymous"></script>
 <script>
 /* Playbook scanner, JavaScript port of claude/playbook-scanner.py (the trading project's rule book).
    Same rules, same thresholds; parity-tested against the Python version (parity.py / parity.js).
@@ -1038,7 +1056,7 @@ const SETUPS = ((R) => {
         atr4, rsi4: I.RS[k4], rsiReclaim: I.RS[k4] >= 50 && Math.min(I.RS[k4 - 1], I.RS[k4 - 2]) < 50, hist: I.hist[k4], histUp: I.hist[k4] > I.hist[k4 - 1] && I.hist[k4 - 1] > I.hist[k4 - 2], vwap: VW[j], atr15: A15[j], t4: d4.t[k4] };
     }
     // 4) after each breakout: spike, retest, paper trade (one open trade at a time)
-    const cost = o.fee + o.slip; let busyUntil = -1;
+    const cost = o.fee + o.slip; let busyUntil = -1, busyPaper = -1;   // busyUntil: the plain retest strategy; busyPaper: the paper entry the dashboard shows (its own position, so a plain trade below VWAP never blocks it)
     // first resistance visible at entry: the nearest confirmed 4H swing high above, else the highest 4H high before the breakout
     const resistAbove = (px, K, skip, tB) => { const hs = I.ph.filter(p => p.conf < K && p.k !== skip && p.lv > px).sort((a, b) => a.lv - b.lv); if (hs.length) return { lv: hs[0].lv, src: '4H swing high' }; let mx = -Infinity, k = 0; for (; k < K && d4.t[k] + H4 <= tB; k++) mx = Math.max(mx, d4.h[k]); return mx > px ? { lv: mx, src: `${Math.round(k / 6)}-day high` } : null; };
     for (const b of brks) {
@@ -1055,19 +1073,22 @@ const SETUPS = ((R) => {
       if (b.state !== 'retest') continue;
       const q = b.rq, Tq = m.t[q] + M15; let Kq = 0; while (Kq < d4.t.length && d4.t[Kq] + H4 <= Tq) Kq++;
       let lowB = m.l[q]; if (o.baseStop) for (let k = Math.max(0, b.j - 16); k < b.j; k++) lowB = Math.min(lowB, m.l[k]);
-      const entry = q + 1 < n ? m.o[q + 1] : c[q], stop = lowB - o.stopBuf * A15[q], Eb = entry * (1 + cost), risk = Eb - stop * (1 - cost);
+      const known = q + 1 < n, entry = known ? m.o[q + 1] : c[q], stop = lowB - o.stopBuf * A15[q], Eb = entry * (1 + cost), risk = Eb - stop * (1 - cost);
       const rgB = m.h[b.j] - m.l[b.j], weakBar = o.cleanBreak && !(rgB > 0 && (c[b.j] - m.l[b.j]) / rgB >= 2 / 3 && (c[b.j] - m.o[b.j]) / rgB >= 0.5);
       let loud = false; if (o.quietRetest) { let s20 = 0; for (let k = q - 20; k < q; k++) s20 += m.v[k]; loud = !(m.v[q] < m.v[b.j] && m.v[q] < s20 / 20); }
       const res = resistAbove(entry, Kq, b.id, b.t - M15), rr = res ? (res.lv * (1 - cost) - Eb) / risk : Infinity;
       const tgt = (Eb + o.targetR * risk) / (1 - cost);
-      b.trade = { q, t: Tq, entry, pending: q + 1 >= n, stop, target: tgt, risk, costR: (entry + stop) * cost / risk, res, rr, vwap: VW[q], aboveVwap: c[q] > VW[q] };
+      b.trade = { q, t: Tq, entry, pending: !known, stop, target: tgt, risk, costR: (entry + stop) * cost / risk, res, rr, vwap: VW[q], aboveVwap: c[q] > VW[q] };
       const plainOk = risk > 0 && rr >= o.minR && !weakBar && !loud, fullOk = plainOk && b.full != null && b.vm >= o.brkVol && c[q] > VW[q];
-      b.trade.plain = plainOk; b.trade.fullOk = fullOk;
+      // the paper entry the dashboard shows follows the rule as written: a confirmed breakout (volume), a retest that closes back above the level and above session VWAP, 2R to the first resistance
+      const lowVol = !(b.vm >= o.brkVol), belowV = !(c[q] > VW[q]), paperOk = plainOk && !lowVol && !belowV;
       const sess = o.noEntry ? o.noEntry(Tq) : false;
+      const takePlain = plainOk && !sess && q >= busyUntil, takePaper = paperOk && !sess && q >= busyPaper;
+      b.trade.plain = takePlain; b.trade.fullOk = fullOk && takePlain; b.trade.paper = takePaper;
       b.trade.skip = !(risk > 0) ? 'no risk' : weakBar ? 'weak breakout bar' : loud ? 'loud retest' : rr < o.minR ? `R:R ${rr.toFixed(1)} to the ${res.src}` : q < busyUntil ? 'a trade was already open' : sess ? 'session filter' : null;
-      if (sess && plainOk) { b.trade.plain = b.trade.fullOk = false; continue; }
-      if (!plainOk || q < busyUntil) { if (q < busyUntil) b.trade.plain = b.trade.fullOk = false; continue; }
-      // simulate: entry at the next open; stop first when both are touched in one candle; time exit 24 hours after entry
+      b.trade.pskip = !(risk > 0) ? 'no risk' : weakBar ? 'weak breakout bar' : loud ? 'loud retest' : rr < o.minR ? `R:R ${rr.toFixed(1)} to the ${res.src}` : lowVol ? 'breakout volume under 1.5×' : belowV ? 'retest closed below VWAP' : q < busyPaper ? 'a paper trade was already open' : sess ? 'session filter' : null;
+      if (!takePlain && !takePaper) continue;
+      // simulate once: entry at the next open; stop first when both are touched in one candle; time exit 24 hours after entry (the same for every strategy that takes the trade)
       let out = null;
       for (let k = q + 1; k < n && k <= q + o.within; k++) {
         const hitS = m.l[k] <= stop, hitT = m.h[k] >= tgt;
@@ -1075,13 +1096,16 @@ const SETUPS = ((R) => {
         if (hitT) { const px = Math.max(tgt, m.o[k]); out = { why: 'target', k, px }; break; }
       }
       if (!out && q + 1 + o.within < n) out = { why: 'time', k: q + 1 + o.within, px: m.o[q + 1 + o.within] };
-      if (out) { out.t = m.t[out.k] + (out.why === 'time' ? 0 : M15); out.r = (out.px * (1 - cost) - Eb) / risk; b.trade.exit = out; busyUntil = out.k; }
-      else { b.trade.open = true; b.trade.now = (c[n - 1] * (1 - cost) - Eb) / risk; busyUntil = n; }
+      if (out) { out.t = m.t[out.k] + (out.why === 'time' ? 0 : M15); out.r = (out.px * (1 - cost) - Eb) / risk; }
+      const now = known ? (c[n - 1] * (1 - cost) - Eb) / risk : null;      // no running result until the entry price exists
+      if (takePlain) { if (out) { b.trade.exit = out; busyUntil = out.k; } else { b.trade.open = true; b.trade.now = (c[n - 1] * (1 - cost) - Eb) / risk; busyUntil = n; } }
+      if (takePaper) { if (out) { b.trade.pexit = out; busyPaper = out.k; } else { b.trade.popen = true; b.trade.pnow = now; busyPaper = n; } }
     }
     // 5) the coin's status at the last close
     let st = null; const lastB = brks.length ? brks[brks.length - 1] : null, recent = lastB && last && last.T - lastB.t <= o.within * M15;
-    if (lastB && lastB.trade && lastB.trade.open && lastB.trade.plain) st = 'entry';
-    else if (recent) st = lastB.state === 'await' ? (lastB.ran ? 'extended' : 'await') : lastB.state === 'retest' ? (lastB.trade && lastB.trade.exit ? 'done' : 'skipped') : lastB.state;
+    const PT = lastB && lastB.trade;
+    if (PT && PT.paper && PT.popen) st = PT.pending ? 'armed' : 'entry';      // armed: the retest closed and qualifies, the entry price is the next open, not known yet
+    else if (recent) st = lastB.state === 'await' ? (lastB.ran ? 'extended' : 'await') : lastB.state === 'retest' ? (PT && PT.paper && PT.pexit ? 'done' : 'skipped') : lastB.state;
     if (st === 'expired') st = null;
     if (!st && last && last.full) st = 'warn'; else if (!st && last && last.near) st = 'near';
     return { o, n, last, alerts, brks, status: st, lastBrk: lastB, d4n: d4.t.length };
@@ -1353,7 +1377,31 @@ const NEWS = (() => {
       urgent: x.urgency === 1, related: (x.relatedSymbols || []).map(s => String(s.symbol || s).split(':').pop().replace(/USDT?$|USD$|\.P$/, '')).filter(Boolean)
     }));
   }
-  return { SOURCES, RULES, NAMES, P, BREAK_H, coins, classify, isMarket, react, sameStory, score, isBreaking, isShown, parseFeed, parseTV, dec };
+  // Items arrive from a JSON file on GitHub or from TradingView. Before anything is drawn or fetched with them, keep only the fields we use,
+  // with the type and shape we expect (a coin is 2-12 capitals or digits, numbers are finite numbers, text is capped). Anything else is dropped.
+  const TXT = (v, n) => typeof v === 'string' ? v.replace(/[\u0000-\u001f]/g, ' ').slice(0, n) : '', NUM = v => typeof v === 'number' && Number.isFinite(v) ? v : null;
+  const COIN = /^[A-Z0-9]{2,12}$/, STATUS = ['confirmed', 'faded', 'pending', 'muted'];
+  function cleanReact(r) {
+    if (!r || typeof r !== 'object' || typeof r.c !== 'string' || !COIN.test(r.c) || !STATUS.includes(r.status)) return null;
+    const m = NUM(r.m), x = NUM(r.x); if (m == null || x == null) return null;
+    return { c: r.c, base: NUM(r.base), m, peak: NUM(r.peak) != null ? r.peak : m, typ: NUM(r.typ), x, vr: NUM(r.vr), status: r.status, done: r.done === true, mins: Math.max(0, Math.min(10000, Math.round(NUM(r.mins) || 0))) };
+  }
+  function clean(it) {
+    if (!it || typeof it !== 'object') return null;
+    const at = NUM(it.at), title = TXT(it.title, 300).trim(); if (at == null || at <= 0 || at > 4e12 || !title) return null;
+    const cs = Array.isArray(it.coins) ? [...new Set(it.coins.filter(c => typeof c === 'string' && COIN.test(c)))].slice(0, 8) : [];
+    return { id: TXT(it.id, 120) || 'n' + at + title.length, src: TXT(it.src, 30), srcName: TXT(it.srcName, 60), title, link: TXT(it.link, 600), at, coins: cs,
+      market: it.market === true, type: TXT(it.type, 24) || 'other', label: TXT(it.label, 40) || 'Coin news', w: Number.isInteger(it.w) && it.w >= 0 && it.w <= 3 ? it.w : 0, dir: it.dir === 1 || it.dir === -1 ? it.dir : 0,
+      official: it.official === true, urgent: it.urgent === true,
+      also: (Array.isArray(it.also) ? it.also : []).filter(a => a && typeof a === 'object').map(a => ({ name: TXT(a.name, 60) })).slice(0, 8),
+      reacts: (Array.isArray(it.reacts) ? it.reacts : []).map(cleanReact).filter(Boolean).slice(0, 6) };
+  }
+  function cleanDoc(j) {                 // the whole news.json
+    if (!j || typeof j !== 'object') return null;
+    const src = {}; if (j.sources && typeof j.sources === 'object') for (const [k, v] of Object.entries(j.sources).slice(0, 40)) src[TXT(k, 40)] = { ok: !!(v && v.ok) };
+    return { updated: TXT(j.updated, 40), sources: src, items: (Array.isArray(j.items) ? j.items : []).slice(0, 400).map(clean).filter(Boolean) };
+  }
+  return { SOURCES, RULES, NAMES, P, BREAK_H, coins, classify, isMarket, react, sameStory, score, isBreaking, isShown, parseFeed, parseTV, dec, clean, cleanDoc };
 })();
 
 
@@ -1848,6 +1896,8 @@ const PAT = (() => {
 const P = window.Playbook;
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+// External JSON (GitHub data files, public APIs) is data, not markup: drop the characters that open a tag or an attribute from every string before it is kept.
+const scrub = (v, d = 0) => d > 12 ? null : typeof v === 'string' ? v.replace(/[<>"`]/g, '') : Array.isArray(v) ? v.map(x => scrub(x, d + 1)) : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k.replace(/[<>"`]/g, ''), scrub(x, d + 1)])) : v;
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 const store = {
   get(k, d) { try { const v = localStorage.getItem('cw.' + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
@@ -1857,8 +1907,11 @@ const DAY = 864e5;
 
 // ---------------------------------------------------------------- settings and fixed levels
 const REST0 = ['SOL', 'XRP', 'NOT', 'FET', 'TAO', 'IO', 'DOT', 'LDO', 'TIA', 'KAITO', 'TRB', 'DOGE', 'FTT', 'KERNEL', 'NEIRO', 'BONK', 'NEWT', 'SAHARA', 'SUI', 'GRT', 'AIXBT', 'MAGIC', 'ORCA', 'ZEN', 'ZEC', 'DASH', 'CFX', 'POPCAT', 'ONDO', 'CGPT', 'PUMP', 'VIRTUAL'];   // the rest of the 43-coin TradingView watchlist
-const DEFAULTS = { coins: ['BTC', 'ETH', 'FLOKI', 'JASMY', 'PEPE', 'INIT', 'ENA', 'ETHFI', 'ZRO', 'TRUMP', 'ORDI', 'ILV'], rest: REST0, account: 1000, riskPct: 1, dailyLimit: 40, spike: 2, popup: false, telegram: false, tgToken: '', tgChat: '' };
+const DEFAULTS = { coins: ['BTC', 'ETH', 'FLOKI', 'JASMY', 'PEPE', 'INIT', 'ENA', 'ETHFI', 'ZRO', 'TRUMP', 'ORDI', 'ILV'], rest: REST0, account: 1000, riskPct: 1, dailyLimit: 40, spike: 2, popup: false };
 let cfg = Object.assign({}, DEFAULTS, store.get('cfg', {}));
+const hadTg = !!(cfg.tgToken || cfg.tgChat);          // an older version kept a Telegram bot token here: delete it
+for (const k of ['tgToken', 'tgChat', 'telegram']) delete cfg[k];
+if (hadTg) store.set('cfg', cfg);
 const MACRO = {                                          // macro charts in the Chart tab
   'ETHBTC': { name: 'ETH/BTC', bn: 'ETHBTC', tv: 'BINANCE:ETHBTC', note: 'ETH priced in BTC: rising means ETH is beating BTC, which usually comes before altcoins do well.' },
   'GOLD': { name: () => mode === 'tv' ? 'Gold' : 'Gold (PAXG)', bn: 'PAXGUSDT', tv: 'TVC:GOLD', note: 'Gold in dollars per ounce. On the PC and the website it is PAXG, a Binance token backed by one ounce of gold, which tracks gold closely.' },
@@ -2039,7 +2092,7 @@ function fire(c, type, text, strong, dayT) {
   store.set('fired', fired);
   events.unshift({ c, type, text, at: Date.now() }); events = events.slice(0, 40); store.set('events', events);
   toast(text);
-  if (strong) { if (cfg.popup) { beep(); notify(text); } if (cfg.telegram) tg('Crypto watch: ' + text); }
+  if (strong) { if (cfg.popup) { beep(); notify(text); } }
   later();
 }
 function toast(text) {
@@ -2056,10 +2109,6 @@ function beep() {
   } catch (e) { /* sound unavailable */ }
 }
 function notify(text) { try { if ('Notification' in window && Notification.permission === 'granted') new Notification('Crypto watch', { body: text }); } catch (e) { /* pop-ups unavailable */ } }
-function tg(text) {
-  if (!cfg.tgToken || !cfg.tgChat) return Promise.resolve(false);
-  return fetch('https://api.telegram.org/bot' + cfg.tgToken + '/sendMessage', { method: 'POST', mode: 'no-cors', body: new URLSearchParams({ chat_id: cfg.tgChat, text }) }).then(() => true, () => false);
-}
 const hot = c => events.some(e => e.c === c && Date.now() - e.at < DAY) || !!(S[c] && S[c].crossed);
 
 // ---------------------------------------------------------------- Binance (PC, live)
@@ -2126,7 +2175,7 @@ function gecko() {
   }).catch(() => { if (G.dom) G.dom.stale = true; later(); });
 }
 function fng() {
-  fetch('https://api.alternative.me/fng/?limit=2').then(r => r.json()).then(j => { G.fng = { v: +j.data[0].value, k: j.data[0].value_classification, prev: j.data[1] ? +j.data[1].value : NaN, at: Date.now() }; later(); }).catch(() => {});
+  fetch('https://api.alternative.me/fng/?limit=2').then(r => r.json()).then(j => { G.fng = { v: +j.data[0].value, k: scrub(String(j.data[0].value_classification)), prev: j.data[1] ? +j.data[1].value : NaN, at: Date.now() }; later(); }).catch(() => {});
 }
 function connectWS() {
   const streams = [...tracked(), 'GOLD'].filter(c => S[c] && S[c].d && bnPair(c)).map(c => bnPair(c).toLowerCase() + '@kline_1d').filter(x => x !== 'ethbtc@kline_1d').concat('ethbtc@kline_1d', 'btcusdt@kline_1w').join('/');
@@ -2513,8 +2562,42 @@ function checkHold(c, px) {
   }
 }
 
+// ---------------------------------------------------------------- notes: your own list of points for the next edits (kept in this browser only)
+const NOTE_MAX = 2000, NOTE_KEEP = 300, NT = { list: [], edit: null, del: null, saved: true, msg: '', t: 0 };
+{ const a = store.get('notes', []); NT.list = Array.isArray(a) ? a.filter(n => n && typeof n.text === 'string' && Number.isFinite(n.at)).map(n => ({ id: String(n.id || n.at).replace(/[^a-z0-9]/gi, '').slice(0, 24) || String(n.at), text: n.text.slice(0, NOTE_MAX), at: n.at, ed: Number.isFinite(n.ed) ? n.ed : null })).slice(0, NOTE_KEEP) : []; }
+function noteSave() { try { localStorage.setItem('cw.notes', JSON.stringify(NT.list)); NT.saved = true; } catch (e) { NT.saved = false; } }
+function renderNotes() {
+  const ul = $('#noteList'); if (!ul) return;
+  const n = NT.list.length, when = t => new Date(t).toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+  ul.innerHTML = n ? NT.list.map(x => `<li data-id="${esc(x.id)}"${NT.edit === x.id ? ' class="ed"' : ''}><p class="nt">${esc(x.text)}</p><div class="nm"><time datetime="${new Date(x.at).toISOString()}">${when(x.at)}${x.ed ? ' · edited ' + when(x.ed) : ''}</time><span class="sp"></span><button class="btn sm" type="button" data-nedit="${esc(x.id)}">Edit</button><button class="btn sm${NT.del === x.id ? ' dn' : ''}" type="button" data-ndel="${esc(x.id)}">${NT.del === x.id ? 'Confirm delete' : 'Delete'}</button></div></li>`).join('') : '<li class="none note">No notes yet. Write one above and press Submit.</li>';
+  $('#noteStatus').textContent = (n ? `${n} note${n === 1 ? '' : 's'}.` : '') + (NT.saved ? '' : ' This browser would not save them: copy them before you close the page.') + (NT.msg ? ' ' + NT.msg : '');
+  $('#noteSubmit').textContent = NT.edit ? 'Save change' : 'Submit'; $('#noteCancel').hidden = !NT.edit; $('#noteCopy').hidden = !n;
+}
+$('#noteForm').addEventListener('submit', e => {
+  e.preventDefault(); const ta = $('#noteText'), text = ta.value.trim().slice(0, NOTE_MAX); if (!text) { ta.focus(); return; }
+  if (NT.edit) { const x = NT.list.find(q => q.id === NT.edit); if (x && x.text !== text) { x.text = text; x.ed = Date.now(); } NT.edit = null; }
+  else NT.list.unshift({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), text, at: Date.now(), ed: null });
+  NT.list = NT.list.slice(0, NOTE_KEEP); NT.del = null; NT.msg = ''; ta.value = ''; noteSave(); renderNotes(); ta.focus();
+});
+$('#noteText').addEventListener('keydown', e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); $('#noteForm').requestSubmit(); } else if (e.key === 'Escape' && NT.edit) $('#noteCancel').click(); });
+$('#noteCancel').onclick = () => { NT.edit = null; $('#noteText').value = ''; renderNotes(); };
+$('#noteList').addEventListener('click', e => {
+  const ed = e.target.closest('[data-nedit]'), dl = e.target.closest('[data-ndel]');
+  if (ed) { const x = NT.list.find(q => q.id === ed.dataset.nedit); if (!x) return; NT.edit = x.id; NT.del = null; NT.msg = ''; const ta = $('#noteText'); ta.value = x.text; renderNotes(); ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+  else if (dl) {
+    const id = dl.dataset.ndel;
+    if (NT.del !== id) { NT.del = id; clearTimeout(NT.t); NT.t = setTimeout(() => { NT.del = null; renderNotes(); }, 4000); renderNotes(); return; }      // first press asks, second press deletes
+    clearTimeout(NT.t); NT.list = NT.list.filter(q => q.id !== id); if (NT.edit === id) { NT.edit = null; $('#noteText').value = ''; } NT.del = null; NT.msg = ''; noteSave(); renderNotes();
+  }
+});
+$('#noteCopy').onclick = async () => {
+  const txt = NT.list.slice().reverse().map((x, i) => `${i + 1}. ${x.text.replace(/\n/g, '\n   ')}`).join('\n');
+  let done = false; try { await navigator.clipboard.writeText(txt); done = true; } catch (er) { try { const t = document.createElement('textarea'); t.value = txt; t.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(t); t.select(); done = document.execCommand('copy'); t.remove(); } catch (e2) { /* clipboard blocked here */ } }
+  NT.msg = done ? 'Copied: oldest first, numbered.' : 'Copy was blocked here: select the notes and copy them by hand.'; renderNotes();
+};
+
 // ---------------------------------------------------------------- tabs and the top strip
-const TABS = ['summary', 'market', 'watchlist', 'radar', 'test', 'chart', 'portfolio'];
+const TABS = ['summary', 'market', 'watchlist', 'radar', 'test', 'chart', 'portfolio', 'notes'];
 let tab = TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'summary';     // the Summary opens first
 function setTab(t, push) {
   if (!TABS.includes(t)) t = 'summary';
@@ -2523,6 +2606,7 @@ function setTab(t, push) {
   if (push && location.hash !== '#' + t) location.hash = t;
   if (t === 'radar' && typeof rdStart === 'function') { rdStart(); renderSimOptions(); renderRadar(); if (!SM.res) renderSim(); else setTimeout(smChart, 0); }
   if (t === 'summary') renderSumTab();
+  if (t === 'notes') renderNotes();
   if (t === 'test') { if (mode === 'live' && typeof rdStart === 'function') rdStart(); renderTest(); }
   rcKick();
   later();
@@ -2822,16 +2906,16 @@ function renderRadar() {
   const t15 = RD.track && RD.track['15m'];
   $('#rdTrack').innerHTML = t15 && t15.base[0] ? `15m check (last ${Math.round((now - t15.from) / 36e5)} hours): a bullish hit scoring 4 or more was followed by a 3% rise within 6 bars ${pc(t15.bull, 1)} of the time and a 3% drop ${pc(t15.bull, 2)} (any bar: ${pc(t15.base, 1)} and ${pc(t15.base, 2)}). A score adds up what fired: volume spike up to 4, range breakout 3, structure break 2, momentum turn 1 each, quiet build-up 2, plus 0.5 each for buyers over 55% and beating BTC.` : '';
 }
-const SU_NAME = { entry: 'Paper entry qualified', await: 'Breakout confirmed — awaiting retest', warn: 'Early warning', near: 'Near ceiling', extended: 'Extended', failed: 'Failed', skipped: 'Retest, no trade', done: 'Paper trade closed' };
-const SU_RANK = { entry: 0, await: 1, warn: 2, extended: 3, near: 4, skipped: 5, done: 6, failed: 7 };
-const SU_CLS = { entry: 'up', await: 'up', warn: 'up', extended: 'mut', near: 'mut', skipped: 'mut', done: 'mut', failed: 'dn' };
+const SU_NAME = { entry: 'Paper entry qualified', armed: 'Retest qualified — entry price set at the next open', await: 'Breakout confirmed — awaiting retest', warn: 'Early warning', near: 'Near ceiling', extended: 'Extended', failed: 'Failed', skipped: 'Retest, no trade', done: 'Paper trade closed' };
+const SU_RANK = { entry: 0, armed: 0.5, await: 1, warn: 2, extended: 3, near: 4, skipped: 5, done: 6, failed: 7 };
+const SU_CLS = { entry: 'up', armed: 'up', await: 'up', warn: 'up', extended: 'mut', near: 'mut', skipped: 'mut', done: 'mut', failed: 'dn' };
 const suRank = r => { const L = r.last; return (L.hl ? 2 : 0) + (L.squeeze ? 1 : 0) + (ok(L.rv) ? Math.min(3, L.rv) : 0) + (ok(L.dist) && L.dist >= 0 ? Math.max(0, 1 - L.dist) : 0) + (L.rsiReclaim ? .5 : 0) + (L.histUp ? .5 : 0); };
 const xf = x => ok(x) ? x.toFixed(x >= 10 ? 0 : 1) + '×' : '–';
-function suLabel(r) { const b = r.lastBrk; if (r.status === 'await' && b && b.vm < 1.5) return 'Breakout, low volume — awaiting retest'; if (r.status === 'entry' && b && b.trade && b.trade.pending) return 'Paper entry qualified (fills at the next open)'; if (r.status === 'done' && b && b.trade && b.trade.exit) return `Paper trade closed: ${b.trade.exit.why} ${b.trade.exit.r >= 0 ? '+' : ''}${b.trade.exit.r.toFixed(2)}R`; return SU_NAME[r.status] || '–'; }
+function suLabel(r) { const b = r.lastBrk; if (r.status === 'await' && b && b.vm < 1.5) return 'Breakout, low volume — awaiting retest'; if (r.status === 'done' && b && b.trade && b.trade.pexit) return `Paper trade closed: ${b.trade.pexit.why} ${b.trade.pexit.r >= 0 ? '+' : ''}${b.trade.pexit.r.toFixed(2)}R`; return SU_NAME[r.status] || '–'; }
 function suRow(sym, r) {
-  const L = r.last, b = r.lastBrk, st = r.status, t = b && b.trade, post = ['await', 'entry', 'extended', 'failed', 'skipped', 'done'].includes(st);
+  const L = r.last, b = r.lastBrk, st = r.status, t = b && b.trade, post = ['await', 'armed', 'entry', 'extended', 'failed', 'skipped', 'done'].includes(st);
   const ceil = post ? b.lv : L.ceil ? L.ceil.lv : NaN, dist = post ? (L.price - b.lv) / b.atr4 : L.dist;
-  const trig = st === 'warn' || st === 'near' ? `15m close above ${fp(ceil)} on 1.5× volume` : st === 'await' ? `retest of ${fp(b.lv)} closing back above` : st === 'entry' ? `entry ${fp(t.entry)}${t.pending ? ' (next open)' : ''}` : st === 'extended' ? `ran ahead: wait for a retest of ${fp(b.lv)}` : st === 'failed' ? `invalid below ${fp(b.lv)}` : st === 'skipped' ? esc(t && t.skip || 'no trade') : st === 'done' ? `closed at ${fp(t.exit.px)}` : '–';
+  const trig = st === 'warn' || st === 'near' ? `15m close above ${fp(ceil)} on 1.5× volume` : st === 'await' ? `retest of ${fp(b.lv)} closing back above` : st === 'armed' ? `entry at the next open; stop ${fp(t.stop)}` : st === 'entry' ? `entry ${fp(t.entry)}` : st === 'extended' ? `ran ahead: wait for a retest of ${fp(b.lv)}` : st === 'failed' ? `invalid below ${fp(b.lv)}` : st === 'skipped' ? esc(t && t.pskip || 'no trade') : st === 'done' ? `closed at ${fp(t.pexit.px)}` : '–';
   const rsi = ok(L.rsi4) ? `RSI ${L.rsi4.toFixed(0)}${L.rsiReclaim ? ' reclaiming 50' : ''}` : '–', mac = ok(L.hist) ? `MACD hist ${L.hist < 0 ? 'below' : 'above'} 0${L.histUp ? ', rising' : ''}` : '';
   const wl = RD.wl.has(sym) ? ' <span class="rtag mut">watchlist</span>' : '';
   return `<tr class="main"><td data-l="Coin"><b>${esc(rdBase(sym))}</b>${wl}<small>${fp(L.price)}</small></td>
@@ -2844,13 +2928,14 @@ function suRow(sym, r) {
     <td data-l="RSI / MACD (4H)" class="wrap opt2"><small>${rsi}${mac ? '<br>' + mac : ''}</small></td>
     <td data-l="VWAP" class="n opt2">${fp(L.vwap)}<small>${L.price > L.vwap ? 'price above' : 'price below'}</small></td>
     <td data-l="Trigger or entry" class="wrap"><small>${trig}</small></td>
-    <td data-l="Stop" class="n">${t && (st === 'entry' || st === 'done' || st === 'skipped') ? fp(t.stop) : '–'}</td>
+    <td data-l="Stop" class="n">${t && (st === 'armed' || st === 'entry' || st === 'done' || st === 'skipped') ? fp(t.stop) : '–'}</td>
     <td data-l="First resistance" class="n">${t && t.res ? fp(t.res.lv) : '–'}</td>
     <td data-l="Net R:R" class="n">${t ? (Number.isFinite(t.rr) ? t.rr.toFixed(1) : 'clear') : '–'}</td>
     <td data-l="" class="n">${st === 'entry' ? `<button class="btn sm" data-trade="${esc(sym)}">Simulate trade</button> ` : `<button class="btn sm" data-sim="${esc(sym)}" data-tf="15m">Simulate</button> `}<button class="btn sm" data-look="${esc(rdBase(sym))}">Chart</button></td></tr>`;
 }
 function suNote(sym, r) {
   const L = r.last, b = r.lastBrk, t = b && b.trade, c = rdBase(sym), st = r.status;
+  if (st === 'armed') return `<b>${esc(c)}</b>: the retest of ${fp(b.lv)} closed back above it and above VWAP ${fp(L.vwap)}. The entry price is the open of the next 15m candle, which does not exist yet, so the target is not set. The stop is fixed at ${fp(t.stop)}${t.res ? `; first resistance ${fp(t.res.lv)} (${esc(t.res.src)})` : ''}. This turns into a paper entry on the next update, or drops out if that open leaves less than 2R to the first resistance. Catalyst: not checked on this page.`;
   if (st === 'entry') return `<b>${esc(c)}</b>: paper entry ${fp(t.entry)}, stop ${fp(t.stop)}, target ${fp(t.target)} (+2R after costs)${t.res ? `, first resistance ${fp(t.res.lv)} (${esc(t.res.src)})` : ''}. It closes at the stop, the target, or 24 hours after entry. Alert levels to set yourself: price crossing ${fp(t.stop)} and ${fp(t.target)}. Catalyst: not checked on this page.`;
   if (st === 'await' || st === 'extended') return `<b>${esc(c)}</b>: broke ${fp(b.lv)} at ${new Date(b.t).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })} with ${xf(b.vm)} volume${ok(b.tb) ? ` and ${Math.round(b.tb * 100)}% taker buys` : ''}. A paper entry needs a retest of ${fp(b.lv)} that closes back above it, above VWAP ${fp(L.vwap)}; a 15m close below ${fp(b.lv)} fails it. Alerts: price crossing down ${fp(b.lv)} (retest), and 15m close below ${fp(b.lv)}, Once Per Bar Close (failure). Catalyst: not checked on this page.`;
   if (st === 'warn' || st === 'near') { const miss = [!L.hl && 'two rising 4H lows', !L.squeeze && 'a squeeze', !(L.rv >= 1.3) && 'volume 1.3× for the time of day'].filter(Boolean);
@@ -2861,7 +2946,7 @@ function suLogHTML() {
   const L = RD.log; if (!L || !L.live) return `<p class="note" style="margin-top:12px"><b>24/7 log</b>: ${RD.log === null ? 'not available yet (the GitHub job writes it every hour).' : 'loading…'}</p>`;
   const pc = x => ok(x) ? Math.round(x * 100) + '%' : '–', rr = x => ok(x) ? (x >= 0 ? '+' : '') + x.toFixed(2) : '–', h = x => ok(x) ? x.toFixed(1) + ' h' : '–';
   const blk = (lab, S) => { const t = k => { const x = S.trade[k], y = S.trade[k + 'DoubleSlippage']; return `<td>${x.n}</td><td>${x.target} / ${x.stop} / ${x.time}</td><td>${rr(x.avgR)}</td><td>${rr(x.totalR)}</td><td>${x.n ? x.maxDrawdownR.toFixed(1) : '–'}</td><td>${y && y.n ? rr(y.avgR) : '–'}</td>`; };
-    return `<tr><td>${lab}: simple alert</td><td>${S.scanner.simple.alerts}</td><td>${pc(S.scanner.simple.ledToSpike)}</td><td>${pc(S.scanner.simple.spikesWarned)}</td><td>${h(S.scanner.simple.medianLeadH)}</td></tr><tr><td>${lab}: full scanner</td><td>${S.scanner.full.alerts}</td><td>${pc(S.scanner.full.ledToSpike)}</td><td>${pc(S.scanner.full.spikesWarned)}</td><td>${h(S.scanner.full.medianLeadH)}</td></tr>|<tr><td>${lab}: plain</td>${t('plain')}</tr><tr><td>${lab}: full strategy</td>${t('full')}</tr>`; };
+    return `<tr><td>${lab}: simple alert</td><td>${S.scanner.simple.alerts}</td><td>${pc(S.scanner.simple.ledToSpike)}</td><td>${pc(S.scanner.simple.spikesWarned)}</td><td>${h(S.scanner.simple.medianLeadH)}</td></tr><tr><td>${lab}: full scanner</td><td>${S.scanner.full.alerts}</td><td>${pc(S.scanner.full.ledToSpike)}</td><td>${pc(S.scanner.full.spikesWarned)}</td><td>${h(S.scanner.full.medianLeadH)}</td></tr>|<tr><td>${lab}: plain</td>${t('plain')}</tr><tr><td>${lab}: full strategy</td>${t('full')}</tr>${S.trade.paper ? `<tr><td>${lab}: paper entries (rule as written)</td>${t('paper')}</tr>` : ''}`; };
   const a = blk('Live', L.live).split('|'), b = blk('With backfill', L.withBackfill).split('|');
   return `<p class="note" style="margin-top:14px"><b>24/7 log on GitHub</b> (every hour, ${L.coins} coins, live since ${new Date(L.liveSince).toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}; updated ${new Date(L.updated).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}). Live rows count only events logged as they happened; "with backfill" adds the first run's replay of the 20 days before.</p>
     <div class="scroll"><table><thead><tr><th>Scanner</th><th>Alerts</th><th>Led to a spike</th><th>Spikes warned in advance</th><th>Median lead</th></tr></thead><tbody>${a[0]}${b[0]}</tbody></table></div>
@@ -2885,14 +2970,14 @@ function rcTriggers(s) {                     // every trigger known for the coin
   const px = d.c[d.c.length - 1], r = RD.su[s], L = r && r.last, T = [];
   if (L && L.ceil && L.ceil.lv > px) T.push({ lv: L.ceil.lv, up: true, what: '4H ceiling' });
   if (L && L.lows && L.lows.length && L.lows[L.lows.length - 1] < px) T.push({ lv: L.lows[L.lows.length - 1], up: false, what: '4H swing low' });
-  const b = r && r.lastBrk; if (b && ['await', 'entry', 'extended'].includes(r.status) && b.lv < px) T.push({ lv: b.lv, up: false, what: 'breakout level' });
+  const b = r && r.lastBrk; if (b && ['await', 'armed', 'entry', 'extended'].includes(r.status) && b.lv < px) T.push({ lv: b.lv, up: false, what: 'breakout level' });
   const sc = RD.wl.has(s) && S[c] && S[c].scan; if (sc) { if (sc.bullTrigger > px) T.push({ lv: sc.bullTrigger, up: true, what: 'daily bull trigger' }); if (sc.bearTrigger < px) T.push({ lv: sc.bearTrigger, up: false, what: 'daily bear trigger' }); }
   for (const t of T) t.dist = Math.abs(t.lv / px - 1); T.sort((a, z) => a.dist - z.dist);
   return { px, near: T[0] || null, all: T };
 }
 const rcR = x => x == null ? .97 : x <= .01 ? x / .01 * .25 : x <= .03 ? .25 + (x - .01) / .02 * .25 : x <= .10 ? .5 + (x - .03) / .07 * .3 : Math.min(.97, .8 + (x - .1) / .4 * .17);
 function rcBuild() {
-  const now = Date.now(), wl = RD.wl, act = s => { const r = RD.su[s]; return r && ['warn', 'await', 'entry'].includes(r.status); };
+  const now = Date.now(), wl = RD.wl, act = s => { const r = RD.su[s]; return r && ['warn', 'await', 'armed', 'entry'].includes(r.status); };
   const hitS = new Set(RD.hits.filter(h => h.x.score >= 4 && now - h.t < 2 * 3600e3).map(h => h.s)), pingS = new Set(Object.keys(RD.pg).filter(s => RD.pg[s] && RD.pg[s].pings.some(q => now - q.t < 2 * 3600e3)));
   let syms = RD.syms.filter(s => RD.d15[s]);
   if (RC.show === 'watch') syms = syms.filter(s => wl.has(s)); else if (RC.show !== 'all') syms = syms.filter(s => wl.has(s) || act(s));
@@ -2974,13 +3059,13 @@ function renderRH() {
   const css = rcCss(), now = Date.now(), btc = RD.d15.BTCUSDT, L = RC.blips.filter(b => b.near).sort((x, z) => x.near.dist - z.near.dist).slice(0, 24);
   const txtOn = al => al > .55 ? `;color:${css.dark ? css.ink : '#fff'}` : '';
   const cell = (v, scale, txt, up) => { if (!ok(v) || v === 0) return `<td style="background:${css.soft}">${txt || ''}</td>`; const al = Math.min(1, Math.abs(v) / scale) * .82 + .1; return `<td style="background:${tint((up == null ? v > 0 : up) ? css.up : css.down, al)}${txtOn(al)}">${txt}</td>`; };
-  const SHORT = { entry: 'entry', await: 'retest?', warn: 'warning', near: 'near', extended: 'extended', failed: 'failed' }, kinds = ['vol', 'brk', 'struct', 'mom', 'early'];
+  const SHORT = { entry: 'entry', armed: 'next open', await: 'retest?', warn: 'warning', near: 'near', extended: 'extended', failed: 'failed' }, kinds = ['vol', 'brk', 'struct', 'mom', 'early'];
   const rows = L.map(b => {
     const sig = {}; for (const h of RD.hits.filter(h => h.s === b.s && now - h.t < (h.tf === '1H' ? 6 : 2) * 3600e3)) for (const q of h.x.sig) { const v = (q.up ? 1 : -1) * q.w; if (sig[q.k] == null || Math.abs(v) > Math.abs(sig[q.k])) sig[q.k] = v; }
     const d = RD.d15[b.s], n = closedN(d); let tb = 0, vv = 0; for (let i = Math.max(0, n - 4); i < n; i++) { tb += d.tb ? d.tb[i] : 0; vv += d.v[i]; }
     const buy = vv > 0 && d.tb ? tb / vv : NaN, bn = btc ? closedN(btc) : 0, rs = n > 12 && bn > 12 ? (d.c[n - 1] / d.c[n - 13] - 1) - (btc.c[bn - 1] / btc.c[bn - 13] - 1) : NaN;
     const pq = RD.pg[b.s] && RD.pg[b.s].pings.filter(q => now - q.t < 2 * 3600e3).pop(), st = b.status;
-    return `<tr><td class="c"><button class="lnk" data-rc="${esc(b.s)}">${esc(b.c)}</button></td>${cell(.1 - b.near.dist, .1, (b.near.dist * 100).toFixed(1) + '%', b.near.up)}${kinds.map(k => cell(sig[k], 4, sig[k] ? Math.abs(sig[k]).toFixed(1) : '')).join('')}${cell(ok(buy) ? buy - .5 : NaN, .25, ok(buy) ? Math.round(buy * 100) + '%' : '–')}${cell(rs, .03, ok(rs) ? fpc(rs) : '–')}${cell(pq ? pq.r : NaN, .02, pq ? fpc(pq.r) : '')}${st && SHORT[st] ? cell(st === 'failed' ? -1 : 1, { entry: 1, await: 1.3, warn: 1.8, near: 3, extended: 2.5 }[st] || 1, SHORT[st]) : `<td style="background:${css.soft}"></td>`}</tr>`;
+    return `<tr><td class="c"><button class="lnk" data-rc="${esc(b.s)}">${esc(b.c)}</button></td>${cell(.1 - b.near.dist, .1, (b.near.dist * 100).toFixed(1) + '%', b.near.up)}${kinds.map(k => cell(sig[k], 4, sig[k] ? Math.abs(sig[k]).toFixed(1) : '')).join('')}${cell(ok(buy) ? buy - .5 : NaN, .25, ok(buy) ? Math.round(buy * 100) + '%' : '–')}${cell(rs, .03, ok(rs) ? fpc(rs) : '–')}${cell(pq ? pq.r : NaN, .02, pq ? fpc(pq.r) : '')}${st && SHORT[st] ? cell(st === 'failed' ? -1 : 1, { entry: 1, armed: 1, await: 1.3, warn: 1.8, near: 3, extended: 2.5 }[st] || 1, SHORT[st]) : `<td style="background:${css.soft}"></td>`}</tr>`;
   }).join('');
   a.innerHTML = `<table class="rh"><thead><tr><th class="c">Coin</th><th>Trigger</th><th>Volume</th><th>Breakout</th><th>Structure</th><th>Momentum</th><th>Build-up</th><th>Buyers</th><th>vs BTC</th><th>Ping</th><th>Setup</th></tr></thead><tbody>${rows}</tbody></table>`;
   // coins by hour
@@ -3003,12 +3088,12 @@ function alertBits() {
   if (RD.back === 'done') {
     out.src = 'radar';
     out.pings = [...RD.wl].filter(s => RD.pg[s]).flatMap(s => RD.pg[s].pings.filter(q => now - q.t < 2 * 3600e3).map(q => ({ c: rdBase(s), t: q.t, r: q.r })));
-    for (const [s, r] of Object.entries(RD.su)) { if (!r || !r.status) continue; const c = rdBase(s); if (r.status === 'entry') out.setups.push({ c, k: 'entry' }); else if (wlS(s) && (r.status === 'await' || r.status === 'warn')) out.setups.push({ c, k: r.status }); }
+    for (const [s, r] of Object.entries(RD.su)) { if (!r || !r.status) continue; const c = rdBase(s); if (r.status === 'entry' || r.status === 'armed') out.setups.push({ c, k: r.status }); else if (wlS(s) && (r.status === 'await' || r.status === 'warn')) out.setups.push({ c, k: r.status }); }
     out.hits = rdLatest().filter(h => wlS(h.s) && h.x.score >= 4 && now - h.t < 2 * 3600e3).map(h => ({ c: rdBase(h.s), up: h.x.up }));
   } else if (RD.log) {
     out.src = 'log';
     out.pings = ((RD.log.pings && RD.log.pings.recent) || []).filter(e => now - e.t < 2 * 3600e3).map(e => ({ c: e.coin, t: e.t, r: e.r }));
-    for (const [c, x] of Object.entries(RD.log.status || {})) { if (x.status === 'entry') out.setups.push({ c, k: 'entry' }); else if (x.wl && (x.status === 'await' || x.status === 'warn')) out.setups.push({ c, k: x.status }); }
+    for (const [c, x] of Object.entries(RD.log.status || {})) { if (x.status === 'entry' || x.status === 'armed') out.setups.push({ c, k: x.status }); else if (x.wl && (x.status === 'await' || x.status === 'warn')) out.setups.push({ c, k: x.status }); }
   }
   return out;
 }
@@ -3020,6 +3105,7 @@ function alertLine() {
     parts.push(`pings: ${g.slice(0, 3).join('; ')}${g.length > 3 ? '…' : ''}`); }
   const sk = k => [...new Set(A.setups.filter(x => x.k === k).map(x => x.c))];
   if (sk('entry').length) parts.push(`<span class="up">paper entr${sk('entry').length === 1 ? 'y' : 'ies'} ${list(sk('entry'))}</span>`);
+  if (sk('armed').length) parts.push(`retest qualified, entry at the next open ${list(sk('armed'))}`);
   if (sk('await').length) parts.push(`breakout awaiting a retest ${list(sk('await'))}`);
   if (sk('warn').length) parts.push(`early warning ${list(sk('warn'))}`);
   const hb = [...new Set(A.hits.filter(h => h.up).map(h => h.c))], hs = [...new Set(A.hits.filter(h => !h.up).map(h => h.c))];
@@ -3048,7 +3134,7 @@ function renderSumTab() {
   const lt = store.get('lossToday', {}), loss = lt.d === new Date().toISOString().slice(0, 10) ? +lt.v || 0 : 0;
   $('#sumPort').innerHTML = `<h3>Portfolio <button class="lnk" data-goto="portfolio">Open Portfolio →</button></h3>${hold.length ? `<p class="big">${fusd(tv)}</p><p>${hold.length} holding${hold.length === 1 ? '' : 's'}, P/L <span class="${cls(tv - tc)}">${fusd(tv - tc)}</span>; at risk to the stops ${fusd(risk)}.</p>` : '<p class="k">No holdings entered.</p>'}<p class="k">Risk per trade ${fusd(cfg.account * cfg.riskPct / 100)} (${cfg.riskPct}% of ${fusd(cfg.account)}); daily loss limit ${fusd(cfg.dailyLimit)}, ${fusd(loss)} used today.</p>`;
   const Lg = RD.log, lv = Lg && Lg.live && Lg.live.trade && Lg.live.trade.plain, pw = Lg && Lg.pings && Lg.pings.live && Lg.pings.live.watchlist;
-  $('#sumTests').innerHTML = `<h3>What the tests say <button class="lnk" data-goto="radar">Radar →</button></h3><ul><li>Breakout + retest as written: <span class="dn">−0.28R per trade</span> on unseen data, so not a strategy to trade.</li><li>Stop under the 4-hour base: about break-even, unproven.</li><li>Daily playbook scanner: no edge over two years; a second opinion, not odds.</li><li>15m pings: about 6× chance of a 5% hour, but the next hour is slightly negative: look, don't chase.</li></ul>${Lg ? `<p class="k">24/7 log, updated ${hm(Date.parse(Lg.updated))}: ${lv && lv.n ? `${lv.n} live paper trade${lv.n === 1 ? '' : 's'}, average ${lv.avgR >= 0 ? '+' : ''}${(+lv.avgR).toFixed(2)}R` : 'no live paper trades closed yet'}; ${pw ? `${pw.pings} live pings scored, ${pw.followed} followed by a 5% hour` : 'pings not recorded yet'}.</p>` : ''}`;
+  $('#sumTests').innerHTML = `<h3>What the tests say <button class="lnk" data-goto="radar">Radar →</button></h3><ul><li>Breakout + retest as written: <span class="dn">−0.28R per trade</span> on unseen data, so not a strategy to trade.</li><li>Stop under the 4-hour base: about break-even, unproven.</li><li>Daily playbook scanner: no edge over two years; a second opinion, not odds.</li><li>15m pings: about 6× chance of a 5% hour, but the next hour is slightly negative: look, don't chase.</li></ul>${Lg ? `<p class="k">24/7 log, updated ${hm(Date.parse(Lg.updated))}: ${lv && lv.n ? `${lv.n} live plain-retest trade${lv.n === 1 ? '' : 's'} closed (every retest, VWAP not required), average ${lv.avgR >= 0 ? '+' : ''}${(+lv.avgR).toFixed(2)}R` : 'no live plain-retest trades closed yet'}; ${pw ? `${pw.pings} live pings scored, ${pw.followed} followed by a 5% hour` : 'pings not recorded yet'}.</p>` : ''}`;
   rcKick();
 }
 $('#rcShow').addEventListener('change', e => { RC.show = e.target.value; store.set('rcShow', RC.show); renderRC(); renderRH(); });
@@ -3172,7 +3258,7 @@ function renderTest() {
   rcKick();
 }
 const RT = { j: null, asked: false };          // the 60-day replay (backtest set "radars")
-function loadReplay() { if (RT.asked) return; RT.asked = true; fetch('https://raw.githubusercontent.com/medyalshamsi-blip/crypto-watch/main/data/backtest/radars/summary.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(j => { RT.j = j; later(); }, () => {}); }
+function loadReplay() { if (RT.asked) return; RT.asked = true; fetch('https://raw.githubusercontent.com/medyalshamsi-blip/crypto-watch/main/data/backtest/radars/summary.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(j => { RT.j = scrub(j); later(); }, () => {}); }
 function tsReplayText(k) {
   const j = RT.j; if (!j) return '';
   const R = j.radars[k === 'sw' ? 'sweep' : 'flow'], b = j.base['15m'], rows = Object.entries(R).filter(([key, v]) => !/ all$| 15m$| 1H$| 4H$| score /.test(key) && v.n >= 30).sort((x, y) => y[1].n - x[1].n);
@@ -3180,7 +3266,7 @@ function tsReplayText(k) {
   return `<details><summary class="k">60-day replay by type (${j.coins} coins, to ${fdate(Date.parse(j.ran))}): higher 6 h later vs ${b.closeUp}% for any hour</summary><table class="kv"><tbody>${rows.map(([key, v]) => `<tr><td>${esc(key.replace(/^bull /, '▲ ').replace(/^bear /, '▼ '))}</td><td>${d(v, key)} <span class="k">n ${v.n} · +5% first ${v.upFirst}%, −5% first ${v.dnFirst}%</span></td></tr>`).join('')}</tbody></table><p class="k">A bullish type works if its "higher" share is above the any-hour share; a bearish type if below. The 60 days were mostly falling, which favours bearish readings.</p></details>`;
 }
 function loadRadarsLog() {
-  fetch('https://raw.githubusercontent.com/medyalshamsi-blip/crypto-watch/main/data/radars.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(j => { if (j) { TS.log = j.live || null; if (TS.log) TS.log.since = j.liveSince; later(); } }, () => {});
+  fetch('https://raw.githubusercontent.com/medyalshamsi-blip/crypto-watch/main/data/radars.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(j => { if (j) { j = scrub(j); TS.log = j.live || null; if (TS.log) TS.log.since = j.liveSince; later(); } }, () => {});
 }
 for (const k of ['sw', 'fl']) {
   $('#' + k + 'Tf').addEventListener('change', e => { TS[k].tf = e.target.value; store.set(k + 'Tf', TS[k].tf); renderTest(); });
@@ -3231,7 +3317,7 @@ function renderSetups() {
   const show = RD.suShow, act = ([, r]) => r.status && r.status !== 'done' && r.status !== 'skipped';
   const list = all.filter(x => show === 'all' ? true : show === 'watch' ? RD.wl.has(x[0]) : act(x)).sort((a, b) => (SU_RANK[a[1].status] ?? 9) - (SU_RANK[b[1].status] ?? 9) || suRank(b[1]) - suRank(a[1]));
   const cnt = k => all.filter(([, r]) => r.status === k).length;
-  $('#suBrief').innerHTML = `<p><b>${cnt('entry')} paper entr${cnt('entry') === 1 ? 'y' : 'ies'}, ${cnt('await')} breakout${cnt('await') === 1 ? '' : 's'} awaiting a retest, ${cnt('warn')} early warning${cnt('warn') === 1 ? '' : 's'}</b>, ${cnt('near')} near a ceiling, ${cnt('extended')} extended, ${cnt('failed')} failed in the last 24 hours.</p>`;
+  $('#suBrief').innerHTML = `<p><b>${cnt('entry')} paper entr${cnt('entry') === 1 ? 'y' : 'ies'}${cnt('armed') ? `, ${cnt('armed')} retest qualified (entry at the next open)` : ''}, ${cnt('await')} breakout${cnt('await') === 1 ? '' : 's'} awaiting a retest, ${cnt('warn')} early warning${cnt('warn') === 1 ? '' : 's'}</b>, ${cnt('near')} near a ceiling, ${cnt('extended')} extended, ${cnt('failed')} failed in the last 24 hours.</p>`;
   $('#suTable').innerHTML = list.length ? `<thead><tr><th>Coin</th><th>Status</th><th class="n">4H ceiling</th><th class="n">Distance (ATR)</th><th class="n">BandWidth pct</th><th class="n">Same-time vol</th><th class="n">Breakout vol</th><th class="opt2">RSI / MACD 4H</th><th class="n opt2">VWAP</th><th>Trigger or entry</th><th class="n">Stop</th><th class="n">1st resistance</th><th class="n">Net R:R</th><th></th></tr></thead><tbody>${list.slice(0, 60).map(([s, r]) => suRow(s, r)).join('')}</tbody>` : '<tbody><tr><td class="note">No coin is near its 4H ceiling or in a breakout right now.</td></tr></tbody>';
   const top = list.filter(x => act(x)).slice(0, 3);
   $('#suTop').innerHTML = top.length ? `<div class="sutop">${top.map(([s, r]) => `<div>${suNote(s, r)}</div>`).join('')}</div>` : '';
@@ -3277,7 +3363,7 @@ async function smRun() {
     const r = RADAR.simulate({ pool, q: RADAR.vec(s), steps: RADAR.neutralSteps(d, i), N: 20000, skipTag: sym, own, seed: hash(sym + tf + d.t[i]) });
     const x = RADAR.at(p, i);
     SM.res = { r, d, btc, i, sym, tf, ms, c0: d.c[n - 1], u: Math.log(1 + s.ap), s, x, pool: !!pool, took: performance.now() - t0, at: Date.now() };
-    if (SM.trade && SM.trade.sym === sym && tf === '15m') { const T = SM.trade; SM.res.trade = Object.assign({}, T, { odds: SETUPS.tradeOdds({ d, i, entry: T.pending ? d.c[i] : T.entry, stop: T.stop, target: T.target, su: r.su, sd: r.sd, N: 20000 }) }); }
+    if (SM.trade && SM.trade.sym === sym && tf === '15m') { const T = SM.trade; SM.res.trade = Object.assign({}, T, { odds: SETUPS.tradeOdds({ d, i, entry: T.entry, stop: T.stop, target: T.target, su: r.su, sd: r.sd, N: 20000 }) }); }
     renderSim();
     setTimeout(() => { if (!SM.res || SM.res.sym !== sym) return; SM.res.cal = RADAR.calibrate({ pool, d, btc, tag: sym, tfMs: ms, tests: 60 }); renderSim(); }, 60);
   } catch (e) { renderSim(/HTTP 400/.test(e.message) ? `Binance has no ${SM.coin}USDT pair.` : `${SM.coin}: ${e.message}`); }
@@ -3298,7 +3384,7 @@ function renderSim(msg) {
     <div class="st"><span>Touch +5% / −5%</span><b><span class="up">${pc(tUp)}</span> / <span class="dn">${pc(tDn)}</span></b><small>higher close ${pc(r.upClose)}</small></div></div>
     <p class="note"><b>How it was built</b>: 20,000 paths from this coin's own last 500 ${R.tf} bars with the average move removed. ${r.analogs ? `Up and down moves were then scaled by how far the ${r.analogs} most similar past moments travelled over their next 6 bars (${r.analogs - r.ownAnalogs} from ${R.pool ? 'other coins on the radar' : 'other coins'}, ${r.ownAnalogs} from this coin's own history): similar moments moved <b>${r.su.toFixed(2)}×</b> as far up and <b>${r.sd.toFixed(2)}×</b> as far down as this coin usually does${big >= 1.3 ? ', so expect a bigger move than usual' : big <= .8 ? ', so expect a quieter stretch than usual' : ''}. ${ok(r.analogsUp) ? `${pc(r.analogsUp)} of them ended higher.` : ''}` : 'No market comparison was available, so this is the coin on its own.'} Similarity uses volume against normal, taker buys, recent moves, RSI, how tight the range is, position in the range, strength against BTC and BTC's own move.</p>
     ${R.x ? `<p class="note"><b>Radar on the last closed ${R.tf} bar</b>: ${R.x.up ? 'bullish' : 'bearish'} score ${R.x.score.toFixed(1)}: ${esc(R.x.sig.map(q => q.txt).join(', '))}.</p>` : ''}
-    ${R.trade ? (R.trade.odds ? `<p class="note"><b>Paper trade from the setup</b>: entry ${fp(R.trade.entry)}${R.trade.pending ? ' (next open; the last close is used)' : ''}, stop ${fp(R.trade.stop)}, target ${fp(R.trade.target)} (+2R after fees and slippage). In 20,000 paths of the next 24 hours from this coin's own 15m candles (the first 6 bars stretched like the fan): <b>+2R first ${Math.round(R.trade.odds.target * 100)}%</b>, −1R first ${Math.round(R.trade.odds.stop * 100)}%, neither by the 24-hour exit ${Math.round(R.trade.odds.time * 100)}%; average net result ${R.trade.odds.meanR >= 0 ? '+' : ''}${R.trade.odds.meanR.toFixed(2)}R. Costs are already inside 1R, so the trade breaks even at about 33% for +2R first when few trades run to the time exit.</p>` : `<p class="note"><b>Paper trade from the setup</b>: price is already outside the stop or the target, so no odds.</p>`) : ''}
+    ${R.trade ? (R.trade.odds ? `<p class="note"><b>Paper trade from the setup</b>: entry ${fp(R.trade.entry)}, stop ${fp(R.trade.stop)}, target ${fp(R.trade.target)} (+2R after fees and slippage). In 20,000 paths of the next 24 hours from this coin's own 15m candles (the first 6 bars stretched like the fan): <b>+2R first ${Math.round(R.trade.odds.target * 100)}%</b>, −1R first ${Math.round(R.trade.odds.stop * 100)}%, neither by the 24-hour exit ${Math.round(R.trade.odds.time * 100)}%; average net result ${R.trade.odds.meanR >= 0 ? '+' : ''}${R.trade.odds.meanR.toFixed(2)}R. Costs are already inside 1R, so the trade breaks even at about 33% for +2R first when few trades run to the time exit.</p>` : `<p class="note"><b>Paper trade from the setup</b>: price is already outside the stop or the target, so no odds.</p>`) : ''}
     <p class="note">${cal ? `<b>Track record</b> on this coin's last ${cal.n} ${R.tf} bars: the real 6-bar high landed inside the predicted 80% range ${pc(cal.market.high)} of the time and the low ${pc(cal.market.low)} (aim 80%; the coin on its own: ${pc(cal.neutral.high)} and ${pc(cal.neutral.low)}). Across 150 coins after strong radar hits, the market scaling raised this from about 67% to 75% for highs; sudden pumps can still go far beyond the range.` : 'Checking the track record on this coin…'}</p>`;
   smChart();
 }
@@ -3341,7 +3427,7 @@ $('#suShow').value = RD.suShow; $('#suShow').addEventListener('change', e => { R
 $('#p-radar').addEventListener('click', e => { const b = e.target.closest('[data-trade],[data-sutop]'); if (!b) return;
   if (b.dataset.sutop) { const el = $('#suCard'); RD.suShow = 'all'; $('#suShow').value = 'all'; renderSetups(); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
   const sym = b.dataset.trade, r = RD.su[sym], t = r && r.lastBrk && r.lastBrk.trade; if (!t) return;
-  SM.trade = { sym, entry: t.entry, stop: t.stop, target: t.target, pending: t.pending }; SM.coin = rdBase(sym); SM.tf = '15m'; store.set('smCoin', SM.coin); store.set('smTf', SM.tf); renderSimOptions();
+  SM.trade = { sym, entry: t.entry, stop: t.stop, target: t.target }; SM.coin = rdBase(sym); SM.tf = '15m'; store.set('smCoin', SM.coin); store.set('smTf', SM.tf); renderSimOptions();
   $('#smCard').scrollIntoView({ behavior: 'smooth', block: 'start' }); smRun(); });
 $('#rdMinVol').value = String(RD.minVol); $('#rdDir').value = RD.dir; $('#rdStocks').checked = RD.stocks;
 $('#rdStocks').addEventListener('change', e => { RD.stocks = e.target.checked; store.set('rdStocks', RD.stocks); RD.on = false; RD.hits = []; RD.track = null; rdStart(); });
@@ -3718,7 +3804,7 @@ for (const id of ['#board', '#board2', '#board3']) $(id).addEventListener('click
 // 24/7 alarms written by the GitHub engine (engine/alarms.js); the Claude relay pushes the same list to the phone
 const ALARM_URL = 'https://raw.githubusercontent.com/medyalshamsi-blip/crypto-watch/main/data/alarms.json';
 const SETUP_URL = 'https://raw.githubusercontent.com/medyalshamsi-blip/crypto-watch/main/data/setups.json';
-function loadSetupLog() { if (mode !== 'live') return; const done = () => { renderSetups(); renderBrief(); renderSumTab(); }; fetch(SETUP_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))).then(j => { RD.log = j; done(); }, () => { RD.log = null; done(); }); }
+function loadSetupLog() { if (mode !== 'live') return; const done = () => { renderSetups(); renderBrief(); renderSumTab(); }; fetch(SETUP_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))).then(j => { RD.log = scrub(j); done(); }, () => { RD.log = null; done(); }); }
 
 // ---------------------------------------------------------------- breaking news (Market tab)
 // Website and PC file: data/news.json from the GitHub news job (every 15 min), price checks refreshed here from Binance.
@@ -3728,7 +3814,7 @@ const NW = { j: null, err: null, at: 0, f: store.get('newsFilter', 'all'), more:
 function loadNews() {
   if (mode !== 'live') return;
   fetch(NEWS_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)))
-    .then(j => { NW.j = j; NW.err = null; NW.at = Date.now(); newsLive(); later(); }, e => { NW.err = e.message; later(); });
+    .then(j => { const d = NEWS.cleanDoc(scrub(j)); if (!d) { NW.err = 'unexpected file'; later(); return; } NW.j = d; NW.err = null; NW.at = Date.now(); newsLive(); later(); }, e => { NW.err = e.message; later(); });
 }
 async function newsLive() {                       // fresh price checks for headlines of the last 3 hours
   if (mode !== 'live' || !NW.j) return;
@@ -3755,8 +3841,8 @@ function newsTV() {                                // the Claude link: one Tradi
     const known = new Set([...tracked(), ...Object.values(NEWS.NAMES)]), seen = [];
     NW.tv = NEWS.parseTV(pl).map(x => {
       const cls = NEWS.classify(x.title, '', {}), cs = [...new Set([...x.related.filter(c => /^[A-Z0-9]{2,12}$/.test(c) && c !== 'USD'), ...NEWS.coins(x.title, known)])].slice(0, 6);   // TradingView's own tags count as they are
-      return Object.assign(x, { id: 'tv' + x.at + x.title.length, coins: cs, market: NEWS.isMarket(cls, cs), type: cls.type, label: cls.label, w: cls.w, dir: cls.dir, also: [], official: false });
-    }).filter(it => { const dup = seen.find(o => NEWS.sameStory(o, it)); if (dup) { dup.also.push({ name: it.srcName }); return false; } seen.push(it); return true; });
+      return NEWS.clean(Object.assign(x, { id: 'tv' + x.at + x.title.length, coins: cs, market: NEWS.isMarket(cls, cs), type: cls.type, label: cls.label, w: cls.w, dir: cls.dir, also: [], official: false }));
+    }).filter(Boolean).filter(it => { const dup = seen.find(o => NEWS.sameStory(o, it)); if (dup) { dup.also.push({ name: it.srcName }); return false; } seen.push(it); return true; });
   }, 0.5);
 }
 function newsItems() {
@@ -3778,7 +3864,7 @@ function newsReact(it) {
   const usual = `${r.x.toFixed(1)}× its usual hour`;
   const t = r.status === 'confirmed' ? `${esc(r.c)} ${pc(r.m)} in the hour after (${usual}): <b>prices moved</b>`
     : r.status === 'faded' ? `${esc(r.c)} moved ${pc(r.peak)}, then gave most of it back (${pc(r.m)} after the hour): <b>faded</b>`
-    : r.status === 'pending' ? `${esc(r.c)} ${pc(r.m)} so far (${r.mins} of 60 min)`
+    : r.status === 'pending' ? `${esc(r.c)} ${pc(r.m)} so far (${+r.mins || 0} of 60 min)`
     : `${esc(r.c)} ${pc(r.m)} in the hour after: <b>no reaction</b>`;
   return `<div class="nwr" title="Prices move for many reasons: this shows what happened after the headline, not why.">${t}${more}</div>`;
 }
@@ -3834,12 +3920,12 @@ function newsLine() {                              // one line for the Summary t
   const h = items.find(it => it.w >= 3);
   return `<b>News</b>: nothing breaking in 3 hours${h ? `; last high-impact ${newsAgo(h.at)}: ${esc(h.title)}` : ''}.`;
 }
-function loadAlarms() { if (mode !== 'live') return; fetch(ALARM_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))).then(j => { G.alarms = j; later(); }, () => { G.alarms = null; later(); }); }
+function loadAlarms() { if (mode !== 'live') return; fetch(ALARM_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))).then(j => { G.alarms = scrub(j); later(); }, () => { G.alarms = null; later(); }); }
 function renderAlarms() {
   const el = $('#alarms'), j = G.alarms; if (!j) { el.hidden = true; return; } el.hidden = false;
   const beat = Date.parse(j.lastSuccess || j.heartbeat), ago = ok(beat) ? Math.max(0, Math.round((Date.now() - beat) / 6e4)) : NaN, list = (j.alerts || []).slice(0, 8), nf2 = Object.keys(j.failed || {});
   const when = t => { const d = new Date(t); return (Date.now() - d < DAY ? '' : fdate(d.getTime()) + ' ') + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }); };
-  el.innerHTML = `<div class="head"><h3>24/7 phone alarms</h3><p class="note">${ok(ago) ? `Engine last read Binance ${ago < 90 ? ago + ' min' : Math.round(ago / 60) + ' h'} ago` : 'Engine has not run yet'}${ok(ago) && ago > 240 ? ' <b class="dn">(late: check the Actions tab)</b>' : ''} · ${j.scanned || 0} of ${j.of || '–'} coins${nf2.length ? ` · ${nf2.length} not read: ${esc(nf2.slice(0, 6).join(', '))}${nf2.length > 6 ? '…' : ''}` : ''}. The Claude app gets these within about an hour.</p></div>
+  el.innerHTML = `<div class="head"><h3>24/7 phone alarms</h3><p class="note">${ok(ago) ? `Engine last read Binance ${ago < 90 ? ago + ' min' : Math.round(ago / 60) + ' h'} ago` : 'Engine has not run yet'}${ok(ago) && ago > 240 ? ' <b class="dn">(late: check the Actions tab)</b>' : ''} · ${+j.scanned || 0} of ${+j.of || '–'} coins${nf2.length ? ` · ${nf2.length} not read: ${esc(nf2.slice(0, 6).join(', '))}${nf2.length > 6 ? '…' : ''}` : ''}. The Claude app gets these within about an hour.</p></div>
     ${list.length ? `<ul>${list.map(a => `<li><time>${esc(when(a.at))}</time>${a.strong ? '<b>' : ''}${esc(a.text)}${a.strong ? '</b>' : ''}</li>`).join('')}</ul>` : '<p class="note">No alarms yet.</p>'}`;
 }
 function renderAlerts() {
@@ -3957,7 +4043,7 @@ const LAYERS = [['plan', 'Buy and exit ideas', 'b', '--up', 'Plan'], ['fc', 'For
   ['struct', 'BoS / CHoCH', 'l', '--down', 'Structure'], ['swing', 'Swings HH HL LH LL', 'l', '--ink2', 'Structure'], ['range', 'Range, EQ 50%, premium / discount', 'b', '--ink3', 'Structure'], ['tl', 'Trendlines and breaks', 'l', '--down', 'Structure'], ['pat', 'Chart patterns (playbook §8)', 'l', '--orange', 'Structure'],
   ['sr', 'Support / resistance areas', 'b', '--violet', 'Levels'], ['eqhl', 'Equal highs / lows (EQH EQL)', 'o', '--ink3', 'Levels'], ['zones', 'Order blocks', 'b', '--up', 'Levels'], ['fib', 'Fib 50–61.8%', 'b', '--blue', 'Levels'], ['buy', 'Buy zones', 'b', '--violet', 'Levels'], ['liq', 'Liquidity (daily scan)', 'o', '--ink3', 'Levels'], ['prior', 'PDH PDL PWH PWL', 'o', '--ink3', 'Levels'], ['avwap', 'Anchored VWAP', 'd', '--ink2', 'Levels'],
   ['brk', 'Price breakouts', 'l', '--up', 'Signals'], ['rsisig', 'RSI signals and divergences', 'l', '--violet', 'Signals'], ['macdsig', 'MACD signals and divergences', 'l', '--blue', 'Signals'], ['spikes', 'Volume spikes', 'b', '--orange', 'Signals'], ['rej', 'Candle rejections at levels (✓ followed through)', 'o', '--violet', 'Signals'],
-  ['ema', 'EMAs 20/50/200', 'l', '--blue', 'Base'], ['vol', 'Volume', 'b', '--ink3', 'Base'], ['sess', 'Sessions (1H, 15m)', 'b', '--violet', 'Base']];
+  ['ema', 'EMAs 20/50/200', 'l', '--blue', 'Base'], ['vol', 'Volume (green up, red down; glowing = spike)', 'b', '--up', 'Base'], ['sess', 'Sessions (1H, 15m)', 'b', '--violet', 'Base']];
 const LGROUPS = ['Plan', 'Structure', 'Levels', 'Signals', 'Base'];
 const PRESETS = { clean: ['plan', 'fc', 'trig', 'ema', 'vol', 'sess'], structure: ['struct', 'swing', 'range', 'tl', 'pat', 'sr', 'eqhl', 'trig', 'ema', 'vol', 'fc'], signals: ['brk', 'rsisig', 'macdsig', 'tl', 'rej', 'ema', 'vol', 'fc'] };
 const LEAN = ['fib', 'avwap', 'prior', 'liq', 'struct', 'zones', 'swing', 'range', 'tl', 'sr', 'eqhl', 'brk', 'rsisig', 'macdsig'];   // off by default on a phone; one tap turns them on
@@ -3996,6 +4082,23 @@ class Bands {
         const top = Math.min(y1, y2), h = Math.max(2, Math.abs(y2 - y1));
         ctx.fillStyle = b.fill; ctx.fillRect(x, top, mediaSize.width - x, h);
         if (b.label && h >= 4) { ctx.fillStyle = b.ink; ctx.font = '12px ' + this.font; ctx.fillText(b.label, Math.max(x, 0) + 6, top + Math.min(13, h + 11)); }
+      }
+    });
+  }
+}
+// a soft glow behind the volume bars flagged as spikes, drawn under the bars
+class VolGlow {
+  constructor(list, T) { this.list = list; this.T = T; this.p = null; const me = this; this.view = { zOrder: () => 'bottom', renderer: () => ({ draw: t => me.paint(t) }) }; }
+  attached(p) { this.p = p; } detached() { this.p = null; }
+  paneViews() { return [this.view]; } updateAllViews() {}
+  paint(target) {
+    if (!this.p) return; const { chart, series } = this.p, ts = chart.timeScale(), T = this.T;
+    target.useMediaCoordinateSpace(({ context: ctx, mediaSize }) => {
+      let y0 = series.priceToCoordinate(0); if (y0 == null || y0 > mediaSize.height) y0 = mediaSize.height;
+      for (const g of this.list) {
+        const x = ts.timeToCoordinate(T[g.i]); if (x == null || x < -20 || x > mediaSize.width + 20) continue;
+        const xp = g.i > 0 ? ts.timeToCoordinate(T[g.i - 1]) : null, sp = xp == null ? 8 : Math.abs(x - xp), w = Math.max(2, sp * .7), y = series.priceToCoordinate(g.v); if (y == null) continue;
+        ctx.save(); ctx.shadowColor = g.glow; ctx.shadowBlur = 14; ctx.fillStyle = g.color; ctx.fillRect(x - w / 2, y, w, Math.max(1, y0 - y)); ctx.restore();
       }
     });
   }
@@ -4379,7 +4482,10 @@ function buildChart() {
   if (layers.vol) {
     vol = main.addHistogramSeries({ priceFormat: { type: 'volume' }, priceScaleId: 'vol', lastValueVisible: false, priceLineVisible: false });
     main.priceScale('vol').applyOptions({ scaleMargins: { top: .82, bottom: 0 } });
-    vol.setData(T.map((t, i) => ({ time: t, value: d.v[i], color: rv[i] >= cfg.spike ? k.or : k.ink3 + '55' })));
+    // green on an up candle, red on a down candle; a bar the page flags as a volume spike is solid and glows
+    const glow = [];
+    vol.setData(T.map((t, i) => { const up = d.c[i] >= d.o[i], col = up ? k.up : k.dn, hot = rv[i] >= cfg.spike; if (hot) glow.push({ i, v: d.v[i], color: col, glow: alpha(col, .95) }); return { time: t, value: d.v[i], color: hot ? col : alpha(col, .4) }; }));
+    if (glow.length) vol.attachPrimitive(new VolGlow(glow, T));
   }
   if (layers.ema) for (const [nn, c] of [[20, k.blue], [50, k.or], [200, k.vi]]) {
     if (n < nn / 2) continue;
@@ -4631,14 +4737,14 @@ function renderCal() {
 // ---------------------------------------------------------------- settings, theme, controls
 function openSettings() {
   const f = $('#dlgForm');
-  f.coins.value = cfg.coins.join(', '); for (const k of ['account', 'riskPct', 'dailyLimit', 'spike', 'tgToken', 'tgChat']) f[k].value = cfg[k];
-  f.popup.checked = cfg.popup; f.telegram.checked = cfg.telegram; $('#tgOut').textContent = '';
+  f.coins.value = cfg.coins.join(', '); for (const k of ['account', 'riskPct', 'dailyLimit', 'spike']) f[k].value = cfg[k];
+  f.popup.checked = cfg.popup; $('#tgGone').hidden = !hadTg;
   const d = $('#dlg'); if (d.showModal) d.showModal(); else d.setAttribute('open', '');
 }
 function readForm() {
   const f = $('#dlgForm'), num = (k, d) => { const v = +f[k].value; return v > 0 ? v : d; };
   const coins = [...new Set(f.coins.value.toUpperCase().split(/[\s,;]+/).map(x => x.replace(/USDT$/, '').replace(/[^A-Z0-9]/g, '')).filter(Boolean))].slice(0, 20);
-  return { coins: coins.length ? coins : DEFAULTS.coins, account: num('account', 3000), riskPct: num('riskPct', 1), dailyLimit: num('dailyLimit', 120), spike: num('spike', 2), popup: f.popup.checked, telegram: f.telegram.checked, tgToken: f.tgToken.value.trim(), tgChat: f.tgChat.value.trim() };
+  return { coins: coins.length ? coins : DEFAULTS.coins, account: num('account', 3000), riskPct: num('riskPct', 1), dailyLimit: num('dailyLimit', 120), spike: num('spike', 2), popup: f.popup.checked };
 }
 $('#dlgForm').addEventListener('submit', e => {
   e.preventDefault();
@@ -4648,8 +4754,7 @@ $('#dlgForm').addEventListener('submit', e => {
   if (coinsChanged) restart(); else { if (spikeChanged) for (const c in S) compute(c); chartKey = ''; later(); }
 });
 $('#dlgCancel').onclick = () => $('#dlg').close();
-$('#dlgReset').onclick = () => { const keep = { tgToken: cfg.tgToken, tgChat: cfg.tgChat }; cfg = Object.assign({}, DEFAULTS, keep); store.set('cfg', cfg); $('#dlg').close(); restart(); };
-$('#tgTest').onclick = () => { const nc = readForm(); const old = cfg; cfg = Object.assign({}, cfg, { tgToken: nc.tgToken, tgChat: nc.tgChat }); tg('Crypto watch: test message. Alerts will arrive here.').then(sent => { $('#tgOut').textContent = sent ? 'Sent. Check Telegram (the page cannot confirm delivery).' : 'Add the token and chat id first, or check your connection.'; }); cfg = old; };
+$('#dlgReset').onclick = () => { cfg = Object.assign({}, DEFAULTS); store.set('cfg', cfg); $('#dlg').close(); restart(); };
 function applyTheme(t) {
   theme = t; document.documentElement.dataset.theme = t; store.set('theme', t);
   $('#btnTheme').textContent = t === 'dark' ? 'Light theme' : 'Dark theme';

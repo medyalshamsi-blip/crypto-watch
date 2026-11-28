@@ -59,10 +59,12 @@ function events(coin, r, r2, trend, wl) {
     add({ type: 'breakout', t: b.t, lv: b.lv, close: b.close, vm: +b.vm.toFixed(2), tb: b.tb == null || isNaN(b.tb) ? null : +b.tb.toFixed(3), atr4: b.atr4, simpleAt: b.base, fullAt: b.full });
     if (!b.spikeOpen) add({ type: 'breakout-result', t: b.t, of: `${coin}|breakout|${b.t}`, spike: b.spike, spikeAt: b.spikeT || null, retest: b.state });
     const tr = b.trade; if (!tr) continue;
-    if (tr.skip) { add({ type: 'retest-skip', t: tr.t, of: `${coin}|breakout|${b.t}`, why: tr.skip }); continue; }
-    if (!tr.plain || tr.pending) continue;
-    add({ type: 'entry', t: tr.t, of: `${coin}|breakout|${b.t}`, entry: tr.entry, stop: tr.stop, target: tr.target, rr: Number.isFinite(tr.rr) ? +tr.rr.toFixed(2) : null, costR: +tr.costR.toFixed(3), full: tr.fullOk, btc: trend(tr.t) });
-    if (tr.exit) { const x2 = r2 && r2.brks.find(y => y.t === b.t && y.trade && y.trade.exit); add({ type: 'exit', t: tr.exit.t, of: `${coin}|entry|${tr.t}`, why: tr.exit.why, px: tr.exit.px, r: +tr.exit.r.toFixed(3), r2: x2 ? +x2.trade.exit.r.toFixed(3) : null }); }
+    if (tr.skip && !tr.paper) { add({ type: 'retest-skip', t: tr.t, of: `${coin}|breakout|${b.t}`, why: tr.skip }); continue; }
+    if (!(tr.plain || tr.paper) || tr.pending) continue;     // no entry until the next open exists
+    // plain: the baseline retest rule (VWAP not needed); paper: the rule as written on the dashboard (volume, VWAP); each has its own position
+    add({ type: 'entry', t: tr.t, of: `${coin}|breakout|${b.t}`, entry: tr.entry, stop: tr.stop, target: tr.target, rr: Number.isFinite(tr.rr) ? +tr.rr.toFixed(2) : null, costR: +tr.costR.toFixed(3), full: tr.fullOk, plain: !!tr.plain, paper: !!tr.paper, btc: trend(tr.t) });
+    const exOf = t => t.plain ? t.exit : t.pexit, ex = exOf(tr);
+    if (ex) { const x2 = r2 && r2.brks.find(y => y.t === b.t && y.trade && exOf(y.trade)); add({ type: 'exit', t: ex.t, of: `${coin}|entry|${tr.t}`, why: ex.why, px: ex.px, r: +ex.r.toFixed(3), r2: x2 ? +exOf(x2.trade).r.toFixed(3) : null, plain: !!tr.plain, paper: !!tr.paper }); }
   }
   for (const b of r.brks) if (b.state === 'failed') add({ type: 'retest-fail', t: b.failT, of: `${coin}|breakout|${b.t}`, lv: b.lv });
   return out;
@@ -101,8 +103,8 @@ function score(ev, since) {
     return { n: a.length, target: a.filter(x => x.why === 'target').length, stop: a.filter(x => x.why === 'stop').length, time: a.filter(x => x.why === 'time').length, avgR: a.length ? +(cum / a.length).toFixed(3) : null, totalR: +cum.toFixed(2), maxDrawdownR: +dd.toFixed(2), totalWithoutBestR: +(cum - best).toFixed(2), byBtcTrend: grp('btc'), byCoin: grp('coin') }; };
   return { since: new Date(since).toISOString(), spikes: spikes.length, breakouts: brk.length,
     scanner: { simple: scan('warn-simple'), full: scan('warn-full') },
-    trade: { plain: trades(() => true), full: trades(e => e.full), plainDoubleSlippage: trades(() => true, true), fullDoubleSlippage: trades(e => e.full, true) },
-    notes: { failedRetests: live.filter(e => e.type === 'retest-fail').length, skippedRetests: live.filter(e => e.type === 'retest-skip').length, openOrPending: live.filter(e => e.type === 'entry' && !exits[e.id]).length } };
+    trade: { plain: trades(e => e.plain !== false), full: trades(e => e.full && e.plain !== false), paper: trades(e => e.paper === true), plainDoubleSlippage: trades(e => e.plain !== false, true), fullDoubleSlippage: trades(e => e.full && e.plain !== false, true), paperDoubleSlippage: trades(e => e.paper === true, true) },
+    notes: { failedRetests: live.filter(e => e.type === 'retest-fail').length, skippedRetests: live.filter(e => e.type === 'retest-skip').length, openOrPending: live.filter(e => e.type === 'entry' && e.plain !== false && !exits[e.id]).length } };
 }
 
 (async () => {
@@ -124,7 +126,7 @@ function score(ev, since) {
     try { r = SETUPS.replay(d); r2 = SETUPS.replay(d, { slip: SETUPS.DEF.slip * 2 }); } catch (e) { failed[s] = 'replay: ' + e.message; continue; }
     if (!r) { failed[s] = 'too few candles'; continue; }
     const coin = s.replace(/USDT$/, '');
-    if (r.status) { const b = r.lastBrk, t = b && b.trade; status[coin] = { status: r.status, wl: wl.has(s) || undefined, ceiling: b && ['await', 'entry', 'extended', 'failed', 'skipped', 'done'].includes(r.status) ? b.lv : r.last.ceil ? r.last.ceil.lv : null, price: r.last.price, entry: t && r.status === 'entry' ? t.entry : undefined, stop: t && r.status === 'entry' ? t.stop : undefined, target: t && r.status === 'entry' ? t.target : undefined }; }
+    if (r.status) { const b = r.lastBrk, t = b && b.trade; status[coin] = { status: r.status, wl: wl.has(s) || undefined, ceiling: b && ['await', 'armed', 'entry', 'extended', 'failed', 'skipped', 'done'].includes(r.status) ? b.lv : r.last.ceil ? r.last.ceil.lv : null, price: r.last.price, entry: t && r.status === 'entry' ? t.entry : undefined, stop: t && (r.status === 'entry' || r.status === 'armed') ? t.stop : undefined, target: t && r.status === 'entry' ? t.target : undefined }; }
     try { pg[s] = SETUPS.pings(d); } catch (e) { pg[s] = null; }
     const pe = wl.has(s) && pg[s] ? pingEvents(coin, pg[s]) : [];
     for (const e of events(coin, r, r2, trend, wl.has(s) || undefined).concat(pe)) {

@@ -94,7 +94,7 @@ const SETUPS = ((R) => {
         atr4, rsi4: I.RS[k4], rsiReclaim: I.RS[k4] >= 50 && Math.min(I.RS[k4 - 1], I.RS[k4 - 2]) < 50, hist: I.hist[k4], histUp: I.hist[k4] > I.hist[k4 - 1] && I.hist[k4 - 1] > I.hist[k4 - 2], vwap: VW[j], atr15: A15[j], t4: d4.t[k4] };
     }
     // 4) after each breakout: spike, retest, paper trade (one open trade at a time)
-    const cost = o.fee + o.slip; let busyUntil = -1;
+    const cost = o.fee + o.slip; let busyUntil = -1, busyPaper = -1;   // busyUntil: the plain retest strategy; busyPaper: the paper entry the dashboard shows (its own position, so a plain trade below VWAP never blocks it)
     // first resistance visible at entry: the nearest confirmed 4H swing high above, else the highest 4H high before the breakout
     const resistAbove = (px, K, skip, tB) => { const hs = I.ph.filter(p => p.conf < K && p.k !== skip && p.lv > px).sort((a, b) => a.lv - b.lv); if (hs.length) return { lv: hs[0].lv, src: '4H swing high' }; let mx = -Infinity, k = 0; for (; k < K && d4.t[k] + H4 <= tB; k++) mx = Math.max(mx, d4.h[k]); return mx > px ? { lv: mx, src: `${Math.round(k / 6)}-day high` } : null; };
     for (const b of brks) {
@@ -111,19 +111,22 @@ const SETUPS = ((R) => {
       if (b.state !== 'retest') continue;
       const q = b.rq, Tq = m.t[q] + M15; let Kq = 0; while (Kq < d4.t.length && d4.t[Kq] + H4 <= Tq) Kq++;
       let lowB = m.l[q]; if (o.baseStop) for (let k = Math.max(0, b.j - 16); k < b.j; k++) lowB = Math.min(lowB, m.l[k]);
-      const entry = q + 1 < n ? m.o[q + 1] : c[q], stop = lowB - o.stopBuf * A15[q], Eb = entry * (1 + cost), risk = Eb - stop * (1 - cost);
+      const known = q + 1 < n, entry = known ? m.o[q + 1] : c[q], stop = lowB - o.stopBuf * A15[q], Eb = entry * (1 + cost), risk = Eb - stop * (1 - cost);
       const rgB = m.h[b.j] - m.l[b.j], weakBar = o.cleanBreak && !(rgB > 0 && (c[b.j] - m.l[b.j]) / rgB >= 2 / 3 && (c[b.j] - m.o[b.j]) / rgB >= 0.5);
       let loud = false; if (o.quietRetest) { let s20 = 0; for (let k = q - 20; k < q; k++) s20 += m.v[k]; loud = !(m.v[q] < m.v[b.j] && m.v[q] < s20 / 20); }
       const res = resistAbove(entry, Kq, b.id, b.t - M15), rr = res ? (res.lv * (1 - cost) - Eb) / risk : Infinity;
       const tgt = (Eb + o.targetR * risk) / (1 - cost);
-      b.trade = { q, t: Tq, entry, pending: q + 1 >= n, stop, target: tgt, risk, costR: (entry + stop) * cost / risk, res, rr, vwap: VW[q], aboveVwap: c[q] > VW[q] };
+      b.trade = { q, t: Tq, entry, pending: !known, stop, target: tgt, risk, costR: (entry + stop) * cost / risk, res, rr, vwap: VW[q], aboveVwap: c[q] > VW[q] };
       const plainOk = risk > 0 && rr >= o.minR && !weakBar && !loud, fullOk = plainOk && b.full != null && b.vm >= o.brkVol && c[q] > VW[q];
-      b.trade.plain = plainOk; b.trade.fullOk = fullOk;
+      // the paper entry the dashboard shows follows the rule as written: a confirmed breakout (volume), a retest that closes back above the level and above session VWAP, 2R to the first resistance
+      const lowVol = !(b.vm >= o.brkVol), belowV = !(c[q] > VW[q]), paperOk = plainOk && !lowVol && !belowV;
       const sess = o.noEntry ? o.noEntry(Tq) : false;
+      const takePlain = plainOk && !sess && q >= busyUntil, takePaper = paperOk && !sess && q >= busyPaper;
+      b.trade.plain = takePlain; b.trade.fullOk = fullOk && takePlain; b.trade.paper = takePaper;
       b.trade.skip = !(risk > 0) ? 'no risk' : weakBar ? 'weak breakout bar' : loud ? 'loud retest' : rr < o.minR ? `R:R ${rr.toFixed(1)} to the ${res.src}` : q < busyUntil ? 'a trade was already open' : sess ? 'session filter' : null;
-      if (sess && plainOk) { b.trade.plain = b.trade.fullOk = false; continue; }
-      if (!plainOk || q < busyUntil) { if (q < busyUntil) b.trade.plain = b.trade.fullOk = false; continue; }
-      // simulate: entry at the next open; stop first when both are touched in one candle; time exit 24 hours after entry
+      b.trade.pskip = !(risk > 0) ? 'no risk' : weakBar ? 'weak breakout bar' : loud ? 'loud retest' : rr < o.minR ? `R:R ${rr.toFixed(1)} to the ${res.src}` : lowVol ? 'breakout volume under 1.5×' : belowV ? 'retest closed below VWAP' : q < busyPaper ? 'a paper trade was already open' : sess ? 'session filter' : null;
+      if (!takePlain && !takePaper) continue;
+      // simulate once: entry at the next open; stop first when both are touched in one candle; time exit 24 hours after entry (the same for every strategy that takes the trade)
       let out = null;
       for (let k = q + 1; k < n && k <= q + o.within; k++) {
         const hitS = m.l[k] <= stop, hitT = m.h[k] >= tgt;
@@ -131,13 +134,16 @@ const SETUPS = ((R) => {
         if (hitT) { const px = Math.max(tgt, m.o[k]); out = { why: 'target', k, px }; break; }
       }
       if (!out && q + 1 + o.within < n) out = { why: 'time', k: q + 1 + o.within, px: m.o[q + 1 + o.within] };
-      if (out) { out.t = m.t[out.k] + (out.why === 'time' ? 0 : M15); out.r = (out.px * (1 - cost) - Eb) / risk; b.trade.exit = out; busyUntil = out.k; }
-      else { b.trade.open = true; b.trade.now = (c[n - 1] * (1 - cost) - Eb) / risk; busyUntil = n; }
+      if (out) { out.t = m.t[out.k] + (out.why === 'time' ? 0 : M15); out.r = (out.px * (1 - cost) - Eb) / risk; }
+      const now = known ? (c[n - 1] * (1 - cost) - Eb) / risk : null;      // no running result until the entry price exists
+      if (takePlain) { if (out) { b.trade.exit = out; busyUntil = out.k; } else { b.trade.open = true; b.trade.now = (c[n - 1] * (1 - cost) - Eb) / risk; busyUntil = n; } }
+      if (takePaper) { if (out) { b.trade.pexit = out; busyPaper = out.k; } else { b.trade.popen = true; b.trade.pnow = now; busyPaper = n; } }
     }
     // 5) the coin's status at the last close
     let st = null; const lastB = brks.length ? brks[brks.length - 1] : null, recent = lastB && last && last.T - lastB.t <= o.within * M15;
-    if (lastB && lastB.trade && lastB.trade.open && lastB.trade.plain) st = 'entry';
-    else if (recent) st = lastB.state === 'await' ? (lastB.ran ? 'extended' : 'await') : lastB.state === 'retest' ? (lastB.trade && lastB.trade.exit ? 'done' : 'skipped') : lastB.state;
+    const PT = lastB && lastB.trade;
+    if (PT && PT.paper && PT.popen) st = PT.pending ? 'armed' : 'entry';      // armed: the retest closed and qualifies, the entry price is the next open, not known yet
+    else if (recent) st = lastB.state === 'await' ? (lastB.ran ? 'extended' : 'await') : lastB.state === 'retest' ? (PT && PT.paper && PT.pexit ? 'done' : 'skipped') : lastB.state;
     if (st === 'expired') st = null;
     if (!st && last && last.full) st = 'warn'; else if (!st && last && last.near) st = 'near';
     return { o, n, last, alerts, brks, status: st, lastBrk: lastB, d4n: d4.t.length };

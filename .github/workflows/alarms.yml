@@ -18,6 +18,9 @@ jobs:
         with:
           node-version: 20
       - name: Check the watchlist on Binance
+        env:
+          TG_TOKEN: ${{ secrets.TG_TOKEN }}
+          TG_CHAT: ${{ secrets.TG_CHAT }}
         run: node engine/alarms.js
       - name: Save new alarms
         if: always()

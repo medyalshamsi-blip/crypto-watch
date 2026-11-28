@@ -186,6 +186,30 @@ const NEWS = (() => {
       urgent: x.urgency === 1, related: (x.relatedSymbols || []).map(s => String(s.symbol || s).split(':').pop().replace(/USDT?$|USD$|\.P$/, '')).filter(Boolean)
     }));
   }
-  return { SOURCES, RULES, NAMES, P, BREAK_H, coins, classify, isMarket, react, sameStory, score, isBreaking, isShown, parseFeed, parseTV, dec };
+  // Items arrive from a JSON file on GitHub or from TradingView. Before anything is drawn or fetched with them, keep only the fields we use,
+  // with the type and shape we expect (a coin is 2-12 capitals or digits, numbers are finite numbers, text is capped). Anything else is dropped.
+  const TXT = (v, n) => typeof v === 'string' ? v.replace(/[\u0000-\u001f]/g, ' ').slice(0, n) : '', NUM = v => typeof v === 'number' && Number.isFinite(v) ? v : null;
+  const COIN = /^[A-Z0-9]{2,12}$/, STATUS = ['confirmed', 'faded', 'pending', 'muted'];
+  function cleanReact(r) {
+    if (!r || typeof r !== 'object' || typeof r.c !== 'string' || !COIN.test(r.c) || !STATUS.includes(r.status)) return null;
+    const m = NUM(r.m), x = NUM(r.x); if (m == null || x == null) return null;
+    return { c: r.c, base: NUM(r.base), m, peak: NUM(r.peak) != null ? r.peak : m, typ: NUM(r.typ), x, vr: NUM(r.vr), status: r.status, done: r.done === true, mins: Math.max(0, Math.min(10000, Math.round(NUM(r.mins) || 0))) };
+  }
+  function clean(it) {
+    if (!it || typeof it !== 'object') return null;
+    const at = NUM(it.at), title = TXT(it.title, 300).trim(); if (at == null || at <= 0 || at > 4e12 || !title) return null;
+    const cs = Array.isArray(it.coins) ? [...new Set(it.coins.filter(c => typeof c === 'string' && COIN.test(c)))].slice(0, 8) : [];
+    return { id: TXT(it.id, 120) || 'n' + at + title.length, src: TXT(it.src, 30), srcName: TXT(it.srcName, 60), title, link: TXT(it.link, 600), at, coins: cs,
+      market: it.market === true, type: TXT(it.type, 24) || 'other', label: TXT(it.label, 40) || 'Coin news', w: Number.isInteger(it.w) && it.w >= 0 && it.w <= 3 ? it.w : 0, dir: it.dir === 1 || it.dir === -1 ? it.dir : 0,
+      official: it.official === true, urgent: it.urgent === true,
+      also: (Array.isArray(it.also) ? it.also : []).filter(a => a && typeof a === 'object').map(a => ({ name: TXT(a.name, 60) })).slice(0, 8),
+      reacts: (Array.isArray(it.reacts) ? it.reacts : []).map(cleanReact).filter(Boolean).slice(0, 6) };
+  }
+  function cleanDoc(j) {                 // the whole news.json
+    if (!j || typeof j !== 'object') return null;
+    const src = {}; if (j.sources && typeof j.sources === 'object') for (const [k, v] of Object.entries(j.sources).slice(0, 40)) src[TXT(k, 40)] = { ok: !!(v && v.ok) };
+    return { updated: TXT(j.updated, 40), sources: src, items: (Array.isArray(j.items) ? j.items : []).slice(0, 400).map(clean).filter(Boolean) };
+  }
+  return { SOURCES, RULES, NAMES, P, BREAK_H, coins, classify, isMarket, react, sameStory, score, isBreaking, isShown, parseFeed, parseTV, dec, clean, cleanDoc };
 })();
 if (typeof module !== 'undefined') module.exports = NEWS;

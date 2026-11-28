@@ -22,6 +22,7 @@ if os.path.exists(spath):
     for e in sorted(sdoc.get('latest', []), key=lambda e: e['t']):
         if e.get('backfill') or not (start <= ms(e['seen']) < slot): continue
         c, ty = e['coin'], e['type']
+        if ty in ('entry', 'exit') and e.get('paper') is False: continue   # a plain retest below VWAP or on thin volume is not a paper entry
         if ty == 'entry': setup_lines.append(f"• {c} paper entry {fp(e['entry'])} after a retest (stop {fp(e['stop'])}, target {fp(e['target'])}, +2R after costs{'; full strategy' if e.get('full') else ''})")
         elif ty == 'exit': setup_lines.append(f"• {c} paper trade closed ({e['why']}): {e['r']:+.2f}R")
         elif ty == 'breakout' and e['vm'] >= 1.5 and (e.get('wl') or e.get('fullAt')): setup_lines.append(f"• {c} broke the 4H ceiling {fp(e['lv'])} on {e['vm']:.1f}× volume{' after a full early warning' if e.get('fullAt') else ''}; wait for the retest")
