@@ -1,6 +1,6 @@
 {
  "about": "Replay of the Test tab radars, chart patterns and candle rejections on 60 days of Binance 15m candles (1H, 4H built from them). Point in time. Outcome: +5% / -5% first within 6 h (4H: 24 h). Patterns: 80% target before stop within 48 bars (1H) / 30 bars (4H), against the zero-drift chance stop/(target+stop). Rejections: entry on the follow-through, target 2R within 24 bars, zero-drift chance 33%. Not financial advice.",
- "ran": "2026-11-28T15:22:19.233Z",
+ "ran": "2026-11-28T15:28:01.284Z",
  "coins": 82,
  "failed": 1,
  "days": 60,
@@ -218,40 +218,40 @@
   },
   "flow": {
    "bear 15m": {
-    "n": 5403,
-    "up5": 7.7,
-    "dn5": 8.8,
-    "upFirst": 7.3,
-    "dnFirst": 8.4,
-    "closeUp": 46.5,
-    "avgRetPct": -0.152
+    "n": 1804,
+    "up5": 10.8,
+    "dn5": 11.6,
+    "upFirst": 10,
+    "dnFirst": 10.8,
+    "closeUp": 45.1,
+    "avgRetPct": -0.239
    },
    "bear 1H": {
-    "n": 895,
-    "up5": 10.2,
-    "dn5": 13.9,
-    "upFirst": 9.3,
-    "dnFirst": 12.4,
-    "closeUp": 45,
-    "avgRetPct": -0.422
+    "n": 555,
+    "up5": 12.8,
+    "dn5": 17.5,
+    "upFirst": 11.5,
+    "dnFirst": 15.1,
+    "closeUp": 42.2,
+    "avgRetPct": -0.708
    },
    "bear Buying climax": {
-    "n": 1822,
-    "up5": 12.1,
-    "dn5": 13.6,
-    "upFirst": 11,
-    "dnFirst": 12.2,
-    "closeUp": 43.7,
-    "avgRetPct": -0.322
+    "n": 1912,
+    "up5": 11.9,
+    "dn5": 13.7,
+    "upFirst": 10.8,
+    "dnFirst": 12.3,
+    "closeUp": 43.9,
+    "avgRetPct": -0.338
    },
    "bear CVD divergence": {
-    "n": 58,
-    "up5": 10.3,
-    "dn5": 13.8,
-    "upFirst": 10.3,
-    "dnFirst": 12.1,
-    "closeUp": 36.2,
-    "avgRetPct": -0.689
+    "n": 59,
+    "up5": 10.2,
+    "dn5": 13.6,
+    "upFirst": 10.2,
+    "dnFirst": 11.9,
+    "closeUp": 37.3,
+    "avgRetPct": -0.676
    },
    "bear Hidden selling": {
     "n": 388,
@@ -262,122 +262,104 @@
     "closeUp": 47.9,
     "avgRetPct": -0.354
    },
-   "bear Seller surge": {
-    "n": 4030,
-    "up5": 6.2,
-    "dn5": 7.5,
-    "upFirst": 6,
-    "dnFirst": 7.4,
-    "closeUp": 47.5,
-    "avgRetPct": -0.107
-   },
    "bear all": {
-    "n": 6298,
-    "up5": 8.1,
-    "dn5": 9.5,
-    "upFirst": 7.6,
-    "dnFirst": 8.9,
-    "closeUp": 46.3,
-    "avgRetPct": -0.19
+    "n": 2359,
+    "up5": 11.2,
+    "dn5": 13,
+    "upFirst": 10.4,
+    "dnFirst": 11.8,
+    "closeUp": 44.4,
+    "avgRetPct": -0.349
    },
    "bear score 3-3.5": {
-    "n": 6174,
-    "up5": 8,
-    "dn5": 9.5,
-    "upFirst": 7.5,
-    "dnFirst": 8.9,
-    "closeUp": 46.3,
-    "avgRetPct": -0.186
+    "n": 2234,
+    "up5": 11.3,
+    "dn5": 13.2,
+    "upFirst": 10.4,
+    "dnFirst": 12,
+    "closeUp": 44.2,
+    "avgRetPct": -0.348
    },
    "bear score 4-4.5": {
-    "n": 41,
-    "up5": 9.8,
+    "n": 43,
+    "up5": 11.6,
     "dn5": 0,
-    "upFirst": 9.8,
+    "upFirst": 11.6,
     "dnFirst": 0,
-    "closeUp": 58.5,
-    "avgRetPct": 0.504
+    "closeUp": 60.5,
+    "avgRetPct": 0.568
    },
    "bear score 5+": {
-    "n": 83,
-    "up5": 10.8,
-    "dn5": 14.5,
-    "upFirst": 10.8,
-    "dnFirst": 13.3,
-    "closeUp": 41,
-    "avgRetPct": -0.818
+    "n": 82,
+    "up5": 9.8,
+    "dn5": 14.6,
+    "upFirst": 9.8,
+    "dnFirst": 13.4,
+    "closeUp": 40.2,
+    "avgRetPct": -0.872
    },
    "bull 15m": {
-    "n": 5152,
-    "up5": 7.6,
-    "dn5": 7.2,
-    "upFirst": 7.4,
-    "dnFirst": 6.6,
-    "closeUp": 45.8,
-    "avgRetPct": -0.141
+    "n": 2186,
+    "up5": 8.3,
+    "dn5": 8.3,
+    "upFirst": 8,
+    "dnFirst": 7.5,
+    "closeUp": 50.1,
+    "avgRetPct": -0.007
    },
    "bull 1H": {
-    "n": 860,
-    "up5": 7.1,
-    "dn5": 7.9,
-    "upFirst": 6.7,
-    "dnFirst": 7.7,
-    "closeUp": 48,
-    "avgRetPct": -0.115
-   },
-   "bull Buyer surge": {
-    "n": 3361,
-    "up5": 7.1,
-    "dn5": 6.2,
-    "upFirst": 7,
-    "dnFirst": 6,
-    "closeUp": 43.2,
-    "avgRetPct": -0.229
+    "n": 554,
+    "up5": 7.4,
+    "dn5": 9.7,
+    "upFirst": 6.9,
+    "dnFirst": 9.4,
+    "closeUp": 48.2,
+    "avgRetPct": -0.095
    },
    "bull CVD divergence": {
-    "n": 88,
-    "up5": 6.8,
-    "dn5": 10.2,
-    "upFirst": 6.8,
-    "dnFirst": 10.2,
-    "closeUp": 60.2,
-    "avgRetPct": -0.305
+    "n": 89,
+    "up5": 6.7,
+    "dn5": 10.1,
+    "upFirst": 6.7,
+    "dnFirst": 10.1,
+    "closeUp": 60.7,
+    "avgRetPct": -0.294
    },
    "bull Hidden buying": {
-    "n": 385,
+    "n": 387,
     "up5": 4.7,
-    "dn5": 7.3,
-    "upFirst": 4.2,
-    "dnFirst": 7,
-    "closeUp": 44.9,
-    "avgRetPct": -0.082
+    "dn5": 7.5,
+    "upFirst": 4.1,
+    "dnFirst": 7.2,
+    "closeUp": 44.7,
+    "avgRetPct": -0.097
    },
    "bull Selling climax": {
-    "n": 2178,
+    "n": 2264,
     "up5": 8.7,
-    "dn5": 8.8,
-    "upFirst": 8.3,
+    "dn5": 8.7,
+    "upFirst": 8.4,
     "dnFirst": 7.9,
-    "closeUp": 50.3,
-    "avgRetPct": 0.002
+    "closeUp": 50.2,
+    "avgRetPct": -0.002
    },
    "bull all": {
-    "n": 6012,
-    "up5": 7.5,
-    "dn5": 7.3,
-    "upFirst": 7.3,
-    "dnFirst": 6.8,
-    "closeUp": 46.2,
-    "avgRetPct": -0.137
+    "n": 2740,
+    "up5": 8.1,
+    "dn5": 8.6,
+    "upFirst": 7.7,
+    "dnFirst": 7.8,
+    "closeUp": 49.7,
+    "avgRetPct": -0.025
    },
    "bull score 3-3.5": {
-    "n": 5860,
-    "up5": 7.6,
-    "dn5": 7.2,
-    "upFirst": 7.3,
-    "dnFirst": 6.7,
-    "closeUp": 45.9,
-    "avgRetPct": -0.136
+    "n": 2586,
+    "up5": 8.3,
+    "dn5": 8.5,
+    "upFirst": 7.9,
+    "dnFirst": 7.7,
+    "closeUp": 49.3,
+    "avgRetPct": -0.014
    },
    "bull score 4-4.5": {
     "n": 56,
@@ -389,13 +371,13 @@
     "avgRetPct": -0.134
    },
    "bull score 5+": {
-    "n": 96,
-    "up5": 6.3,
-    "dn5": 9.4,
-    "upFirst": 6.3,
-    "dnFirst": 9.4,
-    "closeUp": 60.4,
-    "avgRetPct": -0.216
+    "n": 98,
+    "up5": 6.1,
+    "dn5": 10.2,
+    "upFirst": 6.1,
+    "dnFirst": 10.2,
+    "closeUp": 60.2,
+    "avgRetPct": -0.259
    }
   }
  },
@@ -629,7 +611,15 @@
   "confirmed": 9533,
   "finished": 8793,
   "winPct": 38.3,
-  "chancePct": 33.3
+  "chancePct": 33.3,
+  "bull": {
+   "n": 4192,
+   "winPct": 29.4
+  },
+  "bear": {
+   "n": 4601,
+   "winPct": 46.4
+  }
  },
  "reads": 120948
 }
