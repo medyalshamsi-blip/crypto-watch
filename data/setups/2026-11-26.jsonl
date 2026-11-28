@@ -124,3 +124,4 @@
 {"id":"SEI|breakout-result|1795717800000","coin":"SEI","type":"breakout-result","t":1795717800000,"of":"SEI|breakout|1795717800000","spike":false,"spikeAt":null,"retest":"retest","seen":1795819507942}
 {"id":"SAGA|breakout-result|1795717800000","coin":"SAGA","type":"breakout-result","t":1795717800000,"of":"SAGA|breakout|1795717800000","spike":false,"spikeAt":null,"retest":"retest","seen":1795819507942}
 {"id":"GALA|warn-simple|1795729500000","coin":"GALA","type":"warn-simple","t":1795729500000,"lv":0.001401,"dist":0.918,"seen":1795819507942}
+{"id":"RESOLV|warn-simple|1795654800000","coin":"RESOLV","type":"warn-simple","t":1795654800000,"lv":0.01448,"dist":0.962,"seen":1795875525853}
