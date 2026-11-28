@@ -1,9 +1,9 @@
 {
  "about": "Written by engine/setups-log.js on GitHub Actions every hour: breakout-and-retest setups replayed on closed Binance 15m candles. Read by the dashboard and the Claude alarm relay. Paper trades only. Not financial advice.",
- "updated": "2026-11-27T22:45:07.942Z",
+ "updated": "2026-11-28T04:46:40.637Z",
  "liveSince": "2026-11-27T00:39:22.377Z",
  "source": "data-api.binance.vision",
- "coins": 146,
+ "coins": 143,
  "failed": {},
  "rules": {
   "swing": 2,
@@ -38,105 +38,89 @@
    "status": "failed",
    "wl": true,
    "ceiling": 0.0715,
-   "price": 0.0707
+   "price": 0.069
   },
   "CFX": {
    "status": "failed",
    "wl": true,
    "ceiling": 0.0349,
-   "price": 0.03441
+   "price": 0.03425
   },
   "PORTAL": {
    "status": "extended",
    "ceiling": 0.01285,
-   "price": 0.03988
-  },
-  "HAEDAL": {
-   "status": "skipped",
-   "ceiling": 0.02205,
-   "price": 0.02358
+   "price": 0.01733
   },
   "LINK": {
    "status": "done",
    "ceiling": 9.558,
-   "price": 9.31
+   "price": 9.222
+  },
+  "THE": {
+   "status": "done",
+   "ceiling": 0.0332,
+   "price": 0.0274
   },
   "SKY": {
    "status": "done",
    "ceiling": 0.05026,
-   "price": 0.05244
+   "price": 0.05123
   },
-  "BCH": {
-   "status": "done",
-   "ceiling": 213.8,
-   "price": 206.6
+  "ACE": {
+   "status": "skipped",
+   "ceiling": 0.0972,
+   "price": 0.0751
   },
   "SSV": {
    "status": "failed",
    "ceiling": 2.971,
-   "price": 2.67
-  },
-  "THE": {
-   "status": "entry",
-   "ceiling": 0.0332,
-   "price": 0.0334,
-   "entry": 0.0445,
-   "stop": 0.030123033287354387,
-   "target": 0.07365503507776995
+   "price": 2.66
   },
   "COOKIE": {
    "status": "done",
    "ceiling": 0.00888,
-   "price": 0.00783
-  },
-  "W": {
-   "status": "done",
-   "ceiling": 0.00919,
-   "price": 0.00906
+   "price": 0.00771
   },
   "OPG": {
    "status": "near",
-   "ceiling": 0.1844,
-   "price": 0.1776
+   "ceiling": 0.1852,
+   "price": 0.1781
   },
   "QI": {
    "status": "skipped",
    "ceiling": 0.001693,
-   "price": 0.00154
-  },
-  "RUNE": {
-   "status": "entry",
-   "ceiling": 0.565,
-   "price": 0.569,
-   "entry": 0.57,
-   "stop": 0.5638673582325484,
-   "target": 0.5874029900947428
+   "price": 0.001517
   },
   "WIF": {
-   "status": "await",
+   "status": "done",
    "ceiling": 0.1424,
-   "price": 0.1426
+   "price": 0.1398
   },
   "AVA": {
    "status": "skipped",
    "ceiling": 0.2213,
-   "price": 0.2311
+   "price": 0.2244
   },
   "GALA": {
-   "status": "await",
+   "status": "extended",
    "ceiling": 0.001407,
-   "price": 0.001427
+   "price": 0.001425
+  },
+  "ACT": {
+   "status": "failed",
+   "ceiling": 0.00923,
+   "price": 0.00958
   }
  },
  "live": {
   "since": "2026-11-27T00:39:22.377Z",
-  "spikes": 12,
-  "breakouts": 18,
+  "spikes": 16,
+  "breakouts": 20,
   "scanner": {
    "simple": {
-    "alerts": 16,
-    "ledToSpike": 0.25,
-    "spikesWarned": 0.333,
+    "alerts": 19,
+    "ledToSpike": 0.263,
+    "spikesWarned": 0.375,
     "medianLeadH": 0.75
    },
    "full": {
@@ -148,22 +132,22 @@
   },
   "trade": {
    "plain": {
-    "n": 5,
+    "n": 8,
     "target": 2,
-    "stop": 3,
+    "stop": 6,
     "time": 0,
-    "avgR": 0.2,
-    "totalR": 1,
-    "maxDrawdownR": 3,
-    "totalWithoutBestR": -1,
+    "avgR": -0.25,
+    "totalR": -2,
+    "maxDrawdownR": 5,
+    "totalWithoutBestR": -4,
     "byBtcTrend": {
      "down": {
-      "n": 3,
-      "r": 3
+      "n": 5,
+      "r": 1
      },
      "up": {
-      "n": 2,
-      "r": -2
+      "n": 3,
+      "r": -3
      }
     },
     "byCoin": {
@@ -179,13 +163,25 @@
       "n": 1,
       "r": -1
      },
+     "RUNE": {
+      "n": 1,
+      "r": -1
+     },
      "COOKIE": {
+      "n": 1,
+      "r": -1
+     },
+     "THE": {
       "n": 1,
       "r": -1
      },
      "SKY": {
       "n": 1,
       "r": 2
+     },
+     "WIF": {
+      "n": 1,
+      "r": -1
      }
     }
    },
@@ -202,22 +198,22 @@
     "byCoin": {}
    },
    "plainDoubleSlippage": {
-    "n": 5,
+    "n": 8,
     "target": 2,
-    "stop": 3,
+    "stop": 6,
     "time": 0,
-    "avgR": 0.2,
-    "totalR": 1,
-    "maxDrawdownR": 3,
-    "totalWithoutBestR": -1,
+    "avgR": -0.25,
+    "totalR": -2,
+    "maxDrawdownR": 5,
+    "totalWithoutBestR": -4,
     "byBtcTrend": {
      "down": {
-      "n": 3,
-      "r": 3
+      "n": 5,
+      "r": 1
      },
      "up": {
-      "n": 2,
-      "r": -2
+      "n": 3,
+      "r": -3
      }
     },
     "byCoin": {
@@ -233,13 +229,25 @@
       "n": 1,
       "r": -1
      },
+     "RUNE": {
+      "n": 1,
+      "r": -1
+     },
      "COOKIE": {
+      "n": 1,
+      "r": -1
+     },
+     "THE": {
       "n": 1,
       "r": -1
      },
      "SKY": {
       "n": 1,
       "r": 2
+     },
+     "WIF": {
+      "n": 1,
+      "r": -1
      }
     }
    },
@@ -257,51 +265,51 @@
    }
   },
   "notes": {
-   "failedRetests": 5,
-   "skippedRetests": 3,
-   "openOrPending": 2
+   "failedRetests": 6,
+   "skippedRetests": 4,
+   "openOrPending": 0
   }
  },
  "withBackfill": {
   "since": "1970-01-01T00:00:00.000Z",
-  "spikes": 61,
-  "breakouts": 92,
+  "spikes": 65,
+  "breakouts": 94,
   "scanner": {
    "simple": {
-    "alerts": 150,
-    "ledToSpike": 0.24,
-    "spikesWarned": 0.59,
-    "medianLeadH": 2
+    "alerts": 155,
+    "ledToSpike": 0.245,
+    "spikesWarned": 0.585,
+    "medianLeadH": 2.25
    },
    "full": {
     "alerts": 1,
     "ledToSpike": 1,
-    "spikesWarned": 0.016,
+    "spikesWarned": 0.015,
     "medianLeadH": 0.5
    }
   },
   "trade": {
    "plain": {
-    "n": 26,
+    "n": 29,
     "target": 7,
-    "stop": 19,
+    "stop": 22,
     "time": 0,
-    "avgR": -0.192,
-    "totalR": -5,
+    "avgR": -0.276,
+    "totalR": -8,
     "maxDrawdownR": 10,
-    "totalWithoutBestR": -7,
+    "totalWithoutBestR": -10,
     "byBtcTrend": {
      "unknown": {
       "n": 6,
       "r": 0
      },
      "down": {
-      "n": 18,
-      "r": -3
+      "n": 20,
+      "r": -5
      },
      "up": {
-      "n": 2,
-      "r": -2
+      "n": 3,
+      "r": -3
      }
     },
     "byCoin": {
@@ -381,13 +389,25 @@
       "n": 1,
       "r": -1
      },
+     "RUNE": {
+      "n": 1,
+      "r": -1
+     },
      "COOKIE": {
+      "n": 1,
+      "r": -1
+     },
+     "THE": {
       "n": 1,
       "r": -1
      },
      "SKY": {
       "n": 1,
       "r": 2
+     },
+     "WIF": {
+      "n": 1,
+      "r": -1
      }
     }
    },
@@ -404,26 +424,26 @@
     "byCoin": {}
    },
    "plainDoubleSlippage": {
-    "n": 26,
+    "n": 29,
     "target": 7,
-    "stop": 19,
+    "stop": 22,
     "time": 0,
-    "avgR": -0.192,
-    "totalR": -5,
+    "avgR": -0.276,
+    "totalR": -8,
     "maxDrawdownR": 10,
-    "totalWithoutBestR": -7,
+    "totalWithoutBestR": -10,
     "byBtcTrend": {
      "unknown": {
       "n": 6,
       "r": 0
      },
      "down": {
-      "n": 18,
-      "r": -3
+      "n": 20,
+      "r": -5
      },
      "up": {
-      "n": 2,
-      "r": -2
+      "n": 3,
+      "r": -3
      }
     },
     "byCoin": {
@@ -503,13 +523,25 @@
       "n": 1,
       "r": -1
      },
+     "RUNE": {
+      "n": 1,
+      "r": -1
+     },
      "COOKIE": {
+      "n": 1,
+      "r": -1
+     },
+     "THE": {
       "n": 1,
       "r": -1
      },
      "SKY": {
       "n": 1,
       "r": 2
+     },
+     "WIF": {
+      "n": 1,
+      "r": -1
      }
     }
    },
@@ -527,371 +559,209 @@
    }
   },
   "notes": {
-   "failedRetests": 50,
-   "skippedRetests": 8,
-   "openOrPending": 2
+   "failedRetests": 51,
+   "skippedRetests": 9,
+   "openOrPending": 0
   }
  },
  "latest": [
   {
-   "id": "WIF|breakout|1795819500000",
-   "coin": "WIF",
-   "type": "breakout",
-   "t": 1795819500000,
-   "lv": 0.1424,
-   "close": 0.1426,
-   "vm": 1.09,
-   "tb": 0.709,
-   "atr4": 0.004355674033463822,
-   "simpleAt": 1795770900000,
-   "fullAt": null,
-   "seen": 1795819507942
-  },
-  {
-   "id": "SKY|exit|1795818600000",
-   "coin": "SKY",
-   "type": "exit",
-   "t": 1795818600000,
-   "of": "SKY|entry|1795813200000",
-   "why": "target",
-   "px": 0.05407591430358167,
-   "r": 2,
-   "r2": 2,
-   "seen": 1795819507942
-  },
-  {
-   "id": "GALA|breakout|1795814100000",
-   "coin": "GALA",
-   "type": "breakout",
-   "t": 1795814100000,
-   "lv": 0.001407,
-   "close": 0.001411,
-   "vm": 0.56,
-   "tb": 0.846,
-   "atr4": 0.00003627281265353537,
-   "simpleAt": 1795795200000,
-   "fullAt": null,
-   "seen": 1795819507942
-  },
-  {
-   "id": "SKY|entry|1795813200000",
-   "coin": "SKY",
-   "type": "entry",
-   "t": 1795813200000,
-   "of": "SKY|breakout|1795811400000",
-   "entry": 0.05114,
-   "stop": 0.04990251856177951,
-   "target": 0.05407591430358167,
-   "rr": 2.18,
-   "costR": 0.109,
-   "full": false,
-   "btc": "down",
-   "seen": 1795819507942
-  },
-  {
-   "id": "SKY|breakout|1795811400000",
-   "coin": "SKY",
-   "type": "breakout",
-   "t": 1795811400000,
-   "lv": 0.05026,
-   "close": 0.05045,
-   "vm": 4.77,
-   "tb": 0.458,
-   "atr4": 0.002198399084892949,
-   "simpleAt": 1795809600000,
-   "fullAt": null,
-   "seen": 1795819507942
-  },
-  {
-   "id": "SKY|breakout-result|1795811400000",
-   "coin": "SKY",
-   "type": "breakout-result",
-   "t": 1795811400000,
-   "of": "SKY|breakout|1795811400000",
-   "spike": true,
-   "spikeAt": 1795814100000,
-   "retest": "retest",
-   "seen": 1795819507942
-  },
-  {
-   "id": "SKY|warn-simple|1795809600000",
-   "coin": "SKY",
+   "id": "牛来|warn-simple|1795831200000",
+   "coin": "牛来",
    "type": "warn-simple",
-   "t": 1795809600000,
-   "lv": 0.05026,
-   "dist": 0.523,
-   "seen": 1795819507942
+   "t": 1795831200000,
+   "lv": 0.0517,
+   "dist": 0.882,
+   "seen": 1795841200637
   },
   {
-   "id": "HAEDAL|retest-skip|1795807800000",
-   "coin": "HAEDAL",
-   "type": "retest-skip",
-   "t": 1795807800000,
-   "of": "HAEDAL|breakout|1795749300000",
-   "why": "R:R 0.1 to the 4H swing high",
-   "seen": 1795819507942
-  },
-  {
-   "id": "THE|entry|1795807800000",
-   "coin": "THE",
-   "type": "entry",
-   "t": 1795807800000,
-   "of": "THE|breakout|1795806900000",
-   "entry": 0.0445,
-   "stop": 0.030123033287354387,
-   "target": 0.07365503507776995,
-   "rr": null,
-   "costR": 0.008,
-   "full": false,
-   "btc": "down",
-   "seen": 1795819507942
-  },
-  {
-   "id": "THE|breakout|1795806900000",
-   "coin": "THE",
-   "type": "breakout",
-   "t": 1795806900000,
-   "lv": 0.0332,
-   "close": 0.0361,
-   "vm": 141.07,
-   "tb": 0.492,
-   "atr4": 0.000787703987177203,
-   "simpleAt": null,
-   "fullAt": null,
-   "seen": 1795819507942
-  },
-  {
-   "id": "THE|breakout-result|1795806900000",
-   "coin": "THE",
-   "type": "breakout-result",
-   "t": 1795806900000,
-   "of": "THE|breakout|1795806900000",
-   "spike": true,
-   "spikeAt": 1795807800000,
-   "retest": "retest",
-   "seen": 1795819507942
-  },
-  {
-   "id": "FET|warn-simple|1795802400000",
-   "coin": "FET",
+   "id": "CFX|warn-simple|1795824000000",
+   "coin": "CFX",
    "wl": true,
    "type": "warn-simple",
-   "t": 1795802400000,
-   "lv": 0.1313,
-   "dist": 0.914,
-   "seen": 1795819507942
+   "t": 1795824000000,
+   "lv": 0.03507,
+   "dist": 0.462,
+   "seen": 1795841200637
   },
   {
-   "id": "COOKIE|exit|1795801500000",
-   "coin": "COOKIE",
+   "id": "OPG|warn-simple|1795824000000",
+   "coin": "OPG",
+   "type": "warn-simple",
+   "t": 1795824000000,
+   "lv": 0.1852,
+   "dist": 0.883,
+   "seen": 1795841200637
+  },
+  {
+   "id": "ACE|retest-skip|1795823100000",
+   "coin": "ACE",
+   "type": "retest-skip",
+   "t": 1795823100000,
+   "of": "ACE|breakout|1795821300000",
+   "why": "R:R 1.8 to the 4H swing high",
+   "seen": 1795841200637
+  },
+  {
+   "id": "RUNE|exit|1795822200000",
+   "coin": "RUNE",
    "type": "exit",
-   "t": 1795801500000,
-   "of": "COOKIE|entry|1795798800000",
+   "t": 1795822200000,
+   "of": "RUNE|entry|1795792500000",
    "why": "stop",
-   "px": 0.008491291295876379,
+   "px": 0.5638673582325484,
+   "r": -1,
+   "r2": null,
+   "seen": 1795841200637
+  },
+  {
+   "id": "WIF|exit|1795822200000",
+   "coin": "WIF",
+   "type": "exit",
+   "t": 1795822200000,
+   "of": "WIF|entry|1795820400000",
+   "why": "stop",
+   "px": 0.14205528840837042,
    "r": -1,
    "r2": -1,
-   "seen": 1795819507942
+   "seen": 1795841200637
   },
   {
-   "id": "COOKIE|entry|1795798800000",
-   "coin": "COOKIE",
-   "type": "entry",
-   "t": 1795798800000,
-   "of": "COOKIE|breakout|1795797900000",
-   "entry": 0.00959,
-   "stop": 0.008491291295876379,
-   "target": 0.011873857067736474,
-   "rr": null,
-   "costR": 0.024,
-   "full": false,
-   "btc": "down",
-   "seen": 1795819507942
+   "id": "THE|exit|1795821300000",
+   "coin": "THE",
+   "type": "exit",
+   "t": 1795821300000,
+   "of": "THE|entry|1795807800000",
+   "why": "stop",
+   "px": 0.030123033287354387,
+   "r": -1,
+   "r2": -1,
+   "seen": 1795841200637
   },
   {
-   "id": "COOKIE|breakout|1795797900000",
-   "coin": "COOKIE",
+   "id": "ACE|breakout|1795821300000",
+   "coin": "ACE",
    "type": "breakout",
-   "t": 1795797900000,
-   "lv": 0.00888,
-   "close": 0.00889,
-   "vm": 167.13,
-   "tb": 0.566,
-   "atr4": 0.00026995799655071026,
+   "t": 1795821300000,
+   "lv": 0.0972,
+   "close": 0.1068,
+   "vm": 30.17,
+   "tb": 0.54,
+   "atr4": 0.004040006115696165,
    "simpleAt": null,
    "fullAt": null,
-   "seen": 1795819507942
+   "seen": 1795841200637
   },
   {
-   "id": "COOKIE|breakout-result|1795797900000",
-   "coin": "COOKIE",
+   "id": "ACE|breakout-result|1795821300000",
+   "coin": "ACE",
    "type": "breakout-result",
-   "t": 1795797900000,
-   "of": "COOKIE|breakout|1795797900000",
+   "t": 1795821300000,
+   "of": "ACE|breakout|1795821300000",
    "spike": true,
-   "spikeAt": 1795798800000,
+   "spikeAt": 1795822200000,
    "retest": "retest",
-   "seen": 1795819507942
+   "seen": 1795841200637
   },
   {
-   "id": "NOM|warn-simple|1795797900000",
-   "coin": "NOM",
-   "type": "warn-simple",
-   "t": 1795797900000,
-   "lv": 0.001323,
-   "dist": 0.817,
-   "seen": 1795819507942
-  },
-  {
-   "id": "QI|retest-skip|1795796100000",
-   "coin": "QI",
-   "type": "retest-skip",
-   "t": 1795796100000,
-   "of": "QI|breakout|1795779900000",
-   "why": "R:R 0.3 to the 4H swing high",
-   "seen": 1795819507942
-  },
-  {
-   "id": "GALA|warn-simple|1795795200000",
-   "coin": "GALA",
-   "type": "warn-simple",
-   "t": 1795795200000,
-   "lv": 0.001407,
-   "dist": 0.851,
-   "seen": 1795819507942
-  },
-  {
-   "id": "RUNE|entry|1795792500000",
-   "coin": "RUNE",
+   "id": "WIF|entry|1795820400000",
+   "coin": "WIF",
    "type": "entry",
-   "t": 1795792500000,
-   "of": "RUNE|breakout|1795748400000",
-   "entry": 0.57,
-   "stop": 0.5638673582325484,
-   "target": 0.5874029900947428,
-   "rr": 2.2,
-   "costR": 0.217,
+   "t": 1795820400000,
+   "of": "WIF|breakout|1795819500000",
+   "entry": 0.1432,
+   "stop": 0.14205528840837042,
+   "target": 0.1467801592874154,
+   "rr": 6.01,
+   "costR": 0.272,
    "full": false,
-   "btc": "up",
-   "seen": 1795819507942
+   "btc": "down",
+   "seen": 1795841200637
   },
   {
-   "id": "MAGIC|breakout-result|1795788900000",
-   "coin": "MAGIC",
-   "wl": true,
+   "id": "GALA|breakout-result|1795814100000",
+   "coin": "GALA",
    "type": "breakout-result",
-   "t": 1795788900000,
-   "of": "MAGIC|breakout|1795788900000",
+   "t": 1795814100000,
+   "of": "GALA|breakout|1795814100000",
    "spike": true,
-   "spikeAt": 1795798800000,
-   "retest": "failed",
-   "seen": 1795819507942
+   "spikeAt": 1795822200000,
+   "retest": "await",
+   "seen": 1795841200637
   },
   {
-   "id": "GALA|retest-fail|1795788900000",
+   "id": "GALA|breakout-result|1795788000000",
    "coin": "GALA",
-   "type": "retest-fail",
-   "t": 1795788900000,
-   "of": "GALA|breakout|1795788000000",
-   "lv": 0.001401,
-   "seen": 1795819507942
-  },
-  {
-   "id": "GALA|breakout|1795788000000",
-   "coin": "GALA",
-   "type": "breakout",
+   "type": "breakout-result",
    "t": 1795788000000,
-   "lv": 0.001401,
-   "close": 0.001403,
-   "vm": 2.28,
-   "tb": 0.484,
-   "atr4": 0.000034635924734277714,
-   "simpleAt": 1795729500000,
-   "fullAt": null,
-   "seen": 1795819507942
-  },
-  {
-   "id": "AVA|retest-skip|1795781700000",
-   "coin": "AVA",
-   "type": "retest-skip",
-   "t": 1795781700000,
-   "of": "AVA|breakout|1795780800000",
-   "why": "R:R 1.5 to the 4H swing high",
-   "seen": 1795819507942
-  },
-  {
-   "id": "AVA|breakout|1795780800000",
-   "coin": "AVA",
-   "type": "breakout",
-   "t": 1795780800000,
-   "lv": 0.2213,
-   "close": 0.2215,
-   "vm": 2.7,
-   "tb": 0.732,
-   "atr4": 0.005813132065475937,
-   "simpleAt": 1795766400000,
-   "fullAt": null,
-   "seen": 1795819507942
-  },
-  {
-   "id": "AVA|breakout-result|1795780800000",
-   "coin": "AVA",
-   "type": "breakout-result",
-   "t": 1795780800000,
-   "of": "AVA|breakout|1795780800000",
+   "of": "GALA|breakout|1795788000000",
    "spike": true,
-   "spikeAt": 1795806000000,
-   "retest": "retest",
-   "seen": 1795819507942
+   "spikeAt": 1795820400000,
+   "retest": "failed",
+   "seen": 1795841200637
   },
   {
-   "id": "AVA|warn-simple|1795766400000",
-   "coin": "AVA",
-   "type": "warn-simple",
-   "t": 1795766400000,
-   "lv": 0.2213,
-   "dist": 0.86,
-   "seen": 1795819507942
+   "id": "ACT|retest-fail|1795778100000",
+   "coin": "ACT",
+   "type": "retest-fail",
+   "t": 1795778100000,
+   "of": "ACT|breakout|1795777200000",
+   "lv": 0.00923,
+   "seen": 1795841200637
   },
   {
-   "id": "GALA|warn-simple|1795729500000",
-   "coin": "GALA",
-   "type": "warn-simple",
-   "t": 1795729500000,
-   "lv": 0.001401,
-   "dist": 0.918,
-   "seen": 1795819507942
+   "id": "ACT|breakout|1795777200000",
+   "coin": "ACT",
+   "type": "breakout",
+   "t": 1795777200000,
+   "lv": 0.00923,
+   "close": 0.00924,
+   "vm": 0.91,
+   "tb": 0.787,
+   "atr4": 0.00021382785645244934,
+   "simpleAt": null,
+   "fullAt": null,
+   "seen": 1795841200637
   },
   {
-   "id": "SEI|breakout-result|1795717800000",
-   "coin": "SEI",
+   "id": "ACT|breakout-result|1795777200000",
+   "coin": "ACT",
    "type": "breakout-result",
-   "t": 1795717800000,
-   "of": "SEI|breakout|1795717800000",
+   "t": 1795777200000,
+   "of": "ACT|breakout|1795777200000",
+   "spike": true,
+   "spikeAt": 1795799700000,
+   "retest": "failed",
+   "seen": 1795841200637
+  },
+  {
+   "id": "LINK|breakout-result|1795754700000",
+   "coin": "LINK",
+   "type": "breakout-result",
+   "t": 1795754700000,
+   "of": "LINK|breakout|1795754700000",
    "spike": false,
    "spikeAt": null,
    "retest": "retest",
-   "seen": 1795819507942
+   "seen": 1795841200637
   },
   {
-   "id": "SAGA|breakout-result|1795717800000",
-   "coin": "SAGA",
-   "type": "breakout-result",
-   "t": 1795717800000,
-   "of": "SAGA|breakout|1795717800000",
-   "spike": false,
-   "spikeAt": null,
-   "retest": "retest",
-   "seen": 1795819507942
-  },
-  {
-   "id": "FF|warn-simple|1795654800000",
-   "coin": "FF",
+   "id": "ACT|warn-simple|1795636800000",
+   "coin": "ACT",
    "type": "warn-simple",
-   "t": 1795654800000,
-   "lv": 0.10674,
-   "dist": 0.973,
-   "seen": 1795819507942
+   "t": 1795636800000,
+   "lv": 0.00923,
+   "dist": 0.772,
+   "seen": 1795841200637
+  },
+  {
+   "id": "ACT|warn-simple|1795634100000",
+   "coin": "ACT",
+   "type": "warn-simple",
+   "t": 1795634100000,
+   "lv": 0.00925,
+   "dist": 0.862,
+   "seen": 1795841200637
   }
  ],
  "pings": {
@@ -909,12 +779,12 @@
    "win": 8
   },
   "since": "2026-11-27T15:05:23.230Z",
-  "coins": 145,
+  "coins": 142,
   "watchlistCoins": 42,
   "live": {
    "watchlist": {
-    "pings": 12,
-    "open": 1,
+    "pings": 18,
+    "open": 0,
     "followed": 0,
     "hitRate": 0,
     "spikes": 0,
@@ -925,9 +795,9 @@
   },
   "last20Days": {
    "watchlist": {
-    "pings": 1084,
+    "pings": 1087,
     "followed": 51,
-    "hitRate": 0.047,
+    "hitRate": 0.0469,
     "chance": 0.008,
     "spikes": 83,
     "caught": 47,
@@ -935,17 +805,92 @@
     "leadMin": 30
    },
    "all": {
-    "pings": 4107,
-    "followed": 236,
-    "hitRate": 0.0575,
-    "chance": 0.01,
-    "spikes": 358,
-    "caught": 218,
-    "caughtShare": 0.6089,
+    "pings": 4056,
+    "followed": 237,
+    "hitRate": 0.0584,
+    "chance": 0.0101,
+    "spikes": 355,
+    "caught": 219,
+    "caughtShare": 0.6169,
     "leadMin": 30
    }
   },
   "recent": [
+   {
+    "id": "TRUMP|ping|1795830300000",
+    "coin": "TRUMP",
+    "wl": true,
+    "type": "ping",
+    "t": 1795830300000,
+    "price": 0.884,
+    "r": 0.0103,
+    "vm": 2.11,
+    "buy": 0.783,
+    "aboveVwap": true,
+    "above16": true,
+    "confirmed": true,
+    "seen": 1795841200637
+   },
+   {
+    "id": "ILV|ping|1795830300000",
+    "coin": "ILV",
+    "wl": true,
+    "type": "ping",
+    "t": 1795830300000,
+    "price": 2.35,
+    "r": 0.0086,
+    "vm": 3.07,
+    "buy": 0.946,
+    "aboveVwap": true,
+    "above16": false,
+    "confirmed": false,
+    "seen": 1795841200637
+   },
+   {
+    "id": "ZEC|ping|1795830300000",
+    "coin": "ZEC",
+    "wl": true,
+    "type": "ping",
+    "t": 1795830300000,
+    "price": 756.46,
+    "r": 0.0084,
+    "vm": 2.34,
+    "buy": 0.672,
+    "aboveVwap": true,
+    "above16": true,
+    "confirmed": true,
+    "seen": 1795841200637
+   },
+   {
+    "id": "SAHARA|ping|1795828500000",
+    "coin": "SAHARA",
+    "wl": true,
+    "type": "ping",
+    "t": 1795828500000,
+    "price": 0.00515,
+    "r": 0.0138,
+    "vm": 6.89,
+    "buy": 0.786,
+    "aboveVwap": true,
+    "above16": true,
+    "confirmed": true,
+    "seen": 1795841200637
+   },
+   {
+    "id": "FTT|ping|1795824000000",
+    "coin": "FTT",
+    "wl": true,
+    "type": "ping",
+    "t": 1795824000000,
+    "price": 0.1928,
+    "r": 0.0137,
+    "vm": 4.02,
+    "buy": 0.89,
+    "aboveVwap": true,
+    "above16": true,
+    "confirmed": true,
+    "seen": 1795841200637
+   },
    {
     "id": "TAO|ping|1795813200000",
     "coin": "TAO",
@@ -1266,614 +1211,6 @@
     "aboveVwap": true,
     "above16": true,
     "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "PEPE|ping|1795749300000",
-    "coin": "PEPE",
-    "wl": true,
-    "type": "ping",
-    "t": 1795749300000,
-    "price": 0.0000036,
-    "r": 0.0084,
-    "vm": 3.34,
-    "buy": 0.615,
-    "aboveVwap": true,
-    "above16": false,
-    "confirmed": false,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "ZEC|ping|1795749300000",
-    "coin": "ZEC",
-    "wl": true,
-    "type": "ping",
-    "t": 1795749300000,
-    "price": 752,
-    "r": 0.0167,
-    "vm": 2.13,
-    "buy": 0.51,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": false,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "PUMP|ping|1795749300000",
-    "coin": "PUMP",
-    "wl": true,
-    "type": "ping",
-    "t": 1795749300000,
-    "price": 0.002697,
-    "r": 0.0151,
-    "vm": 2.17,
-    "buy": 0.606,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "VIRTUAL|ping|1795749300000",
-    "coin": "VIRTUAL",
-    "wl": true,
-    "type": "ping",
-    "t": 1795749300000,
-    "price": 0.376,
-    "r": 0.0094,
-    "vm": 2.08,
-    "buy": 0.517,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": false,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "ETHFI|ping|1795747500000",
-    "coin": "ETHFI",
-    "wl": true,
-    "type": "ping",
-    "t": 1795747500000,
-    "price": 0.4591,
-    "r": 0.0077,
-    "vm": 2.29,
-    "buy": 0.465,
-    "aboveVwap": true,
-    "above16": false,
-    "confirmed": false,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "FTT|ping|1795746600000",
-    "coin": "FTT",
-    "wl": true,
-    "type": "ping",
-    "t": 1795746600000,
-    "price": 0.1883,
-    "r": 0.0113,
-    "vm": 2.32,
-    "buy": 0.786,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "BONK|ping|1795746600000",
-    "coin": "BONK",
-    "wl": true,
-    "type": "ping",
-    "t": 1795746600000,
-    "price": 0.00000221,
-    "r": 0.0091,
-    "vm": 3.2,
-    "buy": 0.866,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "CGPT|ping|1795746600000",
-    "coin": "CGPT",
-    "wl": true,
-    "type": "ping",
-    "t": 1795746600000,
-    "price": 0.01302,
-    "r": 0.0085,
-    "vm": 3.11,
-    "buy": 0.537,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": false,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "ETH|ping|1795745700000",
-    "coin": "ETH",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 1715.85,
-    "r": 0.0081,
-    "vm": 4.16,
-    "buy": 0.55,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "FLOKI|ping|1795745700000",
-    "coin": "FLOKI",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 0.00001679,
-    "r": 0.0078,
-    "vm": 5.94,
-    "buy": 0.811,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "JASMY|ping|1795745700000",
-    "coin": "JASMY",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 0.00318,
-    "r": 0.0095,
-    "vm": 2.87,
-    "buy": 0.716,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "PEPE|ping|1795745700000",
-    "coin": "PEPE",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 0.00000356,
-    "r": 0.0114,
-    "vm": 5.68,
-    "buy": 0.697,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "ENA|ping|1795745700000",
-    "coin": "ENA",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 0.1029,
-    "r": 0.0098,
-    "vm": 4.11,
-    "buy": 0.629,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "ZRO|ping|1795745700000",
-    "coin": "ZRO",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 1.15,
-    "r": 0.0079,
-    "vm": 3.34,
-    "buy": 0.741,
-    "aboveVwap": true,
-    "above16": false,
-    "confirmed": false,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "TRUMP|ping|1795745700000",
-    "coin": "TRUMP",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 0.876,
-    "r": 0.0104,
-    "vm": 3.41,
-    "buy": 0.597,
-    "aboveVwap": true,
-    "above16": false,
-    "confirmed": false,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "ILV|ping|1795745700000",
-    "coin": "ILV",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 2.34,
-    "r": 0.0086,
-    "vm": 2.91,
-    "buy": 0.778,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "SOL|ping|1795745700000",
-    "coin": "SOL",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 72.13,
-    "r": 0.0088,
-    "vm": 6.88,
-    "buy": 0.665,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "XRP|ping|1795745700000",
-    "coin": "XRP",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 0.9567,
-    "r": 0.0078,
-    "vm": 2.74,
-    "buy": 0.493,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": false,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "TAO|ping|1795745700000",
-    "coin": "TAO",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 185.5,
-    "r": 0.0103,
-    "vm": 2.73,
-    "buy": 0.731,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "IO|ping|1795745700000",
-    "coin": "IO",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 0.1023,
-    "r": 0.0099,
-    "vm": 2.92,
-    "buy": 0.697,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "DOT|ping|1795745700000",
-    "coin": "DOT",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 0.685,
-    "r": 0.0088,
-    "vm": 4.01,
-    "buy": 0.702,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "LDO|ping|1795745700000",
-    "coin": "LDO",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 0.2385,
-    "r": 0.008,
-    "vm": 4.96,
-    "buy": 0.525,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": false,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "KAITO|ping|1795745700000",
-    "coin": "KAITO",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 0.1574,
-    "r": 0.0109,
-    "vm": 8.51,
-    "buy": 0.6,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "DOGE|ping|1795745700000",
-    "coin": "DOGE",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 0.05724,
-    "r": 0.0083,
-    "vm": 3.45,
-    "buy": 0.555,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "NEIRO|ping|1795745700000",
-    "coin": "NEIRO",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 0.0000473,
-    "r": 0.0096,
-    "vm": 2.17,
-    "buy": 0.78,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "SUI|ping|1795745700000",
-    "coin": "SUI",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 0.6771,
-    "r": 0.0092,
-    "vm": 3.08,
-    "buy": 0.628,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "GRT|ping|1795745700000",
-    "coin": "GRT",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 0.01687,
-    "r": 0.0108,
-    "vm": 4.67,
-    "buy": 0.753,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "MAGIC|ping|1795745700000",
-    "coin": "MAGIC",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 0.0681,
-    "r": 0.0089,
-    "vm": 4.52,
-    "buy": 0.733,
-    "aboveVwap": true,
-    "above16": false,
-    "confirmed": false,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "ZEN|ping|1795745700000",
-    "coin": "ZEN",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 3.839,
-    "r": 0.0097,
-    "vm": 4.61,
-    "buy": 0.869,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "ZEC|ping|1795745700000",
-    "coin": "ZEC",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 720.3,
-    "r": 0.0208,
-    "vm": 2.73,
-    "buy": 0.544,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": false,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "DASH|ping|1795745700000",
-    "coin": "DASH",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 36.55,
-    "r": 0.0091,
-    "vm": 5.47,
-    "buy": 0.682,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "ONDO|ping|1795745700000",
-    "coin": "ONDO",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 0.2915,
-    "r": 0.008,
-    "vm": 3.61,
-    "buy": 0.682,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "VIRTUAL|ping|1795745700000",
-    "coin": "VIRTUAL",
-    "wl": true,
-    "type": "ping",
-    "t": 1795745700000,
-    "price": 0.3704,
-    "r": 0.0109,
-    "vm": 2.31,
-    "buy": 0.658,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "ENA|ping|1795742100000",
-    "coin": "ENA",
-    "wl": true,
-    "type": "ping",
-    "t": 1795742100000,
-    "price": 0.1022,
-    "r": 0.0089,
-    "vm": 2.1,
-    "buy": 0.332,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": false,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "CFX|ping|1795742100000",
-    "coin": "CFX",
-    "wl": true,
-    "type": "ping",
-    "t": 1795742100000,
-    "price": 0.03481,
-    "r": 0.009,
-    "vm": 3.81,
-    "buy": 0.811,
-    "aboveVwap": true,
-    "above16": true,
-    "confirmed": true,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "PUMP|ping|1795740300000",
-    "coin": "PUMP",
-    "wl": true,
-    "type": "ping",
-    "t": 1795740300000,
-    "price": 0.002611,
-    "r": 0.0081,
-    "vm": 4.63,
-    "buy": 0.675,
-    "aboveVwap": true,
-    "above16": false,
-    "confirmed": false,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "ZRO|ping|1795738500000",
-    "coin": "ZRO",
-    "wl": true,
-    "type": "ping",
-    "t": 1795738500000,
-    "price": 1.148,
-    "r": 0.0141,
-    "vm": 2.4,
-    "buy": 0.523,
-    "aboveVwap": true,
-    "above16": false,
-    "confirmed": false,
-    "seen": 1795791923230,
-    "backfill": true
-   },
-   {
-    "id": "GRT|ping|1795737600000",
-    "coin": "GRT",
-    "wl": true,
-    "type": "ping",
-    "t": 1795737600000,
-    "price": 0.01672,
-    "r": 0.0127,
-    "vm": 4.33,
-    "buy": 0.746,
-    "aboveVwap": true,
-    "above16": false,
-    "confirmed": false,
     "seen": 1795791923230,
     "backfill": true
    }

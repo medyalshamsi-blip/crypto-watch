@@ -183,3 +183,17 @@
 {"id":"GALA|breakout|1795814100000","coin":"GALA","type":"breakout","t":1795814100000,"lv":0.001407,"close":0.001411,"vm":0.56,"tb":0.846,"atr4":0.00003627281265353537,"simpleAt":1795795200000,"fullAt":null,"seen":1795819507942}
 {"id":"SKY|exit|1795818600000","coin":"SKY","type":"exit","t":1795818600000,"of":"SKY|entry|1795813200000","why":"target","px":0.05407591430358167,"r":2,"r2":2,"seen":1795819507942}
 {"id":"WIF|breakout|1795819500000","coin":"WIF","type":"breakout","t":1795819500000,"lv":0.1424,"close":0.1426,"vm":1.09,"tb":0.709,"atr4":0.004355674033463822,"simpleAt":1795770900000,"fullAt":null,"seen":1795819507942}
+{"id":"LINK|breakout-result|1795754700000","coin":"LINK","type":"breakout-result","t":1795754700000,"of":"LINK|breakout|1795754700000","spike":false,"spikeAt":null,"retest":"retest","seen":1795841200637}
+{"id":"ACT|breakout|1795777200000","coin":"ACT","type":"breakout","t":1795777200000,"lv":0.00923,"close":0.00924,"vm":0.91,"tb":0.787,"atr4":0.00021382785645244934,"simpleAt":null,"fullAt":null,"seen":1795841200637}
+{"id":"ACT|breakout-result|1795777200000","coin":"ACT","type":"breakout-result","t":1795777200000,"of":"ACT|breakout|1795777200000","spike":true,"spikeAt":1795799700000,"retest":"failed","seen":1795841200637}
+{"id":"ACT|retest-fail|1795778100000","coin":"ACT","type":"retest-fail","t":1795778100000,"of":"ACT|breakout|1795777200000","lv":0.00923,"seen":1795841200637}
+{"id":"GALA|breakout-result|1795788000000","coin":"GALA","type":"breakout-result","t":1795788000000,"of":"GALA|breakout|1795788000000","spike":true,"spikeAt":1795820400000,"retest":"failed","seen":1795841200637}
+{"id":"TAO|ping-result|1795813200000","coin":"TAO","wl":true,"type":"ping-result","t":1795813200000,"of":"TAO|ping|1795813200000","spikeAt":null,"maxUp":0.0129,"seen":1795841200637}
+{"id":"GALA|breakout-result|1795814100000","coin":"GALA","type":"breakout-result","t":1795814100000,"of":"GALA|breakout|1795814100000","spike":true,"spikeAt":1795822200000,"retest":"await","seen":1795841200637}
+{"id":"WIF|entry|1795820400000","coin":"WIF","type":"entry","t":1795820400000,"of":"WIF|breakout|1795819500000","entry":0.1432,"stop":0.14205528840837042,"target":0.1467801592874154,"rr":6.01,"costR":0.272,"full":false,"btc":"down","seen":1795841200637}
+{"id":"THE|exit|1795821300000","coin":"THE","type":"exit","t":1795821300000,"of":"THE|entry|1795807800000","why":"stop","px":0.030123033287354387,"r":-1,"r2":-1,"seen":1795841200637}
+{"id":"ACE|breakout|1795821300000","coin":"ACE","type":"breakout","t":1795821300000,"lv":0.0972,"close":0.1068,"vm":30.17,"tb":0.54,"atr4":0.004040006115696165,"simpleAt":null,"fullAt":null,"seen":1795841200637}
+{"id":"ACE|breakout-result|1795821300000","coin":"ACE","type":"breakout-result","t":1795821300000,"of":"ACE|breakout|1795821300000","spike":true,"spikeAt":1795822200000,"retest":"retest","seen":1795841200637}
+{"id":"RUNE|exit|1795822200000","coin":"RUNE","type":"exit","t":1795822200000,"of":"RUNE|entry|1795792500000","why":"stop","px":0.5638673582325484,"r":-1,"r2":null,"seen":1795841200637}
+{"id":"WIF|exit|1795822200000","coin":"WIF","type":"exit","t":1795822200000,"of":"WIF|entry|1795820400000","why":"stop","px":0.14205528840837042,"r":-1,"r2":-1,"seen":1795841200637}
+{"id":"ACE|retest-skip|1795823100000","coin":"ACE","type":"retest-skip","t":1795823100000,"of":"ACE|breakout|1795821300000","why":"R:R 1.8 to the 4H swing high","seen":1795841200637}

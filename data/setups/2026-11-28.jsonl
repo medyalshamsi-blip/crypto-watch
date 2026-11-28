@@ -1,0 +1,13 @@
+{"id":"FTT|ping|1795824000000","coin":"FTT","wl":true,"type":"ping","t":1795824000000,"price":0.1928,"r":0.0137,"vm":4.02,"buy":0.89,"aboveVwap":true,"above16":true,"confirmed":true,"seen":1795841200637}
+{"id":"FTT|ping-result|1795824000000","coin":"FTT","wl":true,"type":"ping-result","t":1795824000000,"of":"FTT|ping|1795824000000","spikeAt":null,"maxUp":0,"seen":1795841200637}
+{"id":"CFX|warn-simple|1795824000000","coin":"CFX","wl":true,"type":"warn-simple","t":1795824000000,"lv":0.03507,"dist":0.462,"seen":1795841200637}
+{"id":"OPG|warn-simple|1795824000000","coin":"OPG","type":"warn-simple","t":1795824000000,"lv":0.1852,"dist":0.883,"seen":1795841200637}
+{"id":"SAHARA|ping|1795828500000","coin":"SAHARA","wl":true,"type":"ping","t":1795828500000,"price":0.00515,"r":0.0138,"vm":6.89,"buy":0.786,"aboveVwap":true,"above16":true,"confirmed":true,"seen":1795841200637}
+{"id":"SAHARA|ping-result|1795828500000","coin":"SAHARA","wl":true,"type":"ping-result","t":1795828500000,"of":"SAHARA|ping|1795828500000","spikeAt":null,"maxUp":0.0039,"seen":1795841200637}
+{"id":"TRUMP|ping|1795830300000","coin":"TRUMP","wl":true,"type":"ping","t":1795830300000,"price":0.884,"r":0.0103,"vm":2.11,"buy":0.783,"aboveVwap":true,"above16":true,"confirmed":true,"seen":1795841200637}
+{"id":"TRUMP|ping-result|1795830300000","coin":"TRUMP","wl":true,"type":"ping-result","t":1795830300000,"of":"TRUMP|ping|1795830300000","spikeAt":null,"maxUp":0.0045,"seen":1795841200637}
+{"id":"ILV|ping|1795830300000","coin":"ILV","wl":true,"type":"ping","t":1795830300000,"price":2.35,"r":0.0086,"vm":3.07,"buy":0.946,"aboveVwap":true,"above16":false,"confirmed":false,"seen":1795841200637}
+{"id":"ILV|ping-result|1795830300000","coin":"ILV","wl":true,"type":"ping-result","t":1795830300000,"of":"ILV|ping|1795830300000","spikeAt":null,"maxUp":0,"seen":1795841200637}
+{"id":"ZEC|ping|1795830300000","coin":"ZEC","wl":true,"type":"ping","t":1795830300000,"price":756.46,"r":0.0084,"vm":2.34,"buy":0.672,"aboveVwap":true,"above16":true,"confirmed":true,"seen":1795841200637}
+{"id":"ZEC|ping-result|1795830300000","coin":"ZEC","wl":true,"type":"ping-result","t":1795830300000,"of":"ZEC|ping|1795830300000","spikeAt":null,"maxUp":0.008,"seen":1795841200637}
+{"id":"牛来|warn-simple|1795831200000","coin":"牛来","type":"warn-simple","t":1795831200000,"lv":0.0517,"dist":0.882,"seen":1795841200637}
