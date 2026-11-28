@@ -1,6 +1,6 @@
 {
  "about": "Written by engine/alarms.js on GitHub Actions. Read by the dashboard and by the Claude alarm relay. Not financial advice.",
- "heartbeat": "2026-11-28T04:11:57.373Z",
+ "heartbeat": "2026-11-28T13:16:00.781Z",
  "ok": true,
  "scanned": 43,
  "of": 44,
@@ -9,6 +9,42 @@
   "POPCAT": "not on Binance spot"
  },
  "alerts": [
+  {
+   "at": "2026-11-28T13:16:00.781Z",
+   "focus": true,
+   "key": "TRUMP|touch-down|2026-11-28",
+   "coin": "TRUMP",
+   "type": "touch-down",
+   "text": "TRUMP is trading below the bear trigger 0.7900 (now 0.7550); it needs a daily close to count",
+   "strong": false
+  },
+  {
+   "at": "2026-11-28T13:16:00.781Z",
+   "focus": false,
+   "key": "IO|touch-down|2026-11-28",
+   "coin": "IO",
+   "type": "touch-down",
+   "text": "IO is trading below the bear trigger 0.09510 (now 0.09340); it needs a daily close to count",
+   "strong": false
+  },
+  {
+   "at": "2026-11-28T13:16:00.781Z",
+   "focus": false,
+   "key": "KERNEL|touch-down|2026-11-28",
+   "coin": "KERNEL",
+   "type": "touch-down",
+   "text": "KERNEL is trading below the bear trigger 0.04090 (now 0.03950); it needs a daily close to count",
+   "strong": false
+  },
+  {
+   "at": "2026-11-28T13:16:00.781Z",
+   "focus": false,
+   "key": "SAHARA|touch-down|2026-11-28",
+   "coin": "SAHARA",
+   "type": "touch-down",
+   "text": "SAHARA is trading below the bear trigger 0.004830 (now 0.004550); it needs a daily close to count",
+   "strong": false
+  },
   {
    "at": "2026-11-28T04:11:57.373Z",
    "focus": false,
@@ -408,7 +444,11 @@
   "ZEN|brk-down|2026-11-27": 1795839117373,
   "ZEC|brk-up|2026-11-27": 1795839117373,
   "CFX|close-up|2026-11-27": 1795839117373,
-  "CFX|struct-up|2026-11-27": 1795839117373
+  "CFX|struct-up|2026-11-27": 1795839117373,
+  "TRUMP|touch-down|2026-11-28": 1795871760781,
+  "IO|touch-down|2026-11-28": 1795871760781,
+  "KERNEL|touch-down|2026-11-28": 1795871760781,
+  "SAHARA|touch-down|2026-11-28": 1795871760781
  },
- "lastSuccess": "2026-11-28T04:11:57.373Z"
+ "lastSuccess": "2026-11-28T13:16:00.781Z"
 }
