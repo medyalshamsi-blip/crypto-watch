@@ -1,0 +1,21 @@
+{
+  "about": "Which Binance 15m history the replay downloads. Change this file only to change the data window or the coin list; the GitHub job keeps a cache keyed on this file, so rule changes in spike-radar2.config.json rerun in about a minute without downloading again. Raise cacheVersion to force a fresh download.",
+  "coins": {
+    "named": [
+      "ETHFI",
+      "ENA",
+      "FET",
+      "ZEC",
+      "ORDI",
+      "MUBARAK",
+      "INIT",
+      "ORCA",
+      "KERNEL"
+    ],
+    "universeMinQuoteVolumeUSDT": 1000000,
+    "maxCoins": 200
+  },
+  "fetchFrom": "2026-02-15T00:00:00Z",
+  "end": "2026-11-28T00:00:00Z",
+  "cacheVersion": 1
+}

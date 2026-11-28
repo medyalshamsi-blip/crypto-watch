@@ -1,0 +1,45 @@
+name: spike-radar2
+# Replays the 15-minute volume-spike radar (engine/spike-radar2*.js) on Binance history and saves data/backtest/spike-radar2/.
+# Change engine/spike-radar2.config.json (rules) and push: the replay reruns on the cached candles in about a minute.
+# Change engine/spike-radar2.data.json (window, coins, cacheVersion) to download new history. Paper only. Not financial advice.
+on:
+  push:
+    paths:
+      - 'engine/spike-radar2*.js'
+      - 'engine/spike-radar2*.json'
+      - '.github/workflows/spike-radar2.yml'
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency:
+  group: data
+  cancel-in-progress: false
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Rules test on synthetic candles
+        run: node engine/spike-radar2-synth-test.js
+      - name: Restore the downloaded candles
+        uses: actions/cache@v4
+        with:
+          path: .cache/klines
+          key: klines-${{ hashFiles('engine/spike-radar2.data.json') }}
+      - name: Replay the radar
+        run: node engine/spike-radar2-test.js
+      - name: Save the results
+        if: always()
+        run: |
+          if [ -n "$(git status --porcelain -- data)" ]; then
+            git config user.name "crypto-watch spike-radar2"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data
+            git commit -q -m "spike-radar2 replay $(date -u +%Y-%m-%dT%H:%MZ)"
+            git pull -q --rebase
+            git push -q
+          fi

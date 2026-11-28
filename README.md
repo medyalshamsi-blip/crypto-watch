@@ -12,6 +12,12 @@ A read-only crypto dashboard in one page (`index.html`). It streams public Binan
 - `engine/setups.js` holds those rules (shared with the dashboard; `engine/radar.js` is the radar it builds on). `engine/setups-log.js` runs every hour on GitHub Actions (`.github/workflows/setups.yml`), replays the same rules with only data known at each 15m close, and appends every alert, breakout, retest and paper trade to `data/setups/<day>.jsonl`, with the time it was first logged. `data/setups.json` holds the current statuses and the scorecard: alerts that led to a spike, spikes warned in advance, lead time, paper-trade results, double slippage, and results by coin and BTC trend. The first run also writes about 20 days of replayed history, flagged as backfill.
 - The hourly Claude relay adds new paper entries and exits, and breakouts and full early warnings on watchlist coins, to its phone message.
 
+## 15-minute volume-spike radar replay (adjustable)
+- `engine/spike-radar2.js` holds the rules (Watch, Priority, Notification, Retest, Fade, session calendars, baselines, outcomes) with no network code. `engine/spike-radar2.config.json` holds every threshold, the exchange holidays and early closes, and a list of variants to compare. `engine/spike-radar2.data.json` holds the coin list and the data window.
+- `.github/workflows/spike-radar2.yml` runs `engine/spike-radar2-synth-test.js` (rules on engineered candles, including a check that an event is identical when everything after its close is cut off), then `engine/spike-radar2-test.js`, which downloads Binance 15m history (taker-buy quote volume, field 10), replays the rules and writes `data/backtest/spike-radar2/report.md`, `summary.json` and the event lists (Berlin time). It runs on every push that touches those files, or by hand from the Actions tab.
+- To adjust: edit the numbers in `spike-radar2.config.json` (or add a variant) and push. The candles are cached, so a rerun takes about a minute. Edit `spike-radar2.data.json` (or raise `cacheVersion`) to download new history.
+- Paper replay only. It places no orders and sets no alerts.
+
 ## 24/7 alarms
 - `engine/alarms.js` runs on GitHub Actions every 15 minutes (`.github/workflows/alarms.yml`). It reads daily candles for the coins in `engine/coins.json` from Binance's public API, applies the same playbook rules as the dashboard, and writes new alarms to `data/alarms.json`.
 - Alarms: a daily close through a bull or bear trigger, price trading through a trigger during the day, a volume spike of 2× or more, and a daily BoS / CHoCH or breakout.
