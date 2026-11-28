@@ -43,3 +43,9 @@
 {"id":"ZRO|ping|1795871700000","coin":"ZRO","wl":true,"type":"ping","t":1795871700000,"price":1.089,"r":0.014,"vm":3.09,"buy":0.548,"aboveVwap":false,"above16":false,"confirmed":false,"seen":1795875525853}
 {"id":"JASMY|ping|1795872600000","coin":"JASMY","wl":true,"type":"ping","t":1795872600000,"price":0.0031,"r":0.0098,"vm":5.62,"buy":0.963,"aboveVwap":false,"above16":false,"confirmed":false,"seen":1795875525853}
 {"id":"SKY|warn-simple|1795872600000","coin":"SKY","type":"warn-simple","t":1795872600000,"lv":0.05471,"dist":0.902,"seen":1795875525853}
+{"id":"ZRO|ping-result|1795871700000","coin":"ZRO","wl":true,"type":"ping-result","t":1795871700000,"of":"ZRO|ping|1795871700000","spikeAt":null,"maxUp":0.0028,"seen":1795879354398}
+{"id":"ORCA|ping|1795876200000","coin":"ORCA","wl":true,"type":"ping","t":1795876200000,"price":1.24,"r":0.0181,"vm":6.15,"buy":0.511,"aboveVwap":true,"above16":true,"confirmed":false,"seen":1795879354398}
+{"id":"OPG|breakout|1795876200000","coin":"OPG","type":"breakout","t":1795876200000,"lv":0.1852,"close":0.187,"vm":3.47,"tb":0.634,"atr4":0.009062424680380361,"simpleAt":1795824000000,"fullAt":null,"seen":1795879354398}
+{"id":"FTT|ping|1795877100000","coin":"FTT","wl":true,"type":"ping","t":1795877100000,"price":0.1885,"r":0.0228,"vm":3.78,"buy":0.908,"aboveVwap":true,"above16":true,"confirmed":true,"seen":1795879354398}
+{"id":"OPG|retest-fail|1795877100000","coin":"OPG","type":"retest-fail","t":1795877100000,"of":"OPG|breakout|1795876200000","lv":0.1852,"seen":1795879354398}
+{"id":"KERNEL|ping|1795878900000","coin":"KERNEL","wl":true,"type":"ping","t":1795878900000,"price":0.0396,"r":0.0233,"vm":27.09,"buy":0.564,"aboveVwap":false,"above16":false,"confirmed":false,"seen":1795879354398}

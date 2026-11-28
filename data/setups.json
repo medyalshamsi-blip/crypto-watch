@@ -1,9 +1,9 @@
 {
  "about": "Written by engine/setups-log.js on GitHub Actions every hour: breakout-and-retest setups replayed on closed Binance 15m candles. Read by the dashboard and the Claude alarm relay. Paper trades only. Not financial advice.",
- "updated": "2026-11-28T14:18:45.853Z",
+ "updated": "2026-11-28T15:22:34.398Z",
  "liveSince": "2026-11-27T00:39:22.377Z",
  "source": "data-api.binance.vision",
- "coins": 139,
+ "coins": 131,
  "failed": {},
  "rules": {
   "swing": 2,
@@ -34,42 +34,30 @@
   "baseStop": false
  },
  "status": {
-  "MAGIC": {
-   "status": "failed",
-   "wl": true,
-   "ceiling": 0.0715,
-   "price": 0.0662
-  },
-  "CFX": {
-   "status": "failed",
-   "wl": true,
-   "ceiling": 0.0349,
-   "price": 0.03301
-  },
   "ACE": {
    "status": "skipped",
    "ceiling": 0.0972,
-   "price": 0.0984
+   "price": 0.0918
   },
   "THE": {
    "status": "done",
    "ceiling": 0.0332,
-   "price": 0.0274
+   "price": 0.0303
   },
   "NIGHT": {
    "status": "done",
    "ceiling": 0.05216,
-   "price": 0.05411
+   "price": 0.0532
   },
   "SKY": {
    "status": "done",
    "ceiling": 0.05026,
-   "price": 0.05127
+   "price": 0.0508
   },
   "TLM": {
    "status": "skipped",
    "ceiling": 0.001084,
-   "price": 0.00092
+   "price": 0.000926
   },
   "COOKIE": {
    "status": "done",
@@ -77,30 +65,30 @@
    "price": 0.00769
   },
   "OPG": {
-   "status": "near",
+   "status": "failed",
    "ceiling": 0.1852,
-   "price": 0.1825
+   "price": 0.1802
   },
   "WIF": {
    "status": "done",
    "ceiling": 0.1424,
-   "price": 0.1388
-  },
-  "GALA": {
-   "status": "done",
-   "ceiling": 0.001407,
-   "price": 0.001378
+   "price": 0.1401
   },
   "RESOLV": {
    "status": "failed",
    "ceiling": 0.01448,
-   "price": 0.01408
+   "price": 0.01431
+  },
+  "GALA": {
+   "status": "done",
+   "ceiling": 0.001407,
+   "price": 0.00138
   }
  },
  "live": {
   "since": "2026-11-27T00:39:22.377Z",
   "spikes": 19,
-  "breakouts": 23,
+  "breakouts": 24,
   "scanner": {
    "simple": {
     "alerts": 22,
@@ -266,7 +254,7 @@
    }
   },
   "notes": {
-   "failedRetests": 7,
+   "failedRetests": 8,
    "skippedRetests": 5,
    "openOrPending": 0
   }
@@ -274,7 +262,7 @@
  "withBackfill": {
   "since": "1970-01-01T00:00:00.000Z",
   "spikes": 68,
-  "breakouts": 97,
+  "breakouts": 98,
   "scanner": {
    "simple": {
     "alerts": 159,
@@ -568,12 +556,35 @@
    }
   },
   "notes": {
-   "failedRetests": 52,
+   "failedRetests": 53,
    "skippedRetests": 10,
    "openOrPending": 0
   }
  },
  "latest": [
+  {
+   "id": "OPG|retest-fail|1795877100000",
+   "coin": "OPG",
+   "type": "retest-fail",
+   "t": 1795877100000,
+   "of": "OPG|breakout|1795876200000",
+   "lv": 0.1852,
+   "seen": 1795879354398
+  },
+  {
+   "id": "OPG|breakout|1795876200000",
+   "coin": "OPG",
+   "type": "breakout",
+   "t": 1795876200000,
+   "lv": 0.1852,
+   "close": 0.187,
+   "vm": 3.47,
+   "tb": 0.634,
+   "atr4": 0.009062424680380361,
+   "simpleAt": 1795824000000,
+   "fullAt": null,
+   "seen": 1795879354398
+  },
   {
    "id": "SKY|warn-simple|1795872600000",
    "coin": "SKY",
@@ -797,14 +808,14 @@
    "win": 8
   },
   "since": "2026-11-27T15:05:23.230Z",
-  "coins": 138,
+  "coins": 130,
   "watchlistCoins": 42,
   "live": {
    "watchlist": {
-    "pings": 26,
-    "open": 2,
+    "pings": 27,
+    "open": 4,
     "followed": 1,
-    "hitRate": 0.0385,
+    "hitRate": 0.037,
     "spikes": 2,
     "caught": 1,
     "caughtShare": 0.5,
@@ -813,7 +824,7 @@
   },
   "last20Days": {
    "watchlist": {
-    "pings": 1094,
+    "pings": 1095,
     "followed": 52,
     "hitRate": 0.0475,
     "chance": 0.0082,
@@ -823,17 +834,62 @@
     "leadMin": 30
    },
    "all": {
-    "pings": 3965,
-    "followed": 234,
-    "hitRate": 0.059,
-    "chance": 0.0101,
-    "spikes": 346,
-    "caught": 217,
-    "caughtShare": 0.6272,
+    "pings": 3782,
+    "followed": 226,
+    "hitRate": 0.0598,
+    "chance": 0.0103,
+    "spikes": 334,
+    "caught": 209,
+    "caughtShare": 0.6257,
     "leadMin": 30
    }
   },
   "recent": [
+   {
+    "id": "KERNEL|ping|1795878900000",
+    "coin": "KERNEL",
+    "wl": true,
+    "type": "ping",
+    "t": 1795878900000,
+    "price": 0.0396,
+    "r": 0.0233,
+    "vm": 27.09,
+    "buy": 0.564,
+    "aboveVwap": false,
+    "above16": false,
+    "confirmed": false,
+    "seen": 1795879354398
+   },
+   {
+    "id": "FTT|ping|1795877100000",
+    "coin": "FTT",
+    "wl": true,
+    "type": "ping",
+    "t": 1795877100000,
+    "price": 0.1885,
+    "r": 0.0228,
+    "vm": 3.78,
+    "buy": 0.908,
+    "aboveVwap": true,
+    "above16": true,
+    "confirmed": true,
+    "seen": 1795879354398
+   },
+   {
+    "id": "ORCA|ping|1795876200000",
+    "coin": "ORCA",
+    "wl": true,
+    "type": "ping",
+    "t": 1795876200000,
+    "price": 1.24,
+    "r": 0.0181,
+    "vm": 6.15,
+    "buy": 0.511,
+    "aboveVwap": true,
+    "above16": true,
+    "confirmed": false,
+    "seen": 1795879354398
+   },
    {
     "id": "JASMY|ping|1795872600000",
     "coin": "JASMY",
@@ -1114,141 +1170,6 @@
     "r": 0.0121,
     "vm": 2.3,
     "buy": 0.786,
-    "aboveVwap": false,
-    "above16": false,
-    "confirmed": false,
-    "seen": 1795819507942
-   },
-   {
-    "id": "PEPE|ping|1795792500000",
-    "coin": "PEPE",
-    "wl": true,
-    "type": "ping",
-    "t": 1795792500000,
-    "price": 0.00000348,
-    "r": 0.0116,
-    "vm": 4.25,
-    "buy": 0.516,
-    "aboveVwap": false,
-    "above16": false,
-    "confirmed": false,
-    "seen": 1795819507942
-   },
-   {
-    "id": "ENA|ping|1795792500000",
-    "coin": "ENA",
-    "wl": true,
-    "type": "ping",
-    "t": 1795792500000,
-    "price": 0.1022,
-    "r": 0.0119,
-    "vm": 6.06,
-    "buy": 0.565,
-    "aboveVwap": false,
-    "above16": false,
-    "confirmed": false,
-    "seen": 1795819507942
-   },
-   {
-    "id": "TRUMP|ping|1795792500000",
-    "coin": "TRUMP",
-    "wl": true,
-    "type": "ping",
-    "t": 1795792500000,
-    "price": 0.856,
-    "r": 0.0094,
-    "vm": 3.37,
-    "buy": 0.601,
-    "aboveVwap": false,
-    "above16": false,
-    "confirmed": false,
-    "seen": 1795819507942
-   },
-   {
-    "id": "NOT|ping|1795792500000",
-    "coin": "NOT",
-    "wl": true,
-    "type": "ping",
-    "t": 1795792500000,
-    "price": 0.000292,
-    "r": 0.0104,
-    "vm": 5.35,
-    "buy": 0.442,
-    "aboveVwap": false,
-    "above16": false,
-    "confirmed": false,
-    "seen": 1795819507942
-   },
-   {
-    "id": "FET|ping|1795792500000",
-    "coin": "FET",
-    "wl": true,
-    "type": "ping",
-    "t": 1795792500000,
-    "price": 0.1254,
-    "r": 0.0113,
-    "vm": 3.29,
-    "buy": 0.471,
-    "aboveVwap": false,
-    "above16": false,
-    "confirmed": false,
-    "seen": 1795819507942
-   },
-   {
-    "id": "LDO|ping|1795792500000",
-    "coin": "LDO",
-    "wl": true,
-    "type": "ping",
-    "t": 1795792500000,
-    "price": 0.2337,
-    "r": 0.0078,
-    "vm": 4.07,
-    "buy": 0.527,
-    "aboveVwap": false,
-    "above16": false,
-    "confirmed": false,
-    "seen": 1795819507942
-   },
-   {
-    "id": "TRB|ping|1795792500000",
-    "coin": "TRB",
-    "wl": true,
-    "type": "ping",
-    "t": 1795792500000,
-    "price": 13.14,
-    "r": 0.01,
-    "vm": 3.23,
-    "buy": 0.451,
-    "aboveVwap": false,
-    "above16": false,
-    "confirmed": false,
-    "seen": 1795819507942
-   },
-   {
-    "id": "DOGE|ping|1795792500000",
-    "coin": "DOGE",
-    "wl": true,
-    "type": "ping",
-    "t": 1795792500000,
-    "price": 0.05723,
-    "r": 0.009,
-    "vm": 4.17,
-    "buy": 0.547,
-    "aboveVwap": false,
-    "above16": false,
-    "confirmed": false,
-    "seen": 1795819507942
-   },
-   {
-    "id": "SUI|ping|1795792500000",
-    "coin": "SUI",
-    "wl": true,
-    "type": "ping",
-    "t": 1795792500000,
-    "price": 0.6653,
-    "r": 0.0082,
-    "vm": 5.59,
-    "buy": 0.438,
     "aboveVwap": false,
     "above16": false,
     "confirmed": false,
