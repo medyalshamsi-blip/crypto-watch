@@ -3132,6 +3132,7 @@ function newsItems() {
     const x = Object.assign({}, it, { reacts: rs, react }); x.score = NEWS.score(x); return x;
   }).filter(NEWS.isShown).sort((a, b) => b.at - a.at);
 }
+const safeUrl = u => /^https?:\/\//i.test(String(u || '').trim()) ? String(u).trim() : '#';   // only web links from feeds (no javascript: or data:)
 const wlNews = (it, wl) => it.coins.some(c => wl.has(c) && c !== 'BTC' && c !== 'ETH');   // BTC and ETH news reads as market news
 function newsAgo(t) { const m = Math.max(0, Math.round((Date.now() - t) / 6e4)); return m < 60 ? m + ' min ago' : m < 48 * 60 ? Math.round(m / 60) + ' h ago' : fdate(t); }
 function newsReact(it) {
@@ -3150,7 +3151,7 @@ function newsRow(it, wl) {
   const cs = it.coins.length ? it.coins.map(c => `<button class="lnk" data-look="${esc(c)}"${wl.has(c) ? ' title="On your watchlist"' : ''}>${wl.has(c) ? '★ ' : ''}${esc(c)}</button>`).join(' ') : it.market ? '<span>whole market</span>' : '';
   const also = (it.also || []).length ? ` <span title="${esc(it.also.map(a => a.name).join(', '))}">+${it.also.length} more</span>` : '';
   return `<div class="nwm"><time datetime="${new Date(it.at).toISOString()}">${ftime(it.at)}${Date.now() - it.at > 20 * 3600e3 ? ' ' + fdate(it.at) : ''}</time><span>${esc(it.srcName || '')}${also}</span><span class="${imp}">${it.w >= 3 ? 'High impact · ' : ''}${esc(it.label)}</span>${cs}</div>`
-    + `<a class="nwt" href="${esc(it.link || '#')}" target="_blank" rel="noopener">${esc(it.title)}</a>${newsReact(it)}`;
+    + `<a class="nwt" href="${esc(safeUrl(it.link))}" target="_blank" rel="noopener">${esc(it.title)}</a>${newsReact(it)}`;
 }
 function renderNews() {
   const card = $('#newsCard'); if (!card) return;
@@ -3193,7 +3194,7 @@ function newsLine() {                              // one line for the Summary t
   if (mode === 'live' && !NW.j) return '';
   if (mode === 'tv' && !NW.tv) return '';
   const now = Date.now(), items = newsItems(), br = items.filter(it => NEWS.isBreaking(it, now));
-  if (br.length) { const it = br[0]; return `<b>Breaking</b> (${newsAgo(it.at)}, ${esc(it.label.toLowerCase())}): <a href="${esc(it.link || '#')}" target="_blank" rel="noopener">${esc(it.title)}</a>${br.length > 1 ? ` <span class="mut">+${br.length - 1} more</span>` : ''}`; }
+  if (br.length) { const it = br[0]; return `<b>Breaking</b> (${newsAgo(it.at)}, ${esc(it.label.toLowerCase())}): <a href="${esc(safeUrl(it.link))}" target="_blank" rel="noopener">${esc(it.title)}</a>${br.length > 1 ? ` <span class="mut">+${br.length - 1} more</span>` : ''}`; }
   const h = items.find(it => it.w >= 3);
   return `<b>News</b>: nothing breaking in 3 hours${h ? `; last high-impact ${newsAgo(h.at)}: ${esc(h.title)}` : ''}.`;
 }
