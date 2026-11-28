@@ -1,6 +1,6 @@
 {
  "about": "Written by engine/alarms.js on GitHub Actions. Read by the dashboard and by the Claude alarm relay. Not financial advice.",
- "heartbeat": "2026-11-27T22:23:19.349Z",
+ "heartbeat": "2026-11-28T04:11:57.373Z",
  "ok": true,
  "scanned": 43,
  "of": 44,
@@ -9,6 +9,159 @@
   "POPCAT": "not on Binance spot"
  },
  "alerts": [
+  {
+   "at": "2026-11-28T04:11:57.373Z",
+   "focus": false,
+   "key": "FTT|close-up|2026-11-27",
+   "coin": "FTT",
+   "type": "close-up",
+   "text": "FTT closed 2026-11-27 at 0.1928, above the bull trigger 0.1898",
+   "strong": true
+  },
+  {
+   "at": "2026-11-28T04:11:57.373Z",
+   "focus": false,
+   "key": "MAGIC|close-up|2026-11-27",
+   "coin": "MAGIC",
+   "type": "close-up",
+   "text": "MAGIC closed 2026-11-27 at 0.07110, above the bull trigger 0.07010",
+   "strong": true
+  },
+  {
+   "at": "2026-11-28T04:11:57.373Z",
+   "focus": false,
+   "key": "MAGIC|struct-up|2026-11-27",
+   "coin": "MAGIC",
+   "type": "struct-up",
+   "text": "MAGIC daily CHoCH up: closed 2026-11-27 at 0.07110 above the swing at 0.07010",
+   "strong": true
+  },
+  {
+   "at": "2026-11-28T04:11:57.373Z",
+   "focus": false,
+   "key": "CFX|close-up|2026-11-27",
+   "coin": "CFX",
+   "type": "close-up",
+   "text": "CFX closed 2026-11-27 at 0.03466, above the bull trigger 0.03443",
+   "strong": true
+  },
+  {
+   "at": "2026-11-28T04:11:57.373Z",
+   "focus": false,
+   "key": "CFX|struct-up|2026-11-27",
+   "coin": "CFX",
+   "type": "struct-up",
+   "text": "CFX daily CHoCH up: closed 2026-11-27 at 0.03466 above the swing at 0.03443",
+   "strong": true
+  },
+  {
+   "at": "2026-11-28T04:11:57.373Z",
+   "focus": true,
+   "key": "ETH|brk-down|2026-11-27",
+   "coin": "ETH",
+   "type": "brk-down",
+   "text": "ETH daily breakout down through a support / resistance area on 2026-11-27, on low volume",
+   "strong": false
+  },
+  {
+   "at": "2026-11-28T04:11:57.373Z",
+   "focus": true,
+   "key": "PEPE|brk-up|2026-11-27",
+   "coin": "PEPE",
+   "type": "brk-up",
+   "text": "PEPE daily breakout up through a support / resistance area on 2026-11-27, on low volume",
+   "strong": false
+  },
+  {
+   "at": "2026-11-28T04:11:57.373Z",
+   "focus": true,
+   "key": "INIT|brk-down|2026-11-27",
+   "coin": "INIT",
+   "type": "brk-down",
+   "text": "INIT daily breakout down through a support / resistance area on 2026-11-27, volume 1.6× average",
+   "strong": false
+  },
+  {
+   "at": "2026-11-28T04:11:57.373Z",
+   "focus": true,
+   "key": "ENA|brk-up|2026-11-27",
+   "coin": "ENA",
+   "type": "brk-up",
+   "text": "ENA daily breakout up through a support / resistance area on 2026-11-27, on low volume",
+   "strong": false
+  },
+  {
+   "at": "2026-11-28T04:11:57.373Z",
+   "focus": false,
+   "key": "FET|brk-up|2026-11-27",
+   "coin": "FET",
+   "type": "brk-up",
+   "text": "FET daily breakout up through a support / resistance area on 2026-11-27, volume 1.7× average",
+   "strong": false
+  },
+  {
+   "at": "2026-11-28T04:11:57.373Z",
+   "focus": false,
+   "key": "IO|brk-down|2026-11-27",
+   "coin": "IO",
+   "type": "brk-down",
+   "text": "IO daily breakout down through a support / resistance area on 2026-11-27, on low volume",
+   "strong": false
+  },
+  {
+   "at": "2026-11-28T04:11:57.373Z",
+   "focus": false,
+   "key": "TIA|brk-up|2026-11-27",
+   "coin": "TIA",
+   "type": "brk-up",
+   "text": "TIA daily breakout up through a support / resistance area on 2026-11-27, on low volume",
+   "strong": false
+  },
+  {
+   "at": "2026-11-28T04:11:57.373Z",
+   "focus": false,
+   "key": "MAGIC|spike|2026-11-27",
+   "coin": "MAGIC",
+   "type": "spike",
+   "text": "MAGIC daily volume 4.9× its 20-day average on 2026-11-27, 53% taker buys, green candle; not bullish yet",
+   "strong": false
+  },
+  {
+   "at": "2026-11-28T04:11:57.373Z",
+   "focus": false,
+   "key": "MAGIC|brk-up|2026-11-27",
+   "coin": "MAGIC",
+   "type": "brk-up",
+   "text": "MAGIC daily breakout up through a support / resistance area on 2026-11-27, volume 4.9× average",
+   "strong": false
+  },
+  {
+   "at": "2026-11-28T04:11:57.373Z",
+   "focus": false,
+   "key": "ORCA|brk-up|2026-11-27",
+   "coin": "ORCA",
+   "type": "brk-up",
+   "text": "ORCA daily breakout up through a support / resistance area on 2026-11-27, on low volume",
+   "strong": false
+  },
+  {
+   "at": "2026-11-28T04:11:57.373Z",
+   "focus": false,
+   "key": "ZEN|brk-down|2026-11-27",
+   "coin": "ZEN",
+   "type": "brk-down",
+   "text": "ZEN daily breakout down through a support / resistance area on 2026-11-27, on low volume",
+   "strong": false
+  },
+  {
+   "at": "2026-11-28T04:11:57.373Z",
+   "focus": false,
+   "key": "ZEC|brk-up|2026-11-27",
+   "coin": "ZEC",
+   "type": "brk-up",
+   "text": "ZEC daily breakout up through a support / resistance area on 2026-11-27, on low volume",
+   "strong": false
+  },
   {
    "at": "2026-11-27T22:23:19.349Z",
    "focus": true,
@@ -238,7 +391,24 @@
   "ONDO|brk-up|2026-11-26": 1795756877268,
   "ETHFI|touch-down|2026-11-27": 1795818199349,
   "ILV|touch-up|2026-11-27": 1795818199349,
-  "FTT|touch-up|2026-11-27": 1795818199349
+  "FTT|touch-up|2026-11-27": 1795818199349,
+  "ETH|brk-down|2026-11-27": 1795839117373,
+  "PEPE|brk-up|2026-11-27": 1795839117373,
+  "INIT|brk-down|2026-11-27": 1795839117373,
+  "ENA|brk-up|2026-11-27": 1795839117373,
+  "FET|brk-up|2026-11-27": 1795839117373,
+  "IO|brk-down|2026-11-27": 1795839117373,
+  "TIA|brk-up|2026-11-27": 1795839117373,
+  "FTT|close-up|2026-11-27": 1795839117373,
+  "MAGIC|close-up|2026-11-27": 1795839117373,
+  "MAGIC|spike|2026-11-27": 1795839117373,
+  "MAGIC|struct-up|2026-11-27": 1795839117373,
+  "MAGIC|brk-up|2026-11-27": 1795839117373,
+  "ORCA|brk-up|2026-11-27": 1795839117373,
+  "ZEN|brk-down|2026-11-27": 1795839117373,
+  "ZEC|brk-up|2026-11-27": 1795839117373,
+  "CFX|close-up|2026-11-27": 1795839117373,
+  "CFX|struct-up|2026-11-27": 1795839117373
  },
- "lastSuccess": "2026-11-27T22:23:19.349Z"
+ "lastSuccess": "2026-11-28T04:11:57.373Z"
 }
