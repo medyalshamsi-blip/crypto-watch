@@ -7,7 +7,7 @@ const path = require('path');
 const R2 = require('./radars2.js');
 
 const DIR = path.join(__dirname, '..', 'data', 'radars'), OUT = path.join(__dirname, '..', 'data', 'radars.json');
-const DAY = 864e5, LIVE_LAG = 3 * 3600e3, MIN = { sweep: 4, flow: 3 };
+const DAY = 864e5, LIVE_LAG = 3 * 3600e3, MIN = { sweep: 5, flow: 3 };   // sweep hits below 5 are too many to log (hundreds a day)
 const dayOf = t => new Date(t).toISOString().slice(0, 10);
 function readDays(since) {
   if (!fs.existsSync(DIR)) return [];

@@ -196,10 +196,10 @@ const R2 = (() => {
           if (highNew && m.c[j] > m.c[p] && dv < -margin) { sc[-1] += 2.5; sig[-1].push('price at a new high, buyers weaker than at the last high (CVD divergence)'); }
         }
       }
-      // surge: one bar dominated by takers on heavy volume, closing with them
+      // surge: one bar dominated by takers on heavy volume, closing with them; alone it stays under a score of 3 (no edge in the 60-day replay)
       const sh = m.v[j] > 0 ? m.tb[j] / m.v[j] : 0.5, rg = m.h[j] - m.l[j] || 1e-12, pos = (m.c[j] - m.l[j]) / rg;
-      if (sh >= o.surge && m.c[j] > m.o[j] && pos >= 0.6 && vmF() >= o.surgeVol) { const vm = vmF(); sc[1] += 2 + (vm >= 4 ? 1 : 0); sig[1].push(`buyer surge: ${(sh * 100).toFixed(0)}% taker buys on ${vm.toFixed(1)}× volume`); }
-      if (sh <= 1 - o.surge && m.c[j] < m.o[j] && pos <= 0.4 && vmF() >= o.surgeVol) { const vm = vmF(); sc[-1] += 2 + (vm >= 4 ? 1 : 0); sig[-1].push(`seller surge: ${((1 - sh) * 100).toFixed(0)}% taker sells on ${vm.toFixed(1)}× volume`); }
+      if (sh >= o.surge && m.c[j] > m.o[j] && pos >= 0.6 && vmF() >= o.surgeVol) { const vm = vmF(); sc[1] += 1.5 + (vm >= 4 ? 1 : 0); sig[1].push(`buyer surge: ${(sh * 100).toFixed(0)}% taker buys on ${vm.toFixed(1)}× volume`); }
+      if (sh <= 1 - o.surge && m.c[j] < m.o[j] && pos <= 0.4 && vmF() >= o.surgeVol) { const vm = vmF(); sc[-1] += 1.5 + (vm >= 4 ? 1 : 0); sig[-1].push(`seller surge: ${((1 - sh) * 100).toFixed(0)}% taker sells on ${vm.toFixed(1)}× volume`); }
       // climax: huge bar that closes away from its extreme against the takers
       if (rg >= o.climaxRange * A[j] && vmF() >= o.climaxVol) { const vm = vmF();
         if (m.c[j] < m.o[j] || sh < 0.45) { if (pos >= 0.5) { sc[1] += 3; sig[1].push(`selling climax: ${vm.toFixed(1)}× volume, closed off the low`); } }

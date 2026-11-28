@@ -46,7 +46,7 @@ function trade(m, n, j, entry, stop, target, bars) {
   const tk = await get('/api/v3/ticker/24hr'), now = Date.now();
   const uni = tk.filter(x => x.symbol.endsWith('USDT') && +x.quoteVolume >= 2e6 && +x.closeTime > now - 3 * 3600e3 && !/^(USDC|FDUSD|TUSD|BUSD|USDP|DAI|EUR|AEUR|EURI|XUSD|USD1|BFUSD|PAXG|WBTC|WBETH)USDT$/.test(x.symbol) && !/(UP|DOWN|BULL|BEAR)USDT$/.test(x.symbol) && Math.abs(+x.lastPrice - 1) > 0.02)
     .sort((a, b) => b.quoteVolume - a.quoteVolume).slice(0, COINS).map(x => x.symbol);
-  const R = { sweep: {}, flow: {} }, base = { '15m': z(), '1H': z(), '4H': z() }, pats = {}, rej = { n: 0, win: 0, conf: 0 };
+  const R = { sweep: {}, flow: {} }, base = { '15m': z(), '1H': z(), '4H': z() }, pats = {}, rej = { n: 0, win: 0, conf: 0, bull: { n: 0, win: 0 }, bear: { n: 0, win: 0 } };
   let coins = 0, failed = 0, pBars = 0;
   const bucket = (radar, key) => (R[radar][key] = R[radar][key] || z());
   for (const s of uni) {
@@ -83,7 +83,7 @@ function trade(m, n, j, entry, stop, target, bars) {
         for (const x of PAT.rejections(mm, end, lv, { look: end - w, intraday: true })) {
           if (x.i < w || x.i >= w + 24 || x.status !== 'confirmed') continue; rej.conf++;
           const entry = x.trigger, stop = x.stop, target = entry + 2 * (entry - stop); const t = trade(m, k, x.at, entry, stop, target, 24);
-          if (!t.done || t.win == null) continue; rej.n++; rej.win += t.win;
+          if (!t.done || t.win == null) continue; rej.n++; rej.win += t.win; const sd = rej[x.side > 0 ? 'bull' : 'bear']; sd.n++; sd.win += t.win;
         }
       } }
     if (coins % 10 === 0) console.log(`${coins} coins…`);
@@ -94,7 +94,7 @@ function trade(m, n, j, entry, stop, target, bars) {
     base: Object.fromEntries(Object.entries(base).map(([k, b]) => [k, fin(b)])),
     radars: Object.fromEntries(Object.entries(R).map(([r, g]) => [r, Object.fromEntries(Object.entries(g).sort().map(([k, b]) => [k, fin(b)]))])),
     patterns: Object.fromEntries(Object.entries(pats).sort().map(([k, g]) => [k, { n: g.n, winPct: pc(g.win, g.n), chancePct: g.n ? +(100 * g.chance / g.n).toFixed(1) : null, onVolume: g.volOk, onVolumeWinPct: pc(g.volOkWin, g.volOk) }])),
-    rejections: { confirmed: rej.conf, finished: rej.n, winPct: pc(rej.win, rej.n), chancePct: 33.3 },
+    rejections: { confirmed: rej.conf, finished: rej.n, winPct: pc(rej.win, rej.n), chancePct: 33.3, bull: { n: rej.bull.n, winPct: pc(rej.bull.win, rej.bull.n) }, bear: { n: rej.bear.n, winPct: pc(rej.bear.win, rej.bear.n) } },
     reads: pBars
   };
   fs.mkdirSync(OUT, { recursive: true });

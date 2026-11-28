@@ -1555,10 +1555,10 @@ const R2 = (() => {
           if (highNew && m.c[j] > m.c[p] && dv < -margin) { sc[-1] += 2.5; sig[-1].push('price at a new high, buyers weaker than at the last high (CVD divergence)'); }
         }
       }
-      // surge: one bar dominated by takers on heavy volume, closing with them
+      // surge: one bar dominated by takers on heavy volume, closing with them; alone it stays under a score of 3 (no edge in the 60-day replay)
       const sh = m.v[j] > 0 ? m.tb[j] / m.v[j] : 0.5, rg = m.h[j] - m.l[j] || 1e-12, pos = (m.c[j] - m.l[j]) / rg;
-      if (sh >= o.surge && m.c[j] > m.o[j] && pos >= 0.6 && vmF() >= o.surgeVol) { const vm = vmF(); sc[1] += 2 + (vm >= 4 ? 1 : 0); sig[1].push(`buyer surge: ${(sh * 100).toFixed(0)}% taker buys on ${vm.toFixed(1)}× volume`); }
-      if (sh <= 1 - o.surge && m.c[j] < m.o[j] && pos <= 0.4 && vmF() >= o.surgeVol) { const vm = vmF(); sc[-1] += 2 + (vm >= 4 ? 1 : 0); sig[-1].push(`seller surge: ${((1 - sh) * 100).toFixed(0)}% taker sells on ${vm.toFixed(1)}× volume`); }
+      if (sh >= o.surge && m.c[j] > m.o[j] && pos >= 0.6 && vmF() >= o.surgeVol) { const vm = vmF(); sc[1] += 1.5 + (vm >= 4 ? 1 : 0); sig[1].push(`buyer surge: ${(sh * 100).toFixed(0)}% taker buys on ${vm.toFixed(1)}× volume`); }
+      if (sh <= 1 - o.surge && m.c[j] < m.o[j] && pos <= 0.4 && vmF() >= o.surgeVol) { const vm = vmF(); sc[-1] += 1.5 + (vm >= 4 ? 1 : 0); sig[-1].push(`seller surge: ${((1 - sh) * 100).toFixed(0)}% taker sells on ${vm.toFixed(1)}× volume`); }
       // climax: huge bar that closes away from its extreme against the takers
       if (rg >= o.climaxRange * A[j] && vmF() >= o.climaxVol) { const vm = vmF();
         if (m.c[j] < m.o[j] || sh < 0.45) { if (pos >= 0.5) { sc[1] += 3; sig[1].push(`selling climax: ${vm.toFixed(1)}× volume, closed off the low`); } }
@@ -3074,7 +3074,7 @@ document.addEventListener('visibilitychange', rcKick); window.addEventListener('
 // then again on every closed 15m candle. Read-only; a hit marks a coin to look at, not an entry.
 const TS_RINGS = [['1 h', .25], ['3 h', .5], ['6 h', .8]];
 const TS = { res: {}, busy: false, done: 0, at: 0, track: null, log: null, logAsked: false,
-  sw: { blips: [], groups: [], sel: null, tf: store.get('swTf', 'all'), min: +store.get('swMin', 4) },
+  sw: { blips: [], groups: [], sel: null, tf: store.get('swTf', 'all'), min: +store.get('swMin', 5) },
   fl: { blips: [], groups: [], sel: null, tf: store.get('flTf', 'all'), min: +store.get('flMin', 3) } };
 const TS_MS = { '15m': 9e5, '1H': 36e5, '4H': 144e5 };
 function tsCompute(s) {
@@ -3146,7 +3146,7 @@ function renderTest() {
   for (const id of ['#swCard', '#flCard']) $(id).hidden = mode !== 'live';
   if (mode === 'tv') { st.innerHTML = `The test radars read all of Binance live, which this Claude link cannot reach. ${siteLink()}`; return; }
   if (mode !== 'live') return;
-  if (!TS.logAsked) { TS.logAsked = true; loadRadarsLog(); setInterval(loadRadarsLog, 10 * 60e3); }
+  if (!TS.logAsked) { TS.logAsked = true; loadRadarsLog(); setInterval(loadRadarsLog, 10 * 60e3); loadReplay(); }
   if (!RD.on || RD.back !== 'done') { st.textContent = RD.busy || RD.on ? `Waiting for the radar's candles: ${RD.back === 'done' ? '' : (RD.backN || 0) + ' of ' + (RD.syms.length || '…') + ' coins (20 days)'}…` : 'Starts with the radar.'; if (!RD.on && tab === 'test') rdStart(); return; }
   if (!TS.at && !TS.busy) { tsAll(); }
   st.textContent = TS.busy ? `Scanning ${TS.done} of ${RD.syms.length} coins…` : `${Object.keys(TS.res).length} coins scanned · updated on every closed 15m candle · ${RD.ws && Date.now() - RD.wsAt < 120e3 ? 'live' : 'reconnecting'}`;
@@ -3164,9 +3164,17 @@ function renderTest() {
       const P = k === 'sw' ? ['1H', '4H'].map(tf => r.phase[tf] ? `${tf}: ${r.phase[tf].phase} range ${fp(r.phase[tf].lo)}–${fp(r.phase[tf].hi)} (${r.phase[tf].L} bars${r.phase[tf].dry ? ', volume dried up' : ''})` : '').filter(Boolean).join('<br>') : '';
       return `<div class="rcsel"><b>${esc(c)}</b> ${fp(px)} ${RD.wl.has(S.sel) ? '· watchlist' : ''}<br>${list.length ? list.map(h => `${h.tf} ${fdate(h.t)} ${hm(h.t)}: <b class="${h.side > 0 ? 'up' : 'dn'}">${esc(tsName(h))}</b> score ${h.score} <span class="k">${esc(h.tags.join('; '))}</span>`).join('<br>') : 'No hit at this score in the loaded days.'}${P ? '<br>' + P : ''}<div style="margin-top:6px"><button class="btn sm" data-sim="${esc(S.sel)}" data-tf="15m">Simulate</button> <button class="btn sm" data-look="${esc(c)}">Chart</button></div></div>`; })() : '';
     $('#' + k + 'Brief').innerHTML = `<p><b>Last 24 h:</b> ${pl(bull.length, 'bullish hit', 'bullish hits')}, ${pl(bear.length, 'bearish', 'bearish')} on ${pl(new Set(H.map(h => h.s)).size, 'coin', 'coins')}${byTf ? ` <span class="k">(${byTf})</span>` : ''}</p>${sel}
-      ${top.length ? `<h4>Strongest of the last 6 hours, then newest</h4><ul>${top.map(h => `<li>${tsLine(h, k)}</li>`).join('')}</ul>` : '<p class="k">No hit at this score in the last 24 hours.</p>'}${ph}${tsTrackText(k)}${tsLogText(k)}`;
+      ${top.length ? `<h4>Strongest of the last 6 hours, then newest</h4><ul>${top.map(h => `<li>${tsLine(h, k)}</li>`).join('')}</ul>` : '<p class="k">No hit at this score in the last 24 hours.</p>'}${ph}${tsTrackText(k)}${tsReplayText(k)}${tsLogText(k)}`;
   }
   rcKick();
+}
+const RT = { j: null, asked: false };          // the 60-day replay (backtest set "radars")
+function loadReplay() { if (RT.asked) return; RT.asked = true; fetch('https://raw.githubusercontent.com/medyalshamsi-blip/crypto-watch/main/data/backtest/radars/summary.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(j => { RT.j = j; later(); }, () => {}); }
+function tsReplayText(k) {
+  const j = RT.j; if (!j) return '';
+  const R = j.radars[k === 'sw' ? 'sweep' : 'flow'], b = j.base['15m'], rows = Object.entries(R).filter(([key, v]) => !/ all$| 15m$| 1H$| 4H$| score /.test(key) && v.n >= 30).sort((x, y) => y[1].n - x[1].n);
+  const d = (v, key) => { const x = (v.closeUp - b.closeUp) * (key.startsWith('bear') ? -1 : 1); return `<b class="${Math.abs(x) < 2 ? '' : x > 0 ? 'up' : 'dn'}" title="${x > 2 ? 'worked better than any hour' : x < -2 ? 'went the other way more often than any hour' : 'about the same as any hour'}">${v.closeUp}%</b>`; };   // green = the type worked, red = the other way
+  return `<details><summary class="k">60-day replay by type (${j.coins} coins, to ${fdate(Date.parse(j.ran))}): higher 6 h later vs ${b.closeUp}% for any hour</summary><table class="kv"><tbody>${rows.map(([key, v]) => `<tr><td>${esc(key.replace(/^bull /, '▲ ').replace(/^bear /, '▼ '))}</td><td>${d(v, key)} <span class="k">n ${v.n} · +5% first ${v.upFirst}%, −5% first ${v.dnFirst}%</span></td></tr>`).join('')}</tbody></table><p class="k">A bullish type works if its "higher" share is above the any-hour share; a bearish type if below. The 60 days were mostly falling, which favours bearish readings.</p></details>`;
 }
 function loadRadarsLog() {
   fetch('https://raw.githubusercontent.com/medyalshamsi-blip/crypto-watch/main/data/radars.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(j => { if (j) { TS.log = j.live || null; if (TS.log) TS.log.since = j.liveSince; later(); } }, () => {});
@@ -3863,7 +3871,9 @@ function structHTML(s) {
   const tl = Z.tl.price, tlt = (q, nm, okc) => q ? `${nm} ${fp(q.at(n - 1))}${q.br != null ? ` <span class="${okc}">broken ${when(q.br)}</span>` : ''}` : '';
   rows.push(['Trendlines', [tlt(tl[0], 'resistance', 'up'), tlt(tl[1], 'support', 'dn')].filter(Boolean).join(' · ') || 'none valid']);
   const ncD = Date.now() < d.t[n - 1] + 864e5 ? n - 1 : n, pats = ncD > 80 ? PAT.find(d, ncD).slice(0, 3) : [];
-  rows.push(['Chart patterns', pats.length ? pats.map(p => { const dr = p.dir || p.bias; return `<b class="${dr > 0 ? 'up' : dr < 0 ? 'dn' : ''}">${p.name}</b> ${p.status === 'confirmed' ? `broke ${p.dir > 0 ? 'up' : 'down'} ${when(p.brk.i)}${p.volOk ? ' on volume' : ' <span class="dn">on low volume</span>'}${p.against ? ' (against its usual bias)' : ''}; 80% target ${fp(p.target80)}, stop ${fp(p.stop)}, R:R ${p.rr.toFixed(1)}` : p.status === 'failed' ? `broke ${p.dir > 0 ? 'up' : 'down'} ${when(p.brk.i)}, then <span class="dn">failed</span> ${when(p.brk.fail)}` : `forming since ${when(p.from)}`} <small>${esc(p.note)}</small>`; }).join('<br>') + '<br><small>Detected by rule from the playbook\'s §8 table; the books\' success rates are unproven.</small>' : 'none in the last 160 candles']);
+  loadReplay();
+  const prec = nm => { const g = RT.j && RT.j.patterns && RT.j.patterns['1H ' + nm]; return g && g.n >= 20 ? ` <small>1H replay: 80% target first ${g.winPct}% vs ${g.chancePct}% by chance (n ${g.n})</small>` : ''; };
+  rows.push(['Chart patterns', pats.length ? pats.map(p => { const dr = p.dir || p.bias; return `<b class="${dr > 0 ? 'up' : dr < 0 ? 'dn' : ''}">${p.name}</b>${prec(p.name)} ${p.status === 'confirmed' ? `broke ${p.dir > 0 ? 'up' : 'down'} ${when(p.brk.i)}${p.volOk ? ' on volume' : ' <span class="dn">on low volume</span>'}${p.against ? ' (against its usual bias)' : ''}; 80% target ${fp(p.target80)}, stop ${fp(p.stop)}, R:R ${p.rr.toFixed(1)}` : p.status === 'failed' ? `broke ${p.dir > 0 ? 'up' : 'down'} ${when(p.brk.i)}, then <span class="dn">failed</span> ${when(p.brk.fail)}` : `forming since ${when(p.from)}`} <small>${esc(p.note)}</small>`; }).join('<br>') + '<br><small>Detected by rule from the playbook\'s §8 table; the books\' success rates are unproven.</small>' : 'none in the last 160 candles']);
   const rj = ncD > 60 ? PAT.rejections(d, ncD, rejLevels(Z, s.scan, null), {}).slice(-3).reverse() : [];
   rows.push(['Candle rejections', rj.length ? rj.map(x => `<span class="${x.side > 0 ? 'up' : 'dn'}">${x.kind}</span> at the ${esc(x.level.what)} ${when(x.i)}: ${x.status === 'confirmed' ? 'followed through' : x.status === 'failed' ? '<span class="dn">failed</span>' : x.status}${x.longWick ? ' <small>(very long wick: often continuation, the book stands aside)</small>' : ''}`).join('<br>') : 'none at a level in the last 150 candles']);
   return `<h4>Structure and signals (daily)</h4><table class="kv sig"><tbody>${rows.map(([a, x]) => `<tr><td>${a}</td><td>${x}</td></tr>`).join('')}</tbody></table>`;
