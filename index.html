@@ -162,6 +162,10 @@ svg.spark{display:block;margin:4px 0 0 auto}
 .sumgrid p{margin:0;font-size:13.5px;line-height:1.45}.sumgrid ul{margin:0;padding-left:16px;font-size:13.5px;line-height:1.45}.sumgrid .big{font-size:20px;font-weight:600}.sumgrid .k{color:var(--ink3);font-size:12.5px}
 .smrc{display:grid;grid-template-columns:150px minmax(0,1fr);gap:10px;align-items:center}@media (max-width:380px){.smrc{grid-template-columns:120px minmax(0,1fr)}}
 .rcwrap{display:grid;grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:18px;align-items:start}@media (max-width:860px){.rcwrap{grid-template-columns:1fr}}
+.tsgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}@media (max-width:860px){.tsgrid{grid-template-columns:1fr}}
+.ts .rcbox{max-width:520px}.tstools{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;margin:4px 0 10px}.tstools select{margin-left:4px}
+.tsbrief{border:1px solid var(--grid);border-radius:10px;padding:10px 12px;margin-top:8px;font-size:13.5px;line-height:1.45}.tsbrief p{margin:0 0 6px}.tsbrief h4{margin:8px 0 4px;font-size:13px}
+.tsbrief ul{list-style:none;margin:0;padding:0}.tsbrief li{padding:5px 0;border-top:1px solid var(--grid)}.tsbrief li:first-child{border-top:0}.tsbrief .lnk{font-weight:600}.tsbrief .k{color:var(--ink3);font-size:12.5px}
 .rcbox{position:relative;width:100%;max-width:440px;aspect-ratio:1/1;margin:0 auto}.rcbox canvas{width:100%;height:100%;display:block;border-radius:50%;cursor:crosshair;touch-action:manipulation}
 .smrc .rcbox{max-width:150px}.rctip{position:absolute;pointer-events:none;background:var(--card);border:1px solid var(--grid);border-radius:8px;padding:6px 8px;font-size:12.5px;box-shadow:0 4px 14px rgba(0,0,0,.14);white-space:nowrap;z-index:3;transform:translate(-50%,-115%)}
 .rclegend{font-size:12.5px;color:var(--ink2);display:flex;flex-wrap:wrap;gap:4px 14px;margin:6px 0}.rclegend i{display:inline-block;width:9px;height:9px;border-radius:50%;vertical-align:-1px;margin-right:4px}
@@ -284,6 +288,7 @@ dialog form{padding:18px;display:grid;gap:12px;overflow:auto;max-height:88vh}
     <button role="tab" id="tab-market" data-tab="market" aria-controls="p-market">Market</button>
     <button role="tab" id="tab-watchlist" data-tab="watchlist" aria-controls="p-watchlist">Watchlist</button>
     <button role="tab" id="tab-radar" data-tab="radar" aria-controls="p-radar">Radar</button>
+    <button role="tab" id="tab-test" data-tab="test" aria-controls="p-test">Test</button>
     <button role="tab" id="tab-chart" data-tab="chart" aria-controls="p-chart">Chart</button>
     <button role="tab" id="tab-portfolio" data-tab="portfolio" aria-controls="p-portfolio">Portfolio</button>
   </nav>
@@ -370,6 +375,26 @@ dialog form{padding:18px;display:grid;gap:12px;overflow:auto;max-height:88vh}
 </div></div></section>
 </div>
 
+<div id="p-test" class="tabp" role="tabpanel" aria-labelledby="tab-test" hidden>
+  <p class="note" id="tsStatus">The test radars read the same 20 days of Binance candles as the Radar tab.</p>
+  <div class="tsgrid">
+    <section class="card radar ts" id="swCard">
+      <div class="head"><h2>Sweep &amp; Wyckoff radar</h2><p class="note">Stop hunts that close back inside, Wyckoff springs, upthrusts and range breaks</p></div>
+      <div class="tstools"><label>Timeframe <select id="swTf"><option value="all">15m, 1H, 4H</option><option value="15m">15m</option><option value="1H">1H</option><option value="4H">4H</option></select></label><label>Score <select id="swMin"><option value="3">3 or more</option><option value="4">4 or more</option><option value="5">5 or more</option></select></label></div>
+      <div class="rcbox"><canvas id="swCan" aria-label="Sweep radar: closer to the centre = a newer hit; angle is the coin group; green bullish, red bearish"></canvas><div class="rctip" id="swTip" hidden></div></div>
+      <div class="rclegend"><span><i style="background:var(--up)"></i>bullish (low swept, closed back above)</span><span><i style="background:var(--down)"></i>bearish (high swept, closed back below)</span><span>rings: 1 h, 3 h, 6 h, edge 24 h</span><span>size: score · ring: on the last candle</span></div>
+      <div class="tsbrief" id="swBrief"></div>
+    </section>
+    <section class="card radar ts" id="flCard">
+      <div class="head"><h2>Order-flow radar</h2><p class="note">Taker buyers and sellers against what price did (Binance taker-buy volume)</p></div>
+      <div class="tstools"><label>Timeframe <select id="flTf"><option value="all">15m, 1H</option><option value="15m">15m</option><option value="1H">1H</option></select></label><label>Score <select id="flMin"><option value="3">3 or more</option><option value="4">4 or more</option><option value="5">5 or more</option></select></label></div>
+      <div class="rcbox"><canvas id="flCan" aria-label="Order-flow radar: closer to the centre = a newer hit; angle is the coin group; green bullish, red bearish"></canvas><div class="rctip" id="flTip" hidden></div></div>
+      <div class="rclegend"><span><i style="background:var(--up)"></i>bullish (hidden buying, selling climax, divergence)</span><span><i style="background:var(--down)"></i>bearish</span><span>rings: 1 h, 3 h, 6 h, edge 24 h</span><span>size: score</span></div>
+      <div class="tsbrief" id="flBrief"></div>
+    </section>
+  </div>
+  <p class="note">Both radars are being tested: a hit marks a coin to look at, not an entry. "What a hit has meant" compares the hits of the last 20 days with every hour of the same coins. Read-only; not financial advice.</p>
+</div>
 <div id="p-radar" class="tabp" role="tabpanel" aria-labelledby="tab-radar" hidden>
   <section class="card radar" id="rcCard">
     <div class="head"><h2>Live radar: how close each coin is to a trigger</h2><p class="note" id="rcStatus"></p></div>
@@ -1332,6 +1357,490 @@ const NEWS = (() => {
 })();
 
 
+// Two extra radars for the Test tab, shared by the dashboard and the hourly GitHub log.
+// Sweep radar: stop hunts at liquidity (swing and equal lows or highs, the prior day's low or high,
+//   Wyckoff range edges) that close back inside, plus Wyckoff range breaks (sign of strength or weakness).
+// Flow radar: what taker buyers and sellers did against what price did (Binance taker-buy volume).
+// Point in time: a hit on bar j uses only candles up to j. Read-only. Not financial advice.
+const R2 = (() => {
+  const DAY = 864e5;
+  const P = {
+    sweep: { k: 3, look: 96, buf: 0.05, reclaim: 2, eq: 0.15, deep: 1.5, min: 3 },
+    wy: { '15m': [], '1H': [30, 48, 72, 96], '4H': [20, 30, 45, 60], width: 6, touches: 3, trend: 3, dry: 0.7, sos: 1.5 },
+    flow: { N: 8, base: 200, z: 2.5, volN: 1.2, hold: 0.3, look: 24, surge: 0.68, surgeVol: 2.5, climaxVol: 4, climaxRange: 2, gap: 4, min: 3 },
+    out: { bars: { '15m': 24, '1H': 6, '4H': 6 }, thr: 0.05 }
+  };
+  const TF_MS = { '15m': 9e5, '1H': 36e5, '4H': 144e5 };
+
+  // ---- helpers
+  function atr(m, n, p = 14) {
+    const a = new Array(n).fill(NaN); let s = 0;
+    for (let i = 1; i < n; i++) {
+      const tr = Math.max(m.h[i] - m.l[i], Math.abs(m.h[i] - m.c[i - 1]), Math.abs(m.l[i] - m.c[i - 1]));
+      if (i <= p) { s += tr; if (i === p) a[i] = s / p; } else a[i] = (a[i - 1] * (p - 1) + tr) / p;
+    }
+    return a;
+  }
+  function rsi(c, n, p = 14) {
+    const r = new Array(n).fill(NaN); let g = 0, l = 0;
+    for (let i = 1; i < n; i++) {
+      const d = c[i] - c[i - 1], up = Math.max(d, 0), dn = Math.max(-d, 0);
+      if (i <= p) { g += up; l += dn; if (i === p) { g /= p; l /= p; r[i] = l === 0 ? 100 : 100 - 100 / (1 + g / l); } }
+      else { g = (g * (p - 1) + up) / p; l = (l * (p - 1) + dn) / p; r[i] = l === 0 ? 100 : 100 - 100 / (1 + g / l); }
+    }
+    return r;
+  }
+  const med = a => { if (!a.length) return NaN; const s = a.slice().sort((x, y) => x - y); return s[s.length >> 1]; };
+  // Closed 15m candles into complete 1H (4 each) or 4H (16 each) candles, taker-buy volume kept.
+  function agg(m, n, ms) {
+    const need = ms / 9e5, d = { t: [], o: [], h: [], l: [], c: [], v: [], tb: [] }, cnt = [];
+    for (let i = 0; i < n; i++) {
+      const b = Math.floor(m.t[i] / ms) * ms, j = d.t.length - 1, tb = m.tb ? m.tb[i] : NaN;
+      if (j >= 0 && d.t[j] === b) { d.h[j] = Math.max(d.h[j], m.h[i]); d.l[j] = Math.min(d.l[j], m.l[i]); d.c[j] = m.c[i]; d.v[j] += m.v[i]; d.tb[j] += tb; cnt[j]++; }
+      else { d.t.push(b); d.o.push(m.o[i]); d.h.push(m.h[i]); d.l.push(m.l[i]); d.c.push(m.c[i]); d.v.push(m.v[i]); d.tb.push(tb); cnt.push(1); }
+    }
+    const keep = cnt.map(x => x === need), out = { t: [], o: [], h: [], l: [], c: [], v: [], tb: [] };
+    for (let j = 0; j < d.t.length; j++) if (keep[j]) for (const k in out) out[k].push(d[k][j]);
+    return out;
+  }
+  function pivots(m, n, k) {                 // swing points; usable from bar p + k (confirmed)
+    const lo = [], hi = [];
+    for (let p = k; p < n - k; p++) {
+      let isL = true, isH = true;
+      for (let i = 1; i <= k && (isL || isH); i++) {
+        if (!(m.l[p] < m.l[p - i] && m.l[p] <= m.l[p + i])) isL = false;
+        if (!(m.h[p] > m.h[p - i] && m.h[p] >= m.h[p + i])) isH = false;
+      }
+      if (isL) lo.push({ p, lv: m.l[p], conf: p + k });
+      if (isH) hi.push({ p, lv: m.h[p], conf: p + k });
+    }
+    // first bar after confirmation that trades through the level (the sweep or break bar)
+    for (const q of lo) { q.took = Infinity; for (let i = q.conf + 1; i < n; i++) if (m.l[i] < q.lv) { q.took = i; break; } }
+    for (const q of hi) { q.took = Infinity; for (let i = q.conf + 1; i < n; i++) if (m.h[i] > q.lv) { q.took = i; break; } }
+    return { lo, hi };
+  }
+  function dayLevels(m, n) {                 // previous UTC day's high and low for every bar
+    const dh = {}, dl = {}; for (let i = 0; i < n; i++) { const d = Math.floor(m.t[i] / DAY); dh[d] = Math.max(dh[d] ?? -Infinity, m.h[i]); dl[d] = Math.min(dl[d] ?? Infinity, m.l[i]); }
+    const first = Math.floor(m.t[0] / DAY);
+    return i => { const d = Math.floor(m.t[i] / DAY) - 1; return d > first ? { hi: dh[d], lo: dl[d] } : null; };
+  }
+  function candle(m, r) {                    // rejection candles on the reclaim bar (the books' definitions)
+    const o = m.o[r], c = m.c[r], h = m.h[r], l = m.l[r], rg = h - l || 1e-12, body = Math.abs(c - o);
+    const bullPin = Math.min(o, c) - l >= 2 * body && (c - l) / rg >= 0.66, bearPin = h - Math.max(o, c) >= 2 * body && (h - c) / rg >= 0.66;
+    const p = r - 1, bullEng = p >= 0 && c > o && m.c[p] < m.o[p] && o <= m.c[p] && c >= m.o[p], bearEng = p >= 0 && c < o && m.c[p] > m.o[p] && o >= m.c[p] && c <= m.o[p];
+    const outside = p >= 0 && h > m.h[p] && l < m.l[p];
+    return { bull: bullPin ? 'pin bar' : bullEng ? 'engulfing' : outside && c > (h + l) / 2 ? 'outside bar' : null, bear: bearPin ? 'pin bar' : bearEng ? 'engulfing' : outside && c < (h + l) / 2 ? 'outside bar' : null };
+  }
+
+  // ---- Wyckoff trading range ending at bar j (only data up to j)
+  function range(m, j, A, tf, o = P.wy) {
+    const wins = o[tf] || []; if (!wins.length) return null;
+    for (const L of wins.slice().sort((a, b) => b - a)) {
+      const s = j - L + 1; if (s < 30 || !(A[j] > 0)) continue;
+      let hiC = -Infinity, loC = Infinity, hiH = -Infinity, loL = Infinity;
+      for (let i = s; i <= j; i++) { hiC = Math.max(hiC, m.c[i]); loC = Math.min(loC, m.c[i]); hiH = Math.max(hiH, m.h[i]); loL = Math.min(loL, m.l[i]); }
+      if ((hiC - loC) / A[j] > o.width) continue;
+      const hi = Math.min(hiH, hiC + 0.5 * A[j]), lo = Math.max(loL, loC - 0.5 * A[j]);
+      let tu = 0, tl = 0, lu = -9, ll = -9;                       // a trading range is tested at both edges again and again
+      for (let i = s; i <= j; i++) { if (m.h[i] >= hi - 0.5 * A[j] && i - lu >= 3) { tu++; lu = i; } if (m.l[i] <= lo + 0.5 * A[j] && i - ll >= 3) { tl++; ll = i; } }
+      if (tu < o.touches || tl < o.touches) continue;
+      const pre = s - Math.round(L / 2) >= 0 ? (m.c[s] - m.c[s - Math.round(L / 2)]) / A[j] : 0;
+      let va = 0, vr = 0; for (let i = s; i <= j; i++) va += m.v[i]; for (let i = Math.max(s, j - 9); i <= j; i++) vr += m.v[i];
+      const dry = (vr / Math.min(10, L)) / (va / L);
+      return { L, s, lo, hi, phase: pre <= -o.trend ? 'accumulation' : pre >= o.trend ? 'distribution' : 'range', pre, dry: dry <= o.dry, dryX: dry };
+    }
+    return null;
+  }
+
+  // ---- Sweep radar
+  function sweeps(m, n, tf, opt = {}) {
+    const o = Object.assign({}, P.sweep, opt), A = atr(m, n), R = rsi(m.c, n), pv = pivots(m, n, o.k), prevDay = tf === '4H' ? () => null : dayLevels(m, n);
+    const hits = [], seen = new Set(), memo = new Array(n);
+    const vMed = j => med(m.v.slice(Math.max(0, j - 20), j)), RG = j => memo[j] === undefined ? (memo[j] = range(m, j, A, tf)) : memo[j];
+    const dayLo = new Array(n), dayHi = new Array(n);           // today's low and high before bar j
+    for (let i = 0, d = -1, lo = Infinity, hi = -Infinity; i < n; i++) { const dd = Math.floor(m.t[i] / DAY); if (dd !== d) { d = dd; lo = Infinity; hi = -Infinity; } dayLo[i] = lo; dayHi[i] = hi; lo = Math.min(lo, m.l[i]); hi = Math.max(hi, m.h[i]); }
+    for (let side of [1, -1]) {
+      const pts = side > 0 ? pv.lo : pv.hi, byTook = new Map();
+      for (const q of pts) if (q.took < Infinity) { if (!byTook.has(q.took)) byTook.set(q.took, []); byTook.get(q.took).push(q); }
+      for (let j = Math.max(30, o.k * 2 + 1); j < n; j++) {
+        const a = A[j]; if (!(a > 0)) continue;
+        const ext = side > 0 ? m.l[j] : m.h[j];
+        // pools swept by bar j: confirmed before j, within the look-back, first traded through on j
+        const swept = (byTook.get(j) || []).filter(q => q.conf <= j - 1 && q.p >= j - o.look && (side > 0 ? ext < q.lv - o.buf * a : ext > q.lv + o.buf * a));
+        const pd = prevDay(j); let pdl = null;
+        if (pd) { const lv = side > 0 ? pd.lo : pd.hi, first = side > 0 ? !(dayLo[j] < lv) : !(dayHi[j] > lv);
+          if (first && (side > 0 ? ext < lv - o.buf * a : ext > lv + o.buf * a)) pdl = lv; }
+        const rg = RG(j - 1);
+        const rangeEdge = rg && (side > 0 ? ext < rg.lo - o.buf * a : ext > rg.hi + o.buf * a) ? (side > 0 ? rg.lo : rg.hi) : null;
+        if (!swept.length && pdl == null && rangeEdge == null) continue;
+        // the level: the furthest one taken (most stops behind it)
+        const cands = swept.map(q => ({ lv: q.lv, what: 'swing', q })).concat(pdl != null ? [{ lv: pdl, what: side > 0 ? 'prior day low' : 'prior day high' }] : []).concat(rangeEdge != null ? [{ lv: rangeEdge, what: side > 0 ? 'range low' : 'range high' }] : []);
+        let lvl = cands.reduce((b, x) => !b || (side > 0 ? x.lv < b.lv : x.lv > b.lv) ? x : b, null);
+        const pref = cands.find(x => x.what.startsWith('range') && Math.abs(x.lv - lvl.lv) <= 0.15 * a) || cands.find(x => x.what.startsWith('prior') && Math.abs(x.lv - lvl.lv) <= 0.15 * a);
+        if (pref) lvl = Object.assign({}, pref, { q: lvl.q || pref.q });   // a range edge or the prior day's level names the pool
+        // reclaim: a close back on the right side within `reclaim` bars
+        let r = -1; for (let i = j; i <= Math.min(n - 1, j + o.reclaim); i++) { if (side > 0 ? m.c[i] > lvl.lv : m.c[i] < lvl.lv) { r = i; break; } if (i > j && (side > 0 ? m.l[i] < ext : m.h[i] > ext)) break; }
+        if (r < 0) continue;
+        const key = side + ':' + r; if (seen.has(key)) continue; seen.add(key);
+        const eqN = pts.filter(q => q.p >= j - o.look && q.p < j && q.conf <= j - 1 && q.p >= j - o.look && q.took >= j && Math.abs(q.lv - lvl.lv) <= o.eq * a).length;
+        const depth = Math.abs(ext - lvl.lv) / a, vm = m.v[j] / (vMed(j) || 1), cd = candle(m, r), cn = side > 0 ? cd.bull : cd.bear;
+        const piv = lvl.q || swept[0], div = piv && ok(R[j]) && ok(R[piv.p]) && (side > 0 ? R[j] > R[piv.p] + 2 : R[j] < R[piv.p] - 2);
+        const spring = lvl.what.startsWith('range') && rg && (side > 0 ? rg.phase !== 'distribution' : rg.phase !== 'accumulation');
+        let s = 2; const tags = [];
+        const pool = lvl.what === 'swing' ? (eqN >= 2 ? (side > 0 ? 'equal lows' : 'equal highs') : (side > 0 ? 'swing low' : 'swing high')) : lvl.what;
+        if (eqN >= 2 || lvl.what !== 'swing') { s += 1; tags.push(pool + (eqN >= 2 ? ` (${eqN})` : '')); }
+        if (cn) { s += 1; tags.push(cn); }
+        if (vm >= 2) { s += 1; tags.push(`volume ${vm.toFixed(1)}×`); } else if (vm >= 1.3) { s += 0.5; tags.push(`volume ${vm.toFixed(1)}×`); }
+        if (div) { s += 1; tags.push('RSI divergence'); }
+        if (spring) { s += 1; tags.push(rg.phase === 'range' ? 'range edge' : rg.phase + ' range'); }
+        if (depth <= 0.5) s += 0.5; else if (depth > o.deep) { s -= 1; tags.push('deep'); }
+        if (r > j) tags.push('reclaimed after ' + (r - j) + ' bar' + (r - j > 1 ? 's' : ''));
+        if (s < o.min) continue;
+        const kind = spring ? (side > 0 ? 'spring' : 'upthrust') : 'sweep';
+        hits.push({ tf, j: r, t: m.t[r], side, kind, pool, level: lvl.lv, ext, depth: +depth.toFixed(2), score: +Math.min(s, 8).toFixed(1), tags, entry: m.c[r], stop: ext - side * 0.25 * a, phase: rg ? rg.phase : null });
+      }
+    }
+    // Wyckoff range breaks on volume: sign of strength (up) or weakness (down)
+    for (let j = 40; j < n; j++) {
+      const a = A[j]; if (!(a > 0)) continue;
+      const rg = RG(j - 1); if (!rg) continue;
+      const vm = m.v[j] / (vMed(j) || 1);
+      for (const side of [1, -1]) {
+        const lv = side > 0 ? rg.hi : rg.lo;
+        if (!(side > 0 ? m.c[j] > lv && m.c[j - 1] <= lv : m.c[j] < lv && m.c[j - 1] >= lv) || vm < P.wy.sos) continue;
+        const key = side + ':' + j; if (seen.has(key)) continue; seen.add(key);
+        let s = 2.5 + (vm >= 2.5 ? 1 : 0.5) + ((side > 0 && rg.phase === 'accumulation') || (side < 0 && rg.phase === 'distribution') ? 1 : 0) + (rg.dry ? 0.5 : 0);
+        const tags = [`${rg.L}-bar ${rg.phase === 'range' ? 'range' : rg.phase + ' range'}`, `volume ${vm.toFixed(1)}×`].concat(rg.dry ? ['volume dried up before'] : []);
+        if (s < P.sweep.min) continue;
+        hits.push({ tf, j, t: m.t[j], side, kind: side > 0 ? 'sos' : 'sow', pool: side > 0 ? 'range high' : 'range low', level: lv, ext: m.c[j], depth: 0, score: +Math.min(s, 8).toFixed(1), tags, entry: m.c[j], stop: side > 0 ? (rg.lo + rg.hi) / 2 : (rg.lo + rg.hi) / 2, phase: rg.phase });
+      }
+    }
+    return hits.sort((x, y) => x.j - y.j);
+  }
+  // Current Wyckoff picture on the last closed bar.
+  function phase(m, n, tf) { if (n < 40) return null; const A = atr(m, n), rg = range(m, n - 1, A, tf); if (!rg) return null; const px = m.c[n - 1]; return Object.assign({}, rg, { pos: (px - rg.lo) / Math.max(1e-12, rg.hi - rg.lo) }); }
+
+  // ---- Flow radar (needs taker-buy volume)
+  function flow(m, n, tf, opt = {}) {
+    const o = Object.assign({}, P.flow, opt), hits = [];
+    if (!m.tb || !m.tb.length || !(m.tb[n - 1] >= 0)) return hits;
+    const A = atr(m, n), N = o.N, ns = new Array(n).fill(NaN);
+    let sb = 0, sv = 0; for (let i = 0; i < n; i++) { sb += m.tb[i]; sv += m.v[i]; if (i >= N) { sb -= m.tb[i - N]; sv -= m.v[i - N]; } if (i >= N - 1 && sv > 0) ns[i] = sb / sv; }
+    const last = {}, was = { 1: false, '-1': false }, vMed = j => med(m.v.slice(Math.max(0, j - 20), j));
+    let s1 = 0, s2 = 0, cnt = 0;
+    const lo0 = N - 1;
+    for (let j = 0; j < n; j++) {
+      // baseline of N-bar taker-buy share over the previous `base` bars, ending N bars back (no overlap with now)
+      const add = j - N, rem = j - N - o.base;
+      if (add >= lo0 && ok(ns[add])) { s1 += ns[add]; s2 += ns[add] ** 2; cnt++; }
+      if (rem >= lo0 && ok(ns[rem])) { s1 -= ns[rem]; s2 -= ns[rem] ** 2; cnt--; }
+      if (j < Math.max(60, N + 40) || !(A[j] > 0) || cnt < 40) continue;
+      const mu = s1 / cnt, sd = Math.sqrt(Math.max(1e-9, s2 / cnt - mu * mu)), z = (ns[j] - mu) / sd, dP = (m.c[j] - m.c[j - N]) / A[j];
+      const sig = { 1: [], '-1': [] }, sc = { 1: 0, '-1': 0 }; let vmC = null; const vmF = () => vmC ?? (vmC = m.v[j] / (vMed(j) || 1));
+      let vN = 0, vB = 0; for (let i = j - N + 1; i <= j; i++) vN += m.v[i]; for (let i = Math.max(0, j - N - 40); i <= j - N; i++) vB += m.v[i];
+      const busy = vN / N >= o.volN * (vB / Math.min(41, j - N + 1) || 1);   // the takers' push came with real volume
+      // absorption: aggressive sellers but price held (bullish), aggressive buyers but price stalled (bearish)
+      const onB = busy && z <= -o.z && dP >= -o.hold, onS = busy && z >= o.z && dP <= o.hold, newB = onB && !was[1], newS = onS && !was[-1]; was[1] = onB; was[-1] = onS;   // fire when an episode starts
+      if (newB) { sc[1] += 3 + (z <= -3.5 ? 1 : 0); sig[1].push(`hidden buying: taker buys ${(ns[j] * 100).toFixed(0)}% vs usual ${(mu * 100).toFixed(0)}%, price ${dP >= 0 ? 'up' : 'held'} (${dP.toFixed(1)} ATR)`); }
+      if (newS) { sc[-1] += 3 + (z >= 3.5 ? 1 : 0); sig[-1].push(`hidden selling: taker buys ${(ns[j] * 100).toFixed(0)}% vs usual ${(mu * 100).toFixed(0)}%, price ${dP <= 0 ? 'down' : 'stalled'} (${dP.toFixed(1)} ATR)`); }
+      // CVD divergence at a new low or high
+      const L = o.look, s0 = j - 2 * L;
+      if (s0 >= 0) {
+        let lowNew = true, highNew = true; for (let i = j - L; i < j; i++) { if (m.c[i] <= m.c[j]) lowNew = false; if (m.c[i] >= m.c[j]) highNew = false; }
+        if (lowNew || highNew) {
+          const cvd = []; let c0 = 0, vs = 0; for (let i = s0; i <= j; i++) { c0 += 2 * m.tb[i] - m.v[i]; vs += m.v[i]; cvd.push(c0); }
+          let p = -1; for (let i = s0; i <= j - L / 2; i++) if (p < 0 || (lowNew ? m.c[i] < m.c[p] : m.c[i] > m.c[p])) p = i;
+          const margin = 0.05 * vs, dv = cvd[j - s0] - cvd[p - s0];
+          if (lowNew && m.c[j] < m.c[p] && dv > margin) { sc[1] += 2.5; sig[1].push('price at a new low, buyers stronger than at the last low (CVD divergence)'); }
+          if (highNew && m.c[j] > m.c[p] && dv < -margin) { sc[-1] += 2.5; sig[-1].push('price at a new high, buyers weaker than at the last high (CVD divergence)'); }
+        }
+      }
+      // surge: one bar dominated by takers on heavy volume, closing with them
+      const sh = m.v[j] > 0 ? m.tb[j] / m.v[j] : 0.5, rg = m.h[j] - m.l[j] || 1e-12, pos = (m.c[j] - m.l[j]) / rg;
+      if (sh >= o.surge && m.c[j] > m.o[j] && pos >= 0.6 && vmF() >= o.surgeVol) { const vm = vmF(); sc[1] += 2 + (vm >= 4 ? 1 : 0); sig[1].push(`buyer surge: ${(sh * 100).toFixed(0)}% taker buys on ${vm.toFixed(1)}× volume`); }
+      if (sh <= 1 - o.surge && m.c[j] < m.o[j] && pos <= 0.4 && vmF() >= o.surgeVol) { const vm = vmF(); sc[-1] += 2 + (vm >= 4 ? 1 : 0); sig[-1].push(`seller surge: ${((1 - sh) * 100).toFixed(0)}% taker sells on ${vm.toFixed(1)}× volume`); }
+      // climax: huge bar that closes away from its extreme against the takers
+      if (rg >= o.climaxRange * A[j] && vmF() >= o.climaxVol) { const vm = vmF();
+        if (m.c[j] < m.o[j] || sh < 0.45) { if (pos >= 0.5) { sc[1] += 3; sig[1].push(`selling climax: ${vm.toFixed(1)}× volume, closed off the low`); } }
+        if (m.c[j] > m.o[j] || sh > 0.55) { if (pos <= 0.5) { sc[-1] += 3; sig[-1].push(`buying climax: ${vm.toFixed(1)}× volume, closed off the high`); } }
+      }
+      for (const side of [1, -1]) {
+        const s = sc[side]; if (s < o.min) continue;
+        if (last[side] != null && j - last[side] < o.gap) continue;
+        last[side] = j;
+        const kind = sig[side][0].split(':')[0].replace(/^price at a new (low|high).*/, 'CVD divergence');
+        hits.push({ tf, j, t: m.t[j], side, kind, score: +Math.min(s, 8).toFixed(1), tags: sig[side], z: +z.toFixed(2), share: +ns[j].toFixed(3), usual: +mu.toFixed(3), entry: m.c[j], stop: side > 0 ? Math.min(...m.l.slice(j - 3, j + 1)) - 0.25 * A[j] : Math.max(...m.h.slice(j - 3, j + 1)) + 0.25 * A[j] });
+      }
+    }
+    return hits;
+  }
+  const ok = x => typeof x === 'number' && isFinite(x);
+
+  // ---- what happened after a bar: 5% up or down first, and the close after the window
+  function outcome(m, n, j, tf, o = P.out) {
+    const bars = o.bars[tf] || 6, end = Math.min(n - 1, j + bars), c = m.c[j]; if (end <= j) return null;
+    let up = 0, dn = 0, first = 0;
+    for (let i = j + 1; i <= end; i++) { const u = m.h[i] / c - 1, d = m.l[i] / c - 1; if (!first) { if (u >= o.thr && d <= -o.thr) first = 2; else if (u >= o.thr) first = 1; else if (d <= -o.thr) first = -1; } up = Math.max(up, u); dn = Math.min(dn, d); }
+    return { up, dn, up5: up >= o.thr, dn5: dn <= -o.thr, first, ret: m.c[end] / c - 1, done: j + bars <= n - 1 };
+  }
+  // Track record over the loaded candles: hits against every bar of the same coins (the base rate).
+  function track(sets, minScore = 3) {    // sets: [{ m, n, tf, hits }]
+    const z = () => ({ n: 0, up5: 0, dn5: 0, upFirst: 0, dnFirst: 0, closeUp: 0 });
+    const res = { bull: z(), bear: z(), base: z() }, addTo = (b, oc) => { b.n++; if (oc.up5) b.up5++; if (oc.dn5) b.dn5++; if (oc.first === 1) b.upFirst++; if (oc.first === -1) b.dnFirst++; if (oc.ret > 0) b.closeUp++; };
+    for (const { m, n, tf, hits } of sets) {
+      const step = tf === '15m' ? 4 : 1;
+      for (let j = 60; j < n; j += step) { const oc = outcome(m, n, j, tf); if (oc && oc.done) addTo(res.base, oc); }
+      for (const h of hits) { if (h.score < minScore) continue; const oc = outcome(m, n, h.j, tf); if (oc && oc.done) addTo(h.side > 0 ? res.bull : res.bear, oc); }
+    }
+    const pct = (b, k) => b.n ? +(100 * b[k] / b.n).toFixed(1) : null;
+    for (const k of ['bull', 'bear', 'base']) { const b = res[k]; Object.assign(b, { up5Pct: pct(b, 'up5'), dn5Pct: pct(b, 'dn5'), closeUpPct: pct(b, 'closeUp'), upFirstPct: pct(b, 'upFirst'), dnFirstPct: pct(b, 'dnFirst') }); }
+    return res;
+  }
+  // All hits for one coin from its closed 15m candles.
+  function scan(m15, n, opt = {}) {
+    const h1 = agg(m15, n, 36e5), h4 = agg(m15, n, 144e5), out = { h1, h4, sweep: [], flow: [], phase: {} };
+    const tfs = [['15m', m15, n], ['1H', h1, h1.t.length], ['4H', h4, h4.t.length]];
+    for (const [tf, m, k] of tfs) {
+      if (k < 60) continue;
+      if (!opt.only || opt.only === 'sweep') out.sweep.push(...sweeps(m, k, tf));
+      if (tf !== '4H' && (!opt.only || opt.only === 'flow')) out.flow.push(...flow(m, k, tf));
+      if (tf !== '15m') out.phase[tf] = phase(m, k, tf);
+    }
+    return out;
+  }
+  const KIND = { sweep: 'Sweep & reclaim', spring: 'Spring', upthrust: 'Upthrust', sos: 'Sign of strength', sow: 'Sign of weakness', 'hidden buying': 'Hidden buying', 'hidden selling': 'Hidden selling', 'CVD divergence': 'CVD divergence', 'buyer surge': 'Buyer surge', 'seller surge': 'Seller surge', 'selling climax': 'Selling climax', 'buying climax': 'Buying climax' };
+  return { P, TF_MS, atr, rsi, agg, pivots, range, sweeps, phase, flow, outcome, track, scan, KIND };
+})();
+
+
+// Chart patterns (playbook §8) and candle rejections at levels (playbook §3 and §5), for the chart and its tests.
+// Patterns: ascending, descending, symmetrical and expanding triangles, rising and falling wedges, rectangles,
+// flags and pennants, double and triple tops and bottoms, head and shoulders and the inverse.
+// Rules: confirmation is a close beyond the boundary; volume should contract inside and expand on the break;
+// the target is 100% of the pattern height from the break (80% shown as the take-profit), and strong levels override it.
+// Only closed candles; a pattern is judged with the candles up to the bar being read. Not financial advice.
+const PAT = (() => {
+  const P = { k: 3, win: 160, minLen: 15, minH: 1.5, flat: 0.02, conv: 0.75, exp: 1.3, tol: 0.35, inside: 0.3, brkVol: 1.5, peakTol: 0.6, depth: 2, trend: 3 };
+  const ok = x => typeof x === 'number' && isFinite(x);
+  function atr(m, n, p = 14) { const a = new Array(n).fill(NaN); let s = 0; for (let i = 1; i < n; i++) { const tr = Math.max(m.h[i] - m.l[i], Math.abs(m.h[i] - m.c[i - 1]), Math.abs(m.l[i] - m.c[i - 1])); if (i <= p) { s += tr; if (i === p) a[i] = s / p; } else a[i] = (a[i - 1] * (p - 1) + tr) / p; } for (let i = 0; i < Math.min(p, n); i++) a[i] = a[Math.min(p, n - 1)]; return a; }
+  function pivots(m, n, k) { const lo = [], hi = []; for (let p = k; p < n - k; p++) { let L = true, H = true; for (let i = 1; i <= k; i++) { if (!(m.l[p] < m.l[p - i] && m.l[p] <= m.l[p + i])) L = false; if (!(m.h[p] > m.h[p - i] && m.h[p] >= m.h[p + i])) H = false; } if (L) lo.push({ p, v: m.l[p] }); if (H) hi.push({ p, v: m.h[p] }); } return { lo, hi }; }
+  function fit(pts) { const n = pts.length; let sx = 0, sy = 0, sxx = 0, sxy = 0; for (const q of pts) { sx += q.p; sy += q.v; sxx += q.p * q.p; sxy += q.p * q.v; } const d = n * sxx - sx * sx, b = d ? (n * sxy - sx * sy) / d : 0, a = (sy - b * sx) / n; return { a, b, at: i => a + b * i }; }
+  const avg = (a, i0, i1) => { let s = 0, c = 0; for (let i = Math.max(0, i0); i <= i1; i++) { s += a[i]; c++; } return c ? s / c : NaN; };
+  const NAME = { asc: 'Ascending triangle', desc: 'Descending triangle', sym: 'Symmetrical triangle', exp: 'Expanding triangle', rwedge: 'Rising wedge', fwedge: 'Falling wedge', rect: 'Rectangle', bflag: 'Bull flag', bpenn: 'Bull pennant', sflag: 'Bear flag', spenn: 'Bear pennant', dtop: 'Double top', dbot: 'Double bottom', ttop: 'Triple top', tbot: 'Triple bottom', hs: 'Head and shoulders', ihs: 'Inverse head and shoulders' };
+  const BIAS = { asc: 1, desc: -1, sym: 0, exp: 0, rwedge: -1, fwedge: 1, rect: 0, bflag: 1, bpenn: 1, sflag: -1, spenn: -1, dtop: -1, dbot: 1, ttop: -1, tbot: 1, hs: -1, ihs: 1 };
+
+  // break of a boundary after `from`: first close beyond, then whether a later close went back inside
+  function breakOf(m, n, from, up, lo, A) {
+    for (let i = from + 1; i < n; i++) {
+      const u = up(i), l = lo(i);
+      if (m.c[i] > u) { let fail = -1; for (let k = i + 1; k < n; k++) if (m.c[k] < up(k)) { fail = k; break; } return { i, dir: 1, at: u, fail }; }
+      if (m.c[i] < l) { let fail = -1; for (let k = i + 1; k < n; k++) if (m.c[k] > lo(k)) { fail = k; break; } return { i, dir: -1, at: l, fail }; }
+    }
+    return null;
+  }
+  function volRead(m, s0, s1, bi) {
+    const half = Math.floor((s0 + s1) / 2), a = avg(m.v, s0, half), b = avg(m.v, half + 1, s1), inside = avg(m.v, s0, s1);
+    return { contracted: b < a, brkX: bi != null ? m.v[bi] / inside : null };
+  }
+  function finish(p, m, n, A, o) {          // status, entry, stop, target, R:R and the notes in words
+    const b = p.brk, a = A[n - 1];
+    p.status = !b ? 'forming' : b.fail >= 0 ? 'failed' : 'confirmed';
+    p.bias = BIAS[p.type]; p.name = NAME[p.type];
+    if (b) {
+      p.dir = b.dir; p.entry = m.c[b.i]; p.against = p.bias && p.bias !== b.dir;
+      if (p.target == null) p.target = b.at + b.dir * p.height;
+      p.target80 = p.entry + 0.8 * (p.target - p.entry);
+      if (p.stop == null) p.stop = b.at - b.dir * 0.25 * a;
+      p.rr = Math.abs(p.target80 - p.entry) / Math.max(1e-12, Math.abs(p.entry - p.stop));
+      p.volOk = p.vol && p.vol.brkX >= o.brkVol;
+    }
+    const v = p.vol ? (p.vol.contracted ? 'volume contracted inside' : 'volume did not contract') + (p.vol.brkX != null ? `, break bar ${p.vol.brkX.toFixed(1)}× the pattern's volume` : '') : '';
+    p.note = [v, p.against ? 'broke against the usual bias' : '', p.extra || ''].filter(Boolean).join('; ');
+    return p;
+  }
+
+  // triangles, wedges, rectangles: lines through the last swing highs and lows
+  function lines(m, n, A, pv, o) {
+    const out = [], e = n - 1, a = A[e];
+    const H = pv.hi.filter(q => q.p >= e - o.win && q.p + o.k <= e), L = pv.lo.filter(q => q.p >= e - o.win && q.p + o.k <= e);
+    let best = null;
+    for (let nh = 2; nh <= Math.min(4, H.length); nh++) for (let nl = 2; nl <= Math.min(4, L.length); nl++) {
+      const hp = H.slice(-nh), lp = L.slice(-nl), s0 = Math.min(hp[0].p, lp[0].p), s1 = Math.max(hp[nh - 1].p, lp[nl - 1].p);
+      if (s1 - s0 < o.minLen) continue;
+      const up = fit(hp), lo = fit(lp);
+      if (hp.some(q => Math.abs(q.v - up.at(q.p)) > o.tol * a) || lp.some(q => Math.abs(q.v - lo.at(q.p)) > o.tol * a)) continue;
+      const hs = up.at(s0) - lo.at(s0), he = up.at(s1) - lo.at(s1); if (!(hs > 0 && he > 0) || Math.max(hs, he) < o.minH * a) continue;
+      let inside = true; for (let i = s0; i <= s1 && inside; i++) if (m.c[i] > up.at(i) + o.inside * a || m.c[i] < lo.at(i) - o.inside * a) inside = false;
+      if (!inside) continue;
+      const su = up.b / a, sl = lo.b / a, flatU = Math.abs(su) <= o.flat, flatL = Math.abs(sl) <= o.flat, conv = he < o.conv * hs, expd = he > o.exp * hs;
+      let type = null;
+      if (conv && flatU && sl > o.flat) type = 'asc';
+      else if (conv && flatL && su < -o.flat) type = 'desc';
+      else if (conv && su < -o.flat && sl > o.flat) type = 'sym';
+      else if (conv && su > o.flat && sl > su) type = 'rwedge';
+      else if (conv && sl < -o.flat && su < sl) type = 'fwedge';
+      else if (flatU && flatL && !conv && !expd && nh + nl >= 4) type = 'rect';
+      else if (expd && su > o.flat && sl < -o.flat) type = 'exp';
+      if (!type) continue;
+      // a triangle or wedge that ran past its apex without breaking is over
+      if (conv && up.b !== lo.b) { const apex = (lo.a - up.a) / (up.b - lo.b); if (apex < e - 3 && !breakOf(m, Math.min(n, Math.ceil(apex) + 1), s1, up.at, lo.at, A)) continue; }
+      const touches = nh + nl;
+      if (!best || touches > best.touches || (touches === best.touches && s1 > best.s1)) best = { type, s0, s1, up, lo, hs, he, touches, nh, nl };
+    }
+    if (!best) return out;
+    const { type, s0, s1, up, lo, hs } = best, brk = type === 'exp' ? null : breakOf(m, n, s1, up.at, lo.at, A);
+    const p = { type, from: s0, to: brk ? brk.i : e, brk, height: hs, touches: best.touches, vol: volRead(m, s0, s1, brk && brk.i), lines: [{ i0: s0, v0: up.at(s0), i1: brk ? brk.i : e, v1: up.at(brk ? brk.i : e) }, { i0: s0, v0: lo.at(s0), i1: brk ? brk.i : e, v1: lo.at(brk ? brk.i : e) }] };
+    if (brk && (type === 'rwedge' || type === 'fwedge')) {         // wedge targets: T1 the last swing inside, T2 the wedge start
+      const inside = brk.dir < 0 ? pv.lo.filter(q => q.p >= s0 && q.p <= s1) : pv.hi.filter(q => q.p >= s0 && q.p <= s1);
+      p.target = inside.length ? inside[inside.length - 1].v : brk.at + brk.dir * hs; p.target2 = brk.dir < 0 ? lo.at(s0) : up.at(s0);
+      if (Math.sign(p.target - m.c[brk.i]) !== brk.dir) p.target = p.target2;
+      p.stop = brk.dir < 0 ? Math.max(...m.h.slice(Math.max(0, brk.i - 2), brk.i + 1)) + 0.1 * a : Math.min(...m.l.slice(Math.max(0, brk.i - 2), brk.i + 1)) - 0.1 * a;
+    }
+    if (brk && type === 'sym') p.stop = brk.dir > 0 ? lo.at(brk.i) : up.at(brk.i);
+    if (type === 'exp') p.extra = `trade the edges: lower line ${up.at(e) > lo.at(e) ? lo.at(e).toPrecision(5) : ''}, upper line ${up.at(e).toPrecision(5)}`;
+    out.push(finish(p, m, n, A, o));
+    return out;
+  }
+
+  // flags and pennants: an impulsive pole, then a small counter-move
+  function flags(m, n, A, o) {
+    const out = [], e = n - 1;
+    for (let pt = e - 5; pt >= Math.max(15, e - 30); pt--) {
+      for (const dir of [1, -1]) {
+        let found = null;
+        for (let ps = pt - 3; ps >= Math.max(1, pt - 12); ps--) {
+          const a = A[pt], pole = dir > 0 ? m.h[pt] - m.l[ps] : m.h[ps] - m.l[pt], net = dir * (m.c[pt] - m.c[ps]);
+          if (pole >= 4 * a && net >= 3 * a) { found = { ps, pole }; break; }
+        }
+        if (!found) continue;
+        const { ps, pole } = found, top = dir > 0 ? m.h[pt] : m.l[pt];
+        // the pole must be the extreme: nothing beyond it after
+        let ext = true, deep = true;   // ext: nothing went beyond the pole's end afterwards
+        for (let i = pt + 1; i <= e; i++) { if (dir > 0 ? m.h[i] > top : m.l[i] < top) { ext = false; break; } }
+        const fl = []; for (let i = pt + 1; i <= e; i++) fl.push(i);
+        if (fl.length < 4) continue;
+        // flag body: up to the break (a close beyond the flag's far line) or now
+        const hiP = fl.map(i => ({ p: i, v: m.h[i] })), loP = fl.map(i => ({ p: i, v: m.l[i] }));
+        let brk = null, endF = e;
+        for (let k = 4; k <= fl.length; k++) {
+          const i = fl[k - 1], U = fit(hiP.slice(0, k - 1)), Lw = fit(loP.slice(0, k - 1));
+          if (k > 4 && (dir > 0 ? m.c[i] > U.at(i) : m.c[i] < Lw.at(i))) { brk = { i, dir, at: dir > 0 ? U.at(i) : Lw.at(i) }; endF = i - 1; break; }
+        }
+        if (!brk && !ext) continue;
+        const body = fl.filter(i => i <= endF); if (body.length < 4 || body.length > 25) continue;
+        const retr = dir > 0 ? top - Math.min(...body.map(i => m.l[i])) : Math.max(...body.map(i => m.h[i])) - top; if (retr > 0.5 * pole) deep = false;
+        if (!deep) continue;
+        const U = fit(body.map(i => ({ p: i, v: m.h[i] }))), Lw = fit(body.map(i => ({ p: i, v: m.l[i] }))), a = A[pt];
+        const su = U.b / a, sl = Lw.b / a, h0 = U.at(body[0]) - Lw.at(body[0]), h1 = U.at(body[body.length - 1]) - Lw.at(body[body.length - 1]);
+        const pennant = h1 < 0.6 * h0, against = dir > 0 ? su <= 0.02 && sl <= 0.02 : su >= -0.02 && sl >= -0.02;
+        if (!pennant && !against) continue;
+        const pv = avg(m.v, ps, pt), fv = avg(m.v, body[0], body[body.length - 1]);
+        if (brk) { let fail = -1; for (let k = brk.i + 1; k < n; k++) if (dir > 0 ? m.c[k] < Lw.at(k) : m.c[k] > U.at(k)) { fail = k; break; } brk.fail = fail; }
+        const type = dir > 0 ? (pennant ? 'bpenn' : 'bflag') : (pennant ? 'spenn' : 'sflag');
+        const p = { type, from: ps, to: brk ? brk.i : e, brk, height: pole, pole: { i0: ps, v0: dir > 0 ? m.l[ps] : m.h[ps], i1: pt, v1: top }, touches: body.length,
+          vol: { contracted: fv < pv, brkX: brk ? m.v[brk.i] / fv : null }, lines: [{ i0: body[0], v0: U.at(body[0]), i1: brk ? brk.i : e, v1: U.at(brk ? brk.i : e) }, { i0: body[0], v0: Lw.at(body[0]), i1: brk ? brk.i : e, v1: Lw.at(brk ? brk.i : e) }],
+          stop: brk ? (dir > 0 ? Math.min(...body.map(i => m.l[i])) : Math.max(...body.map(i => m.h[i]))) : null, extra: `pole ${(pole / a).toFixed(1)} ATR; volume in the ${pennant ? 'pennant' : 'flag'} ${(fv / pv).toFixed(2)}× the pole's` };
+        out.push(finish(p, m, n, A, o));
+        return out;                           // the most recent pole only
+      }
+    }
+    return out;
+  }
+
+  // double and triple tops and bottoms; head and shoulders and the inverse
+  function reversals(m, n, A, pv, o) {
+    const out = [], e = n - 1;
+    for (const dir of [-1, 1]) {           // -1 = tops (bearish), +1 = bottoms (bullish)
+      const pts = (dir < 0 ? pv.hi : pv.lo).filter(q => q.p >= e - o.win && q.p + o.k <= e);
+      const beyond = (x, y) => dir < 0 ? x > y : x < y, ext = i => dir < 0 ? m.h[i] : m.l[i];
+      // double / triple
+      for (let b = pts.length - 1; b >= 1 && !out.some(x => x.dir0 === dir && /top|bot/.test(x.type)); b--) {
+        const P2 = pts[b], a = A[P2.p];
+        for (let f = b - 1; f >= 0; f--) {
+          const P1 = pts[f], gap = P2.p - P1.p; if (gap < 8) continue; if (gap > 100) break;
+          if (Math.abs(P1.v - P2.v) > o.peakTol * a) continue;
+          let ti = P1.p; for (let i = P1.p; i <= P2.p; i++) if (dir < 0 ? m.l[i] < m.l[ti] : m.h[i] > m.h[ti]) ti = i;
+          const T = dir < 0 ? m.l[ti] : m.h[ti], peak = dir < 0 ? Math.max(P1.v, P2.v) : Math.min(P1.v, P2.v), depth = Math.abs(peak - T) / a;
+          if (depth < o.depth) continue;
+          const pre = P1.p - 20 >= 0 ? (dir < 0 ? P1.v - m.c[P1.p - 20] : m.c[P1.p - 20] - P1.v) / a : 0; if (pre < o.trend) continue;
+          let broken = false; for (let i = P2.p + 1; i <= e; i++) if (beyond(ext(i), peak + (dir < 0 ? 0.3 : -0.3) * a)) { broken = true; break; }   // a new extreme ends it
+          const P0 = pts[f - 1]; let triple = P0 && Math.abs(P0.v - P1.v) <= o.peakTol * a && P1.p - P0.p >= 8 && P1.p - P0.p <= 100;
+          if (triple) { let t0 = P0.p; for (let i = P0.p; i <= P1.p; i++) if (dir < 0 ? m.l[i] < m.l[t0] : m.h[i] > m.h[t0]) t0 = i; if (Math.abs((dir < 0 ? m.l[t0] : m.h[t0]) - (dir < 0 ? m.l[ti0()] : m.h[ti0()])) > a) triple = false; }   // a triple needs a level neckline
+          function ti0() { let t = P1.p; for (let i = P1.p; i <= P2.p; i++) if (dir < 0 ? m.l[i] < m.l[t] : m.h[i] > m.h[t]) t = i; return t; }
+          let brk = null; for (let i = P2.p + 1; i <= e; i++) if (dir < 0 ? m.c[i] < T : m.c[i] > T) { let fail = -1; for (let k = i + 1; k <= e; k++) if (dir < 0 ? m.c[k] > peak : m.c[k] < peak) { fail = k; break; } brk = { i, dir: dir < 0 ? -1 : 1, at: T, fail }; break; }
+          if (broken && !brk) continue;
+          const vp = v => avg(m.v, v.p - 2, v.p + 2), type = dir < 0 ? (triple ? 'ttop' : 'dtop') : (triple ? 'tbot' : 'dbot');
+          const p = { type, dir0: dir, from: (triple ? P0 : P1).p, to: brk ? brk.i : e, brk, height: Math.abs(peak - T), peaks: (triple ? [P0, P1, P2] : [P1, P2]).map(q => ({ i: q.p, v: q.v })), neck: { i0: P1.p, i1: brk ? brk.i : e, v: T },
+            vol: { contracted: vp(P2) < vp(P1), brkX: brk ? m.v[brk.i] / avg(m.v, P1.p, P2.p) : null }, stop: peak + (dir < 0 ? 0.25 : -0.25) * a, extra: `${dir < 0 ? 'peaks' : 'lows'} ${Math.abs(P1.v / P2.v - 1) < 0.0005 ? 'level' : (100 * Math.abs(P1.v / P2.v - 1)).toFixed(2) + '% apart'}, ${gap} bars apart; neckline ${T.toPrecision(5)}` };
+          out.push(finish(p, m, n, A, o)); break;
+        }
+      }
+      // head and shoulders
+      for (let r = pts.length - 1; r >= 2; r--) {
+        const Ls = pts[r - 2], Hd = pts[r - 1], Rs = pts[r], a = A[Rs.p];
+        if (Hd.p - Ls.p < 4 || Rs.p - Hd.p < 4 || Rs.p - Ls.p > 120) continue;
+        if (!(beyond(Hd.v, Ls.v + (dir < 0 ? 0.5 : -0.5) * a) && beyond(Hd.v, Rs.v + (dir < 0 ? 0.5 : -0.5) * a))) continue;
+        if (Math.abs(Ls.v - Rs.v) > 1.2 * a) continue;
+        const tr = (i0, i1) => { let t = i0; for (let i = i0; i <= i1; i++) if (dir < 0 ? m.l[i] < m.l[t] : m.h[i] > m.h[t]) t = i; return t; };
+        const ext2 = i => dir < 0 ? m.l[i] : m.h[i], t1 = tr(Ls.p, Hd.p), t2 = tr(Hd.p, Rs.p), neck = fit([{ p: t1, v: ext2(t1) }, { p: t2, v: ext2(t2) }]);
+        const pre = Ls.p - 20 >= 0 ? (dir < 0 ? Ls.v - m.c[Ls.p - 20] : m.c[Ls.p - 20] - Ls.v) / a : 0; if (pre < o.trend * 0.7) continue;
+        let gone = false; for (let i = Rs.p + 1; i <= e; i++) if (beyond(ext(i), Rs.v + (dir < 0 ? 0.3 : -0.3) * a) && !(dir < 0 ? m.c[i] < neck.at(i) : m.c[i] > neck.at(i))) { gone = true; break; }
+        let brk = null; for (let i = Rs.p + 1; i <= e; i++) if (dir < 0 ? m.c[i] < neck.at(i) : m.c[i] > neck.at(i)) { let fail = -1; for (let k = i + 1; k <= e; k++) if (dir < 0 ? m.c[k] > Rs.v : m.c[k] < Rs.v) { fail = k; break; } brk = { i, dir: dir < 0 ? -1 : 1, at: neck.at(i), fail }; break; }
+        if (gone && !brk) continue;
+        const height = Math.abs(Hd.v - neck.at(Hd.p));
+        const p = { type: dir < 0 ? 'hs' : 'ihs', dir0: dir, from: Ls.p, to: brk ? brk.i : e, brk, height, peaks: [Ls, Hd, Rs].map(q => ({ i: q.p, v: q.v })), neckLine: { i0: t1, v0: neck.at(t1), i1: brk ? brk.i : e, v1: neck.at(brk ? brk.i : e) },
+          vol: { contracted: avg(m.v, Rs.p - 2, Rs.p + 2) < avg(m.v, Ls.p - 2, Ls.p + 2), brkX: brk ? m.v[brk.i] / avg(m.v, Ls.p, Rs.p) : null }, stop: Rs.v + (dir < 0 ? 0.25 : -0.25) * a, extra: `head ${(Math.abs(Hd.v - Math.max(Ls.v, Rs.v)) / a).toFixed(1)} ATR beyond the shoulders` };
+        out.push(finish(p, m, n, A, o)); break;
+      }
+    }
+    return out;
+  }
+
+  // All patterns on the closed candles (n = number of closed candles).
+  function find(m, n, opt = {}) {
+    const o = Object.assign({}, P, opt); if (n < 60) return [];
+    const A = atr(m, n), pv = pivots(m, n, o.k);
+    const ln = lines(m, n, A, pv, o), within = p => ln.some(L => p.from >= L.from - 2 && (p.brk ? p.brk.i : p.to) <= L.to + 2);
+    const all = [...ln, ...flags(m, n, A, o).filter(p => !within(p)), ...reversals(m, n, A, pv, o).filter(p => !within(p))];   // a leg or peaks inside a larger pattern belong to it
+    // newest first; drop failed patterns older than 30 bars and anything that ended long ago
+    return all.filter(p => !(p.status === 'failed' && n - 1 - p.brk.fail > 30) && n - 1 - p.to <= 30).sort((a, b) => b.to - a.to).slice(0, 4);
+  }
+
+  // Candle rejections at levels. levels: [{ lo, hi, what }]; dynamic EMA 50/200 (and session VWAP when intraday) are added here.
+  function rejections(m, n, levels = [], opt = {}) {
+    const A = atr(m, n), out = [], from = Math.max(21, n - (opt.look || 150));
+    const ema = k => { const q = 2 / (k + 1), r = [m.c[0]]; for (let i = 1; i < n; i++) r.push(m.c[i] * q + r[i - 1] * (1 - q)); return r; };
+    const e50 = ema(50), e200 = ema(200);
+    let vw = null; if (opt.intraday && m.t) { vw = []; let pv = 0, vv = 0, day = -1; for (let i = 0; i < n; i++) { const d = Math.floor(m.t[i] / 864e5); if (d !== day) { day = d; pv = 0; vv = 0; } const tp = (m.h[i] + m.l[i] + m.c[i]) / 3; pv += tp * m.v[i]; vv += m.v[i]; vw.push(vv ? pv / vv : tp); } }
+    for (let i = from; i < n; i++) {
+      const a = A[i], o = m.o[i], c = m.c[i], h = m.h[i], l = m.l[i], rg = h - l || 1e-12, body = Math.abs(c - o), lw = Math.min(o, c) - l, uw = h - Math.max(o, c);
+      let avgRg = 0; for (let k = i - 20; k < i; k++) avgRg += m.h[k] - m.l[k]; avgRg /= 20;
+      const nearW = side => { let mx = 0; for (let k = i - 5; k < i; k++) mx = Math.max(mx, side > 0 ? Math.min(m.o[k], m.c[k]) - m.l[k] : m.h[k] - Math.max(m.o[k], m.c[k])); return mx; };
+      const inPrior = Math.min(o, c) >= m.l[i - 1] && Math.max(o, c) <= m.h[i - 1];
+      const kinds = [];
+      if (lw >= 2 * body && (c - l) / rg >= 0.66 && lw > nearW(1) && inPrior) kinds.push([1, 'Pin bar', lw]);
+      if (uw >= 2 * body && (h - c) / rg >= 0.66 && uw > nearW(-1) && inPrior) kinds.push([-1, 'Pin bar', uw]);
+      if (c > o && m.c[i - 1] < m.o[i - 1] && o <= m.c[i - 1] && c >= m.o[i - 1]) kinds.push([1, 'Bullish engulfing', lw]);
+      if (c < o && m.c[i - 1] > m.o[i - 1] && o >= m.c[i - 1] && c <= m.o[i - 1]) kinds.push([-1, 'Bearish engulfing', uw]);
+      if (h > m.h[i - 1] && l < m.l[i - 1] && !kinds.length) { if (c > o && (c - l) / rg >= 0.6) kinds.push([1, 'Outside bar', lw]); else if (c < o && (h - c) / rg >= 0.6) kinds.push([-1, 'Outside bar', uw]); }
+      if (!kinds.length) continue;
+      const [side, kind, wick] = kinds[0];
+      const lv = levels.filter(z => z.from == null || z.from < i).map(z => ({ lo: z.lo, hi: z.hi ?? z.lo, what: z.what }))   // only levels that existed before the candle.concat([{ lo: e50[i - 1], hi: e50[i - 1], what: 'EMA50' }, { lo: e200[i - 1], hi: e200[i - 1], what: 'EMA200' }]).concat(vw ? [{ lo: vw[i - 1], hi: vw[i - 1], what: 'session VWAP' }] : []);
+      // the wick must reach the level and the close must stay on the right side of it
+      const hit = lv.filter(z => ok(z.lo) && (side > 0 ? l <= z.hi + 0.2 * a && c >= z.lo - 0.05 * a && l >= z.lo - 1.5 * a : h >= z.lo - 0.2 * a && c <= z.hi + 0.05 * a && h <= z.hi + 1.5 * a));
+      if (!hit.length) continue;
+      const lvl = hit.sort((x, y) => (side > 0 ? Math.abs(l - x.hi) - Math.abs(l - y.hi) : Math.abs(h - x.lo) - Math.abs(h - y.lo)))[0];
+      let status = 'waiting', j = -1;
+      for (let k = i + 1; k <= Math.min(n - 1, i + 2); k++) { if (side > 0 ? m.c[k] < l : m.c[k] > h) { status = 'failed'; j = k; break; } if (side > 0 ? m.h[k] > h : m.l[k] < l) { status = 'confirmed'; j = k; break; } }
+      if (status === 'waiting' && i + 2 <= n - 1) status = 'no follow-through';
+      out.push({ i, side, kind, level: lvl, status, at: j, longWick: wick > 4 * avgRg, stop: side > 0 ? l - 0.1 * a : h + 0.1 * a, trigger: side > 0 ? h : l });
+    }
+    return out;
+  }
+  return { P, NAME, BIAS, find, rejections, atr, pivots };
+})();
+
+
 </script>
 <script>
 {
@@ -2005,7 +2514,7 @@ function checkHold(c, px) {
 }
 
 // ---------------------------------------------------------------- tabs and the top strip
-const TABS = ['summary', 'market', 'watchlist', 'radar', 'chart', 'portfolio'];
+const TABS = ['summary', 'market', 'watchlist', 'radar', 'test', 'chart', 'portfolio'];
 let tab = TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'summary';     // the Summary opens first
 function setTab(t, push) {
   if (!TABS.includes(t)) t = 'summary';
@@ -2014,6 +2523,7 @@ function setTab(t, push) {
   if (push && location.hash !== '#' + t) location.hash = t;
   if (t === 'radar' && typeof rdStart === 'function') { rdStart(); renderSimOptions(); renderRadar(); if (!SM.res) renderSim(); else setTimeout(smChart, 0); }
   if (t === 'summary') renderSumTab();
+  if (t === 'test') { if (mode === 'live' && typeof rdStart === 'function') rdStart(); renderTest(); }
   rcKick();
   later();
 }
@@ -2229,7 +2739,7 @@ async function rdBackfill() {                 // 1,000 older 15m candles per coi
   for (const s of RD.syms) if (RD.d15[s]) RD.d1h[s] = RADAR.toHours(RD.d15[s]);
   RD.pools = {};
   for (let i = 0; i < RD.syms.length; i++) { suCompute(RD.syms[i]); if (i % 12 === 11) await new Promise(r => setTimeout(r, 0)); }
-  RD.back = 'done'; RD.suAt = Date.now(); renderRadar(); renderBrief(); renderSumTab(); setTimeout(rdTrack, 50);
+  RD.back = 'done'; RD.suAt = Date.now(); renderRadar(); renderBrief(); renderSumTab(); setTimeout(rdTrack, 50); setTimeout(tsAll, 400);
 }
 function rdScanCoin(s) {
   const out = [];
@@ -2248,7 +2758,7 @@ function rdWS() {
   w.onmessage = e => {
     let m; try { m = JSON.parse(e.data); } catch (er) { return; } const k = m && m.k; if (!k) return; RD.wsAt = Date.now();
     const s = k.s, d = RD.d15[s]; if (!d) return; putBar(d, k);
-    if (k.x) { RD.d1h[s] = RADAR.toHours(d); RD.hits = RD.hits.filter(h => h.s !== s).concat(s === 'BTCUSDT' ? [] : rdScanCoin(s)); if (RD.back === 'done') suCompute(s, true); }
+    if (k.x) { RD.d1h[s] = RADAR.toHours(d); RD.hits = RD.hits.filter(h => h.s !== s).concat(s === 'BTCUSDT' ? [] : rdScanCoin(s)); if (RD.back === 'done') { suCompute(s, true); if (TS.at) tsCompute(s); } }
     if (Date.now() - rt > 3000) { rt = Date.now(); if (tab === 'radar') renderRadar(); else if (tab === 'summary') { rcBuild(); renderSumTab(); } if (k.x) renderBrief(); }
     if (SM.res && SM.res.sym === s && SM.tf === '15m') smLive(k);
   };
@@ -2395,7 +2905,7 @@ function rcBuild() {
   for (const b of B) b.size = 2.5 + 4.5 * (hi > lo && b.qv > 0 ? (Math.log10(b.qv) - lo) / (hi - lo) : .4);
   RC.blips = B; RC.groups = groups;
 }
-function rcDraw(cv, now) {
+function rcDraw(cv, now, st = RC, rings = [['1%', .25], ['3%', .5], ['10%', .8]]) {
   const small = cv.dataset.small === '1', dpr = window.devicePixelRatio || 1, W = cv.clientWidth; if (!W) return;
   if (cv.width !== Math.round(W * dpr)) { cv.width = cv.height = Math.round(W * dpr); }
   const g = cv.getContext('2d'), css = rcCss(), R = W / 2 - 1.5, cx = W / 2, cy = W / 2, TAU = 2 * Math.PI;
@@ -2403,13 +2913,13 @@ function rcDraw(cv, now) {
   g.fillStyle = css.soft; g.beginPath(); g.arc(cx, cy, R, 0, TAU); g.fill();
   g.strokeStyle = css.grid; g.lineWidth = 1;
   for (const f of [.25, .5, .8, 1]) { g.beginPath(); g.arc(cx, cy, R * f, 0, TAU); g.stroke(); }
-  const n = RC.groups.length;
+  const n = st.groups.length;
   if (n > 1) for (let k = 0; k < n; k++) { const a = k / n * TAU - Math.PI / 2; g.beginPath(); g.moveTo(cx, cy); g.lineTo(cx + R * Math.cos(a), cy + R * Math.sin(a)); g.stroke(); }
   if (!small) {
     g.font = '10px "Hanken Grotesk",system-ui,sans-serif'; g.fillStyle = css.ink3; g.textAlign = 'left';
-    [['1%', .25], ['3%', .5], ['10%', .8]].forEach(([t, f]) => g.fillText(t, cx + 3, cy - R * f + 11));
+    rings.forEach(([t, f]) => g.fillText(t, cx + 3, cy - R * f + 11));
     g.font = '600 10.5px "Hanken Grotesk",system-ui,sans-serif'; g.textAlign = 'center';
-    RC.groups.forEach((name0, k) => { let name = name0; while (name.length > 4 && g.measureText(name).width > R * .3) name = name.slice(0, -2).trimEnd() + '…'; const a = (k + .5) / n * TAU - Math.PI / 2, x = cx + R * .86 * Math.cos(a), y = cy + R * .86 * Math.sin(a), w = g.measureText(name).width + 8;
+    st.groups.forEach((name0, k) => { let name = name0; while (name.length > 4 && g.measureText(name).width > R * .3) name = name.slice(0, -2).trimEnd() + '…'; const a = (k + .5) / n * TAU - Math.PI / 2, x = cx + R * .86 * Math.cos(a), y = cy + R * .86 * Math.sin(a), w = g.measureText(name).width + 8;
       g.fillStyle = tint(css.card, .85); g.fillRect(x - w / 2, y - 8, w, 15); g.fillStyle = css.ink2; g.fillText(name, x, y + 3.5); });
   }
   const per = 6000, sw = RC.reduce ? -Math.PI / 2 : ((now % per) / per) * TAU - Math.PI / 2;
@@ -2420,14 +2930,14 @@ function rcDraw(cv, now) {
     g.strokeStyle = tint(css.up, .8); g.lineWidth = 1.5; g.beginPath(); g.moveTo(cx, cy); g.lineTo(cx + R * Math.cos(sw), cy + R * Math.sin(sw)); g.stroke();
   }
   const pts = [];
-  for (const b of RC.blips) {
+  for (const b of st.blips) {
     const x = cx + R * b.r * Math.cos(b.a), y = cy + R * b.r * Math.sin(b.a), sz = b.size * (small ? .62 : 1);
     let da = (sw - b.a) % TAU; if (da < 0) da += TAU;
     const glow = RC.reduce ? 1 : Math.max(0, 1 - da / (TAU * .65)), col = b.up == null ? css.ink3 : b.up ? css.up : css.down;
     g.globalAlpha = .38 + .62 * glow; g.fillStyle = col; g.beginPath(); g.arc(x, y, sz, 0, TAU); g.fill();
     if (b.fresh) { g.globalAlpha = .55; g.strokeStyle = col; g.lineWidth = 1.2; g.beginPath(); g.arc(x, y, sz + 2.5 + (RC.reduce ? 1 : 2 * (1 + Math.sin(now / 220))), 0, TAU); g.stroke(); }
-    if (b.s === RC.sel) { g.globalAlpha = 1; g.strokeStyle = css.ink; g.lineWidth = 2; g.beginPath(); g.arc(x, y, sz + 4, 0, TAU); g.stroke(); }
-    if (!small && (b.s === RC.sel || (b.wl ? b.r < .8 : b.r < .25))) { g.globalAlpha = .55 + .45 * glow; g.fillStyle = css.ink; g.font = `${b.wl ? 600 : 500} 10.5px "Hanken Grotesk",system-ui,sans-serif`; g.textAlign = 'left'; g.fillText(b.c, x + sz + 3, y + 3.5); }
+    if (b.s === st.sel) { g.globalAlpha = 1; g.strokeStyle = css.ink; g.lineWidth = 2; g.beginPath(); g.arc(x, y, sz + 4, 0, TAU); g.stroke(); }
+    if (!small && (b.s === st.sel || (b.wl ? b.r < .8 : b.r < .25))) { g.globalAlpha = .55 + .45 * glow; g.fillStyle = css.ink; g.font = `${b.wl ? 600 : 500} 10.5px "Hanken Grotesk",system-ui,sans-serif`; g.textAlign = 'left'; g.fillText(b.c, x + sz + 3, y + 3.5); }
     pts.push({ b, x, y });
   }
   g.globalAlpha = 1; cv._pts = pts;
@@ -2435,7 +2945,8 @@ function rcDraw(cv, now) {
 function rcLoop() {
   RC.raf = 0; const now = Date.now(); let any = false;
   for (const id of ['#rcCan', '#sumRc']) { const cv = $(id); if (cv && cv.offsetParent && cv.clientWidth) { rcDraw(cv, now); any = true; } }
-  if (any && !document.hidden && !RC.reduce && RC.blips.length) RC.raf = requestAnimationFrame(rcLoop);
+  for (const k of ['sw', 'fl']) { const cv = $('#' + k + 'Can'); if (cv && cv.offsetParent && cv.clientWidth) { rcDraw(cv, now, TS[k], TS_RINGS); any = true; } }
+  if (any && !document.hidden && !RC.reduce && (RC.blips.length || TS.sw.blips.length || TS.fl.blips.length)) RC.raf = requestAnimationFrame(rcLoop);
 }
 function rcKick() { if (!RC.raf) { RC.raf = requestAnimationFrame(rcLoop); clearTimeout(RC.kt); RC.kt = setTimeout(() => { if (RC.raf) { cancelAnimationFrame(RC.raf); rcLoop(); } }, 400); } }
 setInterval(() => { if (tab === 'summary' && !document.hidden) { try { renderSumTab(); } catch (e) { console.error('summary', e); } } }, 5000);
@@ -2532,7 +3043,7 @@ function renderSumTab() {
   else if (RD.back !== 'done') rt.innerHTML = `<p class="k">Loading the radar (${RD.busy ? `${RD.syms.filter(x => RD.d15[x]).length} of ${RD.syms.length || '…'} coins` : `4H data, ${RD.backN || 0} of ${RD.syms.length} coins`})…</p>`;
   else { rcBuild(); const B = RC.blips, nr = B.filter(b => b.near).sort((x, z) => x.near.dist - z.near.dist).slice(0, 4), cnt = k => Object.values(RD.su).filter(r => r && r.status === k).length, now = Date.now();
     const pg2 = [...RD.wl].filter(s => RD.pg[s]).reduce((a, s) => a + RD.pg[s].pings.filter(q => now - q.t < 2 * 3600e3).length, 0), hits = rdLatest().filter(h => h.x.score >= 4 && now - h.t < 2 * 3600e3).length;
-    rt.innerHTML = `<p><b>${B.filter(b => b.near && b.near.dist <= .01).length}</b> within 1% of a trigger, <b>${B.filter(b => b.near && b.near.dist <= .03).length}</b> within 3%.</p><ul>${nr.map(b => `<li>${bl(b.c)} <span class="${b.near.up ? 'up' : 'dn'}">${(b.near.dist * 100).toFixed(1)}%</span> <span class="k">${esc(b.near.what)}</span></li>`).join('')}</ul><p class="k">${pl(cnt('entry'), 'paper entry', 'paper entries')} · ${cnt('await')} awaiting a retest · ${pl(cnt('warn'), 'early warning', 'early warnings')} · ${pl(pg2, 'watchlist ping', 'watchlist pings')} and ${pl(hits, 'coin', 'coins')} with a strong hit in 2 h</p>`; }
+    rt.innerHTML = `<p><b>${B.filter(b => b.near && b.near.dist <= .01).length}</b> within 1% of a trigger, <b>${B.filter(b => b.near && b.near.dist <= .03).length}</b> within 3%.</p><ul>${nr.map(b => `<li>${bl(b.c)} <span class="${b.near.up ? 'up' : 'dn'}">${(b.near.dist * 100).toFixed(1)}%</span> <span class="k">${esc(b.near.what)}</span></li>`).join('')}</ul><p class="k">${pl(cnt('entry'), 'paper entry', 'paper entries')} · ${cnt('await')} awaiting a retest · ${pl(cnt('warn'), 'early warning', 'early warnings')} · ${pl(pg2, 'watchlist ping', 'watchlist pings')} and ${pl(hits, 'coin', 'coins')} with a strong hit in 2 h</p>${TS.at ? (() => { const six = k => tsHits(k, 6 * 36e5), sw = six('sw'), fl = six('fl'), f = a => `${a.filter(h => h.side > 0).length} bullish, ${a.filter(h => h.side < 0).length} bearish`; return `<p class="k">Test tab, last 6 h: sweeps ${f(sw)} · order flow ${f(fl)} <button class="lnk" data-goto="test">Open Test →</button></p>`; })() : ''}`; }
   let tv = 0, tc = 0, risk = 0; for (const x of hold) { const s = S[x.c], px = s && s.price; if (ok(px)) { tv += px * x.amt; tc += x.avg * x.amt; if (x.stop > 0) risk += Math.max(0, (px - x.stop) * x.amt); } }
   const lt = store.get('lossToday', {}), loss = lt.d === new Date().toISOString().slice(0, 10) ? +lt.v || 0 : 0;
   $('#sumPort').innerHTML = `<h3>Portfolio <button class="lnk" data-goto="portfolio">Open Portfolio →</button></h3>${hold.length ? `<p class="big">${fusd(tv)}</p><p>${hold.length} holding${hold.length === 1 ? '' : 's'}, P/L <span class="${cls(tv - tc)}">${fusd(tv - tc)}</span>; at risk to the stops ${fusd(risk)}.</p>` : '<p class="k">No holdings entered.</p>'}<p class="k">Risk per trade ${fusd(cfg.account * cfg.riskPct / 100)} (${cfg.riskPct}% of ${fusd(cfg.account)}); daily loss limit ${fusd(cfg.dailyLimit)}, ${fusd(loss)} used today.</p>`;
@@ -2557,6 +3068,120 @@ $('#p-summary').addEventListener('click', e => {
 });
 $('#brief').addEventListener('click', e => { const l = e.target.closest('[data-look]'); if (l) { e.preventDefault(); lookCoin(l.dataset.look, true); } });
 document.addEventListener('visibilitychange', rcKick); window.addEventListener('resize', rcKick);
+
+// ---------------------------------------------------------------- Test tab: sweep & Wyckoff radar, order-flow radar (radars2.js)
+// Same Binance candles as the Radar tab (20 days of 15m, live on the WebSocket). Each coin is scanned in the background,
+// then again on every closed 15m candle. Read-only; a hit marks a coin to look at, not an entry.
+const TS_RINGS = [['1 h', .25], ['3 h', .5], ['6 h', .8]];
+const TS = { res: {}, busy: false, done: 0, at: 0, track: null, log: null, logAsked: false,
+  sw: { blips: [], groups: [], sel: null, tf: store.get('swTf', 'all'), min: +store.get('swMin', 4) },
+  fl: { blips: [], groups: [], sel: null, tf: store.get('flTf', 'all'), min: +store.get('flMin', 3) } };
+const TS_MS = { '15m': 9e5, '1H': 36e5, '4H': 144e5 };
+function tsCompute(s) {
+  const d = RD.d15[s]; if (!d || !d.tb) return;
+  try { const n = closedN(d), r = R2.scan(d, n); r.n = n; r.at = Date.now(); TS.res[s] = r; } catch (e) { console.error('test radar', s, e); TS.res[s] = null; }
+}
+async function tsAll() {
+  if (TS.busy || mode !== 'live' || RD.back !== 'done') return;
+  TS.busy = true; TS.done = 0; const syms = RD.syms.filter(x => RD.d15[x]);
+  for (let i = 0; i < syms.length; i++) { tsCompute(syms[i]); TS.done = i + 1; if (i % 4 === 3) { if (tab === 'test') renderTest(); await new Promise(r => setTimeout(r, 0)); } }
+  TS.busy = false; TS.at = Date.now(); tsTrack(); renderTest(); renderSumTab();
+}
+function tsTrack() {                         // what a hit has meant over the loaded days, both radars, against every hour of the same coins
+  const sets = { sw: [], fl: [] };
+  for (const [s, r] of Object.entries(TS.res)) {
+    if (!r) continue; const d = RD.d15[s];
+    for (const [tf, m, n] of [['15m', d, r.n], ['1H', r.h1, r.h1.t.length], ['4H', r.h4, r.h4.t.length]]) {
+      sets.sw.push({ m, n, tf, hits: r.sweep.filter(h => h.tf === tf) });
+      if (tf !== '4H') sets.fl.push({ m, n, tf, hits: r.flow.filter(h => h.tf === tf) });
+    }
+  }
+  TS.track = { sw: R2.track(sets.sw, TS.sw.min), fl: R2.track(sets.fl, TS.fl.min), min: { sw: TS.sw.min, fl: TS.fl.min } };
+}
+function tsHits(k, maxAge = 864e5) {         // every qualifying hit of the last 24 hours, newest first
+  const st = TS[k], now = Date.now(), out = [];
+  for (const [s, r] of Object.entries(TS.res)) {
+    if (!r) continue;
+    for (const h of (k === 'sw' ? r.sweep : r.flow)) {
+      if (h.score < st.min || (st.tf !== 'all' && h.tf !== st.tf)) continue;
+      const close = h.t + TS_MS[h.tf], age = now - close; if (age > maxAge) continue;
+      out.push(Object.assign({ s, c: rdBase(s), age, close }, h));
+    }
+  }
+  return out.sort((a, b) => a.age - b.age || b.score - a.score);
+}
+function tsState(h) {                        // since the hit: still holding, or failed (closed beyond the sweep extreme / the stop)
+  const r = TS.res[h.s]; if (!r) return ''; const m = h.tf === '15m' ? RD.d15[h.s] : h.tf === '1H' ? r.h1 : r.h4, n = h.tf === '15m' ? r.n : m.t.length;
+  const lim = h.stop; for (let i = h.j + 1; i < n; i++) if (h.side > 0 ? m.c[i] < lim : m.c[i] > lim) return 'failed';
+  const px = m.c[n - 1]; return `${fpc(px / h.entry - 1)} since`;
+}
+const tsAgeR = a => { const H = 36e5; return a <= H ? a / H * .25 : a <= 3 * H ? .25 + (a - H) / (2 * H) * .25 : a <= 6 * H ? .5 + (a - 3 * H) / (3 * H) * .3 : Math.min(.97, .8 + (a - 6 * H) / (18 * H) * .17); };
+function tsBuild(k) {
+  const st = TS[k], wl = RD.wl, H = tsHits(k), by = new Map();
+  for (const h of H) if (!by.has(h.s)) by.set(h.s, h);                // the newest hit per coin
+  const B = [...by.values()].map(h => ({ s: h.s, c: h.c, g: rcGroup(h.c), r: tsAgeR(h.age), up: h.side > 0, size: 2.5 + Math.min(5, (h.score - 2.5) * 1.3), wl: wl.has(h.s), fresh: h.age <= TS_MS[h.tf], h }));
+  const groups = [...new Set(B.map(b => b.g))].sort((a, z) => a === 'Other' ? 1 : z === 'Other' ? -1 : a.localeCompare(z)), n = groups.length || 1;
+  const hash = str => { let x = 2166136261; for (const ch of str) x = Math.imul(x ^ ch.charCodeAt(0), 16777619); return ((x >>> 0) % 1000) / 1000; };
+  for (const b of B) b.a = (groups.indexOf(b.g) + .12 + .76 * hash(b.c)) / n * 2 * Math.PI - Math.PI / 2;
+  st.blips = B; st.groups = groups; st.hits = H;
+}
+const tsName = h => R2.KIND[h.kind] || h.kind;
+function tsLine(h, k) {
+  const why = k === 'sw' ? [h.pool].concat(h.tags.filter(t => !t.startsWith(h.pool))).join(', ') : h.tags.join('; ');
+  const stt = tsState(h);
+  return `<button class="lnk" data-ts="${esc(h.s)}">${esc(h.c)}</button> <span class="pill w1">${h.tf}</span> <b class="${h.side > 0 ? 'up' : 'dn'}">${esc(tsName(h))}</b> <span class="k">score ${h.score} · ${h.age < 36e5 ? Math.round(h.age / 6e4) + ' min' : (h.age / 36e5).toFixed(1) + ' h'} ago${stt ? ' · ' + (stt === 'failed' ? '<b class="dn">failed</b>' : stt) : ''}</span><br><span class="k">${esc(why)}${h.level ? ` · level ${fp(h.level)}` : ''}</span>`;
+}
+function tsTrackText(k) {
+  const T = TS.track && TS.track[k]; if (!T || !T.base.n) return '<p class="k">What a hit has meant: worked out once all coins are scanned.</p>';
+  const row = (lab, b) => b.n ? `${lab} (${b.n}): +5% within 6 h <b>${b.up5Pct}%</b>, −5% <b>${b.dn5Pct}%</b>, higher 6 h later <b>${b.closeUpPct}%</b>` : `${lab}: none`;
+  return `<h4>What a hit has meant (last 20 days, these coins, score ≥ ${TS.track.min[k]})</h4><p>${row('After bullish hits', T.bull)}<br>${row('After bearish hits', T.bear)}<br><span class="k">${row('Any hour, same coins', T.base)}. 4H hits use the next 24 h.</span></p>`;
+}
+function tsLogText(k) {
+  const L = TS.log && TS.log[k === 'sw' ? 'sweep' : 'flow']; if (!L) return '';
+  const f = (lab, b) => b && b.n ? `${lab} ${b.n}: +5% first ${b.upFirstPct}%, −5% first ${b.dnFirstPct}%, higher after ${b.closeUpPct}%` : '';
+  return `<p class="k">24/7 log on GitHub since ${fdate(Date.parse(TS.log.since))}: ${[f('bullish', L.bull), f('bearish', L.bear)].filter(Boolean).join(' · ') || 'no finished hits yet'}${L.base && L.base.n ? ` (any hour: higher after ${L.base.closeUpPct}%)` : ''}.</p>`;
+}
+function renderTest() {
+  const st = $('#tsStatus'); if (!st) return;
+  for (const id of ['#swCard', '#flCard']) $(id).hidden = mode !== 'live';
+  if (mode === 'tv') { st.innerHTML = `The test radars read all of Binance live, which this Claude link cannot reach. ${siteLink()}`; return; }
+  if (mode !== 'live') return;
+  if (!TS.logAsked) { TS.logAsked = true; loadRadarsLog(); setInterval(loadRadarsLog, 10 * 60e3); }
+  if (!RD.on || RD.back !== 'done') { st.textContent = RD.busy || RD.on ? `Waiting for the radar's candles: ${RD.back === 'done' ? '' : (RD.backN || 0) + ' of ' + (RD.syms.length || '…') + ' coins (20 days)'}…` : 'Starts with the radar.'; if (!RD.on && tab === 'test') rdStart(); return; }
+  if (!TS.at && !TS.busy) { tsAll(); }
+  st.textContent = TS.busy ? `Scanning ${TS.done} of ${RD.syms.length} coins…` : `${Object.keys(TS.res).length} coins scanned · updated on every closed 15m candle · ${RD.ws && Date.now() - RD.wsAt < 120e3 ? 'live' : 'reconnecting'}`;
+  for (const k of ['sw', 'fl']) {
+    tsBuild(k); const S = TS[k], H = S.hits, bull = H.filter(h => h.side > 0), bear = H.filter(h => h.side < 0);
+    $('#' + k + 'Tf').value = S.tf; $('#' + k + 'Min').value = String(S.min);
+    const byTf = ['15m', '1H', '4H'].map(tf => [tf, H.filter(h => h.tf === tf).length]).filter(x => x[1]).map(x => x.join(' ')).join(', ');
+    const top = H.slice().sort((a, b) => (a.age < 6 * 36e5) === (b.age < 6 * 36e5) ? b.score - a.score || a.age - b.age : a.age - b.age).slice(0, 6);
+    let ph = '';
+    if (k === 'sw') {
+      const acc = [], dis = []; for (const [s, r] of Object.entries(TS.res)) { const p = r && r.phase && r.phase['4H']; if (!p) continue; (p.phase === 'accumulation' ? acc : p.phase === 'distribution' ? dis : []).push(rdBase(s) + (p.dry ? '·dry' : '')); }
+      ph = `<p><b>Wyckoff now (4H ranges):</b> accumulation ${acc.length ? acc.slice(0, 8).map(esc).join(', ') + (acc.length > 8 ? ` +${acc.length - 8}` : '') : 'none'}; distribution ${dis.length ? dis.slice(0, 8).map(esc).join(', ') + (dis.length > 8 ? ` +${dis.length - 8}` : '') : 'none'} <span class="k">(·dry = volume dried up)</span></p>`;
+    }
+    const sel = S.sel && TS.res[S.sel] ? (() => { const r = TS.res[S.sel], c = rdBase(S.sel), list = (k === 'sw' ? r.sweep : r.flow).filter(h => h.score >= S.min).sort((x, y) => y.t - x.t).slice(0, 3), px = RD.d15[S.sel].c[r.n - 1];
+      const P = k === 'sw' ? ['1H', '4H'].map(tf => r.phase[tf] ? `${tf}: ${r.phase[tf].phase} range ${fp(r.phase[tf].lo)}–${fp(r.phase[tf].hi)} (${r.phase[tf].L} bars${r.phase[tf].dry ? ', volume dried up' : ''})` : '').filter(Boolean).join('<br>') : '';
+      return `<div class="rcsel"><b>${esc(c)}</b> ${fp(px)} ${RD.wl.has(S.sel) ? '· watchlist' : ''}<br>${list.length ? list.map(h => `${h.tf} ${fdate(h.t)} ${hm(h.t)}: <b class="${h.side > 0 ? 'up' : 'dn'}">${esc(tsName(h))}</b> score ${h.score} <span class="k">${esc(h.tags.join('; '))}</span>`).join('<br>') : 'No hit at this score in the loaded days.'}${P ? '<br>' + P : ''}<div style="margin-top:6px"><button class="btn sm" data-sim="${esc(S.sel)}" data-tf="15m">Simulate</button> <button class="btn sm" data-look="${esc(c)}">Chart</button></div></div>`; })() : '';
+    $('#' + k + 'Brief').innerHTML = `<p><b>Last 24 h:</b> ${pl(bull.length, 'bullish hit', 'bullish hits')}, ${pl(bear.length, 'bearish', 'bearish')} on ${pl(new Set(H.map(h => h.s)).size, 'coin', 'coins')}${byTf ? ` <span class="k">(${byTf})</span>` : ''}</p>${sel}
+      ${top.length ? `<h4>Strongest of the last 6 hours, then newest</h4><ul>${top.map(h => `<li>${tsLine(h, k)}</li>`).join('')}</ul>` : '<p class="k">No hit at this score in the last 24 hours.</p>'}${ph}${tsTrackText(k)}${tsLogText(k)}`;
+  }
+  rcKick();
+}
+function loadRadarsLog() {
+  fetch('https://raw.githubusercontent.com/medyalshamsi-blip/crypto-watch/main/data/radars.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(j => { if (j) { TS.log = j.live || null; if (TS.log) TS.log.since = j.liveSince; later(); } }, () => {});
+}
+for (const k of ['sw', 'fl']) {
+  $('#' + k + 'Tf').addEventListener('change', e => { TS[k].tf = e.target.value; store.set(k + 'Tf', TS[k].tf); renderTest(); });
+  $('#' + k + 'Min').addEventListener('change', e => { TS[k].min = +e.target.value; store.set(k + 'Min', TS[k].min); tsTrack(); renderTest(); });
+  const cv = $('#' + k + 'Can'), tip = $('#' + k + 'Tip');
+  const pick = e => { const r = cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top; let best = null, bd = 14; for (const q of cv._pts || []) { const d = Math.hypot(q.x - x, q.y - y); if (d < bd) { bd = d; best = q; } } return { best, x, y }; };
+  cv.addEventListener('mousemove', e => { const { best, x, y } = pick(e); if (!best) { tip.hidden = true; return; } const h = best.b.h; tip.hidden = false; tip.innerHTML = `<b>${esc(best.b.c)}</b> ${h.tf} <span class="${h.side > 0 ? 'up' : 'dn'}">${esc(tsName(h))}</span> · score ${h.score} · ${Math.round(h.age / 6e4)} min ago`; const w = cv.clientWidth; tip.style.left = Math.min(Math.max(x, 70), w - 70) + 'px'; tip.style.top = y + 'px'; });
+  cv.addEventListener('mouseleave', () => { tip.hidden = true; });
+  cv.addEventListener('click', e => { const { best } = pick(e); if (best) { TS[k].sel = best.b.s; renderTest(); } });
+  $('#' + k + 'Card').addEventListener('click', e => { const b = e.target.closest('[data-ts]'); if (b) { TS[k].sel = b.dataset.ts; renderTest(); return; } const l = e.target.closest('[data-look]'); if (l) { e.preventDefault(); lookCoin(l.dataset.look, true); return; } const sm = e.target.closest('[data-sim]'); if (sm) { setTab('radar', true); SM.coin = rdBase(sm.dataset.sim); SM.tf = sm.dataset.tf || SM.tf; store.set('smCoin', SM.coin); store.set('smTf', SM.tf); renderSimOptions(); setTimeout(() => { $('#smCard').scrollIntoView({ behavior: 'smooth', block: 'start' }); smRun(); }, 50); } });
+}
+
 
 function renderPings() {
   const st = $('#pgStatus'); if (!st) return;
@@ -2613,7 +3238,7 @@ function renderSetups() {
 const fmtM = x => !ok(x) ? '–' : x >= 1e9 ? (x / 1e9).toFixed(1) + 'B' : x >= 1e6 ? (x / 1e6).toFixed(x >= 1e8 ? 0 : 1) + 'M' : (x / 1e3).toFixed(0) + 'K';
 // ---- simulator
 const SM = { coin: store.get('smCoin', 'BTC'), tf: store.get('smTf', '1H'), res: null, busy: false, ch: null, extra: store.get('smExtra', []) };
-window.__cw = { SM, RD };                     // for tests
+window.__cw = { SM, RD, TS };                 // for tests
 function renderSimOptions() {
   const el = $('#smCoin'); if (!el) return;
   const hitC = [...new Set(RD.hits.filter(h => Date.now() - h.t < 6 * 3600e3).sort((a, b) => b.x.score - a.x.score).map(h => rdBase(h.s)))].slice(0, 25);
@@ -2756,7 +3381,7 @@ $('#brief').addEventListener('toggle', e => store.set('briefOpen', e.target.open
 $('#brief').addEventListener('click', e => { const b = e.target.closest('[data-c]'); if (b) { e.preventDefault(); selectCoin(b.dataset.c, true); } });
 function renderAll() {
   const bad = [];
-  for (const [f, name] of [[renderFinding, 'headline'], [renderTiles, 'regime'], [drawCycle, 'cycle clock'], [renderZones, 'buy zones'], [renderStrip, 'top strip'], [renderBrief, 'brief'], [() => { if (mode === 'live' && !RD.logAsked) { RD.logAsked = true; loadSetupLog(); setInterval(loadSetupLog, 10 * 60e3); } if ((tab === 'radar' || RD_AUTO()) && mode !== 'init') { if (mode === 'live' && !RD.on && !RD.busy && !RD.err) rdStart(); if (tab === 'radar') renderRadar(); } }, 'radar'], [renderSumTab, 'summary'], [() => { if (mode === 'live' && !NW.asked) { NW.asked = true; loadNews(); setInterval(loadNews, 5 * 60e3); } renderNews(); }, 'breaking news'], [renderChanges, 'what changed'], [renderGroups, 'coin groups'], [drawBreadth, 'breadth'], [renderHeat, 'heatmap'], [renderAlerts, 'alerts'], [renderAlarms, 'phone alarms'], [renderBoard, 'watchlist'], [renderIntra, 'intraday setups'], [renderJournal, 'signal journal'], [renderSide, 'coin detail'], [renderHold, 'holdings'], [ensureChart, 'chart'], [renderSessClock, 'session clock']])
+  for (const [f, name] of [[renderFinding, 'headline'], [renderTiles, 'regime'], [drawCycle, 'cycle clock'], [renderZones, 'buy zones'], [renderStrip, 'top strip'], [renderBrief, 'brief'], [() => { if (mode === 'live' && !RD.logAsked) { RD.logAsked = true; loadSetupLog(); setInterval(loadSetupLog, 10 * 60e3); } if ((tab === 'radar' || RD_AUTO()) && mode !== 'init') { if (mode === 'live' && !RD.on && !RD.busy && !RD.err) rdStart(); if (tab === 'radar') renderRadar(); } }, 'radar'], [renderSumTab, 'summary'], [() => { if (tab === 'test') renderTest(); }, 'test radars'], [() => { if (mode === 'live' && !NW.asked) { NW.asked = true; loadNews(); setInterval(loadNews, 5 * 60e3); } renderNews(); }, 'breaking news'], [renderChanges, 'what changed'], [renderGroups, 'coin groups'], [drawBreadth, 'breadth'], [renderHeat, 'heatmap'], [renderAlerts, 'alerts'], [renderAlarms, 'phone alarms'], [renderBoard, 'watchlist'], [renderIntra, 'intraday setups'], [renderJournal, 'signal journal'], [renderSide, 'coin detail'], [renderHold, 'holdings'], [ensureChart, 'chart'], [renderSessClock, 'session clock']])
     try { f(); } catch (e) { console.error(name, e); bad.push(name + ': ' + e.message); }
   $('#problems').innerHTML = bad.length ? `<div class="banner">Display problem in ${esc(bad.join('; '))}. Reload the page; if it stays, tell Claude this line.</div>` : '';
   setTitle();
@@ -3237,6 +3862,10 @@ function structHTML(s) {
   rows.push(['MACD', `<span class="${mm > mg ? 'up' : 'dn'}">${mm > mg ? 'above' : 'below'} its signal</span>, ${mm > 0 ? 'above' : 'below'} zero <small>${mx ? 'signal cross ' + (mx.up ? 'up' : 'down') + ' ' + when(mx.t) : ''}${mz ? '; zero line ' + (mz.up ? 'up' : 'down') + ' ' + when(mz.t) : ''}${md && ago(md.j) <= 30 ? `; <b class="${md.up ? 'up' : 'dn'}">${md.up ? 'bullish' : 'bearish'} divergence</b> ${when(md.j)}` : ''}</small>`]);
   const tl = Z.tl.price, tlt = (q, nm, okc) => q ? `${nm} ${fp(q.at(n - 1))}${q.br != null ? ` <span class="${okc}">broken ${when(q.br)}</span>` : ''}` : '';
   rows.push(['Trendlines', [tlt(tl[0], 'resistance', 'up'), tlt(tl[1], 'support', 'dn')].filter(Boolean).join(' · ') || 'none valid']);
+  const ncD = Date.now() < d.t[n - 1] + 864e5 ? n - 1 : n, pats = ncD > 80 ? PAT.find(d, ncD).slice(0, 3) : [];
+  rows.push(['Chart patterns', pats.length ? pats.map(p => { const dr = p.dir || p.bias; return `<b class="${dr > 0 ? 'up' : dr < 0 ? 'dn' : ''}">${p.name}</b> ${p.status === 'confirmed' ? `broke ${p.dir > 0 ? 'up' : 'down'} ${when(p.brk.i)}${p.volOk ? ' on volume' : ' <span class="dn">on low volume</span>'}${p.against ? ' (against its usual bias)' : ''}; 80% target ${fp(p.target80)}, stop ${fp(p.stop)}, R:R ${p.rr.toFixed(1)}` : p.status === 'failed' ? `broke ${p.dir > 0 ? 'up' : 'down'} ${when(p.brk.i)}, then <span class="dn">failed</span> ${when(p.brk.fail)}` : `forming since ${when(p.from)}`} <small>${esc(p.note)}</small>`; }).join('<br>') + '<br><small>Detected by rule from the playbook\'s §8 table; the books\' success rates are unproven.</small>' : 'none in the last 160 candles']);
+  const rj = ncD > 60 ? PAT.rejections(d, ncD, rejLevels(Z, s.scan, null), {}).slice(-3).reverse() : [];
+  rows.push(['Candle rejections', rj.length ? rj.map(x => `<span class="${x.side > 0 ? 'up' : 'dn'}">${x.kind}</span> at the ${esc(x.level.what)} ${when(x.i)}: ${x.status === 'confirmed' ? 'followed through' : x.status === 'failed' ? '<span class="dn">failed</span>' : x.status}${x.longWick ? ' <small>(very long wick: often continuation, the book stands aside)</small>' : ''}`).join('<br>') : 'none at a level in the last 150 candles']);
   return `<h4>Structure and signals (daily)</h4><table class="kv sig"><tbody>${rows.map(([a, x]) => `<tr><td>${a}</td><td>${x}</td></tr>`).join('')}</tbody></table>`;
 }
 function renderSide() {
@@ -3312,12 +3941,12 @@ $('#side').addEventListener('input', e => { if (e.target.id === 'pzE' || e.targe
 // ---------------------------------------------------------------- charts
 let CH = null, chartKey = '', keepRange = null;
 const LAYERS = [['plan', 'Buy and exit ideas', 'b', '--up', 'Plan'], ['fc', 'Forecast, next 6 bars (1H, 15m)', 'b', '--blue', 'Plan'], ['trig', 'Triggers', 'd', '--up', 'Plan'], ['setups', 'Setups (2R or better)', 'l', '--up', 'Plan'],
-  ['struct', 'BoS / CHoCH', 'l', '--down', 'Structure'], ['swing', 'Swings HH HL LH LL', 'l', '--ink2', 'Structure'], ['range', 'Range, EQ 50%, premium / discount', 'b', '--ink3', 'Structure'], ['tl', 'Trendlines and breaks', 'l', '--down', 'Structure'],
+  ['struct', 'BoS / CHoCH', 'l', '--down', 'Structure'], ['swing', 'Swings HH HL LH LL', 'l', '--ink2', 'Structure'], ['range', 'Range, EQ 50%, premium / discount', 'b', '--ink3', 'Structure'], ['tl', 'Trendlines and breaks', 'l', '--down', 'Structure'], ['pat', 'Chart patterns (playbook §8)', 'l', '--orange', 'Structure'],
   ['sr', 'Support / resistance areas', 'b', '--violet', 'Levels'], ['eqhl', 'Equal highs / lows (EQH EQL)', 'o', '--ink3', 'Levels'], ['zones', 'Order blocks', 'b', '--up', 'Levels'], ['fib', 'Fib 50–61.8%', 'b', '--blue', 'Levels'], ['buy', 'Buy zones', 'b', '--violet', 'Levels'], ['liq', 'Liquidity (daily scan)', 'o', '--ink3', 'Levels'], ['prior', 'PDH PDL PWH PWL', 'o', '--ink3', 'Levels'], ['avwap', 'Anchored VWAP', 'd', '--ink2', 'Levels'],
-  ['brk', 'Price breakouts', 'l', '--up', 'Signals'], ['rsisig', 'RSI signals and divergences', 'l', '--violet', 'Signals'], ['macdsig', 'MACD signals and divergences', 'l', '--blue', 'Signals'], ['spikes', 'Volume spikes', 'b', '--orange', 'Signals'],
+  ['brk', 'Price breakouts', 'l', '--up', 'Signals'], ['rsisig', 'RSI signals and divergences', 'l', '--violet', 'Signals'], ['macdsig', 'MACD signals and divergences', 'l', '--blue', 'Signals'], ['spikes', 'Volume spikes', 'b', '--orange', 'Signals'], ['rej', 'Candle rejections at levels (✓ followed through)', 'o', '--violet', 'Signals'],
   ['ema', 'EMAs 20/50/200', 'l', '--blue', 'Base'], ['vol', 'Volume', 'b', '--ink3', 'Base'], ['sess', 'Sessions (1H, 15m)', 'b', '--violet', 'Base']];
 const LGROUPS = ['Plan', 'Structure', 'Levels', 'Signals', 'Base'];
-const PRESETS = { clean: ['plan', 'fc', 'trig', 'ema', 'vol', 'sess'], structure: ['struct', 'swing', 'range', 'tl', 'sr', 'eqhl', 'trig', 'ema', 'vol', 'fc'], signals: ['brk', 'rsisig', 'macdsig', 'tl', 'ema', 'vol', 'fc'] };
+const PRESETS = { clean: ['plan', 'fc', 'trig', 'ema', 'vol', 'sess'], structure: ['struct', 'swing', 'range', 'tl', 'pat', 'sr', 'eqhl', 'trig', 'ema', 'vol', 'fc'], signals: ['brk', 'rsisig', 'macdsig', 'tl', 'rej', 'ema', 'vol', 'fc'] };
 const LEAN = ['fib', 'avwap', 'prior', 'liq', 'struct', 'zones', 'swing', 'range', 'tl', 'sr', 'eqhl', 'brk', 'rsisig', 'macdsig'];   // off by default on a phone; one tap turns them on
 let layers = Object.assign(Object.fromEntries(LAYERS.map(x => [x[0], !(matchMedia('(max-width: 600px)').matches && LEAN.includes(x[0]))])), store.get('layers', {}));
 if (!('swing' in store.get('layers', {}))) {      // new layers arrived: open on the Structure view rather than everything at once
@@ -3715,6 +4344,14 @@ function loadTf() {
   if (mode === 'live') klines(bnPair(sel), BN_TF[tf], 500).then(put, () => { tfLoading = ''; $('#chartNote').textContent = 'Binance did not return ' + tf + ' candles.'; });
   else if (mode === 'tv') watchBars('tf:' + sel + ':' + tf, tvIn(tvSym(sel), TV_TF[tf], 300), put, tf === '1W' ? 6 : 0.5);
 }
+function rejLevels(Zr, r, dd) {             // levels a rejection candle has to sit on (playbook §3, §5)
+  const lv = [];
+  for (const z of Zr.sr) lv.push({ lo: z.lo, hi: z.hi, what: z.kind === 'S' ? 'support area' : z.kind === 'R' ? 'resistance area' : 'support / resistance area', from: z.first });
+  for (const q of Zr.eq) lv.push({ lo: q.p, hi: q.p, what: q.hi ? 'equal highs' : 'equal lows', from: q.i });
+  if (r) { if (r.demand) lv.push({ lo: r.demand.lo, hi: r.demand.hi, what: 'demand order block' }); if (r.supply) lv.push({ lo: r.supply.lo, hi: r.supply.hi, what: 'supply order block' }); if (ok(r.bullTrigger)) lv.push({ lo: r.bullTrigger, hi: r.bullTrigger, what: 'bull trigger' }); if (ok(r.bearTrigger)) lv.push({ lo: r.bearTrigger, hi: r.bearTrigger, what: 'bear trigger' }); }
+  if (dd && dd.c.length > 3) { const m2 = dd.c.length - 2; lv.push({ lo: dd.h[m2], hi: dd.h[m2], what: 'prior day high' }, { lo: dd.l[m2], hi: dd.l[m2], what: 'prior day low' }); }
+  return lv;
+}
 function buildChart() {
   killChart();
   const s = S[sel], d = chartData(), r = s.scan, k = colors(), LW = window.LightweightCharts, n = d.t.length;
@@ -3773,6 +4410,24 @@ function buildChart() {
     if (layers.rsisig) { sig(Z.rsiSig, itR, Z.R, q => q.up ? 'OS exit' : 'OB exit', '50'); dv(Z.rsiDiv, itR, 'RSI'); }
     if (layers.macdsig) { sig(Z.macdSig, itM, Z.M.macd, q => q.up ? 'above 0' : 'below 0', 'signal'); dv(Z.macdDiv, itM, 'MACD'); }
   }
+  // chart patterns (playbook §8) and candle rejections at levels, on closed candles only
+  const TFMS = { '1W': 6048e5, '1D': 864e5, '1H': 36e5, '15m': 9e5 }, nc = Date.now() < d.t[n - 1] + (TFMS[tf] || 864e5) ? n - 1 : n;
+  if (layers.pat && nc > 80) {
+    for (const p of PAT.find(d, nc).slice(0, 2)) {
+      const dir = p.dir || p.bias, col = dir > 0 ? k.up : dir < 0 ? k.dn : k.vi, st = p.status === 'confirmed' ? ' ✓ broke ' + (p.dir > 0 ? 'up' : 'down') : p.status === 'failed' ? ' ✗ failed' : ' (forming)';
+      for (const q of p.lines || []) items.push({ seg: 1, i0: q.i0, i1: q.i1, v0: q.v0, v1: q.v1, color: col, w: 1.8 });
+      if (p.neck) items.push({ seg: 1, i0: p.neck.i0, i1: p.neck.i1, v0: p.neck.v, v1: p.neck.v, color: col, dash: 1, w: 1.4, label: 'neckline', lpos: 'start', below: p.dir0 < 0 });
+      if (p.neckLine) items.push({ seg: 1, i0: p.neckLine.i0, i1: p.neckLine.i1, v0: p.neckLine.v0, v1: p.neckLine.v1, color: col, dash: 1, w: 1.4, label: 'neckline', lpos: 'start', below: p.dir0 < 0 });
+      if (p.pole) items.push({ seg: 1, i0: p.pole.i0, i1: p.pole.i1, v0: p.pole.v0, v1: p.pole.v1, color: col, dot: 1, w: 1.4, label: 'pole', lpos: 'start', below: p.dir < 0 || p.bias < 0 });
+      if (p.peaks) p.peaks.forEach((q, x) => items.push({ txt: p.type === 'hs' || p.type === 'ihs' ? ['LS', 'H', 'RS'][x] : String(x + 1), i: q.i, v: q.v, below: p.dir0 > 0, color: col, off: 12 }));
+      const top = p.lines && p.lines.length ? Math.max(p.lines[0].v0, p.lines[1] ? p.lines[1].v0 : -Infinity) : p.peaks ? (p.dir0 < 0 ? Math.max(...p.peaks.map(q => q.v)) : Math.min(...p.peaks.map(q => q.v))) : d.h[p.from];
+      items.push({ txt: p.name + st, i: p.from + Math.min(6, Math.floor((p.to - p.from) / 2)), v: top, color: col, off: 26, below: p.dir0 > 0 });
+      if (p.brk && p.status === 'confirmed') {
+        items.push({ seg: 1, i0: p.brk.i, i1: 'end', v0: p.target80, v1: p.target80, color: col, dash: 1, w: 1.2, label: `${p.name}: 80% target ${fp(p.target80)}`, lpos: 'end', below: p.dir < 0 });
+        items.push({ seg: 1, i0: p.brk.i, i1: 'end', v0: p.stop, v1: p.stop, color: k.ink3, dot: 1, w: 1, label: `stop ${fp(p.stop)}`, lpos: 'end', below: p.dir > 0 });
+      }
+    }
+  }
   if (items.length) cs.attachPrimitive(new Draw(items, T, font));
   let fcS = null, Fc = null;
   if (layers.fc && intraday && Z) {
@@ -3825,6 +4480,11 @@ function buildChart() {
   if (layers.spikes) {                     // dots for every spike, numbers on the latest four only
     const sp = []; for (let i = Math.max(21, n - 150); i < n; i++) if (rv[i] >= cfg.spike) sp.push(i);
     sp.forEach((i, j) => { const buy = d.tb ? d.tb[i] / d.v[i] : NaN; marks.push({ time: T[i], position: 'belowBar', color: k.or, shape: 'circle', size: .6, text: j >= sp.length - 4 ? rv[i].toFixed(1) + '×' + (ok(buy) ? ' ' + Math.round(buy * 100) + '% buy' : '') : '' }); });
+  }
+  if (layers.rej && nc > 60) {
+    const lv = rejLevels(Z || ta(d), r, intraday ? s.d : null);
+    const AB = { 'Pin bar': 'Pin', 'Bullish engulfing': 'Engulf', 'Bearish engulfing': 'Engulf', 'Outside bar': 'Outside' };
+    for (const x of PAT.rejections(d, nc, lv, { intraday }).filter(x => x.i >= vis).slice(-8)) marks.push({ time: T[x.i], position: x.side > 0 ? 'belowBar' : 'aboveBar', color: x.side > 0 ? k.up : k.dn, shape: 'circle', size: .7, text: AB[x.kind] + (x.status === 'confirmed' ? ' ✓' : x.status === 'failed' ? ' ✗' : '') });
   }
   if (marks.length) cs.setMarkers(marks.sort((a, b) => a.time - b.time));
   const R = P.rsi(d.c), rs = rsiC.addLineSeries({ color: k.vi, lineWidth: 1.5, priceLineVisible: false, lastValueVisible: true, autoscaleInfoProvider: () => ({ priceRange: { minValue: 5, maxValue: 95 } }) });

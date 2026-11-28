@@ -150,5 +150,6 @@ function score(ev, since) {
       last20Days: { watchlist: r4(SETUPS.pingScore(wlList.map(s => pg[s]))), all: r4(SETUPS.pingScore(Object.values(pg))) },
       recent: all.filter(e => e.type === 'ping' && e.t >= now - DAY).sort((a, b) => b.t - a.t).slice(0, 60) } };
   fs.writeFileSync(OUT, JSON.stringify(doc, null, 1) + '\n');
+  try { require('./radars-log.js').run(data, wl, now); } catch (e) { console.error('radars log failed:', e.message); }   // Test tab radars, same candles
   console.log(`coins ${doc.coins}, new events ${fresh.length}${first ? ' (first run: backfill of about 20 days)' : ''}, failed ${Object.keys(failed).length}; live trades ${doc.live.trade.plain.n} (plain) / ${doc.live.trade.full.n} (full)`);
 })().catch(e => { console.error(e); process.exit(1); });

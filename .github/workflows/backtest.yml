@@ -3,11 +3,11 @@ on:
   workflow_dispatch:
     inputs:
       set:
-        description: "pre (first four variants), book (book variants), scanner (daily playbook scanner, live vs book rules) or spikeradar (spike radar prompt replay)"
+        description: "pre (first four variants), book (book variants), scanner (daily playbook scanner, live vs book rules) spikeradar (spike radar prompt replay) or radars (Test tab radars, chart patterns, candle rejections)"
         required: false
         default: pre
         type: choice
-        options: [pre, book, scanner, spikeradar]
+        options: [pre, book, scanner, spikeradar, radars]
 permissions:
   contents: write
 concurrency:
@@ -25,7 +25,7 @@ jobs:
       - name: Walk-forward backtest of the breakout strategy
         env:
           BT_SET: ${{ inputs.set }}
-        run: if [ "$BT_SET" = scanner ]; then node engine/scanner-retest.js; elif [ "$BT_SET" = spikeradar ]; then node engine/spike-radar-test.js; else node engine/backtest.js; fi
+        run: if [ "$BT_SET" = scanner ]; then node engine/scanner-retest.js; elif [ "$BT_SET" = spikeradar ]; then node engine/spike-radar-test.js; elif [ "$BT_SET" = radars ]; then node engine/radars-test.js; else node engine/backtest.js; fi
       - name: Save the results
         if: always()
         run: |
