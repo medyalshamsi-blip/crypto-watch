@@ -1,6 +1,6 @@
 # Volume-spike radar replay (15m, Binance USDT spot)
 
-Run 2026-11-28T17:19Z. Paper only, not financial advice. Rules: engine/spike-radar2.config.json. Data window: 2026-02-15 to 2026-11-28 (events from 2026-05-01; the earlier weeks only build the baselines). Times are Berlin time in the CSV files.
+Run 2026-11-28T17:24Z. Paper only, not financial advice. Rules: engine/spike-radar2.config.json. Data window: 2026-02-15 to 2026-11-28 (events from 2026-05-01; the earlier weeks only build the baselines). Times are Berlin time in the CSV files.
 
 ## Read this first
 
@@ -27,6 +27,28 @@ Run 2026-11-28T17:19Z. Paper only, not financial advice. Rules: engine/spike-rad
 | Fade after a Notification | 719 | 1/719 = 0.1% | 4/719 = 0.6% | 24/719 = 3.3% | 2.3%-4.9% | 0.75% (x4.4) |
 
 Most active coins by Watch count: INIT 6212, ORCA 4982, KERNEL 4824, MUBARAK 4693, ZEC 3727, ENA 3302, ETHFI 3047, ORDI 2917.
+
+### Without MUBARAK and INIT (the coins with the most hits)
+
+| Stage | Events | O1 next close | O2 next high | O3 any of 4 closes | O3 95% interval | O3 by chance (lift) |
+|:---|---:|---:|---:|---:|---:|---:|
+| Watch | 25670 | 41/25669 = 0.2% | 108/25669 = 0.4% | 384/25665 = 1.5% | 1.4%-1.7% | 0.47% (x3.2) |
+| Priority | 3651 | 11/3649 = 0.3% | 31/3649 = 0.8% | 60/3649 = 1.6% | 1.3%-2.1% | 0.45% (x3.6) |
+| Notification | 1773 | 9/1773 = 0.5% | 25/1773 = 1.4% | 45/1773 = 2.5% | 1.9%-3.4% | 0.47% (x5.4) |
+| Retest | 879 | 2/879 = 0.2% | 3/879 = 0.3% | 4/879 = 0.5% | 0.2%-1.2% | 0.44% (x1.0) |
+| Fade | 1172 | 0/1172 = 0.0% | 1/1172 = 0.1% | 18/1172 = 1.5% | 1.0%-2.4% | 0.43% (x3.6) |
+
+### Direction check: does it point up, or only say "something is moving"?
+
+| Stage | Events | Up O3 (+5% any of 4 closes) | Up by chance | Down D3 (-5% any of 4 closes) | Down by chance | Up from the next open N3 |
+|:---|---:|---:|---:|---:|---:|---:|
+| Watch | 36575 | 786/36570 = 2.1% | 0.77% (x2.8) | 563/36570 = 1.5% | 0.52% (x3.0) | 792/36570 = 2.2% |
+| Watch, Late spike | 134 | 41/134 = 30.6% | 1.30% (x23.5) | 32/134 = 23.9% | 0.88% (x27.3) | 40/134 = 29.9% |
+| Priority | 5059 | 131/5057 = 2.6% | 0.75% (x3.4) | 101/5057 = 2.0% | 0.52% (x3.8) | 129/5057 = 2.6% |
+| Notification | 2473 | 93/2473 = 3.8% | 0.78% (x4.8) | 66/2473 = 2.7% | 0.52% (x5.2) | 91/2473 = 3.7% |
+| Same candle but 1H filter failed | 1761 | 35/1761 = 2.0% | 0.75% (x2.6) | 30/1761 = 1.7% | 0.54% (x3.2) | 35/1761 = 2.0% |
+| Retest | 1199 | 14/1199 = 1.2% | 0.72% (x1.6) | 27/1199 = 2.3% | 0.51% (x4.4) | 14/1199 = 1.2% |
+| Fade | 1599 | 32/1599 = 2.0% | 0.72% (x2.8) | 16/1599 = 1.0% | 0.51% (x2.0) | 32/1599 = 2.0% |
 
 ### Without the 2 most active coins (INIT, ORCA)
 
@@ -66,6 +88,28 @@ Most active coins by Watch count: INIT 6212, ORCA 4982, KERNEL 4824, MUBARAK 469
 | Fade after a Notification | 9216 | 27/9216 = 0.3% | 57/9216 = 0.6% | 173/9216 = 1.9% | 1.6%-2.2% | 0.58% (x3.2) |
 
 Most active coins by Watch count: GTC 7257, MOVE 6730, SOPH 6353, ONE 6343, COOKIE 6251, INIT 6212, BMT 6151, AVA 6022.
+
+### Without MUBARAK and INIT (the coins with the most hits)
+
+| Stage | Events | O1 next close | O2 next high | O3 any of 4 closes | O3 95% interval | O3 by chance (lift) |
+|:---|---:|---:|---:|---:|---:|---:|
+| Watch | 485105 | 1500/485069 = 0.3% | 3615/485069 = 0.7% | 9180/484977 = 1.9% | 1.9%-1.9% | 0.63% (x3.0) |
+| Priority | 67131 | 326/67126 = 0.5% | 775/67126 = 1.2% | 1487/67119 = 2.2% | 2.1%-2.3% | 0.54% (x4.1) |
+| Notification | 31252 | 233/31249 = 0.7% | 551/31249 = 1.8% | 1026/31245 = 3.3% | 3.1%-3.5% | 0.55% (x6.0) |
+| Retest | 16596 | 41/16594 = 0.2% | 105/16594 = 0.6% | 281/16592 = 1.7% | 1.5%-1.9% | 0.54% (x3.1) |
+| Fade | 21835 | 39/21835 = 0.2% | 82/21835 = 0.4% | 257/21834 = 1.2% | 1.0%-1.3% | 0.56% (x2.1) |
+
+### Direction check: does it point up, or only say "something is moving"?
+
+| Stage | Events | Up O3 (+5% any of 4 closes) | Up by chance | Down D3 (-5% any of 4 closes) | Down by chance | Up from the next open N3 |
+|:---|---:|---:|---:|---:|---:|---:|
+| Watch | 496010 | 9582/495882 = 1.9% | 0.64% (x3.0) | 7458/495883 = 1.5% | 0.48% (x3.1) | 9575/495882 = 1.9% |
+| Watch, Late spike | 1820 | 516/1819 = 28.4% | 1.69% (x16.8) | 621/1820 = 34.1% | 1.18% (x28.8) | 513/1819 = 28.2% |
+| Priority | 68539 | 1558/68527 = 2.3% | 0.56% (x4.1) | 1158/68528 = 1.7% | 0.42% (x4.0) | 1556/68527 = 2.3% |
+| Notification | 31952 | 1074/31945 = 3.4% | 0.57% (x5.9) | 853/31946 = 2.7% | 0.42% (x6.3) | 1071/31945 = 3.4% |
+| Same candle but 1H filter failed | 23803 | 437/23800 = 1.8% | 0.57% (x3.2) | 279/23800 = 1.2% | 0.43% (x2.7) | 439/23800 = 1.8% |
+| Retest | 16916 | 291/16912 = 1.7% | 0.56% (x3.1) | 251/16912 = 1.5% | 0.42% (x3.5) | 288/16912 = 1.7% |
+| Fade | 22262 | 271/22261 = 1.2% | 0.57% (x2.1) | 218/22261 = 1.0% | 0.44% (x2.2) | 263/22261 = 1.2% |
 
 ### Without the 2 most active coins (GTC, MOVE)
 
@@ -157,6 +201,8 @@ Most active coins by Watch count: GTC 7257, MOVE 6730, SOPH 6353, ONE 6343, COOK
 | all coins | 56369 | 16916 (30.0%) | 22262 (39.5%) | 17183 (30.5%) |
 
 ## Data checks
+
+Taker-buy quote volume (kline field 10) as a share of quote volume (field 7): median coin 49.6%, range 42.6% to 52.9%. Share of candles that are a Watch (3x or more), your nine: ETHFI 15%, ENA 16%, FET 14%, ZEC 18%, ORDI 14%, MUBARAK 23%, INIT 31%, ORCA 25%, KERNEL 24%.
 
 | Session | Candles | No usable baseline |
 |:---|---:|---:|
